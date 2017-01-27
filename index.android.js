@@ -9,13 +9,55 @@ import {
   AppRegistry,
   StyleSheet,
   Text,
-  View
+  View,
+  Dimensions
 } from 'react-native';
+import MapView from 'react-native-maps';
+
+const { width, height } = Dimensions.get('window');
+
+const ASPECT_RATIO = width / height;
+const LATITUDE = 37.78825;
+const LONGITUDE = -122.4324;
+const LATITUDE_DELTA = 0.0922;
+const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 export default class socialMap extends Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      region: {
+        latitude: LATITUDE,
+        longitude: LONGITUDE,
+        latitudeDelta: LATITUDE_DELTA,
+        longitudeDelta: LONGITUDE_DELTA,
+      },
+    };
+  }
+
+
   render() {
     return (
       <View style={styles.container}>
+
+      <MapView
+        provider={this.props.provider}
+        style={styles.map}
+        scrollEnabled={false}
+        zoomEnabled={false}
+        pitchEnabled={false}
+        rotateEnabled={false}
+        initialRegion={this.state.region}
+      >
+        <MapView.Marker
+          title="This is a title"
+          description="This is a description"
+          coordinate={this.state.region}
+        />
+      </MapView>
+
         <Text style={styles.welcome}>
           Welcome to React Native!
         </Text>
@@ -31,23 +73,27 @@ export default class socialMap extends Component {
   }
 }
 
+
+socialMap.propTypes = {
+  provider: MapView.ProviderPropType,
+};
+
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: 'flex-end',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+  scrollview: {
+    alignItems: 'center',
+    paddingVertical: 40,
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+  map: {
+    width: 250,
+    height: 250,
   },
 });
+
+
 
 AppRegistry.registerComponent('socialMap', () => socialMap);
