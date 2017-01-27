@@ -22,6 +22,7 @@ const LATITUDE = 37.78825;
 const LONGITUDE = -122.4324;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+let id = 0;
 
 export default class socialMap extends Component {
 
@@ -41,9 +42,6 @@ export default class socialMap extends Component {
     this.onLongPressCreateMarker = this.onLongPressCreateMarker.bind(this);
   }
 
-  getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min
-  }
 
 
 
@@ -54,7 +52,7 @@ export default class socialMap extends Component {
           ...this.state.markers,
           {
             coordinate: e.nativeEvent.coordinate,
-            key: this.getRandomInt(0, 999999),
+            key: id++,
             name: 'New Pin',
 
             image: flagGreyImg,
