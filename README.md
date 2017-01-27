@@ -1,9 +1,9 @@
 ## INSTALLATION ##
 
 1. ```npm install```
-### ANDROID
+### ANDROID ###
 2. ```react-native run-android```
-### IPHONE
+### IPHONE ###
 2. ```react-native run-ios```
 
 ... A completer
