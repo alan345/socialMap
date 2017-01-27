@@ -12,7 +12,7 @@ import {
   View,
   Dimensions
 } from 'react-native';
-import flagGreyImg from './assets/flag-grey.png';
+import flagBlackImg from './assets/flag-black.png';
 import MapView, {Marker} from 'react-native-maps';
 
 const { width, height } = Dimensions.get('window');
@@ -54,8 +54,9 @@ export default class socialMap extends Component {
             coordinate: e.nativeEvent.coordinate,
             key: id++,
             name: 'New Pin',
-
-            image: flagGreyImg,
+            title: 'title',
+            description: 'description',
+            image: flagBlackImg,
             imagePin: 'https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/3/005/01b/27a/240ddec.jpg',
             datePin:  Date(),
           },
