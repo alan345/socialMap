@@ -45,10 +45,6 @@ export default class socialMap extends Component {
       <MapView
         provider={this.props.provider}
         style={styles.map}
-        scrollEnabled={false}
-        zoomEnabled={false}
-        pitchEnabled={false}
-        rotateEnabled={false}
         initialRegion={this.state.region}
       >
         <MapView.Marker
@@ -59,7 +55,7 @@ export default class socialMap extends Component {
       </MapView>
 
         <Text style={styles.welcome}>
-          Welcome to React Native!
+          Welcome to React Native!enorm
         </Text>
         <Text style={styles.instructions}>
           To get started, edit index.android.js
@@ -89,8 +85,7 @@ const styles = StyleSheet.create({
     paddingVertical: 40,
   },
   map: {
-    width: 250,
-    height: 250,
+    ...StyleSheet.absoluteFillObject,
   },
 });
 
