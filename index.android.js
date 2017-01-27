@@ -24,6 +24,7 @@ const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 let id = 0;
 
+
 export default class socialMap extends Component {
 
   constructor(props) {
