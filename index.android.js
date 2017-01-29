@@ -30,8 +30,6 @@ export default class socialMap extends Component {
 
   constructor(props) {
     super(props);
-
-
     this.state = {
       region: {
         latitude: LATITUDE,
@@ -40,15 +38,24 @@ export default class socialMap extends Component {
         longitudeDelta: LONGITUDE_DELTA,
       },
       markers: [],
+      polylines: [],
     };
     this.onLongPressCreateMarker = this.onLongPressCreateMarker.bind(this);
+    this.onDrageEndMarker = this.onDrageEndMarker.bind(this);
   }
 
 
+    onDrageEndMarker(e) {
+      this.setState({ x: e.nativeEvent.coordinate })
+      console.log(this.state);
+      alert("alan");
+    }
 
+    onPressMarker() {
+    //  alert("aa");
+    }
 
     onLongPressCreateMarker(e) {
-
       this.setState({
         markers: [
           ...this.state.markers,
@@ -57,13 +64,36 @@ export default class socialMap extends Component {
             key: id++,
             name: 'New Pin',
             title: 'title',
-            description: 'description',
+            description: 'description' + id,
             image: flagBlackImg,
             imagePin: 'https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/3/005/01b/27a/240ddec.jpg',
             datePin:  Date(),
           },
         ],
       });
+
+
+
+      const { editing } = this.state;
+      if (!editing) {
+        this.setState({
+          editing: {
+            id: id++,
+            coordinates: [e.nativeEvent.coordinate],
+          },
+        });
+      } else {
+        this.setState({
+          editing: {
+            ...editing,
+            coordinates: [
+              ...editing.coordinates,
+              e.nativeEvent.coordinate,
+            ],
+          },
+        });
+      }
+
     }
 
   render() {
@@ -88,8 +118,10 @@ export default class socialMap extends Component {
           return (
             <MapView.Marker
               key={i}
+              draggable
               {... marker}
-
+              onDragEnd={this.onDrageEndMarker}
+              onPress={this.onPressMarker}
               >
                 <View style={styles.marker}>
                   <Text style={styles.text}>{marker.name}</Text>
@@ -98,6 +130,28 @@ export default class socialMap extends Component {
 
           )
         })}
+
+
+        {this.state.polylines.map(polyline => (
+          <MapView.Polyline
+            key={polyline.id}
+            coordinates={polyline.coordinates}
+            strokeColor="#F00"
+            fillColor="rgba(255,0,0,0.5)"
+            strokeWidth={1}
+          />
+        ))}
+        {this.state.editing &&
+          <MapView.Polyline
+            key="editingPolyline"
+            coordinates={this.state.editing.coordinates}
+            strokeColor="#808080"
+            fillColor="rgba(255,0,0,0.5)"
+            strokeWidth={5}
+          />
+        }
+
+
       </MapView>
 
 
@@ -126,6 +180,12 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     justifyContent: 'flex-end',
     alignItems: 'center',
+  },
+
+  marker: {
+    marginLeft: -18,
+    marginTop: 0,
+  //    fontWeight: 'bold',
   },
   scrollview: {
     alignItems: 'center',
