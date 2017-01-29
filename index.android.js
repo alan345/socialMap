@@ -12,7 +12,8 @@ import {
   View,
   Dimensions
 } from 'react-native';
-import MapView from 'react-native-maps';
+import flagBlackImg from './assets/flag-black.png';
+import MapView, {Marker} from 'react-native-maps';
 
 const { width, height } = Dimensions.get('window');
 
@@ -21,11 +22,13 @@ const LATITUDE = 37.78825;
 const LONGITUDE = -122.4324;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+let id = 0;
 
 export default class socialMap extends Component {
 
   constructor(props) {
     super(props);
+
 
     this.state = {
       region: {
@@ -34,9 +37,32 @@ export default class socialMap extends Component {
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA,
       },
+      markers: [],
     };
+    this.onLongPressCreateMarker = this.onLongPressCreateMarker.bind(this);
   }
 
+
+
+
+    onLongPressCreateMarker(e) {
+
+      this.setState({
+        markers: [
+          ...this.state.markers,
+          {
+            coordinate: e.nativeEvent.coordinate,
+            key: id++,
+            name: 'New Pin',
+            title: 'title',
+            description: 'description',
+            image: flagBlackImg,
+            imagePin: 'https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/3/005/01b/27a/240ddec.jpg',
+            datePin:  Date(),
+          },
+        ],
+      });
+    }
 
   render() {
     return (
@@ -46,13 +72,32 @@ export default class socialMap extends Component {
         provider={this.props.provider}
         style={styles.map}
         initialRegion={this.state.region}
+        onLongPress = {this.onLongPressCreateMarker}
       >
         <MapView.Marker
           title="This is a title"
           description="This is a description"
           coordinate={this.state.region}
         />
+
+
+
+        {this.state.markers.map((marker,i) =>{
+          return (
+            <MapView.Marker
+              key={i}
+              {... marker}
+
+              >
+                <View style={styles.marker}>
+                  <Text style={styles.text}>{marker.name}</Text>
+                </View>
+            </MapView.Marker>
+
+          )
+        })}
       </MapView>
+
 
         <Text style={styles.welcome}>
           Welcome to React Native!enorm
