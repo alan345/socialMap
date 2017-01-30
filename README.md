@@ -26,7 +26,7 @@ Which branch is selected in local
 ```git branch```
 
 
-Commit changes in a new branch (from master)
+Commit changes in a new branch
 ```git add .```
 ```git commit -m <branch> ```
 ```git push -u origin <branch>```
