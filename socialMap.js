@@ -1,9 +1,9 @@
 const React = require('react');
 const SideMenu = require('react-native-side-menu');
-const Menu = require('./Menu');
+const Menu = require('./components/Menu');
 //const JustMap = require('./JustMap');
 
-import JustMap from './JustMap';
+import JustMap from './components/JustMap';
 
 
 

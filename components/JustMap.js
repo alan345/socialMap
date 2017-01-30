@@ -14,11 +14,11 @@ import {
   Button,
   Dimensions
 } from 'react-native';
-import flagBlackImg from './assets/flag-black.png';
+import flagBlackImg from '../assets/flag-black.png';
 import MapView, {Marker} from 'react-native-maps';
-import ListItem from './components/ListItem';
+import ListItem from './ListItem';
 import * as firebase from 'firebase';
-import Firebase from "./includes/firebase";
+import Firebase from "../includes/firebase";
 
 
 const { width, height } = Dimensions.get('window');
