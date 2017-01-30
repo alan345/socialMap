@@ -10,9 +10,11 @@ import {
 } from 'react-native';
 
 import socialMap from './socialMap';
-import justMap from './justMap';
+import JustMap from './JustMap';
 
 
 AppRegistry.registerComponent('socialMap', () => socialMap);
 
-AppRegistry.registerComponent('justMap', () => justMap);
+AppRegistry.registerComponent('JustMap', () => JustMap);
+
+//AppRegistry.registerComponent('justMapALAN', () => justMapALAN);

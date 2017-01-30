@@ -36,7 +36,7 @@ const Menu = require('./Menu');
 
 
 
-export default class justMap extends React.Component {
+export default class JustMap extends React.Component {
 
   constructor(props) {
     super(props);
@@ -220,7 +220,7 @@ export default class justMap extends React.Component {
 }
 
 
-justMap.propTypes = {
+JustMap.propTypes = {
     provider: MapView.ProviderPropType,
 };
 
