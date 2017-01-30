@@ -11,10 +11,12 @@ import {
 
 import socialMap from './socialMap';
 import JustMap from './components/JustMap';
+//import Contacts from './components/Contacts';
 
 
 AppRegistry.registerComponent('socialMap', () => socialMap);
 
 AppRegistry.registerComponent('JustMap', () => JustMap);
 
-//AppRegistry.registerComponent('justMapALAN', () => justMapALAN);
+
+//AppRegistry.registerComponent('Contacts', () => Contacts);

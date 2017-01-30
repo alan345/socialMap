@@ -4,6 +4,7 @@ const Menu = require('./components/Menu');
 //const JustMap = require('./JustMap');
 
 import JustMap from './components/JustMap';
+import Contacts from './components/Contacts';
 
 
 
@@ -81,6 +82,7 @@ module.exports = class socialMap extends Component {
   }
 
   onMenuItemSelected = (item) => {
+
     this.setState({
       isOpen: false,
       selectedItem: item,
@@ -89,13 +91,27 @@ module.exports = class socialMap extends Component {
 
   render() {
     const menu = <Menu onItemSelected={this.onMenuItemSelected} />;
+    let isMenu1=false;
+    let isMenu2=false;
+    let isMenu3=false;
+    if(this.state.selectedItem == "About") {
+      isMenu1 = true;
+    }
+    if(this.state.selectedItem == "Contacts") {
+      isMenu2 = true;
+    }
 
     return (
       <SideMenu
         menu={menu}
         isOpen={this.state.isOpen}
         onChange={(isOpen) => this.updateMenuState(isOpen)}>
-        <JustMap/>
+        {isMenu1 ?
+          <JustMap/> : <Text></Text>
+        }
+        {isMenu2 ?
+          <Contacts/> : <Text></Text>
+        }
 
 
         <Button style={styles.button} onPress={() => this.toggle()}>
