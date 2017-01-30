@@ -9,6 +9,7 @@ const {
 } = require('react-native');
 const { Component } = React;
 
+
 const window = Dimensions.get('window');
 const uri = 'https://pickaface.net/gallery/avatar/Opi51c74d0125fd4.png';
 
