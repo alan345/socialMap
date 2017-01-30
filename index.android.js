@@ -12,16 +12,12 @@ import {
   View,
   ListView,
   Button,
-  Alert,
   Dimensions
 } from 'react-native';
 import flagBlackImg from './assets/flag-black.png';
 import MapView, {Marker} from 'react-native-maps';
-
-import * as firebase from 'firebase';
-
 import ListItem from './components/ListItem';
-
+import * as firebase from 'firebase';
 import Firebase from "./includes/firebase";
 
 
@@ -54,47 +50,49 @@ export default class socialMap extends Component {
     this.onLongPressCreateMarker = this.onLongPressCreateMarker.bind(this);
     this.onDrageEndMarker = this.onDrageEndMarker.bind(this);
 
-    // firebase
+    // firebase reference
     this.itemsRef = this.getRef().child('locations');
   }
 
-   getRef() {
+    // firebase Example
+    getRef() {
        return firebase.database().ref();
-   }
+    }
 
-   listenForItems(itemsRef) {
-     itemsRef.on('value', (snap) => {
-       // get children as an array
-       var items = [];
-       snap.forEach((child) => {
-         items.push({
-           title: child.val().title,
-           _key: child.key
+    listenForItems(itemsRef) {
+       itemsRef.on('value', (snap) => {
+         var items = [];
+         snap.forEach((child) => {
+           items.push({
+             title: child.val().title,
+             _key: child.key
+           });
          });
-       });
 
-       this.setState({
-         dataSource: this.state.dataSource.cloneWithRows(items)
-       });
-
+         this.setState({
+           dataSource: this.state.dataSource.cloneWithRows(items)
+         });
      });
-   }
+    }
 
    componentDidMount() {
      this.listenForItems(this.itemsRef);
    }
 
    _addItem() {
-      console.log("_addItem");
       this.itemsRef.push({ title: "testtest" });
    }
 
+   _addLocationToFirebase(title, coordinates) {
+      this.itemsRef.push({ title: title, coordinates: coordinates });
+   }
 
    _renderItem(item) {
      return (
        <ListItem item={item} />
      );
    }
+  // end firebase Example
 
     onDrageEndMarker(e) {
       this.setState({ x: e.nativeEvent.coordinate })
@@ -123,7 +121,7 @@ export default class socialMap extends Component {
         ],
       });
 
-
+      this._addLocationToFirebase('test_'+id, e.nativeEvent.coordinate);
 
       const { editing } = this.state;
       if (!editing) {
@@ -208,7 +206,7 @@ export default class socialMap extends Component {
               enableEmptySections={true}
             />
 
-            <Button onPress={this._addItem.bind(this)} title="Add" />
+            <Button onPress={this._addItem.bind(this)} title="Add to FireBase test" />
 
       </View>
     );
@@ -217,27 +215,27 @@ export default class socialMap extends Component {
 
 
 socialMap.propTypes = {
-  provider: MapView.ProviderPropType,
+    provider: MapView.ProviderPropType,
 };
 
 const styles = StyleSheet.create({
-  container: {
-    ...StyleSheet.absoluteFillObject,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-  },
+    container: {
+      ...StyleSheet.absoluteFillObject,
+      justifyContent: 'flex-end',
+      alignItems: 'center',
+    },
 
-  marker: {
-    marginLeft: -18,
-    marginTop: 0,
-  },
-  scrollview: {
-    alignItems: 'center',
-    paddingVertical: 40,
-  },
-  map: {
-   ...StyleSheet.absoluteFillObject,
-  },
+    marker: {
+      marginLeft: -18,
+      marginTop: 0,
+    },
+    scrollview: {
+      alignItems: 'center',
+      paddingVertical: 40,
+    },
+    map: {
+     ...StyleSheet.absoluteFillObject,
+    },
 });
 
 
