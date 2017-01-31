@@ -13,7 +13,8 @@ import {
   ListView,
   Button,
   Dimensions,
-  ScrollView
+  ScrollView,
+  Image
 } from 'react-native';
 import flagBlackImg from '../assets/flag-black.png';
 import MapView, {Marker} from 'react-native-maps';
@@ -56,6 +57,7 @@ export default class JustMap extends React.Component {
       markers: [],
       polylines: [],
       showViewDetails : false,
+      isLoading : true,
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
       })
@@ -100,7 +102,8 @@ export default class JustMap extends React.Component {
               longitude: position.coords.longitude,
               latitudeDelta: LATITUDE_DELTA,
               longitudeDelta: LONGITUDE_DELTA,
-            }
+            },
+            isLoading : false
           });
         },
         (error) => alert(JSON.stringify(error)),
@@ -257,10 +260,19 @@ export default class JustMap extends React.Component {
             <Button onPress={this._addItem.bind(this)} title="Add to FireBase test" />
             <View style={[styles.eventList, this.state.showViewDetails ? {} : styles.eventListHidden ]}>
               <ScrollView>
-
                   <Text>Key: toto</Text>
-
-
+                </ScrollView>
+            </View>
+            <View style={styles.showLoading}>
+              <ScrollView>
+                  {this.state.isLoading ? (
+                    <Image
+                      style={styles.imageLoading}
+                      source={require('../assets/loading.png')}
+                    />
+                  ) : (
+                    <Text></Text>
+                  )}
                 </ScrollView>
             </View>
       </View>
@@ -293,12 +305,23 @@ const styles = StyleSheet.create({
       backgroundColor: '#F5FCFF',
       width: width/1.4
     },
+    showLoading: {
+      position: 'absolute',
+      top: 0,
+
+      right: width/2,
+
+    },
     eventListHidden: {
       position: 'absolute',
       top: height ,
       left: 0,
       right: 0,
       bottom: 0,
+    },
+    imageLoading: {
+      width: 30,
+      height: 30,
     },
     scrollview: {
       alignItems: 'center',
