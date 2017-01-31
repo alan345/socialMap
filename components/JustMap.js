@@ -14,7 +14,8 @@ import {
   Button,
   Dimensions,
   ScrollView,
-  Image
+  Image,
+  TextInput
 } from 'react-native';
 import flagBlackImg from '../assets/flag-black.png';
 import MapView, {Marker} from 'react-native-maps';
@@ -58,6 +59,7 @@ export default class JustMap extends React.Component {
       polylines: [],
       showViewDetails : false,
       isLoading : true,
+      slectedMarkerAddress : "",
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
       })
@@ -109,18 +111,41 @@ export default class JustMap extends React.Component {
         (error) => alert(JSON.stringify(error)),
         {enableHighAccuracy: false, timeout: 20000, maximumAge: 1000}
       );
-     //  Check here : https://facebook.github.io/react-native/docs/permissionsandroid.html
     }
+
+
+
+
     componentWillMount() {
       this._setPosition();
+
     }
+
+    onChangeslectedMarkerAddress(text) {
+
+            let urlGoogleGeocode = 'https://maps.google.com/maps/api/geocode/json'
+            //let address = '1600+Amphitheatre+Parkway,+Mountain+View,+CA'
+            let address = text.text
+            let googleKey = 'AIzaSyDU3WcMEEugmd03GjG45fYCJ8nVqZJp9Fo'
+            let urlFetch = urlGoogleGeocode + '?address=' + address + '&key=' + googleKey
+            fetch(urlFetch)
+            .then((response) => response.json())
+            .then((responseJson) => {
+              //console.log(responseJson.results[0].geometry.location);
+              console.log(responseJson);
+
+              this.state.slectedMarkerAddress = text.text;
+              this.forceUpdate()
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+    }
+
+
 
    componentDidMount() {
      this.listenForItems(this.itemsRef);
-
-
-
-
    }
 
    _addItem() {
@@ -261,6 +286,11 @@ export default class JustMap extends React.Component {
             <View style={[styles.eventList, this.state.showViewDetails ? {} : styles.eventListHidden ]}>
               <ScrollView>
                   <Text>Key: toto</Text>
+
+                  <TextInput
+                    onChangeText={(text) => this.onChangeslectedMarkerAddress({text})}
+                    value={this.state.slectedMarkerAddress}
+                  />
                 </ScrollView>
             </View>
             <View style={styles.showLoading}>
@@ -297,11 +327,11 @@ const styles = StyleSheet.create({
       marginTop: 0,
     },
     eventList: {
-      position: 'absolute',
-      top: height /1.7,
+
+      top: 0,
       left: 0,
       right: 0,
-      bottom: 0,
+      bottom: height /1.7,
       backgroundColor: '#F5FCFF',
       width: width/1.4
     },
