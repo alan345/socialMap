@@ -116,7 +116,7 @@ module.exports = class socialMap extends Component {
 
         <Button style={styles.button} onPress={() => this.toggle()}>
           <Image
-            source={require('./assets/menu.png')} style={{width: 32, height: 32}} />
+            source={require('./assets/menu.png')} style={{width: 50, height: 50}} />
         </Button>
       </SideMenu>
     );

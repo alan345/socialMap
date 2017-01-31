@@ -38,6 +38,11 @@ const Menu = require('./Menu');
 
 export default class JustMap extends React.Component {
 
+
+
+
+
+
   constructor(props) {
     super(props);
     this.state = {
@@ -48,6 +53,7 @@ export default class JustMap extends React.Component {
         longitudeDelta: LONGITUDE_DELTA,
       },
       markers: [],
+      initialPosition: 'unknown',
       polylines: [],
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
@@ -58,6 +64,7 @@ export default class JustMap extends React.Component {
 
     // firebase reference
     this.itemsRef = this.getRef().child('locations');
+
   }
 
     // firebase Example
@@ -83,6 +90,18 @@ export default class JustMap extends React.Component {
 
    componentDidMount() {
      this.listenForItems(this.itemsRef);
+
+
+    //  navigator.geolocation.getCurrentPosition(
+    //    (position) => {
+    //      var initialPosition = JSON.stringify(position);
+    //      this.setState({initialPosition});
+    //    },
+    //    (error) => alert(JSON.stringify(error)),
+    //    {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
+    //  );
+    //  Check here : https://facebook.github.io/react-native/docs/permissionsandroid.html
+
    }
 
    _addItem() {
@@ -161,11 +180,7 @@ export default class JustMap extends React.Component {
               style={styles.map}
               initialRegion={this.state.region}
               onLongPress = {this.onLongPressCreateMarker}>
-              <MapView.Marker
-                title="This is a title"
-                description="This is a description"
-                coordinate={this.state.region}
-              />
+
 
               {this.state.markers.map((marker,i) =>{
                 return (
