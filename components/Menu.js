@@ -9,6 +9,7 @@ const {
 } = require('react-native');
 const { Component } = React;
 
+
 const window = Dimensions.get('window');
 const uri = 'https://pickaface.net/gallery/avatar/Opi51c74d0125fd4.png';
 
@@ -17,7 +18,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: window.width,
     height: window.height,
-    backgroundColor: 'gray',
+    backgroundColor: '#f5fcff',
     padding: 20,
   },
   avatarContainer: {
@@ -38,7 +39,7 @@ const styles = StyleSheet.create({
   item: {
     fontSize: 14,
     fontWeight: '300',
-    paddingTop: 5,
+    paddingTop: 20,
   },
 });
 
@@ -54,13 +55,13 @@ module.exports = class Menu extends Component {
           <Image
             style={styles.avatar}
             source={{ uri, }}/>
-          <Text style={styles.name}>Your name</Text>
+          <Text style={styles.name}>Nico</Text>
         </View>
 
         <Text
           onPress={() => this.props.onItemSelected('About')}
           style={styles.item}>
-          About
+          Map
         </Text>
 
         <Text
