@@ -25,7 +25,7 @@ import Firebase from "../includes/firebase";
 const { width, height } = Dimensions.get('window');
 
 const ASPECT_RATIO = width / height;
-const LATITUDE = 37.78825;
+const LATITUDE = 97.78825;
 const LONGITUDE = -122.4324;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
@@ -54,7 +54,6 @@ export default class JustMap extends React.Component {
         longitudeDelta: LONGITUDE_DELTA,
       },
       markers: [],
-      initialPosition: 'unknown',
       polylines: [],
       showViewDetails : false,
       dataSource: new ListView.DataSource({
@@ -92,20 +91,32 @@ export default class JustMap extends React.Component {
          });
      });
     }
+    _setPosition() {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          this.setState({
+            region : {
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+              latitudeDelta: LATITUDE_DELTA,
+              longitudeDelta: LONGITUDE_DELTA,
+            }
+          });
+        },
+        (error) => alert(JSON.stringify(error)),
+        {enableHighAccuracy: false, timeout: 20000, maximumAge: 1000}
+      );
+     //  Check here : https://facebook.github.io/react-native/docs/permissionsandroid.html
+    }
+    componentWillMount() {
+      this._setPosition();
+    }
 
    componentDidMount() {
      this.listenForItems(this.itemsRef);
 
 
-     navigator.geolocation.getCurrentPosition(
-       (position) => {
-         var initialPosition = JSON.stringify(position);
-          this.setState({initialPosition});
-       },
-       (error) => alert(JSON.stringify(error)),
-       {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
-     );
-    //  Check here : https://facebook.github.io/react-native/docs/permissionsandroid.html
+
 
    }
 
@@ -192,7 +203,8 @@ export default class JustMap extends React.Component {
             <MapView
               provider={this.props.provider}
               style={styles.map}
-              initialRegion={this.state.region}
+              region={this.state.region}
+              showsUserLocation = {true}
               onLongPress = {this.onLongPressCreateMarker}
               onPress = {this.onMapPress}
             >
