@@ -100,7 +100,7 @@ export default class JustMap extends React.Component {
      navigator.geolocation.getCurrentPosition(
        (position) => {
          var initialPosition = JSON.stringify(position);
-         this.setState({initialPosition});
+          this.setState({initialPosition});
        },
        (error) => alert(JSON.stringify(error)),
        {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
@@ -126,8 +126,8 @@ export default class JustMap extends React.Component {
 
     onDrageEndMarker(e) {
       this.setState({ x: e.nativeEvent.coordinate })
-      // console.log(this.state);
-      // alert("alan");
+
+      // IDEM ICI. Je ne sais pas acualiser 1 marker precis dans la liste des markers
     }
 
     onPressMarker(e) {
