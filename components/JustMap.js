@@ -12,7 +12,8 @@ import {
   View,
   ListView,
   Button,
-  Dimensions
+  Dimensions,
+  ScrollView
 } from 'react-native';
 import flagBlackImg from '../assets/flag-black.png';
 import MapView, {Marker} from 'react-native-maps';
@@ -55,12 +56,16 @@ export default class JustMap extends React.Component {
       markers: [],
       initialPosition: 'unknown',
       polylines: [],
+      showViewDetails : false,
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
       })
     };
     this.onLongPressCreateMarker = this.onLongPressCreateMarker.bind(this);
     this.onDrageEndMarker = this.onDrageEndMarker.bind(this);
+    this.onPressMarker = this.onPressMarker.bind(this);
+    this.onMapPress = this.onMapPress.bind(this);
+
 
     // firebase reference
     this.itemsRef = this.getRef().child('locations');
@@ -121,12 +126,19 @@ export default class JustMap extends React.Component {
 
     onDrageEndMarker(e) {
       this.setState({ x: e.nativeEvent.coordinate })
-      console.log(this.state);
-      alert("alan");
+      // console.log(this.state);
+      // alert("alan");
     }
 
-    onPressMarker() {
-      console.log("onPressMarker");
+    onPressMarker(e) {
+      this.state.showViewDetails = true;
+      this.forceUpdate()
+    }
+
+    onMapPress(e)
+    {
+      this.state.showViewDetails = false;
+      this.forceUpdate()
     }
 
     onLongPressCreateMarker(e) {
@@ -179,8 +191,9 @@ export default class JustMap extends React.Component {
               provider={this.props.provider}
               style={styles.map}
               initialRegion={this.state.region}
-              onLongPress = {this.onLongPressCreateMarker}>
-
+              onLongPress = {this.onLongPressCreateMarker}
+              onPress = {this.onMapPress}
+            >
 
               {this.state.markers.map((marker,i) =>{
                 return (
@@ -228,7 +241,14 @@ export default class JustMap extends React.Component {
             />
 
             <Button onPress={this._addItem.bind(this)} title="Add to FireBase test" />
+            <View style={[styles.eventList, this.state.showViewDetails ? {} : styles.eventListHidden ]}>
+              <ScrollView>
 
+                  <Text>Key: toto</Text>
+
+
+                </ScrollView>
+            </View>
       </View>
     );
   }
@@ -249,6 +269,22 @@ const styles = StyleSheet.create({
     marker: {
       marginLeft: -18,
       marginTop: 0,
+    },
+    eventList: {
+      position: 'absolute',
+      top: height /1.7,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundColor: '#F5FCFF',
+      width: width/1.4
+    },
+    eventListHidden: {
+      position: 'absolute',
+      top: height ,
+      left: 0,
+      right: 0,
+      bottom: 0,
     },
     scrollview: {
       alignItems: 'center',
