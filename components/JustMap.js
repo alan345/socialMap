@@ -97,14 +97,14 @@ export default class JustMap extends React.Component {
      this.listenForItems(this.itemsRef);
 
 
-    //  navigator.geolocation.getCurrentPosition(
-    //    (position) => {
-    //      var initialPosition = JSON.stringify(position);
-    //      this.setState({initialPosition});
-    //    },
-    //    (error) => alert(JSON.stringify(error)),
-    //    {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
-    //  );
+     navigator.geolocation.getCurrentPosition(
+       (position) => {
+         var initialPosition = JSON.stringify(position);
+         this.setState({initialPosition});
+       },
+       (error) => alert(JSON.stringify(error)),
+       {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
+     );
     //  Check here : https://facebook.github.io/react-native/docs/permissionsandroid.html
 
    }
@@ -133,6 +133,8 @@ export default class JustMap extends React.Component {
     onPressMarker(e) {
       this.state.showViewDetails = true;
       this.forceUpdate()
+
+
     }
 
     onMapPress(e)
