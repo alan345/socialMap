@@ -122,36 +122,40 @@ export default class JustMap extends React.Component {
 
 
 
-    onChangeslectedMarkerAddress(text) {
-      this.state.slectedMarker.address = text.text;
-      this.forceUpdate()
-      let urlGoogleGeocode = 'https://maps.google.com/maps/api/geocode/json'
-      //let address = '1600+Amphitheatre+Parkway,+Mountain+View,+CA'
-      let address = text.text
-      let googleKey = 'AIzaSyDU3WcMEEugmd03GjG45fYCJ8nVqZJp9Fo'
-      let urlFetch = urlGoogleGeocode + '?address=' + address + '&key=' + googleKey
-      fetch(urlFetch)
-      .then((response) => response.json())
-      .then((responseJson) => {
+      onChangeslectedMarkerAddress(text) {
 
-        if(responseJson.status == "OK") {
-          this.state.slectedMarker.coordinates.longitude = responseJson.results[0].geometry.location.lng;
-          this.state.slectedMarker.coordinates.latitude = responseJson.results[0].geometry.location.lat;
+        this.state.slectedMarker.address = text.text;
+        this.forceUpdate()
+        if(text.text != '') {
+
+          let urlGoogleGeocode = 'https://maps.google.com/maps/api/geocode/json'
+          //let address = '1600+Amphitheatre+Parkway,+Mountain+View,+CA'
+          let address = text.text
+          let googleKey = 'AIzaSyDU3WcMEEugmd03GjG45fYCJ8nVqZJp9Fo'
+          let urlFetch = urlGoogleGeocode + '?address=' + address + '&key=' + googleKey
+          fetch(urlFetch)
+          .then((response) => response.json())
+          .then((responseJson) => {
+
+            if(responseJson.status == "OK") {
+              this.state.slectedMarker.coordinates.longitude = responseJson.results[0].geometry.location.lng;
+              this.state.slectedMarker.coordinates.latitude = responseJson.results[0].geometry.location.lat;
 
 
-          this.setState({
-            region: {
-              latitude: responseJson.results[0].geometry.location.lat,
-              longitude: responseJson.results[0].geometry.location.lng,
-              latitudeDelta: LATITUDE_DELTA,
-              longitudeDelta: LONGITUDE_DELTA,
+              this.setState({
+                region: {
+                  latitude: responseJson.results[0].geometry.location.lat,
+                  longitude: responseJson.results[0].geometry.location.lng,
+                  latitudeDelta: LATITUDE_DELTA,
+                  longitudeDelta: LONGITUDE_DELTA,
+                }
+              })
             }
           })
+          .catch((error) => {
+            console.error(error);
+          });
         }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
     }
 
 
@@ -217,6 +221,12 @@ export default class JustMap extends React.Component {
             datePin:  Date(),
           },
         ],
+        region: {
+          latitude: e.nativeEvent.coordinate.latitude,
+          longitude: e.nativeEvent.coordinate.longitude,
+          latitudeDelta: LATITUDE_DELTA,
+          longitudeDelta: LONGITUDE_DELTA,
+        }
       });
 
       this._addLocationToFirebase('test_'+id, e.nativeEvent.coordinate);
