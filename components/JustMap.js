@@ -58,7 +58,7 @@ export default class JustMap extends React.Component {
       markers: [],
       polylines: [],
       showViewDetails : false,
-    //  isLoading : true,
+      isLoading : true,
       slectedMarker: {
         address : "",
         coordinates : {},
@@ -98,7 +98,9 @@ export default class JustMap extends React.Component {
          });
      });
     }
-    _setPosition() {
+
+
+    _setInitialPosition() {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           this.setState({
@@ -135,6 +137,16 @@ export default class JustMap extends React.Component {
         if(responseJson.status == "OK") {
           this.state.slectedMarker.coordinates.longitude = responseJson.results[0].geometry.location.lng;
           this.state.slectedMarker.coordinates.latitude = responseJson.results[0].geometry.location.lat;
+
+
+          this.setState({
+            region: {
+              latitude: responseJson.results[0].geometry.location.lat,
+              longitude: responseJson.results[0].geometry.location.lng,
+              latitudeDelta: LATITUDE_DELTA,
+              longitudeDelta: LONGITUDE_DELTA,
+            }
+          })
         }
       })
       .catch((error) => {
@@ -145,7 +157,7 @@ export default class JustMap extends React.Component {
 
 
     componentWillMount() {
-    //  this._setPosition();
+      this._setInitialPosition();
     }
 
     componentDidMount() {
@@ -173,9 +185,15 @@ export default class JustMap extends React.Component {
 
     onPressMarker(e) {
       this.state.showViewDetails = true;
+      this.setState({
+        region: {
+          latitude: e.nativeEvent.coordinate.latitude,
+          longitude: e.nativeEvent.coordinate.longitude,
+          latitudeDelta: LATITUDE_DELTA,
+          longitudeDelta: LONGITUDE_DELTA,
+        }
+      })
       this.forceUpdate()
-
-
     }
 
     onMapPress(e)
@@ -233,7 +251,7 @@ export default class JustMap extends React.Component {
             <MapView
               provider={this.props.provider}
               style={styles.map}
-              initialRegion={this.state.region}
+              region={this.state.region}
               showsUserLocation = {true}
               onLongPress = {this.onLongPressCreateMarker}
               onPress = {this.onMapPress}
@@ -287,7 +305,7 @@ export default class JustMap extends React.Component {
 
             <View style={[styles.eventList, this.state.showViewDetails ? {} : styles.eventListHidden ]}>
               <ScrollView>
-                  <Text>Key: toto</Text>
+                  <Text>Details</Text>
 
                   <TextInput
                     onChangeText={(text) => this.onChangeslectedMarkerAddress({text})}
