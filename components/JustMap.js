@@ -58,8 +58,11 @@ export default class JustMap extends React.Component {
       markers: [],
       polylines: [],
       showViewDetails : false,
-      isLoading : true,
-      slectedMarkerAddress : "",
+    //  isLoading : true,
+      slectedMarker: {
+        address : "",
+        coordinates : {},
+      },
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
       })
@@ -116,41 +119,40 @@ export default class JustMap extends React.Component {
 
 
 
-    componentWillMount() {
-      this._setPosition();
-
-    }
 
     onChangeslectedMarkerAddress(text) {
+      this.state.slectedMarker.address = text.text;
+      this.forceUpdate()
+      let urlGoogleGeocode = 'https://maps.google.com/maps/api/geocode/json'
+      //let address = '1600+Amphitheatre+Parkway,+Mountain+View,+CA'
+      let address = text.text
+      let googleKey = 'AIzaSyDU3WcMEEugmd03GjG45fYCJ8nVqZJp9Fo'
+      let urlFetch = urlGoogleGeocode + '?address=' + address + '&key=' + googleKey
+      fetch(urlFetch)
+      .then((response) => response.json())
+      .then((responseJson) => {
 
-            let urlGoogleGeocode = 'https://maps.google.com/maps/api/geocode/json'
-            //let address = '1600+Amphitheatre+Parkway,+Mountain+View,+CA'
-            let address = text.text
-            let googleKey = 'AIzaSyDU3WcMEEugmd03GjG45fYCJ8nVqZJp9Fo'
-            let urlFetch = urlGoogleGeocode + '?address=' + address + '&key=' + googleKey
-            fetch(urlFetch)
-            .then((response) => response.json())
-            .then((responseJson) => {
-              //console.log(responseJson.results[0].geometry.location);
-              console.log(responseJson);
-
-              this.state.slectedMarkerAddress = text.text;
-              this.forceUpdate()
-            })
-            .catch((error) => {
-              console.error(error);
-            });
+        if(responseJson.status == "OK") {
+          this.state.slectedMarker.coordinates.longitude = responseJson.results[0].geometry.location.lng;
+          this.state.slectedMarker.coordinates.latitude = responseJson.results[0].geometry.location.lat;
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
     }
 
 
 
-   componentDidMount() {
-     this.listenForItems(this.itemsRef);
-   }
+    componentWillMount() {
+    //  this._setPosition();
+    }
 
-   _addItem() {
-      this.itemsRef.push({ title: "testtest" });
-   }
+    componentDidMount() {
+      this.listenForItems(this.itemsRef);
+    }
+
+
 
    _addLocationToFirebase(title, coordinates) {
       this.itemsRef.push({ title: title, coordinates: coordinates });
@@ -231,7 +233,7 @@ export default class JustMap extends React.Component {
             <MapView
               provider={this.props.provider}
               style={styles.map}
-              region={this.state.region}
+              initialRegion={this.state.region}
               showsUserLocation = {true}
               onLongPress = {this.onLongPressCreateMarker}
               onPress = {this.onMapPress}
@@ -282,15 +284,17 @@ export default class JustMap extends React.Component {
               enableEmptySections={true}
             />
 
-            <Button onPress={this._addItem.bind(this)} title="Add to FireBase test" />
+
             <View style={[styles.eventList, this.state.showViewDetails ? {} : styles.eventListHidden ]}>
               <ScrollView>
                   <Text>Key: toto</Text>
 
                   <TextInput
                     onChangeText={(text) => this.onChangeslectedMarkerAddress({text})}
-                    value={this.state.slectedMarkerAddress}
+                    value={this.state.slectedMarker.address}
                   />
+                  <Text>Coordinates: {this.state.slectedMarker.coordinates.latitude}</Text>
+                  <Text>Coordinates: {this.state.slectedMarker.coordinates.longitude}</Text>
                 </ScrollView>
             </View>
             <View style={styles.showLoading}>
