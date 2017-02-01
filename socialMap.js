@@ -8,7 +8,6 @@ import Contacts from './components/Contacts';
 
 
 
-
 const {
   StyleSheet,
   Text,

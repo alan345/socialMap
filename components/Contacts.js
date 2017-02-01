@@ -9,6 +9,7 @@ import {
   Dimensions
 } from 'react-native';
 
+
 export default class Contacts extends Component {
   render() {
     return (
@@ -43,6 +44,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
+
   },
   welcome: {
     fontSize: 20,
