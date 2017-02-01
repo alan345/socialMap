@@ -1,8 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
 
 import React, { Component } from 'react';
 import {
@@ -23,7 +18,6 @@ import ListItem from './ListItem';
 import * as firebase from 'firebase';
 import Firebase from "../includes/firebase";
 
-
 const { width, height } = Dimensions.get('window');
 
 const ASPECT_RATIO = width / height;
@@ -31,20 +25,11 @@ const LATITUDE = 37.78825;
 const LONGITUDE = -122.4324;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
-let id = 0;
-
 
 const SideMenu = require('react-native-side-menu');
 const Menu = require('./Menu');
 
-
-
 export default class JustMap extends React.Component {
-
-
-
-
-
 
   constructor(props) {
     super(props);
@@ -55,6 +40,7 @@ export default class JustMap extends React.Component {
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA,
       },
+
       markers: [],
       polylines: [],
       showViewDetails : false,
@@ -63,6 +49,7 @@ export default class JustMap extends React.Component {
         address : "",
         coordinates : {},
       },
+
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
       })
@@ -75,7 +62,6 @@ export default class JustMap extends React.Component {
 
     // firebase reference
     this.itemsRef = this.getRef().child('locations');
-
   }
 
     // firebase Example
@@ -89,17 +75,28 @@ export default class JustMap extends React.Component {
          snap.forEach((child) => {
            items.push({
              title: child.val().title,
-             _key: child.key
+             coordinate: child.val().coordinates,
+             key: child.getKey(),
+             name: child.val().name,
+             title: child.val().title,
+             description: child.val().description,
+             image: child.val().image,
+             imagePin: child.val().imagePin,
+             datePin:  child.val().datePin
            });
          });
 
          this.setState({
-           dataSource: this.state.dataSource.cloneWithRows(items)
+           dataSource: this.state.dataSource.cloneWithRows(items),
+           locations: items
          });
+
+         console.log("items", items);
      });
     }
 
 
+  
     _setInitialPosition() {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -170,16 +167,19 @@ export default class JustMap extends React.Component {
 
 
 
-   _addLocationToFirebase(title, coordinates) {
-      this.itemsRef.push({ title: title, coordinates: coordinates });
-   }
 
-   _renderItem(item) {
-     return (
-       <ListItem item={item} />
-     );
+   _addLocationToFirebase(title, coordinates) {
+      this.itemsRef.push({
+        title: title,
+        coordinates: coordinates,
+        name: 'New Pin',
+        title: 'title',
+        description: 'description',
+        image: flagBlackImg,
+        imagePin: 'https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/3/005/01b/27a/240ddec.jpg',
+        datePin:  Date()
+       });
    }
-  // end firebase Example
 
     onDrageEndMarker(e) {
       this.setState({ x: e.nativeEvent.coordinate })
@@ -207,6 +207,7 @@ export default class JustMap extends React.Component {
     }
 
     onLongPressCreateMarker(e) {
+
       this.setState({
         markers: [
           ...this.state.markers,
@@ -229,13 +230,13 @@ export default class JustMap extends React.Component {
         }
       });
 
-      this._addLocationToFirebase('test_'+id, e.nativeEvent.coordinate);
+
+      this._addLocationToFirebase('test', e.nativeEvent.coordinate);
 
       const { editing } = this.state;
       if (!editing) {
         this.setState({
           editing: {
-            id: id++,
             coordinates: [e.nativeEvent.coordinate],
           },
         });
@@ -257,33 +258,32 @@ export default class JustMap extends React.Component {
     return (
       <View style={styles.container}>
 
-
             <MapView
               provider={this.props.provider}
               style={styles.map}
+
               region={this.state.region}
               showsUserLocation = {true}
               onLongPress = {this.onLongPressCreateMarker}
               onPress = {this.onMapPress}
             >
 
-              {this.state.markers.map((marker,i) =>{
+    
+
+              {this.state.locations.map((location,i) =>{
+
                 return (
                   <MapView.Marker
-                    key={i}
+                    key={location.key}
                     draggable
-                    {... marker}
-                    onDragEnd={this.onDrageEndMarker}
-                    onPress={this.onPressMarker}
+                    {... location}
                     >
                       <View style={styles.marker}>
-                        <Text style={styles.text}>{marker.name}</Text>
+                        <Text style={styles.text}>{location.name}</Text>
                       </View>
                   </MapView.Marker>
-
                 )
               })}
-
 
               {this.state.polylines.map(polyline => (
                 <MapView.Polyline
@@ -337,6 +337,8 @@ export default class JustMap extends React.Component {
                   )}
                 </ScrollView>
             </View>
+
+
       </View>
     );
   }
@@ -353,7 +355,6 @@ const styles = StyleSheet.create({
       justifyContent: 'flex-end',
       alignItems: 'center',
     },
-
     marker: {
       marginLeft: -18,
       marginTop: 0,
