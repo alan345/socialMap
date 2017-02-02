@@ -26,6 +26,10 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const SideMenu = require('react-native-side-menu');
 const Menu = require('./Menu');
 
+import {FBLogin, FBLoginManager} from 'react-native-facebook-login';
+import FBLoginView from './FBLoginView';
+
+
 export default class JustMap extends React.Component {
 
   constructor(props) {
@@ -192,8 +196,20 @@ export default class JustMap extends React.Component {
                   strokeWidth={5}
                 />
               }
-
             </MapView>
+
+            <FBLogin
+                buttonView={<FBLoginView />}
+                ref={(fbLogin) => { this.fbLogin = fbLogin }}
+                loginBehavior={FBLoginManager.LoginBehaviors.Native}
+                permissions={["email","user_friends"]}
+                onLogin={function(e){console.log(e)}}
+                onLoginFound={function(e){console.log(e)}}
+                onLoginNotFound={function(e){console.log(e)}}
+                onLogout={function(e){console.log(e)}}
+                onCancel={function(e){console.log(e)}}
+                onPermissionsMissing={function(e){console.log(e)}}
+              />
       </View>
     );
   }
