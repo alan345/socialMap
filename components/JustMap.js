@@ -47,6 +47,7 @@ export default class JustMap extends React.Component {
       showViewDetails : false,
       isLoading : true,
       selectedMarker: {
+        key:"",
         address : "",
         coordinate : {
           latitude: LATITUDE,
@@ -139,8 +140,11 @@ export default class JustMap extends React.Component {
           .then((responseJson) => {
 
             if(responseJson.status == "OK") {
-              // this.state.selectedMarker.coordinate.longitude = responseJson.results[0].geometry.location.lng;
-              // this.state.selectedMarker.coordinate.latitude = responseJson.results[0].geometry.location.lat;
+              let locations = this.state.locations;
+              let objIndex = locations.findIndex((obj => obj.key == this.state.selectedMarker.key));
+              // locations[objIndex].coordinates.longitude = responseJson.results[0].geometry.location.lat
+              // locations[objIndex].coordinates.latitude = responseJson.results[0].geometry.location.lat
+              console.log(this.state.selectedMarker.key)
 
 
               this.setState({
@@ -153,7 +157,7 @@ export default class JustMap extends React.Component {
                 selectedMarker : {
                   coordinate : {
                     latitude: responseJson.results[0].geometry.location.lat,
-                    longitude:responseJson.results[0].geometry.location.lng,
+                    longitude: responseJson.results[0].geometry.location.lng,
                   }
                 }
               })
