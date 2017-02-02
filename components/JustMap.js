@@ -306,7 +306,6 @@ export default class JustMap extends React.Component {
 
             <View style={[styles.eventList, this.state.showViewDetails ? {} : styles.eventListHidden ]}>
               <ScrollView>
-
                   <Image
                     style={styles.icon}
                     source={{uri: this.state.selectedMarker.imagePin}}
@@ -372,7 +371,6 @@ const styles = StyleSheet.create({
       marginTop: 0,
     },
     eventList: {
-
       top: 0,
       left: 0,
       right: 0,
@@ -402,10 +400,7 @@ const styles = StyleSheet.create({
       width: 30,
       height: 30,
     },
-    scrollview: {
-      alignItems: 'center',
-      paddingVertical: 40,
-    },
+
     map: {
      ...StyleSheet.absoluteFillObject,
     },
