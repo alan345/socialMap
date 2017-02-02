@@ -199,8 +199,8 @@ export default class JustMap extends React.Component {
     onLongPressCreateMarker(e) {
 
       this.setState({
-        markers: [
-          ...this.state.markers,
+        locations: [
+          ...this.state.locations,
           {
             coordinate: e.nativeEvent.coordinate,
 
