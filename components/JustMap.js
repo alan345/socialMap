@@ -43,6 +43,7 @@ export default class JustMap extends React.Component {
 
       markers: [],
       polylines: [],
+      locations: [],
       showViewDetails : false,
       isLoading : true,
       slectedMarker: {
@@ -96,7 +97,7 @@ export default class JustMap extends React.Component {
     }
 
 
-  
+
     _setInitialPosition() {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -188,6 +189,7 @@ export default class JustMap extends React.Component {
     }
 
     onPressMarker(e) {
+
       this.state.showViewDetails = true;
       this.setState({
         region: {
@@ -213,10 +215,10 @@ export default class JustMap extends React.Component {
           ...this.state.markers,
           {
             coordinate: e.nativeEvent.coordinate,
-            key: id++,
+
             name: 'New Pin',
             title: 'title',
-            description: 'description' + id,
+
             image: flagBlackImg,
             imagePin: 'https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/3/005/01b/27a/240ddec.jpg',
             datePin:  Date(),
@@ -268,13 +270,14 @@ export default class JustMap extends React.Component {
               onPress = {this.onMapPress}
             >
 
-    
+
 
               {this.state.locations.map((location,i) =>{
 
                 return (
                   <MapView.Marker
                     key={location.key}
+                    onPress={this.onPressMarker}
                     draggable
                     {... location}
                     >
@@ -306,11 +309,7 @@ export default class JustMap extends React.Component {
 
             </MapView>
 
-            <ListView
-              dataSource={this.state.dataSource}
-              renderRow={this._renderItem.bind(this)}
-              enableEmptySections={true}
-            />
+
 
 
             <View style={[styles.eventList, this.state.showViewDetails ? {} : styles.eventListHidden ]}>
