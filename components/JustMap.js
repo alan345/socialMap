@@ -116,31 +116,31 @@ export default class JustMap extends React.Component {
         if(this.state.selectedMarker.address == "")
           return;
 
-          console.log(this.state.selectedMarker)
-                    let urlGoogleGeocode = 'https://maps.google.com/maps/api/geocode/json'
-                    //let address = '1600+Amphitheatre+Parkway,+Mountain+View,+CA'
-                    let address = this.state.selectedMarker.address;
-                    let googleKey = 'AIzaSyDU3WcMEEugmd03GjG45fYCJ8nVqZJp9Fo'
-                    let urlFetch = urlGoogleGeocode + '?address=' + address + '&key=' + googleKey
-                    fetch(urlFetch)
-                    .then((response) => response.json())
-                    .then((responseJson) => {
 
-                      if(responseJson.status == "OK") {
+          let urlGoogleGeocode = 'https://maps.google.com/maps/api/geocode/json'
 
-                        let coordinates = {
-                          latitude : responseJson.results[0].geometry.location.lat,
-                          longitude : responseJson.results[0].geometry.location.lng,
-                        }
-                        let key = this.state.selectedMarker.key
+          let address = this.state.selectedMarker.address;
+          let googleKey = 'AIzaSyDU3WcMEEugmd03GjG45fYCJ8nVqZJp9Fo'
+          let urlFetch = urlGoogleGeocode + '?address=' + address + '&key=' + googleKey
+          fetch(urlFetch)
+          .then((response) => response.json())
+          .then((responseJson) => {
 
-                        this._updateLocationToFirebase(key, coordinates, address)
+            if(responseJson.status == "OK") {
 
-                      }
-                    })
-                    .catch((error) => {
-                      console.error(error);
-                    });
+              let coordinates = {
+                latitude : responseJson.results[0].geometry.location.lat,
+                longitude : responseJson.results[0].geometry.location.lng,
+              }
+              let key = this.state.selectedMarker.key
+
+              this._updateLocationToFirebase(key, coordinates, address)
+
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+          });
 
       }
 
