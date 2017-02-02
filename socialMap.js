@@ -8,7 +8,6 @@ import Contacts from './components/Contacts';
 
 
 
-
 const {
   StyleSheet,
   Text,
@@ -104,6 +103,7 @@ module.exports = class socialMap extends Component {
     return (
       <SideMenu
         menu={menu}
+        disableGestures={true}
         isOpen={this.state.isOpen}
         onChange={(isOpen) => this.updateMenuState(isOpen)}>
         {isMenu1 ?
