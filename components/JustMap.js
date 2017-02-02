@@ -29,6 +29,11 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const SideMenu = require('react-native-side-menu');
 const Menu = require('./Menu');
 
+import {FBLogin, FBLoginManager} from 'react-native-facebook-login';
+import FBLoginView from './FBLoginView';
+
+FBLoginManager.setLoginBehavior(FBLoginManager.LoginBehaviors.Web); // defaults to Native
+
 export default class JustMap extends React.Component {
 
   constructor(props) {
@@ -189,7 +194,6 @@ export default class JustMap extends React.Component {
     }
 
     onPressMarker(e) {
-
       this.state.showViewDetails = true;
       this.setState({
         region: {
@@ -256,6 +260,7 @@ export default class JustMap extends React.Component {
 
     }
 
+
   render() {
     return (
       <View style={styles.container}>
@@ -273,7 +278,6 @@ export default class JustMap extends React.Component {
 
 
               {this.state.locations.map((location,i) =>{
-
                 return (
                   <MapView.Marker
                     key={location.key}
@@ -306,11 +310,9 @@ export default class JustMap extends React.Component {
                   strokeWidth={5}
                 />
               }
-
             </MapView>
 
-
-
+            <FBLoginView />
 
             <View style={[styles.eventList, this.state.showViewDetails ? {} : styles.eventListHidden ]}>
               <ScrollView>
@@ -336,7 +338,6 @@ export default class JustMap extends React.Component {
                   )}
                 </ScrollView>
             </View>
-
 
       </View>
     );
