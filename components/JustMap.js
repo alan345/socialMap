@@ -50,6 +50,7 @@ export default class JustMap extends React.Component {
       selectedMarker: {
         key:"",
         address : "",
+        imagePin : "",
         coordinate : {
           latitude: LATITUDE,
           longitude: LONGITUDE,
@@ -305,12 +306,18 @@ export default class JustMap extends React.Component {
 
             <View style={[styles.eventList, this.state.showViewDetails ? {} : styles.eventListHidden ]}>
               <ScrollView>
+
+                  <Image
+                    style={styles.icon}
+                    source={{uri: this.state.selectedMarker.imagePin}}
+                  />
                   <Text>Key: {this.state.selectedMarker.key}</Text>
 
                   <TextInput
                     onChangeText={(address) => this.setState({
                         selectedMarker: {
                           key: this.state.selectedMarker.key,
+                          imagePin: this.state.selectedMarker.imagePin,
                           address : address,
                           coordinate : {
                             latitude : this.state.selectedMarker.coordinate.latitude,
@@ -324,6 +331,9 @@ export default class JustMap extends React.Component {
 
                   <Text>Coordinates: {this.state.selectedMarker.coordinate.latitude}</Text>
                   <Text>Coordinates: {this.state.selectedMarker.coordinate.longitude}</Text>
+                  <Text>Name: {this.state.selectedMarker.name}</Text>
+                  <Text>Title: {this.state.selectedMarker.title}</Text>
+                  <Text>Description: {this.state.selectedMarker.Description}</Text>
 
                 </ScrollView>
             </View>
@@ -383,6 +393,10 @@ const styles = StyleSheet.create({
       left: 0,
       right: 0,
       bottom: 0,
+    },
+    icon: {
+      width: 60,
+      height: 60,
     },
     imageLoading: {
       width: 30,
