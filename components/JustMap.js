@@ -62,8 +62,6 @@ export default class JustMap extends React.Component {
     };
     this.onLongPressCreateMarker = this.onLongPressCreateMarker.bind(this);
     this.onDrageEndMarker = this.onDrageEndMarker.bind(this);
-    this.onPressMarker = this.onPressMarker.bind(this);
-    this.onMapPress = this.onMapPress.bind(this);
 
 
     // firebase reference
@@ -104,23 +102,6 @@ export default class JustMap extends React.Component {
 
 
 
-    _setInitialPosition() {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          this.setState({
-            region : {
-              latitude: position.coords.latitude,
-              longitude: position.coords.longitude,
-              latitudeDelta: LATITUDE_DELTA,
-              longitudeDelta: LONGITUDE_DELTA,
-            },
-            isLoading : false
-          });
-        },
-        (error) => alert(JSON.stringify(error)),
-        {enableHighAccuracy: false, timeout: 20000, maximumAge: 1000}
-      );
-    }
 
 
 
@@ -146,10 +127,6 @@ export default class JustMap extends React.Component {
                     .then((responseJson) => {
 
                       if(responseJson.status == "OK") {
-                        //let locations = this.state.locations;
-                        //let objIndex = locations.findIndex((obj => obj.key == this.state.selectedMarker.key));
-                        // locations[objIndex].coordinates.longitude = responseJson.results[0].geometry.location.lat
-                        // locations[objIndex].coordinates.latitude = responseJson.results[0].geometry.location.lat
 
                         let coordinates = {
                           latitude : responseJson.results[0].geometry.location.lat,
@@ -159,16 +136,6 @@ export default class JustMap extends React.Component {
 
                         this._updateLocationToFirebase(key, coordinates, address)
 
-                        // this.setState({
-                        //   selectedMarker : {
-                        //     key:this.state.selectedMarker.key,
-                        //     address: text.text,
-                        //     coordinate : {
-                        //       latitude: responseJson.results[0].geometry.location.lat,
-                        //       longitude: responseJson.results[0].geometry.location.lng,
-                        //     }
-                        //   }
-                        // })
                       }
                     })
                     .catch((error) => {
@@ -204,10 +171,6 @@ export default class JustMap extends React.Component {
           .then((responseJson) => {
 
             if(responseJson.status == "OK") {
-              //let locations = this.state.locations;
-              //let objIndex = locations.findIndex((obj => obj.key == this.state.selectedMarker.key));
-              // locations[objIndex].coordinates.longitude = responseJson.results[0].geometry.location.lat
-              // locations[objIndex].coordinates.latitude = responseJson.results[0].geometry.location.lat
 
               let coordinates = {
                 latitude : responseJson.results[0].geometry.location.lat,
@@ -216,12 +179,7 @@ export default class JustMap extends React.Component {
               this._updateLocationToFirebase(this.state.selectedMarker.key, "toto", coordinates, text.text)
 
               this.setState({
-                region: {
-                  latitude: responseJson.results[0].geometry.location.lat,
-                  longitude: responseJson.results[0].geometry.location.lng,
-                  latitudeDelta: LATITUDE_DELTA,
-                  longitudeDelta: LONGITUDE_DELTA,
-                },
+
                 selectedMarker : {
                   key:this.state.selectedMarker.key,
                   address: text.text,
@@ -241,14 +199,9 @@ export default class JustMap extends React.Component {
 
 
 
-    componentWillMount() {
-    //  this._setInitialPosition();
-    console.log("a")
-    }
-
     componentDidMount() {
       this.listenForItems(this.itemsRef);
-      console.log("b")
+
     }
 
 
@@ -293,41 +246,8 @@ export default class JustMap extends React.Component {
 
     }
 
-    onPressMarker() {
-      if (typeof this.state.selectedMarker.key == "undefined")
-        return;
-
-      if (typeof this.state.selectedMarker == "undefined")
-        return;
-
-      if(this.state.selectedMarker.key == "")
-        return;
 
 
-        //this.state.showViewDetails = true;
-
-      //  this.setState({showViewDetails:true})
-
-        // this.state.region = {
-        //       latitude: this.state.selectedMarker.coordinate.latitude,
-        //       longitude: this.state.selectedMarker.coordinate.longitude,
-        //       latitudeDelta: LATITUDE_DELTA,
-        //       longitudeDelta: LONGITUDE_DELTA,
-        //
-        // }
-
-    }
-
-    onMapPress(e)
-    {
-
-      // this.state.showViewDetails = false;
-      // this.forceUpdate()
-
-      // this.setState({showViewDetails : false}, console.log("this.state.showViewDetails", this.state.showViewDetails))
-      // this.forceUpdate()
-      // console.log("this.state.showViewDetails", this.state.showViewDetails)
-    }
 
     onLongPressCreateMarker(e) {
 
@@ -344,13 +264,7 @@ export default class JustMap extends React.Component {
             imagePin: 'https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/3/005/01b/27a/240ddec.jpg',
             datePin:  Date(),
           },
-        ],
-        // region: {
-        //   latitude: e.nativeEvent.coordinate.latitude,
-        //   longitude: e.nativeEvent.coordinate.longitude,
-        //   latitudeDelta: LATITUDE_DELTA,
-        //   longitudeDelta: LONGITUDE_DELTA,
-        // }
+        ]
       });
 
 
@@ -405,7 +319,7 @@ export default class JustMap extends React.Component {
                       showViewDetails:true,
                       selectedMarker: location
                     })}}
-                    onMarkerPress={this.onPressMarker()}
+
                     draggable
                     {... location}
                     >
@@ -444,7 +358,7 @@ export default class JustMap extends React.Component {
 
             <View style={[styles.eventList, this.state.showViewDetails ? {} : styles.eventListHidden ]}>
               <ScrollView>
-                  <Text>a{JSON.stringify(this.state.showViewDetails , null, 2) }a Key: {this.state.selectedMarker.key}</Text>
+                  <Text>Key: {this.state.selectedMarker.key}</Text>
 
                   <TextInput
                     onChangeText={(address) => this.setState({
