@@ -16,10 +16,10 @@
 ## GIT
 
 Create the branch on your local machine and switch in this branch
-```git checkout -b [name_of_your_new_branch]```
+```git checkout -b feature/[name_of_your_new_branch]```
 
 Push the branch on github :
-```git push origin [name_of_your_new_branch]```
+```git push -u origin feature/[name_of_your_new_branch]```
 
 
 Which branch is selected in local

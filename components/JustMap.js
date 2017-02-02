@@ -46,9 +46,12 @@ export default class JustMap extends React.Component {
       locations: [],
       showViewDetails : false,
       isLoading : true,
-      slectedMarker: {
+      selectedMarker: {
         address : "",
-        coordinates : {},
+        coordinate : {
+          latitude: LATITUDE,
+          longitude: LONGITUDE,
+        },
       },
 
       dataSource: new ListView.DataSource({
@@ -120,9 +123,9 @@ export default class JustMap extends React.Component {
 
 
 
-      onChangeslectedMarkerAddress(text) {
+      onChangeselectedMarkerAddress(text) {
 
-        this.state.slectedMarker.address = text.text;
+        this.state.selectedMarker.address = text.text;
         this.forceUpdate()
         if(text.text != '') {
 
@@ -136,8 +139,8 @@ export default class JustMap extends React.Component {
           .then((responseJson) => {
 
             if(responseJson.status == "OK") {
-              this.state.slectedMarker.coordinates.longitude = responseJson.results[0].geometry.location.lng;
-              this.state.slectedMarker.coordinates.latitude = responseJson.results[0].geometry.location.lat;
+              this.state.selectedMarker.coordinate.longitude = responseJson.results[0].geometry.location.lng;
+              this.state.selectedMarker.coordinate.latitude = responseJson.results[0].geometry.location.lat;
 
 
               this.setState({
@@ -188,18 +191,19 @@ export default class JustMap extends React.Component {
       // IDEM ICI. Je ne sais pas acualiser 1 marker precis dans la liste des markers
     }
 
-    onPressMarker(e) {
+    onPressMarker() {
+      console.log(this.state.selectedMarker)
 
-      this.state.showViewDetails = true;
-      this.setState({
-        region: {
-          latitude: e.nativeEvent.coordinate.latitude,
-          longitude: e.nativeEvent.coordinate.longitude,
-          latitudeDelta: LATITUDE_DELTA,
-          longitudeDelta: LONGITUDE_DELTA,
+      if (typeof this.state.selectedMarker != "undefined") {
+        this.state.showViewDetails = true;
+        this.state.region = {
+              latitude: this.state.selectedMarker.coordinate.latitude,
+              longitude: this.state.selectedMarker.coordinate.longitude,
+              latitudeDelta: LATITUDE_DELTA,
+              longitudeDelta: LONGITUDE_DELTA,
+
         }
-      })
-      this.forceUpdate()
+      }
     }
 
     onMapPress(e)
@@ -263,7 +267,6 @@ export default class JustMap extends React.Component {
             <MapView
               provider={this.props.provider}
               style={styles.map}
-
               region={this.state.region}
               showsUserLocation = {true}
               onLongPress = {this.onLongPressCreateMarker}
@@ -277,7 +280,8 @@ export default class JustMap extends React.Component {
                 return (
                   <MapView.Marker
                     key={location.key}
-                    onPress={this.onPressMarker}
+                    onPress={() => {this.setState({selectedMarker: location})}}
+                    onMarkerPress={this.onPressMarker()}
                     draggable
                     {... location}
                     >
@@ -314,14 +318,14 @@ export default class JustMap extends React.Component {
 
             <View style={[styles.eventList, this.state.showViewDetails ? {} : styles.eventListHidden ]}>
               <ScrollView>
-                  <Text>Details</Text>
+                  <Text>Key: {this.state.selectedMarker.key}</Text>
 
                   <TextInput
-                    onChangeText={(text) => this.onChangeslectedMarkerAddress({text})}
-                    value={this.state.slectedMarker.address}
+                    onChangeText={(text) => this.onChangeselectedMarkerAddress({text})}
+                    value={this.state.selectedMarker.address}
                   />
-                  <Text>Coordinates: {this.state.slectedMarker.coordinates.latitude}</Text>
-                  <Text>Coordinates: {this.state.slectedMarker.coordinates.longitude}</Text>
+                  <Text>Coordinates: {this.state.selectedMarker.coordinate.latitude}</Text>
+                  <Text>Coordinates: {this.state.selectedMarker.coordinate.longitude}</Text>
                 </ScrollView>
             </View>
             <View style={styles.showLoading}>
