@@ -144,59 +144,6 @@ export default class JustMap extends React.Component {
 
       }
 
-      onChangeselectedMarkerAddress(text) {
-        if(text.text == '')
-          return;
-
-          if (typeof this.state.selectedMarker.key == "undefined")
-            return;
-
-          if (typeof this.state.selectedMarker == "undefined")
-            return;
-
-          if(this.state.selectedMarker.key == "")
-            return;
-
-        this.state.selectedMarker.address = text.text;
-        this.forceUpdate()
-
-
-          let urlGoogleGeocode = 'https://maps.google.com/maps/api/geocode/json'
-          //let address = '1600+Amphitheatre+Parkway,+Mountain+View,+CA'
-          let address = text.text
-          let googleKey = 'AIzaSyDU3WcMEEugmd03GjG45fYCJ8nVqZJp9Fo'
-          let urlFetch = urlGoogleGeocode + '?address=' + address + '&key=' + googleKey
-          fetch(urlFetch)
-          .then((response) => response.json())
-          .then((responseJson) => {
-
-            if(responseJson.status == "OK") {
-
-              let coordinates = {
-                latitude : responseJson.results[0].geometry.location.lat,
-                longitude : responseJson.results[0].geometry.location.lng,
-              }
-              this._updateLocationToFirebase(this.state.selectedMarker.key, "toto", coordinates, text.text)
-
-              this.setState({
-
-                selectedMarker : {
-                  key:this.state.selectedMarker.key,
-                  address: text.text,
-                  coordinate : {
-                    latitude: responseJson.results[0].geometry.location.lat,
-                    longitude: responseJson.results[0].geometry.location.lng,
-                  }
-                }
-              })
-            }
-          })
-          .catch((error) => {
-            console.error(error);
-          });
-
-    }
-
 
 
     componentDidMount() {
