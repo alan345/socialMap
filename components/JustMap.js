@@ -34,14 +34,6 @@ import FBLoginView from './FBLoginView';
 
 FBLoginManager.setLoginBehavior(FBLoginManager.LoginBehaviors.Web); // defaults to Native
 
-// FBLoginManager.loginWithPermissions(["email","user_friends"], function(error, data){
-//   if (!error) {
-//     console.log("Login data: ", data);
-//   } else {
-//     console.log("Error: ", error);
-//   }
-// })
-
 export default class JustMap extends React.Component {
 
   constructor(props) {
@@ -320,39 +312,7 @@ export default class JustMap extends React.Component {
               }
             </MapView>
 
-
-            <FBLogin style={{ marginBottom: 10, }}
-                  ref={(fbLogin) => { this.fbLogin = fbLogin }}
-                  permissions={["email","user_friends"]}
-                  loginBehavior={FBLoginManager.LoginBehaviors.Native}
-                  onLogin={function(data){
-                    console.log("Logged in!");
-                    console.log(data);
-                  }}
-                  onLogout={function(){
-                    console.log("Logged out.");
-                  }}
-                  onLoginFound={function(data){
-                    console.log("Existing login found.");
-                    console.log(data);
-                  }}
-                  onLoginNotFound={function(){
-                    console.log("No user logged in.");
-                  }}
-                  onError={function(data){
-                    console.log("ERROR");
-                    console.log(data);
-                  }}
-                  onCancel={function(){
-                    console.log("User cancelled.");
-                  }}
-                  onPermissionsMissing={function(data){
-                    console.log("Check permissions!");
-                    console.log(data);
-                  }}
-                />
-
-
+            <FBLoginView />
 
             <View style={[styles.eventList, this.state.showViewDetails ? {} : styles.eventListHidden ]}>
               <ScrollView>
@@ -384,48 +344,6 @@ export default class JustMap extends React.Component {
   }
 }
 
-
-class Login extends Component {
-  render() {
-    var _this = this;
-    return (
-      <FBLogin style={{ marginBottom: 10, }}
-        ref={(fbLogin) => { this.fbLogin = fbLogin }}
-        permissions={["email","user_friends"]}
-        loginBehavior={FBLoginManager.LoginBehaviors.Native}
-        onLogin={function(data){
-          console.log("Logged in!");
-          console.log(data);
-          _this.setState({ user : data.credentials });
-        }}
-        onLogout={function(){
-          console.log("Logged out.");
-          _this.setState({ user : null });
-        }}
-        onLoginFound={function(data){
-          console.log("Existing login found.");
-          console.log(data);
-          _this.setState({ user : data.credentials });
-        }}
-        onLoginNotFound={function(){
-          console.log("No user logged in.");
-          _this.setState({ user : null });
-        }}
-        onError={function(data){
-          console.log("ERROR");
-          console.log(data);
-        }}
-        onCancel={function(){
-          console.log("User cancelled.");
-        }}
-        onPermissionsMissing={function(data){
-          console.log("Check permissions!");
-          console.log(data);
-        }}
-      />
-    );
-  }
-};
 
 JustMap.propTypes = {
     provider: MapView.ProviderPropType,
