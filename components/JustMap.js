@@ -46,7 +46,7 @@ export default class JustMap extends React.Component {
       polylines: [],
       locations: [],
 
-      isLoading : false,
+      isLoading : true,
       selectedMarker: {
         key:"",
         address : "",
@@ -94,7 +94,8 @@ export default class JustMap extends React.Component {
 
          this.setState({
            dataSource: this.state.dataSource.cloneWithRows(items),
-           locations: items
+           locations: items,
+           isLoading:false,
          });
 
 
