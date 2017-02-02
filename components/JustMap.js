@@ -96,7 +96,7 @@ export default class JustMap extends React.Component {
            locations: items
          });
 
-         console.log("items", items);
+
      });
     }
 
@@ -125,10 +125,21 @@ export default class JustMap extends React.Component {
 
 
       onChangeselectedMarkerAddress(text) {
+        if(text.text == '')
+          return;
+
+          if (typeof this.state.selectedMarker.key == "undefined")
+            return;
+
+          if (typeof this.state.selectedMarker == "undefined")
+            return;
+
+          if(this.state.selectedMarker.key == "")
+            return;
 
         this.state.selectedMarker.address = text.text;
         this.forceUpdate()
-        if(text.text != '') {
+
 
           let urlGoogleGeocode = 'https://maps.google.com/maps/api/geocode/json'
           //let address = '1600+Amphitheatre+Parkway,+Mountain+View,+CA'
@@ -140,12 +151,16 @@ export default class JustMap extends React.Component {
           .then((responseJson) => {
 
             if(responseJson.status == "OK") {
-              let locations = this.state.locations;
-              let objIndex = locations.findIndex((obj => obj.key == this.state.selectedMarker.key));
+              //let locations = this.state.locations;
+              //let objIndex = locations.findIndex((obj => obj.key == this.state.selectedMarker.key));
               // locations[objIndex].coordinates.longitude = responseJson.results[0].geometry.location.lat
               // locations[objIndex].coordinates.latitude = responseJson.results[0].geometry.location.lat
-              console.log(this.state.selectedMarker.key)
 
+              let coordinates = {
+                latitude : responseJson.results[0].geometry.location.lat,
+                longitude : responseJson.results[0].geometry.location.lng,
+              }
+              this._updateLocationToFirebase("toto", coordinates, this.state.selectedMarker.key)
 
               this.setState({
                 region: {
@@ -155,6 +170,8 @@ export default class JustMap extends React.Component {
                   longitudeDelta: LONGITUDE_DELTA,
                 },
                 selectedMarker : {
+                  key:this.state.selectedMarker.key,
+                  address: text.text,
                   coordinate : {
                     latitude: responseJson.results[0].geometry.location.lat,
                     longitude: responseJson.results[0].geometry.location.lng,
@@ -166,13 +183,13 @@ export default class JustMap extends React.Component {
           .catch((error) => {
             console.error(error);
           });
-        }
+
     }
 
 
 
     componentWillMount() {
-      this._setInitialPosition();
+    //  this._setInitialPosition();
     }
 
     componentDidMount() {
@@ -181,6 +198,25 @@ export default class JustMap extends React.Component {
 
 
 
+    _updateLocationToFirebase(title, coordinates, key) {
+      if (typeof this.state.selectedMarker.key == "undefined") {
+        return;
+      }
+      if (this.state.selectedMarker.key == "") {
+        return;
+      }
+
+       this.itemsRef.child(key).set({
+         title: title,
+         coordinates: coordinates,
+         name: 'New PinUPDATED',
+         title: 'title',
+         description: 'description',
+         image: flagBlackImg,
+         imagePin: 'https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/3/005/01b/27a/240ddec.jpg',
+         datePin:  Date()
+        });
+    }
 
    _addLocationToFirebase(title, coordinates) {
       this.itemsRef.push({
@@ -198,13 +234,21 @@ export default class JustMap extends React.Component {
     onDrageEndMarker(e) {
       this.setState({ x: e.nativeEvent.coordinate })
 
-      // IDEM ICI. Je ne sais pas acualiser 1 marker precis dans la liste des markers
     }
 
     onPressMarker() {
-      console.log(this.state.selectedMarker)
 
-      if (typeof this.state.selectedMarker != "undefined") {
+
+      if (typeof this.state.selectedMarker.key == "undefined")
+        return;
+
+      if (typeof this.state.selectedMarker == "undefined")
+        return;
+
+      if(this.state.selectedMarker.key == "")
+        return;
+
+
         this.state.showViewDetails = true;
         this.state.region = {
               latitude: this.state.selectedMarker.coordinate.latitude,
@@ -213,7 +257,7 @@ export default class JustMap extends React.Component {
               longitudeDelta: LONGITUDE_DELTA,
 
         }
-      }
+
     }
 
     onMapPress(e)
