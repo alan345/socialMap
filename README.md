@@ -1,3 +1,5 @@
+## REACT NATIVE - SIDE PROJECT ##
+
 ## INSTALLATION ##
 
 1. ```npm install```
