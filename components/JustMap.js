@@ -268,6 +268,22 @@ export default class JustMap extends React.Component {
                       showViewDetails:true,
                       selectedMarker: location
                     })}}
+                    onDragEnd={(e) => {
+                      this.setState({
+                        showViewDetails:true,
+                        selectedMarker: location
+                      })
+
+                      this.setState({selectedMarker : {
+                        coordinate : {
+                          latitude : e.nativeEvent.coordinate.latitude,
+                          longitude : e.nativeEvent.coordinate.longitude,
+                        }
+                      }},
+                        //this._updateLocationToFirebase(this.selectedMarker.key, this.selectedMarker.coordinate, this.selectedMarker.address)
+                      //  console.log(this.selectedMarker.key)
+                      )
+                    }}
 
                     draggable
                     {... location}
