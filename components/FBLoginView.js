@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import View, {Button} from 'react-native';
+import View, {Button, StyleSheet} from 'react-native';
 var {FBLogin, FBLoginManager} = require('react-native-facebook-login');
 
 
@@ -7,7 +7,7 @@ class FBLoginView extends Component {
   render() {
     return (
 
-          <FBLogin style={{marginBottom: 200}}
+          <FBLogin style={styles.FBLogin}
 
             ref={(fbLogin) => { this.fbLogin = fbLogin }}
             permissions={["email","user_friends"]}
@@ -42,6 +42,15 @@ class FBLoginView extends Component {
   }
 };
 
+
+const styles = StyleSheet.create({
+
+    FBLogin: {
+
+      width:200,
+    },
+
+});
 
 
 

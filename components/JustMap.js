@@ -29,10 +29,8 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const SideMenu = require('react-native-side-menu');
 const Menu = require('./Menu');
 
-import {FBLogin, FBLoginManager} from 'react-native-facebook-login';
-import FBLoginView from './FBLoginView';
 
-FBLoginManager.setLoginBehavior(FBLoginManager.LoginBehaviors.Web); // defaults to Native
+
 
 export default class JustMap extends React.Component {
 
@@ -325,7 +323,7 @@ export default class JustMap extends React.Component {
               <Text>{JSON.stringify(this.state.showViewDetails , null, 2) }</Text>
             </View>
 
-            <FBLoginView />
+
 
 
             <View style={[styles.eventList, this.state.showViewDetails ? {} : styles.eventListHidden ]}>
