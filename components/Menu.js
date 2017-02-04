@@ -21,18 +21,23 @@ const uri = 'https://pickaface.net/gallery/avatar/Opi51c74d0125fd4.png';
 
 
 module.exports = class Menu extends Component {
-  static propTypes = {
-    onItemSelected: React.PropTypes.func.isRequired,
-  };
+  constructor(props){
+    super(props);
+
+  }
 
   render() {
+
+
+
     return (
+
       <ScrollView scrollsToTop={false} style={styles.menu}>
         <View style={styles.avatarContainer}>
           <Image
             style={styles.avatar}
             source={{ uri, }}/>
-          <Text style={styles.name}>Nico</Text>
+          <Text style={styles.name}>{JSON.stringify(this.state , null, 2) }</Text>
         </View>
 
         <Text
@@ -48,6 +53,8 @@ module.exports = class Menu extends Component {
         </Text>
 
         <FBLoginView/>
+
+
       </ScrollView>
     );
   }
@@ -81,7 +88,7 @@ const styles = StyleSheet.create({
   item: {
     fontSize: 14,
     fontWeight: '300',
-    
+
     paddingBottom: 30,
   },
 });

@@ -4,6 +4,13 @@ var {FBLogin, FBLoginManager} = require('react-native-facebook-login');
 
 
 class FBLoginView extends Component {
+  constructor(props){
+    super(props);
+
+  }
+
+
+
   render() {
     return (
 
@@ -13,7 +20,6 @@ class FBLoginView extends Component {
             permissions={["email","user_friends"]}
             loginBehavior={FBLoginManager.LoginBehaviors.Native}
             onLogin={function(data){
-              console.log("Logged in!");
               console.log(data);
             }}
             onLogout={function(){

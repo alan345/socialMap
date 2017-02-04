@@ -37,6 +37,7 @@ export default class JustMap extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      user:{},
       showViewDetails :false,
       region: {
         latitude: LATITUDE,
@@ -66,6 +67,7 @@ export default class JustMap extends React.Component {
     };
     this.onLongPressCreateMarker = this.onLongPressCreateMarker.bind(this);
     this.onDrageEndMarker = this.onDrageEndMarker.bind(this);
+    //this.getDataFromGoogleAPi = this.getDataFromGoogleAPi.bind(this);
 
 
     // firebase reference
@@ -108,7 +110,41 @@ export default class JustMap extends React.Component {
 
 
 
+      getDataFromGoogleAPi(data, typeData) {
+        return new Promise(function(resolve,reject){
 
+
+
+          let urlGoogpleApi = 'https://maps.google.com/maps/api/'
+          let urlGoogpleApiAPI = 'https://maps.googleapis.com/maps/api/'
+          let urlGoogleGeocode = urlGoogpleApi + 'geocode/json'
+          let googleKey = 'AIzaSyAYPpKi0JDHdmhIuuuVndD96VEyavNAlHY'
+          let urlFetch = ""
+          if(typeData == "address") {
+            urlFetch = urlGoogleGeocode + '?address=' + data + '&key=' + googleKey
+          } else if(typeData == "coordinates") {
+            urlFetch = urlGoogleGeocode + '?latlng=' + data + '&key=' + googleKey
+          }
+
+          fetch(urlFetch)
+          .then((response) => response.json())
+          .then((responseJson) => {
+
+            if(responseJson.status == "OK") {
+                let coordinates = responseJson.results[0].geometry.location.lat + "," + responseJson.results[0].geometry.location.lng
+                let imagePin = urlGoogpleApiAPI + "streetview?size=600x300&location=" + coordinates + "&heading=151.78&pitch=-0.76&key=" + googleKey
+                responseJson.results[0].imagePin = imagePin
+                resolve(responseJson.results[0])
+
+              // console.log(responseJson.results[0])
+              // return responseJson.results[0];
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+        })
+      }
 
       onChangeAddressInput() {
 
@@ -121,31 +157,23 @@ export default class JustMap extends React.Component {
         if(this.state.selectedMarker.address == "")
           return;
 
+        component = this;
+        this.getDataFromGoogleAPi(this.state.selectedMarker.address, "address").then(function(data){
+          console.log(component.state.selectedMarker.key)
+          let marker= {
+            key: component.state.selectedMarker.key,
+            address : data.formatted_address,
+            imagePin: 'https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/3/005/01b/27a/240ddec.jpg',
 
-          let urlGoogleGeocode = 'https://maps.google.com/maps/api/geocode/json'
-
-          let address = this.state.selectedMarker.address;
-          let googleKey = 'AIzaSyDU3WcMEEugmd03GjG45fYCJ8nVqZJp9Fo'
-          let urlFetch = urlGoogleGeocode + '?address=' + address + '&key=' + googleKey
-          fetch(urlFetch)
-          .then((response) => response.json())
-          .then((responseJson) => {
-
-            if(responseJson.status == "OK") {
-
-              let coordinates = {
-                latitude : responseJson.results[0].geometry.location.lat,
-                longitude : responseJson.results[0].geometry.location.lng,
-              }
-              let key = this.state.selectedMarker.key
-
-              this._updateLocationToFirebase(key, coordinates, address)
-
+            coordinate : {
+              latitude : data.geometry.location.lat,
+              longitude : data.geometry.location.lng,
             }
-          })
-          .catch((error) => {
-            console.error(error);
-          });
+          }
+          component._updateLocationToFirebase(marker);
+        })
+
+
 
       }
 
@@ -158,38 +186,33 @@ export default class JustMap extends React.Component {
 
 
 
-    _updateLocationToFirebase(key, coordinates, address) {
+    _updateLocationToFirebase(marker) {
 
-      if (typeof this.state.selectedMarker.key == "undefined") {
-        return;
-      }
-      if (this.state.selectedMarker.key == "") {
-        return;
-      }
-
-       this.itemsRef.child(key).set({
+       this.itemsRef.child(marker.key).set({
          title: "title",
-         coordinates: coordinates,
-         address: address,
+         coordinates: marker.coordinate,
+         address: marker.address,
+
          name: 'New PinUPDATED',
          title: 'title',
          description: 'description',
          image: flagBlackImg,
-         imagePin: 'https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/3/005/01b/27a/240ddec.jpg',
+         imagePin: marker.imagePin,
          datePin:  Date()
         });
     }
 
-   _addLocationToFirebase(title, coordinates) {
+   _addLocationToFirebase(marker) {
       this.itemsRef.push({
-        title: title,
-        coordinates: coordinates,
+        title: "title",
+        coordinates: marker.coordinate,
+        address: marker.address,
         name: 'New Pin',
         title: 'title',
         description: 'description',
         image: flagBlackImg,
-        imagePin: 'https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/3/005/01b/27a/240ddec.jpg',
-        datePin:  Date()
+        imagePin: marker.imagePin,
+        datePin:  "marker.datePin"
        });
    }
 
@@ -201,26 +224,46 @@ export default class JustMap extends React.Component {
 
 
 
+
     onLongPressCreateMarker(e) {
+      var component = this;
+      let coordinatesGoogle = e.nativeEvent.coordinate.latitude + "," + e.nativeEvent.coordinate.longitude
 
-      this.setState({
-        locations: [
-          ...this.state.locations,
-          {
-            coordinate: e.nativeEvent.coordinate,
+      this.getDataFromGoogleAPi(coordinatesGoogle, "coordinates").then(function(data){
+        console.log(data.imagePin)
+        let marker= {
+          key:"",
+          address : data.formatted_address,
+          imagePin: data.imagePin,
 
-            name: 'New Pin',
-            title: 'title',
-
-            image: flagBlackImg,
-            imagePin: 'https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/3/005/01b/27a/240ddec.jpg',
-            datePin:  Date(),
-          },
-        ]
-      });
+          coordinate : {
+            latitude : data.geometry.location.lat,
+            longitude : data.geometry.location.lng,
+          }
+        }
+        component._addLocationToFirebase(marker);
 
 
-      this._addLocationToFirebase('test', e.nativeEvent.coordinate);
+
+      })
+
+      //
+      // this.setState({
+      //   locations: [
+      //     ...this.state.locations,
+      //     {
+      //       coordinate: e.nativeEvent.coordinate,
+      //
+      //       name: 'New Pin',
+      //       title: 'title',
+      //
+      //       image: flagBlackImg,
+      //       imagePin: 'https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/3/005/01b/27a/240ddec.jpg',
+      //       datePin:  Date(),
+      //     },
+      //   ]
+      // });
+
 
       const { editing } = this.state;
       if (!editing) {
@@ -319,9 +362,6 @@ export default class JustMap extends React.Component {
             </MapView>
 
 
-            <View>
-              <Text>{JSON.stringify(this.state.showViewDetails , null, 2) }</Text>
-            </View>
 
 
 
