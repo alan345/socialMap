@@ -21,11 +21,25 @@ const uri = 'https://pickaface.net/gallery/avatar/Opi51c74d0125fd4.png';
 
 
 module.exports = class Menu extends Component {
-  constructor(props){
-    super(props);
+  constructor(){
+    super();
+    this.state = {
+      userData:{
+        profile : {
+          name : "hello"
+        }
+      }
+    }
 
   }
 
+
+  onChangeUserData(userData){
+    this.setState({
+      userData: userData
+    })
+
+  }
   render() {
 
 
@@ -37,7 +51,7 @@ module.exports = class Menu extends Component {
           <Image
             style={styles.avatar}
             source={{ uri, }}/>
-          <Text style={styles.name}>{JSON.stringify(this.state , null, 2) }</Text>
+          <Text style={styles.name}>{this.state.userData.profile.name}</Text>
         </View>
 
         <Text
@@ -52,7 +66,8 @@ module.exports = class Menu extends Component {
           Contacts
         </Text>
 
-        <FBLoginView/>
+        <FBLoginView
+          updateUserData={this.onChangeUserData.bind(this)}/>
 
 
       </ScrollView>

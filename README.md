@@ -32,3 +32,8 @@ Commit changes in a new branch
 ```git add .```
 ```git commit -m <branch> ```
 ```git push -u origin <branch>```
+
+## Generating the release APK
+
+```cd android && ./gradlew assembleRelease```
+https://facebook.github.io/react-native/docs/signed-apk-android.html
