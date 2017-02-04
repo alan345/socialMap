@@ -126,7 +126,8 @@ export default class JustMap extends React.Component {
           if(typeData == "address") {
             urlFetch = urlGoogleGeocode + '?address=' + data + '&key=' + googleKey
           } else if(typeData == "coordinates") {
-            urlFetch = urlGoogleGeocode + '?latlng=' + data + '&key=' + googleKey
+            let coordinatesGoogle = data.latitude + "," + data.longitude
+            urlFetch = urlGoogleGeocode + '?latlng=' + coordinatesGoogle + '&key=' + googleKey
           }
 
           fetch(urlFetch)
@@ -134,9 +135,15 @@ export default class JustMap extends React.Component {
           .then((responseJson) => {
 
             if(responseJson.status == "OK") {
-                let coordinates = responseJson.results[0].geometry.location.lat + "," + responseJson.results[0].geometry.location.lng
-                let imagePin = urlGoogpleApiAPI + "streetview?size=600x300&location=" + coordinates + "&heading=151.78&pitch=-0.76&key=" + googleKey
+                let coordinatesGoogle = responseJson.results[0].geometry.location.lat + "," + responseJson.results[0].geometry.location.lng
+                let coordinates = {
+                  latitude:  responseJson.results[0].geometry.location.lat,
+                  longitude:  responseJson.results[0].geometry.location.lng,
+                }
+                let imagePin = urlGoogpleApiAPI + "streetview?size=600x300&location=" + coordinatesGoogle + "&heading=151.78&pitch=-0.76&key=" + googleKey
                 responseJson.results[0].imagePin = imagePin
+                responseJson.results[0].coordinateNative = data
+                responseJson.results[0].coordinate = coordinates
                 resolve(responseJson.results[0])
 
               // console.log(responseJson.results[0])
@@ -149,7 +156,7 @@ export default class JustMap extends React.Component {
         })
       }
 
-    
+
 
       onChangeAddressInput() {
 
@@ -212,6 +219,7 @@ export default class JustMap extends React.Component {
       this.itemsRef.push({
         title: "title",
         coordinates: marker.coordinate,
+        coordinateGoogleAddress: marker.coordinateGoogleAddress,
         address: marker.address,
         description: marker.description,
         country: marker.country,
@@ -236,10 +244,13 @@ export default class JustMap extends React.Component {
     onLongPressCreateMarker(e) {
       this.setState({isLoading:true})
       var component = this;
-      let coordinatesGoogle = e.nativeEvent.coordinate.latitude + "," + e.nativeEvent.coordinate.longitude
+    //  let coordinatesGoogle = e.nativeEvent.coordinate.latitude + "," + e.nativeEvent.coordinate.longitude
+      let coordinates = {
+        latitude: e.nativeEvent.coordinate.latitude,
+        longitude: e.nativeEvent.coordinate.longitude,
+      }
 
-      this.getDataFromGoogleAPi(coordinatesGoogle, "coordinates").then(function(data){
-        console.log(data)
+      this.getDataFromGoogleAPi(coordinates, "coordinates").then(function(data){
         let marker= {
           key:"",
           address : data.formatted_address,
@@ -248,15 +259,10 @@ export default class JustMap extends React.Component {
           country:data.address_components[6].long_name,
           datePin: Date(),
           description: "",
-          coordinate : {
-            latitude : data.geometry.location.lat,
-            longitude : data.geometry.location.lng,
-          }
+          coordinate : data.coordinateNative,
+          coordinateGoogleAddress : data.coordinate
         }
         component._addLocationToFirebase(marker);
-
-
-
       })
 
       //
