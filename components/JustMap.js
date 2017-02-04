@@ -70,7 +70,7 @@ export default class JustMap extends React.Component {
     this.onLongPressCreateMarker = this.onLongPressCreateMarker.bind(this);
     this.onDrageEndMarker = this.onDrageEndMarker.bind(this);
 
-    this._onPressButton = this._onPressButton.bind(this);
+    this._onPressDetailsViews = this._onPressDetailsViews.bind(this);
 
 
     // firebase reference
@@ -149,16 +149,18 @@ export default class JustMap extends React.Component {
         })
       }
 
+    
+
       onChangeAddressInput() {
 
-        if (typeof this.state.selectedMarker.address == "undefined")
-          return;
-
-        if (typeof this.state.selectedMarker.address == "undefined")
-          return;
-
-        if(this.state.selectedMarker.address == "")
-          return;
+        // if (typeof this.state.selectedMarker.address == "undefined")
+        //   return;
+        //
+        // if (typeof this.state.selectedMarker.address == "undefined")
+        //   return;
+        //
+        // if(this.state.selectedMarker.address == "")
+        //   return;
 
         component = this;
         this.getDataFromGoogleAPi(this.state.selectedMarker.address, "address").then(function(data){
@@ -211,13 +213,12 @@ export default class JustMap extends React.Component {
         title: "title",
         coordinates: marker.coordinate,
         address: marker.address,
-        title: '',
-        description: '',
+        description: marker.description,
         country: marker.country,
         city: marker.city,
         image: flagBlackImg,
         imagePin: marker.imagePin,
-        datePin:  "marker.datePin"
+        datePin:  marker.datePin
       },
         component.setState({isLoading:false})
       );
@@ -245,6 +246,8 @@ export default class JustMap extends React.Component {
           imagePin: data.imagePin,
           city: data.address_components[3].long_name,
           country:data.address_components[6].long_name,
+          datePin: Date(),
+          description: "",
           coordinate : {
             latitude : data.geometry.location.lat,
             longitude : data.geometry.location.lng,
@@ -296,12 +299,21 @@ export default class JustMap extends React.Component {
     }
 
 
-    _onPressButton() {
-      this.setState({
-        heightDetailsList: {
-          height: height /2,
-        }
-      })
+    _onPressDetailsViews() {
+      if(this.state.heightDetailsList.height == height /2) {
+        this.setState({
+          heightDetailsList: {
+            height: height /3,
+          }
+        })
+      } else {
+        this.setState({
+          heightDetailsList: {
+            height: height /2,
+          }
+        })
+      }
+
     }
 
 
@@ -385,46 +397,60 @@ export default class JustMap extends React.Component {
 
 
 
-
-            <View style={[this.state.heightDetailsList, styles.eventList]}>
-            <TouchableHighlight onPress={this._onPressButton}>
-              <Text>Button</Text>
-            </TouchableHighlight>
-
-              <ScrollView>
-                  <Image
-                    style={styles.icon}
-                    source={{uri: this.state.selectedMarker.imagePin}}
-                  />
-                  {/*<Text>Key: {this.state.selectedMarker.key}</Text>
-
-                  <TextInput
-                    onChangeText={(address) => this.setState({
-                        selectedMarker: {
-                          key: this.state.selectedMarker.key,
-                          imagePin: this.state.selectedMarker.imagePin,
-                          address : address,
-                          coordinate : {
-                            latitude : this.state.selectedMarker.coordinate.latitude,
-                            longitude : this.state.selectedMarker.coordinate.latitude,
-                          }
-                        }
-                      })}
-                      onChange = {this.onChangeAddressInput()}
-                      value={this.state.selectedMarker.address}
+            <TouchableHighlight onPress={this._onPressDetailsViews}>
+              <View style={[this.state.heightDetailsList, styles.eventList]}>
+                <ScrollView>
+                    <Image
+                      style={styles.icon}
+                      source={{uri: this.state.selectedMarker.imagePin}}
                     />
-                    */ }
-                  <Text>Address: {this.state.selectedMarker.address}</Text>
-                  {/*
-                  <Text>Coordinates: {this.state.selectedMarker.coordinate.latitude}</Text>
-                  <Text>Coordinates: {this.state.selectedMarker.coordinate.longitude}</Text>
-                  */ }
-                  <Text>City: {this.state.selectedMarker.city}</Text>
-                  <Text>Country: {this.state.selectedMarker.country}</Text>
+                    {/*
+
+                    <TextInput
+                      onChangeText={(address) => this.setState({
+                          selectedMarker: {
+                            key: this.state.selectedMarker.key,
+                            imagePin: this.state.selectedMarker.imagePin,
+                            address : address,
+                            coordinate : {
+                              latitude : this.state.selectedMarker.coordinate.latitude,
+                              longitude : this.state.selectedMarker.coordinate.latitude,
+                            }
+                          }
+                        })}
+                        onChange = {this.onChangeAddressInput()}
+                        value={this.state.selectedMarker.address}
+                      />
+                      */ }
+                    <Text>Address: {this.state.selectedMarker.address}</Text>
 
 
-                </ScrollView>
-            </View>
+
+                    <Text>City: {this.state.selectedMarker.city}</Text>
+                    <Text>Country: {this.state.selectedMarker.country}</Text>
+                    <Text>Coordinates: {this.state.selectedMarker.coordinate.latitude}</Text>
+                    <Text>Coordinates: {this.state.selectedMarker.coordinate.longitude}</Text>
+                    <Text>Date: {this.state.selectedMarker.datePin}</Text>
+                    <Text>Key: {this.state.selectedMarker.key}</Text>
+
+                    <TextInput
+                      onChangeText={(description) => this.setState({
+                          selectedMarker: {
+                            key: this.state.selectedMarker.key,
+                            imagePin: this.state.selectedMarker.imagePin,
+                            address : this.state.selectedMarker.address,
+                            description: description,
+                            coordinate : this.state.selectedMarker.coordinate
+                          }
+                        })}
+
+                        value={this.state.selectedMarker.description}
+                      />
+
+                  </ScrollView>
+
+              </View>
+            </TouchableHighlight>
             <View style={styles.showLoading}>
               <ScrollView>
                   {this.state.isLoading ? (
