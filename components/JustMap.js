@@ -10,7 +10,8 @@ import {
   Dimensions,
   ScrollView,
   Image,
-  TextInput
+  TextInput,
+  TouchableHighlight
 } from 'react-native';
 import flagBlackImg from '../assets/flag-black.png';
 import MapView, {Marker} from 'react-native-maps';
@@ -38,7 +39,6 @@ export default class JustMap extends React.Component {
     super(props);
     this.state = {
       user:{},
-      showViewDetails :false,
       region: {
         latitude: LATITUDE,
         longitude: LONGITUDE,
@@ -49,7 +49,9 @@ export default class JustMap extends React.Component {
       markers: [],
       polylines: [],
       locations: [],
-
+      heightDetailsList: {
+        height: 0,
+      },
       isLoading : true,
       selectedMarker: {
         key:"",
@@ -67,7 +69,8 @@ export default class JustMap extends React.Component {
     };
     this.onLongPressCreateMarker = this.onLongPressCreateMarker.bind(this);
     this.onDrageEndMarker = this.onDrageEndMarker.bind(this);
-    //this.getDataFromGoogleAPi = this.getDataFromGoogleAPi.bind(this);
+
+    this._onPressButton = this._onPressButton.bind(this);
 
 
     // firebase reference
@@ -84,13 +87,13 @@ export default class JustMap extends React.Component {
          var items = [];
          snap.forEach((child) => {
            items.push({
-             title: child.val().title,
+             title: child.val().city,
+             city: child.val().city,
+             country: child.val().country,
              coordinate: child.val().coordinates,
              key: child.getKey(),
-             name: child.val().name,
              address: child.val().address,
-             title: child.val().title,
-             description: child.val().description,
+             description: child.val().country,
              image: child.val().image,
              imagePin: child.val().imagePin,
              datePin:  child.val().datePin
@@ -159,7 +162,7 @@ export default class JustMap extends React.Component {
 
         component = this;
         this.getDataFromGoogleAPi(this.state.selectedMarker.address, "address").then(function(data){
-          console.log(component.state.selectedMarker.key)
+
           let marker= {
             key: component.state.selectedMarker.key,
             address : data.formatted_address,
@@ -203,17 +206,21 @@ export default class JustMap extends React.Component {
     }
 
    _addLocationToFirebase(marker) {
+      var component = this;
       this.itemsRef.push({
         title: "title",
         coordinates: marker.coordinate,
         address: marker.address,
-        name: 'New Pin',
-        title: 'title',
-        description: 'description',
+        title: '',
+        description: '',
+        country: marker.country,
+        city: marker.city,
         image: flagBlackImg,
         imagePin: marker.imagePin,
         datePin:  "marker.datePin"
-       });
+      },
+        component.setState({isLoading:false})
+      );
    }
 
     onDrageEndMarker(e) {
@@ -226,16 +233,18 @@ export default class JustMap extends React.Component {
 
 
     onLongPressCreateMarker(e) {
+      this.setState({isLoading:true})
       var component = this;
       let coordinatesGoogle = e.nativeEvent.coordinate.latitude + "," + e.nativeEvent.coordinate.longitude
 
       this.getDataFromGoogleAPi(coordinatesGoogle, "coordinates").then(function(data){
-        console.log(data.imagePin)
+        console.log(data)
         let marker= {
           key:"",
           address : data.formatted_address,
           imagePin: data.imagePin,
-
+          city: data.address_components[3].long_name,
+          country:data.address_components[6].long_name,
           coordinate : {
             latitude : data.geometry.location.lat,
             longitude : data.geometry.location.lng,
@@ -287,6 +296,15 @@ export default class JustMap extends React.Component {
     }
 
 
+    _onPressButton() {
+      this.setState({
+        heightDetailsList: {
+          height: height /2,
+        }
+      })
+    }
+
+
   render() {
     return (
       <View style={styles.container}>
@@ -297,11 +315,11 @@ export default class JustMap extends React.Component {
               initialRegion={this.state.region}
               showsUserLocation = {true}
               onLongPress = {this.onLongPressCreateMarker}
-              onPress = {() => {this.setState(
-                {
-                  showViewDetails:false
+              onPress = {() => {this.setState({
+                heightDetailsList: {
+                  height: 0,
                 }
-              )}}
+              })}}
             >
 
 
@@ -311,7 +329,9 @@ export default class JustMap extends React.Component {
                   <MapView.Marker
                     key={location.key}
                     onPress={() => {this.setState({
-                      showViewDetails:true,
+                      heightDetailsList: {
+                        height: height /3,
+                      },
                       selectedMarker: location
                     })}}
                     onDragEnd={(e) => {
@@ -366,13 +386,17 @@ export default class JustMap extends React.Component {
 
 
 
-            <View style={[styles.eventList, this.state.showViewDetails ? {} : styles.eventListHidden ]}>
+            <View style={[this.state.heightDetailsList, styles.eventList]}>
+            <TouchableHighlight onPress={this._onPressButton}>
+              <Text>Button</Text>
+            </TouchableHighlight>
+
               <ScrollView>
                   <Image
                     style={styles.icon}
                     source={{uri: this.state.selectedMarker.imagePin}}
                   />
-                  <Text>Key: {this.state.selectedMarker.key}</Text>
+                  {/*<Text>Key: {this.state.selectedMarker.key}</Text>
 
                   <TextInput
                     onChangeText={(address) => this.setState({
@@ -386,15 +410,18 @@ export default class JustMap extends React.Component {
                           }
                         }
                       })}
-                    onChange = {this.onChangeAddressInput()}
-                    value={this.state.selectedMarker.address}
-                  />
-
+                      onChange = {this.onChangeAddressInput()}
+                      value={this.state.selectedMarker.address}
+                    />
+                    */ }
+                  <Text>Address: {this.state.selectedMarker.address}</Text>
+                  {/*
                   <Text>Coordinates: {this.state.selectedMarker.coordinate.latitude}</Text>
                   <Text>Coordinates: {this.state.selectedMarker.coordinate.longitude}</Text>
-                  <Text>Name: {this.state.selectedMarker.name}</Text>
-                  <Text>Title: {this.state.selectedMarker.title}</Text>
-                  <Text>Description: {this.state.selectedMarker.Description}</Text>
+                  */ }
+                  <Text>City: {this.state.selectedMarker.city}</Text>
+                  <Text>Country: {this.state.selectedMarker.country}</Text>
+
 
                 </ScrollView>
             </View>
@@ -435,7 +462,7 @@ const styles = StyleSheet.create({
       top: 0,
       left: 0,
       right: 0,
-      bottom: height /1.7,
+
       backgroundColor: '#F5FCFF',
       width: width/1.4
     },
