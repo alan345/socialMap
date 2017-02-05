@@ -15,7 +15,7 @@ import {
 } from 'react-native';
 import flagBlackImg from '../assets/flag-black.png';
 import MapView, {Marker} from 'react-native-maps';
-import ListItem from './ListItem';
+//import ListItem from './ListItem';
 import * as firebase from 'firebase';
 import Firebase from "../includes/firebase";
 
@@ -27,8 +27,10 @@ const LONGITUDE = -122.4324;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
-const SideMenu = require('react-native-side-menu');
-const Menu = require('./Menu');
+import FirebaseFunctions from "../includes/FirebaseFunctions";
+
+// const SideMenu = require('react-native-side-menu');
+// const Menu = require('./Menu');
 
 
 
@@ -75,6 +77,7 @@ export default class JustMap extends React.Component {
 
     // firebase reference
     this.itemsRef = this.getRef().child('locations');
+
   }
 
     // firebase Example
