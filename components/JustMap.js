@@ -63,6 +63,13 @@ export default class JustMap extends React.Component {
           latitude: LATITUDE,
           longitude: LONGITUDE,
         },
+        userData: {
+          picture: {
+            data: {
+              url: ''
+            }
+          }
+        }
       },
 
       dataSource: new ListView.DataSource({
@@ -99,7 +106,9 @@ export default class JustMap extends React.Component {
              description: child.val().country,
              image: child.val().image,
              imagePin: child.val().imagePin,
-             datePin:  child.val().datePin
+             datePin:  child.val().datePin,
+             userData:  child.val().userData,
+
            });
          });
 
@@ -389,31 +398,22 @@ export default class JustMap extends React.Component {
 
 
 
-            <TouchableHighlight onPress={this._onPressDetailsViews}>
+            <TouchableHighlight
+              onPress={this._onPressDetailsViews}
+            >
               <View style={[this.state.heightDetailsList, styles.eventList]}>
                 <ScrollView>
+                  <View style={styles.countainerPicture}>
                     <Image
                       style={styles.icon}
                       source={{uri: this.state.selectedMarker.imagePin}}
                     />
-                    {/*
+                    <Image
+                      style={styles.iconRight}
+                      source={{uri: this.state.selectedMarker.userData.picture.data.url}}
+                    />
+                  </View>
 
-                    <TextInput
-                      onChangeText={(address) => this.setState({
-                          selectedMarker: {
-                            key: this.state.selectedMarker.key,
-                            imagePin: this.state.selectedMarker.imagePin,
-                            address : address,
-                            coordinate : {
-                              latitude : this.state.selectedMarker.coordinate.latitude,
-                              longitude : this.state.selectedMarker.coordinate.latitude,
-                            }
-                          }
-                        })}
-                        onChange = {this.onChangeAddressInput()}
-                        value={this.state.selectedMarker.address}
-                      />
-                      */ }
 
                     <Text>Address: {this.state.selectedMarker.address}</Text>
 
@@ -473,17 +473,19 @@ const styles = StyleSheet.create({
       justifyContent: 'flex-end',
       alignItems: 'center',
     },
+    countainerPicture: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      height: 65,
+      padding: 5
+    },
     marker: {
     //  marginLeft: -18,
       marginTop: 0,
     },
     eventList: {
-      top: 0,
-      left: 0,
-      right: 0,
-
       backgroundColor: '#F5FCFF',
-      width: width/1.4
+      width: width/1.8
     },
     showLoading: {
       position: 'absolute',
@@ -492,16 +494,15 @@ const styles = StyleSheet.create({
       right: width/2,
 
     },
-    eventListHidden: {
-      position: 'absolute',
-      top: height ,
-      left: 0,
-      right: 0,
-      bottom: 0,
-    },
     icon: {
       width: 60,
       height: 60,
+    },
+    iconRight: {
+      width: 60,
+      height: 60,
+      borderRadius: 30,
+
     },
     imageLoading: {
       width: 30,
