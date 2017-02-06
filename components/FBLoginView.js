@@ -24,7 +24,6 @@ class FBLoginView extends Component {
 
   componentDidMount() {
     this.props.updateUserData(this.state.userData)
-
   }
 
   onLogoutFunction(){
@@ -45,45 +44,43 @@ class FBLoginView extends Component {
 
   onLoginFunction(userData) {
     this._child.updateOrCreateUserToFirebase(userData)
-    // this.setState({
-    //   userData: userData.profile
-    // })
+    this.setState({
+      userData: userData.profile
+    })
     this.props.updateUserData(userData.profile)
   }
 
 
   render() {
     return (
+      <View>
+        <FirebaseFunctions ref={(child) => { this._child = child; }} />
 
+        <FBLogin style={styles.FBLogin}
 
-          <View>
-          <FirebaseFunctions ref={(child) => { this._child = child; }} />
+          ref={(fbLogin) => { this.fbLogin = fbLogin }}
+          permissions={["email","user_friends"]}
+          loginBehavior={FBLoginManager.LoginBehaviors.Native}
+          onLogin={this.onLoginFunction.bind(this)}
+          onLogout={this.onLogoutFunction.bind(this)}
+          onLoginFound={this.onLoginFoundFunction.bind(this)}
+          onLoginNotFound={function(){
+            console.log("No user logged in.");
+          }}
+          onError={function(data){
+            console.log("ERROR");
+            console.log(data);
+          }}
+          onCancel={function(){
+            console.log("User cancelled.");
+          }}
+          onPermissionsMissing={function(data){
+            console.log("Check permissions!");
+            console.log(data);
+          }}
+        />
 
-            <FBLogin style={styles.FBLogin}
-
-              ref={(fbLogin) => { this.fbLogin = fbLogin }}
-              permissions={["email","user_friends"]}
-              loginBehavior={FBLoginManager.LoginBehaviors.Native}
-              onLogin={this.onLoginFunction.bind(this)}
-              onLogout={this.onLogoutFunction.bind(this)}
-              onLoginFound={this.onLoginFoundFunction.bind(this)}
-              onLoginNotFound={function(){
-                console.log("No user logged in.");
-              }}
-              onError={function(data){
-                console.log("ERROR");
-                console.log(data);
-              }}
-              onCancel={function(){
-                console.log("User cancelled.");
-              }}
-              onPermissionsMissing={function(data){
-                console.log("Check permissions!");
-                console.log(data);
-              }}
-            />
-
-          </View>
+      </View>
     );
   }
 };

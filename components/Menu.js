@@ -17,7 +17,6 @@ const { Component } = React;
 
 
 const window = Dimensions.get('window');
-const uri = 'https://pickaface.net/gallery/avatar/Opi51c74d0125fd4.png';
 
 
 module.exports = class Menu extends Component {
@@ -40,7 +39,10 @@ module.exports = class Menu extends Component {
     this.setState({
       userData: userData
     })
+    console.log(this.state.userData)
+    this.props.updateUserData(this.state.userData)
   }
+
   render() {
 
 

@@ -17,7 +17,7 @@ class FirebaseFunctions extends Component {
   getRef() {
      return firebase.database().ref();
   }
-  static getRefLocations() {
+  getRefLocations() {
      return this.getRef().child('locations');
   }
   getRefUsers() {
@@ -29,29 +29,24 @@ class FirebaseFunctions extends Component {
     itemsRef.orderByChild("id").equalTo(userData.profile.id).on("value", function(snapshot) {
       if (snapshot.val()) {
         //update
-        console.log(snapshot.val()  )
+        //console.log(snapshot.val())
       } else {
-      //  console.log(userData.profile )
-      //  userData.profile.credentials = userData.credentials
         itemsRef.push(userData.profile);
       }
     });
   }
 
   getUser(credentials) {
+    let itemsRef = this.getRefUsers();
     return new Promise(function(resolve,reject){
-      let itemsRef = FirebaseFunctions.getRefUsers();
-
-      itemsRef.orderByChild("id").equalTo(credentials.userId).on("child_added", function(snapshot) {
-
-        resolve( snapshot.val())
-
-      });
+        itemsRef.orderByChild("id").equalTo(credentials.userId).on("child_added", function(snapshot) {
+          resolve( snapshot.val())
+        });
     })
   }
 
-  static addLocationToFirebase(marker) {
-    let itemsRef = FirebaseFunctions.getRefLocations();
+  addLocationToFirebase(marker) {
+    let itemsRef = this.getRefLocations();
     itemsRef.push({
       title: "title",
       coordinates: marker.coordinate,
@@ -62,10 +57,10 @@ class FirebaseFunctions extends Component {
       city: marker.city,
       image: flagBlackImg,
       imagePin: marker.imagePin,
-      datePin:  marker.datePin
+      datePin:  marker.datePin,
+      userData: marker.userData,
     });
   }
-
 }
 
 module.exports = FirebaseFunctions;

@@ -1,7 +1,6 @@
 const React = require('react');
 const SideMenu = require('react-native-side-menu');
 const Menu = require('./components/Menu');
-//const JustMap = require('./JustMap');
 
 import JustMap from './components/JustMap';
 import Contacts from './components/Contacts';
@@ -68,6 +67,7 @@ module.exports = class socialMap extends Component {
   state = {
     isOpen: false,
     selectedItem: 'About',
+    userData :{}
   };
 
   toggle() {
@@ -80,8 +80,13 @@ module.exports = class socialMap extends Component {
     this.setState({ isOpen, });
   }
 
-  onMenuItemSelected = (item) => {
+  onChangeUserData(userData){
+    this.setState({
+      userData: userData
+    })
+  }
 
+  onMenuItemSelected = (item) => {
     this.setState({
       isOpen: false,
       selectedItem: item,
@@ -89,7 +94,10 @@ module.exports = class socialMap extends Component {
   }
 
   render() {
-    const menu = <Menu onItemSelected={this.onMenuItemSelected} />;
+
+
+
+    const menu = <Menu onItemSelected={this.onMenuItemSelected} updateUserData={this.onChangeUserData.bind(this)}/>;
     let isMenu1=false;
     let isMenu2=false;
     let isMenu3=false;
@@ -107,7 +115,7 @@ module.exports = class socialMap extends Component {
         isOpen={this.state.isOpen}
         onChange={(isOpen) => this.updateMenuState(isOpen)}>
         {isMenu1 ?
-          <JustMap/> : <Text></Text>
+          <JustMap userData={this.state.userData}/> : <Text></Text>
         }
         {isMenu2 ?
           <Contacts/> : <Text></Text>

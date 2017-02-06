@@ -31,7 +31,7 @@ import FirebaseFunctions from "../includes/FirebaseFunctions";
 
 // const SideMenu = require('react-native-side-menu');
 // const Menu = require('./Menu');
-
+import FBLoginView from './FBLoginView';
 
 
 
@@ -40,7 +40,7 @@ export default class JustMap extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user:{},
+
       region: {
         latitude: LATITUDE,
         longitude: LONGITUDE,
@@ -201,6 +201,8 @@ export default class JustMap extends React.Component {
 
 
 
+
+
     _updateLocationToFirebase(marker) {
 
        this.itemsRef.child(marker.key).set({
@@ -218,23 +220,7 @@ export default class JustMap extends React.Component {
     }
 
    _addLocationToFirebase(marker) {
-      FirebaseFunctions.addLocationToFirebase(marker)
-      // var component = this;
-      // console.log(this.itemsRef)
-      // this.itemsRef.push({
-      //   title: "title",
-      //   coordinates: marker.coordinate,
-      //   coordinateGoogleAddress: marker.coordinateGoogleAddress,
-      //   address: marker.address,
-      //   description: marker.description,
-      //   country: marker.country,
-      //   city: marker.city,
-      //   image: flagBlackImg,
-      //   imagePin: marker.imagePin,
-      //   datePin:  marker.datePin
-      // },
-      // //  component.setState({isLoading:false})
-      // );
+      this._child.addLocationToFirebase(marker)
    }
 
     onDrageEndMarker(e) {
@@ -247,6 +233,12 @@ export default class JustMap extends React.Component {
 
 
     onLongPressCreateMarker(e) {
+      if(!this.props.userData.id) {
+        alert("You must be logged !")
+        return;
+      }
+      console.log(this.props.userData)
+
       this.setState({isLoading:true})
       var component = this;
     //  let coordinatesGoogle = e.nativeEvent.coordinate.latitude + "," + e.nativeEvent.coordinate.longitude
@@ -265,27 +257,13 @@ export default class JustMap extends React.Component {
           datePin: Date(),
           description: "",
           coordinate : data.coordinateNative,
-          coordinateGoogleAddress : data.coordinate
+          coordinateGoogleAddress : data.coordinate,
+          userData: component.props.userData,
+
         }
         component._addLocationToFirebase(marker);
       })
 
-      //
-      // this.setState({
-      //   locations: [
-      //     ...this.state.locations,
-      //     {
-      //       coordinate: e.nativeEvent.coordinate,
-      //
-      //       name: 'New Pin',
-      //       title: 'title',
-      //
-      //       image: flagBlackImg,
-      //       imagePin: 'https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/3/005/01b/27a/240ddec.jpg',
-      //       datePin:  Date(),
-      //     },
-      //   ]
-      // });
 
 
       const { editing } = this.state;
@@ -331,6 +309,9 @@ export default class JustMap extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        <FirebaseFunctions ref={(child) => { this._child = child; }} />
+
+
 
             <MapView
               provider={this.props.provider}
@@ -433,6 +414,7 @@ export default class JustMap extends React.Component {
                         value={this.state.selectedMarker.address}
                       />
                       */ }
+
                     <Text>Address: {this.state.selectedMarker.address}</Text>
 
 
