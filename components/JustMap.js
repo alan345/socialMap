@@ -218,21 +218,23 @@ export default class JustMap extends React.Component {
     }
 
    _addLocationToFirebase(marker) {
-      var component = this;
-      this.itemsRef.push({
-        title: "title",
-        coordinates: marker.coordinate,
-        coordinateGoogleAddress: marker.coordinateGoogleAddress,
-        address: marker.address,
-        description: marker.description,
-        country: marker.country,
-        city: marker.city,
-        image: flagBlackImg,
-        imagePin: marker.imagePin,
-        datePin:  marker.datePin
-      },
-        component.setState({isLoading:false})
-      );
+      FirebaseFunctions.addLocationToFirebase(marker)
+      // var component = this;
+      // console.log(this.itemsRef)
+      // this.itemsRef.push({
+      //   title: "title",
+      //   coordinates: marker.coordinate,
+      //   coordinateGoogleAddress: marker.coordinateGoogleAddress,
+      //   address: marker.address,
+      //   description: marker.description,
+      //   country: marker.country,
+      //   city: marker.city,
+      //   image: flagBlackImg,
+      //   imagePin: marker.imagePin,
+      //   datePin:  marker.datePin
+      // },
+      // //  component.setState({isLoading:false})
+      // );
    }
 
     onDrageEndMarker(e) {

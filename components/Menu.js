@@ -25,12 +25,14 @@ module.exports = class Menu extends Component {
     super();
     this.state = {
       userData:{
-        profile : {
-          name : "hello"
-        }
+          name : '',
+          picture : {
+            data : {
+              url: ''
+            }
+          }
       }
     }
-
   }
 
 
@@ -38,7 +40,6 @@ module.exports = class Menu extends Component {
     this.setState({
       userData: userData
     })
-
   }
   render() {
 
@@ -50,8 +51,9 @@ module.exports = class Menu extends Component {
         <View style={styles.avatarContainer}>
           <Image
             style={styles.avatar}
-            source={{ uri, }}/>
-          <Text style={styles.name}>{this.state.userData.profile.name}</Text>
+            source={{uri: this.state.userData.picture.data.url}}
+          />
+          <Text style={styles.name}>{this.state.userData.name}</Text>
         </View>
 
         <Text
