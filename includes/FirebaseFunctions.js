@@ -45,6 +45,25 @@ class FirebaseFunctions extends Component {
     })
   }
 
+  updateLocationToFirebase(marker) {
+    let itemsRef = this.getRefLocations();
+    console.log(marker)
+    itemsRef.child(marker.key).set({
+        title: "title",
+        coordinates: marker.coordinate,
+        coordinateGoogleAddress: marker.coordinateGoogleAddress,
+        address: marker.address,
+        description: marker.description,
+        country: marker.country,
+        city: marker.city,
+        image: flagBlackImg,
+        imagePin: marker.imagePin,
+        datePin:  marker.datePin,
+        userData: marker.userData,
+      });
+  }
+
+
   addLocationToFirebase(marker) {
     let itemsRef = this.getRefLocations();
     itemsRef.push({

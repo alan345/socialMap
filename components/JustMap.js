@@ -213,23 +213,19 @@ export default class JustMap extends React.Component {
 
 
     _updateLocationToFirebase(marker) {
-
-       this.itemsRef.child(marker.key).set({
-         title: "title",
-         coordinates: marker.coordinate,
-         address: marker.address,
-
-         name: 'New PinUPDATED',
-         title: 'title',
-         description: 'description',
-         image: flagBlackImg,
-         imagePin: marker.imagePin,
-         datePin:  Date()
-        });
+      this._child.updateLocationToFirebase(marker)
     }
 
    _addLocationToFirebase(marker) {
-      this._child.addLocationToFirebase(marker)
+     console.log(marker)
+     if(marker.key) {
+       console.log(marker)
+       this._child.updateLocationToFirebase(marker)
+     } else {
+       console.log(marker)
+       this._child.addLocationToFirebase(marker)
+     }
+
    }
 
     onDrageEndMarker(e) {
@@ -239,14 +235,14 @@ export default class JustMap extends React.Component {
 
 
 
-
-
-    onLongPressCreateMarker(e) {
+    createOrUpdateMarker(e, marker) {
       if(!this.props.userData.id) {
         alert("You must be logged !")
         return;
       }
-      console.log(this.props.userData)
+      let key=""
+      if(marker)
+        key = marker.key
 
       this.setState({isLoading:true})
       var component = this;
@@ -258,7 +254,7 @@ export default class JustMap extends React.Component {
 
       this.getDataFromGoogleAPi(coordinates, "coordinates").then(function(data){
         let marker= {
-          key:"",
+          key:key,
           address : data.formatted_address,
           imagePin: data.imagePin,
           city: data.address_components[3].long_name,
@@ -270,6 +266,7 @@ export default class JustMap extends React.Component {
           userData: component.props.userData,
 
         }
+        console.log(marker)
         component._addLocationToFirebase(marker);
       })
 
@@ -294,6 +291,10 @@ export default class JustMap extends React.Component {
         });
       }
 
+    }
+
+    onLongPressCreateMarker(e) {
+      this.createOrUpdateMarker(e, {})
     }
 
 
@@ -348,20 +349,24 @@ export default class JustMap extends React.Component {
                       selectedMarker: location
                     })}}
                     onDragEnd={(e) => {
-                      this.setState({
-                        showViewDetails:true,
-                        selectedMarker: location
-                      })
+                      // console.log(location)
+                      // let selectedMarker = {
+                      //   key:location.key,
+                      //   address : location.address,
+                      //   imagePin : location.imagePin,
+                      //   coordinate : e.nativeEvent.coordinate,
+                      //   coordinate : e.nativeEvent.coordinate,
+                      //   userData: location.userData,
+                      // }
+                      // this.setState({
+                      //   showViewDetails:true,
+                      //   selectedMarker:selectedMarker
+                      // }
+                      // )
+                      // console.log(this.state.selectedMarker)
+                      // console.log(selectedMarker)
+                      this.createOrUpdateMarker(e, location);
 
-                      this.setState({selectedMarker : {
-                        coordinate : {
-                          latitude : e.nativeEvent.coordinate.latitude,
-                          longitude : e.nativeEvent.coordinate.longitude,
-                        }
-                      }},
-                        //this._updateLocationToFirebase(this.selectedMarker.key, this.selectedMarker.coordinate, this.selectedMarker.address)
-                      //  console.log(this.selectedMarker.key)
-                      )
                     }}
 
                     draggable
