@@ -39,14 +39,10 @@ module.exports = class Menu extends Component {
     this.setState({
       userData: userData
     })
-    console.log(this.state.userData)
     this.props.updateUserData(this.state.userData)
   }
 
   render() {
-
-
-
     return (
 
       <ScrollView scrollsToTop={false} style={styles.menu}>

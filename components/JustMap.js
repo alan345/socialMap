@@ -32,6 +32,7 @@ import FirebaseFunctions from "../includes/FirebaseFunctions";
 // const SideMenu = require('react-native-side-menu');
 // const Menu = require('./Menu');
 import FBLoginView from './FBLoginView';
+import DetailsViews from './DetailsViews';
 
 
 
@@ -79,7 +80,6 @@ export default class JustMap extends React.Component {
     this.onLongPressCreateMarker = this.onLongPressCreateMarker.bind(this);
     this.onDrageEndMarker = this.onDrageEndMarker.bind(this);
 
-    this._onPressDetailsViews = this._onPressDetailsViews.bind(this);
 
 
     // firebase reference
@@ -127,9 +127,6 @@ export default class JustMap extends React.Component {
 
       getDataFromGoogleAPi(data, typeData) {
         return new Promise(function(resolve,reject){
-
-
-
           let urlGoogpleApi = 'https://maps.google.com/maps/api/'
           let urlGoogpleApiAPI = 'https://maps.googleapis.com/maps/api/'
           let urlGoogleGeocode = urlGoogpleApi + 'geocode/json'
@@ -298,22 +295,7 @@ export default class JustMap extends React.Component {
     }
 
 
-    _onPressDetailsViews() {
-      if(this.state.heightDetailsList.height == height /2) {
-        this.setState({
-          heightDetailsList: {
-            height: height /3,
-          }
-        })
-      } else {
-        this.setState({
-          heightDetailsList: {
-            height: height /2,
-          }
-        })
-      }
 
-    }
 
 
   render() {
@@ -400,55 +382,6 @@ export default class JustMap extends React.Component {
             </MapView>
 
 
-
-
-
-            <TouchableHighlight
-              onPress={this._onPressDetailsViews}
-            >
-              <View style={[this.state.heightDetailsList, styles.eventList]}>
-                <ScrollView>
-                  <View style={styles.countainerPicture}>
-                    <Image
-                      style={styles.icon}
-                      source={{uri: this.state.selectedMarker.imagePin}}
-                    />
-                    <Image
-                      style={styles.iconRight}
-                      source={{uri: this.state.selectedMarker.userData.picture.data.url}}
-                    />
-                  </View>
-
-
-                    <Text>Address: {this.state.selectedMarker.address}</Text>
-
-
-
-                    <Text>City: {this.state.selectedMarker.city}</Text>
-                    <Text>Country: {this.state.selectedMarker.country}</Text>
-                    <Text>Coordinates: {this.state.selectedMarker.coordinate.latitude}</Text>
-                    <Text>Coordinates: {this.state.selectedMarker.coordinate.longitude}</Text>
-                    <Text>Date: {this.state.selectedMarker.datePin}</Text>
-                    <Text>Key: {this.state.selectedMarker.key}</Text>
-
-                    <TextInput
-                      onChangeText={(description) => this.setState({
-                          selectedMarker: {
-                            key: this.state.selectedMarker.key,
-                            imagePin: this.state.selectedMarker.imagePin,
-                            address : this.state.selectedMarker.address,
-                            description: description,
-                            coordinate : this.state.selectedMarker.coordinate
-                          }
-                        })}
-
-                        value={this.state.selectedMarker.description}
-                      />
-
-                  </ScrollView>
-
-              </View>
-            </TouchableHighlight>
             <View style={styles.showLoading}>
               <ScrollView>
                   {this.state.isLoading ? (
@@ -461,6 +394,9 @@ export default class JustMap extends React.Component {
                   )}
                 </ScrollView>
             </View>
+            <DetailsViews
+            selectedMarker={this.state.selectedMarker}
+            heightDetailsList={this.state.heightDetailsList}/>
 
       </View>
     );
@@ -488,25 +424,11 @@ const styles = StyleSheet.create({
     //  marginLeft: -18,
       marginTop: 0,
     },
-    eventList: {
-      backgroundColor: '#F5FCFF',
-      width: width/1.8
-    },
     showLoading: {
       position: 'absolute',
       top: 0,
 
       right: width/2,
-
-    },
-    icon: {
-      width: 60,
-      height: 60,
-    },
-    iconRight: {
-      width: 60,
-      height: 60,
-      borderRadius: 30,
 
     },
     imageLoading: {
