@@ -2,15 +2,11 @@ import React, { Component } from 'react';
 import  {
   View,
   Text,
-  Button,
   StyleSheet,
   Dimensions,
-  TouchableHighlight,
-  ScrollView,
   Image,
   TextInput,
   LayoutAnimation,
-  TouchableOpacity,
   PanResponder,
   Animated,
 } from 'react-native';
@@ -75,6 +71,7 @@ class DetailsViews extends Component {
                             style={styles.icon}
                             source={{uri: this.props.selectedMarker.imagePin}}
                           />
+                          <Text style={styles.text}>City: {this.props.selectedMarker.city}</Text>
                           <Image
                             style={styles.iconRight}
                             source={{uri: this.props.selectedMarker.userData.picture.data.url}}
@@ -82,11 +79,11 @@ class DetailsViews extends Component {
                         </View>
 
 
-                          <Text style={styles.text}>Address: {this.props.selectedMarker.address}</Text>
+                          <Text>Address: {this.props.selectedMarker.address}</Text>
 
 
 
-                          <Text>City: {this.props.selectedMarker.city}</Text>
+
                           <Text>Country: {this.props.selectedMarker.country}</Text>
                           <Text>Coordinates: {this.props.selectedMarker.coordinate.latitude}</Text>
                           <Text>Coordinates: {this.props.selectedMarker.coordinate.longitude}</Text>
@@ -118,9 +115,7 @@ class DetailsViews extends Component {
 
 let Window = Dimensions.get('window');
 const styles = StyleSheet.create({
-
     FBLogin: {
-
       width:200,
     },
     countainerPicture: {
@@ -138,9 +133,6 @@ const styles = StyleSheet.create({
       height: 60,
       borderRadius: 30,
     },
-    mainContainer: {
-         flex    : 1
-     },
      text        : {
          marginTop   : 25,
          marginLeft  : 5,
