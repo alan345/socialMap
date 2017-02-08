@@ -52,9 +52,7 @@ export default class JustMap extends React.Component {
       markers: [],
       polylines: [],
       locations: [],
-      heightDetailsList: {
-        height: 0,
-      },
+      showDetailsList: false,
       isLoading : true,
       selectedMarker: {
         key:"",
@@ -78,8 +76,6 @@ export default class JustMap extends React.Component {
       })
     };
     this.onLongPressCreateMarker = this.onLongPressCreateMarker.bind(this);
-    this.onDrageEndMarker = this.onDrageEndMarker.bind(this);
-
 
 
     // firebase reference
@@ -168,16 +164,6 @@ export default class JustMap extends React.Component {
 
 
       onChangeAddressInput() {
-
-        // if (typeof this.state.selectedMarker.address == "undefined")
-        //   return;
-        //
-        // if (typeof this.state.selectedMarker.address == "undefined")
-        //   return;
-        //
-        // if(this.state.selectedMarker.address == "")
-        //   return;
-
         component = this;
         this.getDataFromGoogleAPi(this.state.selectedMarker.address, "address").then(function(data){
 
@@ -193,16 +179,11 @@ export default class JustMap extends React.Component {
           }
           component._updateLocationToFirebase(marker);
         })
-
-
-
       }
-
 
 
     componentDidMount() {
       this.listenForItems(this.itemsRef);
-
     }
 
 
@@ -214,21 +195,13 @@ export default class JustMap extends React.Component {
     }
 
    _addLocationToFirebase(marker) {
-     console.log(marker)
      if(marker.key) {
-       console.log(marker)
        this._child.updateLocationToFirebase(marker)
      } else {
-       console.log(marker)
        this._child.addLocationToFirebase(marker)
      }
-
    }
 
-    onDrageEndMarker(e) {
-      this.setState({ x: e.nativeEvent.coordinate })
-
-    }
 
 
 
@@ -302,9 +275,6 @@ export default class JustMap extends React.Component {
     return (
       <View style={styles.container}>
         <FirebaseFunctions ref={(child) => { this._child = child; }} />
-
-
-
             <MapView
               provider={this.props.provider}
               style={styles.map}
@@ -312,43 +282,19 @@ export default class JustMap extends React.Component {
               showsUserLocation = {true}
               onLongPress = {this.onLongPressCreateMarker}
               onPress = {() => {this.setState({
-                heightDetailsList: {
-                  height: 0,
-                }
+                showDetailsList: false
               })}}
             >
-
-
-
               {this.state.locations.map((location,i) =>{
                 return (
                   <MapView.Marker
                     key={location.key}
                     onPress={() => {this.setState({
-                      heightDetailsList: {
-                        height: height /3,
-                      },
+                      showDetailsList: true,
                       selectedMarker: location
                     })}}
                     onDragEnd={(e) => {
-                      // console.log(location)
-                      // let selectedMarker = {
-                      //   key:location.key,
-                      //   address : location.address,
-                      //   imagePin : location.imagePin,
-                      //   coordinate : e.nativeEvent.coordinate,
-                      //   coordinate : e.nativeEvent.coordinate,
-                      //   userData: location.userData,
-                      // }
-                      // this.setState({
-                      //   showViewDetails:true,
-                      //   selectedMarker:selectedMarker
-                      // }
-                      // )
-                      // console.log(this.state.selectedMarker)
-                      // console.log(selectedMarker)
                       this.createOrUpdateMarker(e, location);
-
                     }}
 
                     draggable
@@ -396,7 +342,7 @@ export default class JustMap extends React.Component {
             </View>
             <DetailsViews
             selectedMarker={this.state.selectedMarker}
-            heightDetailsList={this.state.heightDetailsList}/>
+            showDetailsList={this.state.showDetailsList}/>
 
       </View>
     );
@@ -413,12 +359,6 @@ const styles = StyleSheet.create({
       ...StyleSheet.absoluteFillObject,
       justifyContent: 'flex-end',
       alignItems: 'center',
-    },
-    countainerPicture: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      height: 65,
-      padding: 5
     },
     marker: {
     //  marginLeft: -18,
