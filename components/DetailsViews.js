@@ -162,11 +162,12 @@ const styles = StyleSheet.create({
       borderRadius: 30,
     },
     deleteText : {
-      marginTop   : 25,
-      marginLeft  : 5,
-      marginRight : 5,
-      textAlign   : 'center',
-      color       : 'black'
+       marginTop   : 10,
+      // marginLeft  : 5,
+       marginRight : 5,
+      // textAlign   : 'center',
+      color       : 'black',
+      fontSize : 30
     },
      text        : {
          marginTop   : 25,
