@@ -100,7 +100,7 @@ class DetailsViews extends Component {
                           />
                         </View>
 
-                          <Text
+                          <Text style={styles.deleteText}
                             onPress={this.onPressDelete.bind(this)}
                           >X</Text>
 
@@ -160,6 +160,13 @@ const styles = StyleSheet.create({
       width: 60,
       height: 60,
       borderRadius: 30,
+    },
+    deleteText : {
+      marginTop   : 25,
+      marginLeft  : 5,
+      marginRight : 5,
+      textAlign   : 'center',
+      color       : 'black'
     },
      text        : {
          marginTop   : 25,
