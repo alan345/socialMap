@@ -12,8 +12,6 @@ import  {
 } from 'react-native';
 import FirebaseFunctions from "../includes/FirebaseFunctions";
 const { width, height } = Dimensions.get('window');
-import JustMap from "./JustMap";
-
 
 
 class DetailsViews extends Component {
@@ -98,12 +96,13 @@ class DetailsViews extends Component {
                             style={styles.iconRight}
                             source={{uri: this.props.selectedMarker.userData.picture.data.url}}
                           />
-                        </View>
-
                           <Text style={styles.deleteText}
                             onPress={this.onPressDelete.bind(this)}
                           >X</Text>
-                          <Text></Text>
+
+                        </View>
+
+
 
 
                           <Text>Address: {this.props.selectedMarker.address}</Text>

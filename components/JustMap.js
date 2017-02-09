@@ -33,6 +33,7 @@ import FirebaseFunctions from "../includes/FirebaseFunctions";
 // const Menu = require('./Menu');
 import FBLoginView from './FBLoginView';
 import DetailsViews from './DetailsViews';
+import ShowLoading from './ShowLoading';
 
 
 
@@ -363,22 +364,13 @@ export default class JustMap extends React.Component {
               }
             </MapView>
 
-
-            <View style={styles.showLoading}>
-              <ScrollView>
-                  {this.state.isLoading ? (
-                    <Image
-                      style={styles.imageLoading}
-                      source={require('../assets/loading.png')}
-                    />
-                  ) : (
-                    <Text></Text>
-                  )}
-                </ScrollView>
-            </View>
+            <ShowLoading
+              isLoading={this.state.isLoading}
+            />
             <DetailsViews
-            selectedMarker={this.state.selectedMarker}
-            showDetailsList={this.state.showDetailsList}/>
+              selectedMarker={this.state.selectedMarker}
+              showDetailsList={this.state.showDetailsList}
+            />
 
       </View>
     );
@@ -400,18 +392,6 @@ const styles = StyleSheet.create({
     //  marginLeft: -18,
       marginTop: 0,
     },
-    showLoading: {
-      position: 'absolute',
-      top: 0,
-
-      right: width/2,
-
-    },
-    imageLoading: {
-      width: 30,
-      height: 30,
-    },
-
     map: {
      ...StyleSheet.absoluteFillObject,
     },
