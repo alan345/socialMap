@@ -53,7 +53,10 @@ class DetailsViews extends Component {
         LayoutAnimation.spring();
       }
 
-
+      onPressDelete(){
+        let marker = this.props.selectedMarker;
+        this._child.deleteLocationToFirebase(marker)
+      }
 
       isDropZone(gesture){
           return gesture.moveY > 0 && gesture.moveY <  350;
@@ -96,6 +99,10 @@ class DetailsViews extends Component {
                             source={{uri: this.props.selectedMarker.userData.picture.data.url}}
                           />
                         </View>
+
+                          <Text
+                            onPress={this.onPressDelete.bind(this)}
+                          >X</Text>
 
 
                           <Text>Address: {this.props.selectedMarker.address}</Text>

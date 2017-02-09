@@ -63,6 +63,11 @@ class FirebaseFunctions extends Component {
       });
   }
 
+  deleteLocationToFirebase(marker) {
+    let itemsRef = this.getRefLocations();
+    itemsRef.child(marker.key).remove()
+  }
+
 
   addLocationToFirebase(marker) {
     let itemsRef = this.getRefLocations();
