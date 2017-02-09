@@ -12,6 +12,7 @@ import  {
 } from 'react-native';
 import FirebaseFunctions from "../includes/FirebaseFunctions";
 const { width, height } = Dimensions.get('window');
+import JustMap from "./JustMap";
 
 
 
@@ -55,12 +56,30 @@ class DetailsViews extends Component {
 
 
       isDropZone(gesture){
-          return gesture.moveY > 0 && gesture.moveY <  250;
+          return gesture.moveY > 0 && gesture.moveY <  350;
+      }
+
+      _onChangeText(description) {
+
+
+        let marker = this.props.selectedMarker;
+        marker.description = description
+      //  console.log(marker)
+        this._child.updateLocationToFirebase(marker)
+        // : {
+        //   key: this.props.selectedMarker.key,
+        //   imagePin: this.props.selectedMarker.imagePin,
+        //   address : this.props.selectedMarker.address,
+        //   description: description,
+        //   coordinate : this.props.selectedMarker.coordinate
+        // }
       }
 
       render(){
               return (
+
                 <View style={styles.draggableContainer}>
+                    <FirebaseFunctions ref={(child) => { this._child = child; }} />
                     {this.props.showDetailsList ?
                     <Animated.View
                         {...this.panResponder.panHandlers}
@@ -91,15 +110,17 @@ class DetailsViews extends Component {
                           <Text>Key: {this.props.selectedMarker.key}</Text>
 
                           <TextInput
-                            onChangeText={(description) => this.setState({
-                                selectedMarker: {
-                                  key: this.props.selectedMarker.key,
-                                  imagePin: this.props.selectedMarker.imagePin,
-                                  address : this.props.selectedMarker.address,
-                                  description: description,
-                                  coordinate : this.props.selectedMarker.coordinate
-                                }
-                              })}
+                            // onChangeText={(description) => this.setState({
+                            //     selectedMarker: {
+                            //       key: this.props.selectedMarker.key,
+                            //       imagePin: this.props.selectedMarker.imagePin,
+                            //       address : this.props.selectedMarker.address,
+                            //       description: description,
+                            //       coordinate : this.props.selectedMarker.coordinate
+                            //     }
+                            //   })}
+
+                                onChangeText={this._onChangeText.bind(this)}
 
                               value={this.props.selectedMarker.description}
                             />

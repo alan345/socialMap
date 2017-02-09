@@ -62,6 +62,10 @@ export default class JustMap extends React.Component {
           latitude: LATITUDE,
           longitude: LONGITUDE,
         },
+        coordinateGoogleAddress : {
+          latitude: LATITUDE,
+          longitude: LONGITUDE,
+        },
         userData: {
           picture: {
             data: {
@@ -97,9 +101,10 @@ export default class JustMap extends React.Component {
              city: child.val().city,
              country: child.val().country,
              coordinate: child.val().coordinates,
+             coordinateGoogleAddress: child.val().coordinateGoogleAddress,
              key: child.getKey(),
              address: child.val().address,
-             description: child.val().country,
+             description: child.val().description,
              image: child.val().image,
              imagePin: child.val().imagePin,
              datePin:  child.val().datePin,
@@ -221,6 +226,36 @@ export default class JustMap extends React.Component {
         latitude: e.nativeEvent.coordinate.latitude,
         longitude: e.nativeEvent.coordinate.longitude,
       }
+      console.log(coordinates)
+      this.setState({
+        locations: [
+          ...this.state.locations,
+          {
+            coordinate: coordinates,
+            title: "title",
+            key:"toto",
+            // coordinates: marker.coordinate,
+            coordinateGoogleAddress: coordinates,
+            // address: marker.address,
+            // description: marker.description,
+            // country: marker.country,
+            // city: marker.city,
+            image: flagBlackImg,
+            // imagePin: marker.imagePin,
+            // datePin:  marker.datePin,
+            // userData: marker.userData,
+            userData: {
+              picture: {
+                data: {
+                  url: ''
+                }
+              }
+            }
+
+          }
+        ]
+
+      })
 
       this.getDataFromGoogleAPi(coordinates, "coordinates").then(function(data){
         let marker= {
@@ -234,9 +269,10 @@ export default class JustMap extends React.Component {
           coordinate : data.coordinateNative,
           coordinateGoogleAddress : data.coordinate,
           userData: component.props.userData,
-
         }
-        console.log(marker)
+      //  component.setState({selectedMarker : marker})
+
+      //  console.log(marker)
         component._addLocationToFirebase(marker);
       })
 
