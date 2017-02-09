@@ -103,6 +103,7 @@ class DetailsViews extends Component {
                           <Text style={styles.deleteText}
                             onPress={this.onPressDelete.bind(this)}
                           >X</Text>
+                          <Text></Text>
 
 
                           <Text>Address: {this.props.selectedMarker.address}</Text>
