@@ -222,12 +222,11 @@ export default class JustMap extends React.Component {
 
       this.setState({isLoading:true})
       var component = this;
-    //  let coordinatesGoogle = e.nativeEvent.coordinate.latitude + "," + e.nativeEvent.coordinate.longitude
       let coordinates = {
         latitude: e.nativeEvent.coordinate.latitude,
         longitude: e.nativeEvent.coordinate.longitude,
       }
-      console.log(coordinates)
+
       this.setState({
         locations: [
           ...this.state.locations,
@@ -301,6 +300,7 @@ export default class JustMap extends React.Component {
     }
 
     onLongPressCreateMarker(e) {
+      console.log(this.state.polylines)
       this.createOrUpdateMarker(e, {})
     }
 

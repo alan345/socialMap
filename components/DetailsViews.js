@@ -37,19 +37,20 @@ class DetailsViews extends Component {
                       this.state.pan,
                       {toValue:{x:0,y:-300}}
                   ).start();
+
                }else{
                    Animated.spring(
                        this.state.pan,
-                       {toValue:{x:0,y:0}}
+                       {
+                         toValue:{x:0,y:0}
+                       }
                    ).start();
                }
            }
        });
       }
 
-      componentWillMount() {
-        LayoutAnimation.spring();
-      }
+
 
       onPressDelete(){
         let marker = this.props.selectedMarker;
@@ -65,15 +66,7 @@ class DetailsViews extends Component {
 
         let marker = this.props.selectedMarker;
         marker.description = description
-      //  console.log(marker)
         this._child.updateLocationToFirebase(marker)
-        // : {
-        //   key: this.props.selectedMarker.key,
-        //   imagePin: this.props.selectedMarker.imagePin,
-        //   address : this.props.selectedMarker.address,
-        //   description: description,
-        //   coordinate : this.props.selectedMarker.coordinate
-        // }
       }
 
       render(){

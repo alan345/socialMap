@@ -98,14 +98,19 @@ module.exports = class socialMap extends Component {
 
 
     const menu = <Menu onItemSelected={this.onMenuItemSelected} updateUserData={this.onChangeUserData.bind(this)}/>;
-    let isMenu1=false;
-    let isMenu2=false;
-    let isMenu3=false;
+    let isMenuAbout=false;
+    let isMenuContacts=false;
+    let isMenuMyMaps=false;
+
     if(this.state.selectedItem == "About") {
-      isMenu1 = true;
+      isMenuAbout = true;
     }
+    if(this.state.selectedItem == "MyMaps") {
+      isMenuMyMaps = true;
+    }
+
     if(this.state.selectedItem == "Contacts") {
-      isMenu2 = true;
+      isMenuContacts = true;
     }
 
     return (
@@ -114,10 +119,13 @@ module.exports = class socialMap extends Component {
         disableGestures={true}
         isOpen={this.state.isOpen}
         onChange={(isOpen) => this.updateMenuState(isOpen)}>
-        {isMenu1 ?
+        {isMenuAbout ?
           <JustMap userData={this.state.userData}/> : <Text></Text>
         }
-        {isMenu2 ?
+        {isMenuMyMaps ?
+          <JustMap userData={this.state.userData}/> : <Text></Text>
+        }
+        {isMenuContacts ?
           <Contacts/> : <Text></Text>
         }
 
