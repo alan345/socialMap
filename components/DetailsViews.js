@@ -30,9 +30,6 @@ class DetailsViews extends Component {
            }]),
            onPanResponderRelease           : (e, gesture) => {
                if(this.isDropZone(gesture)){
-                  //  this.setState({
-                  //      showDraggable : true
-                  //  });
                   Animated.spring(
                       this.state.pan,
                       {toValue:{x:0,y:-300}}
@@ -46,7 +43,18 @@ class DetailsViews extends Component {
                        }
                    ).start();
                }
+           },
+           onPanResponderMove : (e, gesture) => {
+
+             if(this.isDropZone(gesture)){
+                Animated.spring(
+                    this.state.pan,
+                    {toValue:{x:0,y:-300}}
+                ).start();
+
+             }   
            }
+
        });
       }
 
