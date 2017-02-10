@@ -50,9 +50,7 @@ class FirebaseFunctions extends Component {
     return new Promise(function(resolve,reject){
         itemsRef.on('value', (snapshot) => {
           var items = [];
-
           snapshot.forEach((child) => {
-
             items.push({
               title: child.val().city,
               city: child.val().city,

@@ -93,9 +93,10 @@ export default class JustMap extends React.Component {
        return firebase.database().ref();
     }
 
-    listenForItems(itemsRef) {
+    listenForItems() {
       // component = this;
-      // this._child.getLocations().then(function(snap){
+      // this._child.getLocations().then(function(items){
+      //   console.log(items)
       //   component.setState({
       //     dataSource: component.state.dataSource.cloneWithRows(items),
       //     locations: items,
@@ -104,7 +105,7 @@ export default class JustMap extends React.Component {
       // })
 
 
-       itemsRef.on('value', (snap) => {
+       this.itemsRef.on('value', (snap) => {
          var items = [];
          console.log(snap)
          snap.forEach((child) => {
@@ -198,7 +199,7 @@ export default class JustMap extends React.Component {
 
 
     componentDidMount() {
-      this.listenForItems(this.itemsRef);
+      this.listenForItems();
     }
 
 
