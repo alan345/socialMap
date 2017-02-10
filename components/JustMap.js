@@ -94,8 +94,19 @@ export default class JustMap extends React.Component {
     }
 
     listenForItems(itemsRef) {
+      // component = this;
+      // this._child.getLocations().then(function(snap){
+      //   component.setState({
+      //     dataSource: component.state.dataSource.cloneWithRows(items),
+      //     locations: items,
+      //     isLoading:false,
+      //   });
+      // })
+
+
        itemsRef.on('value', (snap) => {
          var items = [];
+         console.log(snap)
          snap.forEach((child) => {
            items.push({
              title: child.val().city,
@@ -119,8 +130,6 @@ export default class JustMap extends React.Component {
            locations: items,
            isLoading:false,
          });
-
-
      });
     }
 

@@ -46,7 +46,32 @@ class FirebaseFunctions extends Component {
   }
 
   getLocations() {
-    
+    let itemsRef = this.getRefLocations();
+    return new Promise(function(resolve,reject){
+        itemsRef.on('value', (snapshot) => {
+          var items = [];
+
+          snapshot.forEach((child) => {
+
+            items.push({
+              title: child.val().city,
+              city: child.val().city,
+              country: child.val().country,
+              coordinate: child.val().coordinates,
+              coordinateGoogleAddress: child.val().coordinateGoogleAddress,
+              key: child.getKey(),
+              address: child.val().address,
+              description: child.val().description,
+              image: child.val().image,
+              imagePin: child.val().imagePin,
+              datePin:  child.val().datePin,
+              userData:  child.val().userData,
+
+            });
+          });
+          resolve( items)
+        });
+    })
   }
 
   updateLocationToFirebase(marker) {
