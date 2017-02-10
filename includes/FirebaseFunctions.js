@@ -45,6 +45,10 @@ class FirebaseFunctions extends Component {
     })
   }
 
+  getLocations() {
+    
+  }
+
   updateLocationToFirebase(marker) {
     let itemsRef = this.getRefLocations();
     console.log(marker)
@@ -68,7 +72,7 @@ class FirebaseFunctions extends Component {
     itemsRef.child(marker.key).remove()
   }
 
-  
+
   addLocationToFirebase(marker) {
     let itemsRef = this.getRefLocations();
     itemsRef.push({
