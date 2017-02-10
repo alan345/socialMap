@@ -13,7 +13,8 @@ import {
   TextInput,
   TouchableHighlight
 } from 'react-native';
-import flagBlackImg from '../assets/flag-black.png';
+import markerImg from '../assets/flag-black.png';
+
 import MapView, {Marker} from 'react-native-maps';
 //import ListItem from './ListItem';
 import * as firebase from 'firebase';
@@ -259,7 +260,7 @@ export default class JustMap extends React.Component {
             // description: marker.description,
             // country: marker.country,
             // city: marker.city,
-            image: flagBlackImg,
+            image: markerImg,
             // imagePin: marker.imagePin,
             // datePin:  marker.datePin,
             // userData: marker.userData,

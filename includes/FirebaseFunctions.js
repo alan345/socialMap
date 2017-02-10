@@ -3,7 +3,7 @@ import ReactNative from 'react-native';
 const { View, TouchableHighlight, Text } = ReactNative;
 import * as firebase from 'firebase';
 import Firebase from "./firebase";
-import flagBlackImg from '../assets/flag-black.png';
+import markerImg from '../assets/flag-black.png';
 
 class FirebaseFunctions extends Component {
 
@@ -85,7 +85,7 @@ class FirebaseFunctions extends Component {
         description: marker.description,
         country: marker.country,
         city: marker.city,
-        image: flagBlackImg,
+        image: markerImg,
         imagePin: marker.imagePin,
         datePin:  marker.datePin,
         userData: marker.userData,
@@ -108,7 +108,7 @@ class FirebaseFunctions extends Component {
       description: marker.description,
       country: marker.country,
       city: marker.city,
-      image: flagBlackImg,
+      image: markerImg,
       imagePin: marker.imagePin,
       datePin:  marker.datePin,
       userData: marker.userData,
