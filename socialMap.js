@@ -120,10 +120,10 @@ module.exports = class socialMap extends Component {
         isOpen={this.state.isOpen}
         onChange={(isOpen) => this.updateMenuState(isOpen)}>
         {isMenuAbout ?
-          <JustMap userData={this.state.userData}/> : <Text></Text>
+          <JustMap userData={this.state.userData} isMyMaps ={false} /> : <Text></Text>
         }
         {isMenuMyMaps ?
-          <JustMap userData={this.state.userData}/> : <Text></Text>
+          <JustMap userData={this.state.userData} isMyMaps ={true}/> : <Text></Text>
         }
         {isMenuContacts ?
           <Contacts/> : <Text></Text>

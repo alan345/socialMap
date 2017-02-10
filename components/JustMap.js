@@ -35,7 +35,7 @@ import FBLoginView from './FBLoginView';
 import DetailsViews from './DetailsViews';
 import ShowLoading from './ShowLoading';
 
-
+let keyId = 0
 
 export default class JustMap extends React.Component {
 
@@ -56,9 +56,9 @@ export default class JustMap extends React.Component {
       showDetailsList: false,
       isLoading : true,
       selectedMarker: {
-        key:"",
-        address : "",
-        imagePin : "",
+        key:'',
+        address : '',
+        imagePin : '',
         coordinate : {
           latitude: LATITUDE,
           longitude: LONGITUDE,
@@ -104,10 +104,18 @@ export default class JustMap extends React.Component {
       //   });
       // })
 
+      let queryMyMap = this.itemsRef.orderByChild("userData/id").equalTo("10158181137300068")
+      let querySearch = this.itemsRef.orderByChild("city").equalTo("San Francisco")
+      let queryToUse
 
-       this.itemsRef.on('value', (snap) => {
+      if(this.props.isMyMaps) {
+        queryToUse = queryMyMap
+      } else {
+        queryToUse = querySearch
+      }
+       queryToUse.on('value', (snap) => {
          var items = [];
-         console.log(snap)
+      //   console.log(snap)
          snap.forEach((child) => {
            items.push({
              title: child.val().city,
@@ -131,7 +139,7 @@ export default class JustMap extends React.Component {
            locations: items,
            isLoading:false,
          });
-     });
+       });
     }
 
 
@@ -244,7 +252,7 @@ export default class JustMap extends React.Component {
           {
             coordinate: coordinates,
             title: "title",
-            key:"toto",
+            key:keyId++,
             // coordinates: marker.coordinate,
             coordinateGoogleAddress: coordinates,
             // address: marker.address,
@@ -311,7 +319,7 @@ export default class JustMap extends React.Component {
     }
 
     onLongPressCreateMarker(e) {
-      console.log(this.state.polylines)
+      //console.log(this.state.polylines)
       this.createOrUpdateMarker(e, {})
     }
 

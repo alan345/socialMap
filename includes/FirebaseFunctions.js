@@ -72,6 +72,8 @@ class FirebaseFunctions extends Component {
     })
   }
 
+
+
   updateLocationToFirebase(marker) {
     let itemsRef = this.getRefLocations();
     console.log(marker)
