@@ -29,10 +29,8 @@ class DetailsViews extends Component {
                dy  : this.state.pan.y
            }]),
            onPanResponderRelease           : (e, gesture) => {
+              this.state.pan.flattenOffset();
                if(this.isDropZone(gesture)){
-                  //  this.setState({
-                  //      showDraggable : true
-                  //  });
                   Animated.spring(
                       this.state.pan,
                       {toValue:{x:0,y:-300}}
@@ -43,7 +41,11 @@ class DetailsViews extends Component {
                        {toValue:{x:0,y:0}}
                    ).start();
                }
-           }
+           },
+           onPanResponderGrant: (e, gestureState) => {
+              this.state.pan.setOffset({x: this.state.pan.x._value, y: this.state.pan.y._value});
+              this.state.pan.setValue({x: 0, y: 0});
+            },
        });
       }
 
