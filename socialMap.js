@@ -126,7 +126,7 @@ module.exports = class socialMap extends Component {
           <JustMap userData={this.state.userData} isMyMaps ={true}/> : <View/>
         }
         {isMenuContacts ?
-          <Contacts/> : <Text></Text>
+          <Contacts userData={this.state.userData}/> : <Text></Text>
         }
 
 

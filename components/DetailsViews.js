@@ -9,6 +9,7 @@ import  {
   LayoutAnimation,
   PanResponder,
   Animated,
+  Keyboard,
 } from 'react-native';
 import FirebaseFunctions from "../includes/FirebaseFunctions";
 const { width, height } = Dimensions.get('window');
@@ -24,28 +25,27 @@ class DetailsViews extends Component {
 
 
     this.panResponder = PanResponder.create({
-           onStartShouldSetPanResponder    : () => true,
-           onPanResponderMove              : Animated.event([null,{
-               dx  : 0,
-               dy  : this.state.pan.y
-           }]),
-           onPanResponderRelease           : (e, gesture) => {
-              this.state.pan.flattenOffset();
-               if(this.isDropZone(gesture)){
-                 this.onSetPositionDetails(2)
-               }else{
-                  this.onSetPositionDetails(1)
-               }
-           },
-           onPanResponderGrant: (e, gestureState) => {
-              this.state.pan.setOffset({x: this.state.pan.x._value, y: this.state.pan.y._value});
-              this.state.pan.setValue({x: 0, y: 0});
-            },
+         onStartShouldSetPanResponder    : () => true,
+         onPanResponderMove              : Animated.event([null,{
+             dx  : 0,
+             dy  : this.state.pan.y
+         }]),
+         onPanResponderRelease           : (e, gesture) => {
+            this.state.pan.flattenOffset();
+             if(this.isDropZone(gesture)){
+               this.onSetPositionDetails(2)
+             }else{
+                this.onSetPositionDetails(1)
+             }
+         },
+         onPanResponderGrant: (e, gestureState) => {
+            this.state.pan.setOffset({x: this.state.pan.x._value, y: this.state.pan.y._value});
+            this.state.pan.setValue({x: 0, y: 0});
+          },
        });
       }
 
       onReduceDetails() {
-
         if(this.state.position == 2)
           this.onSetPositionDetails(1)
         if(this.state.position == 1)
@@ -75,22 +75,37 @@ class DetailsViews extends Component {
 
       }
 
+      componentWillMount () {
+        this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow.bind(this));
+        this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide.bind(this));
+      }
+
+      componentWillUnmount () {
+        this.keyboardDidShowListener.remove();
+        this.keyboardDidHideListener.remove();
+      }
+
+
+      _keyboardDidShow () {
+        this.onSetPositionDetails(3)
+      }
+
+      _keyboardDidHide () {
+        this.onSetPositionDetails(2)
+      }
 
 
       onPressDelete(){
-        this.props.hideDetailsList()
+        this.onSetPositionDetails(0)
         let marker = this.props.selectedMarker;
         this._child.deleteLocationToFirebase(marker)
-
       }
 
       isDropZone(gesture){
-          return gesture.moveY > 0 && gesture.moveY <  350;
+          return gesture.moveY > 0 && gesture.moveY <  380;
       }
 
       _onChangeText(description) {
-
-
         let marker = this.props.selectedMarker;
         marker.description = description
         this._child.updateLocationToFirebase(marker)
@@ -106,12 +121,16 @@ class DetailsViews extends Component {
                         {...this.panResponder.panHandlers}
                         style={[this.state.pan.getLayout(), styles.detailsList]}>
 
-                        <View style={styles.countainerPicture}>
+                        <View
+                          style={styles.headerDetails}
+                        >
                           <Image
                             style={styles.icon}
                             source={{uri: this.props.selectedMarker.imagePin}}
                           />
-                          <Text style={styles.text}>City: {this.props.selectedMarker.city}</Text>
+                          <Text
+                            style={styles.text}
+                          >City: {this.props.selectedMarker.city}</Text>
                           <Image
                             style={styles.iconRight}
                             source={{uri: this.props.selectedMarker.userData.picture.data.url}}
@@ -121,15 +140,7 @@ class DetailsViews extends Component {
                           >X</Text>
 
                         </View>
-
-
-
-
                           <Text>Address: {this.props.selectedMarker.address}</Text>
-
-
-
-
                           <Text>Country: {this.props.selectedMarker.country}</Text>
                           <Text>Coordinates: {this.props.selectedMarker.coordinate.latitude}</Text>
                           <Text>Coordinates: {this.props.selectedMarker.coordinate.longitude}</Text>
@@ -137,22 +148,10 @@ class DetailsViews extends Component {
                           <Text>Key: {this.props.selectedMarker.key}</Text>
 
                           <TextInput
-                            // onChangeText={(description) => this.setState({
-                            //     selectedMarker: {
-                            //       key: this.props.selectedMarker.key,
-                            //       imagePin: this.props.selectedMarker.imagePin,
-                            //       address : this.props.selectedMarker.address,
-                            //       description: description,
-                            //       coordinate : this.props.selectedMarker.coordinate
-                            //     }
-                            //   })}
-
-                                onChangeText={this._onChangeText.bind(this)}
-
-                              value={this.props.selectedMarker.description}
-                            />
+                            onChangeText={this._onChangeText.bind(this)}
+                            value={this.props.selectedMarker.description}
+                          />
                     </Animated.View>
-
                 </View>
             );
 
@@ -162,7 +161,7 @@ class DetailsViews extends Component {
 
 let Window = Dimensions.get('window');
 const styles = StyleSheet.create({
-    countainerPicture: {
+    headerDetails: {
       flexDirection: 'row',
       justifyContent: 'space-between',
       height: 65,

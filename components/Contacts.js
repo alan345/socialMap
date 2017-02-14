@@ -58,7 +58,7 @@ class DetailsViews extends Component {
 
             renderBackground={() => (
               <View key="background">
-                <Image source={{uri: 'https://i.ytimg.com/vi/P-NZei5ANaQ/maxresdefault.jpg',
+                <Image source={{uri: 'http://www.cloud9living.com/images/headers/san-francisco-experience-gifts.jpg',
                                 width: window.width,
                                 height: PARALLAX_HEADER_HEIGHT}}/>
                 <View style={{position: 'absolute',
@@ -69,25 +69,26 @@ class DetailsViews extends Component {
               </View>
             )}
 
+
             renderForeground={() => (
               <View key="parallax-header" style={ styles.parallaxHeader }>
                 <Image style={ styles.avatar } source={{
-                  uri: 'https://pbs.twimg.com/profile_images/2694242404/5b0619220a92d391534b0cd89bf5adc1_400x400.jpeg',
+                  uri: this.props.userData.picture.data.url,
                   width: AVATAR_SIZE,
                   height: AVATAR_SIZE
                 }}/>
                 <Text style={ styles.sectionSpeakerText }>
-                  Talks by Rich Hickey
+                  {this.props.userData.name}
                 </Text>
                 <Text style={ styles.sectionTitleText }>
-                  CTO of Cognitec, Creator of Clojure
+                  {this.props.userData.email}
                 </Text>
               </View>
             )}
 
             renderStickyHeader={() => (
               <View key="sticky-header" style={styles.stickySection}>
-                <Text style={styles.stickySectionText}>Rich Hickey Talks</Text>
+                <Text style={styles.stickySectionText}>{this.props.userData.name}</Text>
               </View>
             )}
 

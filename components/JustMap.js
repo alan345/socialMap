@@ -43,18 +43,14 @@ export default class JustMap extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-
       region: {
         latitude: LATITUDE,
         longitude: LONGITUDE,
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA,
       },
-
-      markers: [],
       polylines: [],
       locations: [],
-      showDetailsList: false,
       isLoading : true,
       selectedMarker: {
         key:'',
@@ -82,19 +78,18 @@ export default class JustMap extends React.Component {
       })
     };
     this.onLongPressCreateMarker = this.onLongPressCreateMarker.bind(this);
-
-
-    // firebase reference
     this.itemsRef = this.getRef().child('locations');
-
   }
 
-    // firebase Example
+
     getRef() {
        return firebase.database().ref();
     }
 
     listenForItems() {
+
+      // NICO NEEDS HELP.
+
       // component = this;
       // this._child.getLocations().then(function(items){
       //   console.log(items)
@@ -116,7 +111,6 @@ export default class JustMap extends React.Component {
       }
        queryToUse.on('value', (snap) => {
          var items = [];
-      //   console.log(snap)
          snap.forEach((child) => {
            items.push({
              title: child.val().city,
@@ -175,9 +169,6 @@ export default class JustMap extends React.Component {
                 responseJson.results[0].coordinateNative = data
                 responseJson.results[0].coordinate = coordinates
                 resolve(responseJson.results[0])
-
-              // console.log(responseJson.results[0])
-              // return responseJson.results[0];
             }
           })
           .catch((error) => {
@@ -196,7 +187,6 @@ export default class JustMap extends React.Component {
             key: component.state.selectedMarker.key,
             address : data.formatted_address,
             imagePin: 'https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/3/005/01b/27a/240ddec.jpg',
-
             coordinate : {
               latitude : data.geometry.location.lat,
               longitude : data.geometry.location.lng,
@@ -211,10 +201,6 @@ export default class JustMap extends React.Component {
       this.listenForItems();
     }
 
-
-
-
-
     _updateLocationToFirebase(marker) {
       this._child.updateLocationToFirebase(marker)
     }
@@ -227,12 +213,6 @@ export default class JustMap extends React.Component {
      }
    }
 
-   onHideDetailsList(){
-     //this._childDetailsViews.onSetPositionDetails()
-     this.setState({showDetailsList: false})
-
-
-   }
 
 
     createOrUpdateMarker(e, marker) {
@@ -246,7 +226,6 @@ export default class JustMap extends React.Component {
 
       this.setState({isLoading:true})
       var component = this;
-    //  let coordinatesGoogle = e.nativeEvent.coordinate.latitude + "," + e.nativeEvent.coordinate.longitude
       let coordinates = {
         latitude: e.nativeEvent.coordinate.latitude,
         longitude: e.nativeEvent.coordinate.longitude,
@@ -259,16 +238,8 @@ export default class JustMap extends React.Component {
             coordinate: coordinates,
             title: "title",
             key:keyId++,
-            // coordinates: marker.coordinate,
             coordinateGoogleAddress: coordinates,
-            // address: marker.address,
-            // description: marker.description,
-            // country: marker.country,
-            // city: marker.city,
             image: markerImg,
-            // imagePin: marker.imagePin,
-            // datePin:  marker.datePin,
-            // userData: marker.userData,
             userData: {
               picture: {
                 data: {
@@ -276,7 +247,6 @@ export default class JustMap extends React.Component {
                 }
               }
             }
-
           }
         ]
 
@@ -322,15 +292,11 @@ export default class JustMap extends React.Component {
     }
 
     onLongPressCreateMarker(e) {
-      //console.log(this.state.polylines)
       this.createOrUpdateMarker(e, {})
     }
 
 
     onPressMap(){
-      // this.setState({
-      //   showDetailsList: false
-      // })
       this._childDetailsViews.onReduceDetails()
     }
 
@@ -352,7 +318,7 @@ export default class JustMap extends React.Component {
                   <MapView.Marker
                     key={location.key}
                     onPress={() => {this.setState({
-                      showDetailsList: true,
+                    //  showDetailsList: true,
                       selectedMarker: location
                     })
                     this._childDetailsViews.onSetPositionDetails(1)
@@ -397,22 +363,13 @@ export default class JustMap extends React.Component {
             />
             <DetailsViews
               selectedMarker={this.state.selectedMarker}
-              showDetailsList={this.state.showDetailsList}
-              hideDetailsList={this.onHideDetailsList.bind(this)}
               ref={(child) => { this._childDetailsViews = child; }}
             />
-
-
-
       </View>
     );
   }
 }
 
-
-JustMap.propTypes = {
-    provider: MapView.ProviderPropType,
-};
 
 const styles = StyleSheet.create({
     container: {
@@ -421,7 +378,6 @@ const styles = StyleSheet.create({
       alignItems: 'center',
     },
     marker: {
-    //  marginLeft: -18,
       marginTop: 0,
     },
     map: {
