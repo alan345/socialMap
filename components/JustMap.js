@@ -227,7 +227,12 @@ export default class JustMap extends React.Component {
      }
    }
 
+   onHideDetailsList(){
+     //this._childDetailsViews.onSetPositionDetails()
+     this.setState({showDetailsList: false})
 
+
+   }
 
 
     createOrUpdateMarker(e, marker) {
@@ -290,9 +295,6 @@ export default class JustMap extends React.Component {
           coordinateGoogleAddress : data.coordinate,
           userData: component.props.userData,
         }
-      //  component.setState({selectedMarker : marker})
-
-      //  console.log(marker)
         component._addLocationToFirebase(marker);
       })
 
@@ -325,7 +327,12 @@ export default class JustMap extends React.Component {
     }
 
 
-
+    onPressMap(){
+      // this.setState({
+      //   showDetailsList: false
+      // })
+      this._childDetailsViews.onReduceDetails()
+    }
 
 
   render() {
@@ -338,9 +345,7 @@ export default class JustMap extends React.Component {
               initialRegion={this.state.region}
               showsUserLocation = {true}
               onLongPress = {this.onLongPressCreateMarker}
-              onPress = {() => {this.setState({
-                showDetailsList: false
-              })}}
+              onPress = {this.onPressMap.bind(this)}
             >
               {this.state.locations.map((location,i) =>{
                 return (
@@ -349,7 +354,10 @@ export default class JustMap extends React.Component {
                     onPress={() => {this.setState({
                       showDetailsList: true,
                       selectedMarker: location
-                    })}}
+                    })
+                    this._childDetailsViews.onSetPositionDetails(1)
+
+                  }}
                     onDragEnd={(e) => {
                       this.createOrUpdateMarker(e, location);
                     }}
@@ -390,7 +398,11 @@ export default class JustMap extends React.Component {
             <DetailsViews
               selectedMarker={this.state.selectedMarker}
               showDetailsList={this.state.showDetailsList}
+              hideDetailsList={this.onHideDetailsList.bind(this)}
+              ref={(child) => { this._childDetailsViews = child; }}
             />
+
+
 
       </View>
     );

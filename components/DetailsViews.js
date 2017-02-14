@@ -18,7 +18,8 @@ class DetailsViews extends Component {
   constructor(props){
     super();
     this.state = {
-      pan     : new Animated.ValueXY()
+      pan     : new Animated.ValueXY(),
+      position : 0
     };
 
 
@@ -31,15 +32,9 @@ class DetailsViews extends Component {
            onPanResponderRelease           : (e, gesture) => {
               this.state.pan.flattenOffset();
                if(this.isDropZone(gesture)){
-                  Animated.spring(
-                      this.state.pan,
-                      {toValue:{x:0,y:-300}}
-                  ).start();
+                 this.onSetPositionDetails(2)
                }else{
-                   Animated.spring(
-                       this.state.pan,
-                       {toValue:{x:0,y:0}}
-                   ).start();
+                  this.onSetPositionDetails(1)
                }
            },
            onPanResponderGrant: (e, gestureState) => {
@@ -49,11 +44,44 @@ class DetailsViews extends Component {
        });
       }
 
+      onReduceDetails() {
+
+        if(this.state.position == 2)
+          this.onSetPositionDetails(1)
+        if(this.state.position == 1)
+          this.onSetPositionDetails(0)
+      }
+
+
+      onSetPositionDetails(position) {
+        this.setState({position:position})
+        let yPosition = 0
+        if(position == 0)
+          yPosition = 0
+
+        if(position == 1)
+          yPosition = -90
+
+        if(position == 2)
+          yPosition = -400
+
+        if(position == 3)
+          yPosition = -700
+
+          Animated.spring(
+              this.state.pan,
+              {toValue:{x:0,y:yPosition}}
+          ).start();
+
+      }
+
 
 
       onPressDelete(){
+        this.props.hideDetailsList()
         let marker = this.props.selectedMarker;
         this._child.deleteLocationToFirebase(marker)
+
       }
 
       isDropZone(gesture){
@@ -73,7 +101,7 @@ class DetailsViews extends Component {
 
                 <View style={styles.draggableContainer}>
                     <FirebaseFunctions ref={(child) => { this._child = child; }} />
-                    {this.props.showDetailsList ?
+
                     <Animated.View
                         {...this.panResponder.panHandlers}
                         style={[this.state.pan.getLayout(), styles.detailsList]}>
@@ -124,8 +152,7 @@ class DetailsViews extends Component {
                               value={this.props.selectedMarker.description}
                             />
                     </Animated.View>
-                    : <Text></Text>
-                    }
+
                 </View>
             );
 
@@ -135,9 +162,6 @@ class DetailsViews extends Component {
 
 let Window = Dimensions.get('window');
 const styles = StyleSheet.create({
-    FBLogin: {
-      width:200,
-    },
     countainerPicture: {
       flexDirection: 'row',
       justifyContent: 'space-between',
@@ -170,7 +194,7 @@ const styles = StyleSheet.create({
      },
      draggableContainer: {
          position    : 'absolute',
-         top         : Window.height-200,
+         top         : Window.height,
          left        : 0,
      },
      detailsList      : {
