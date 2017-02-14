@@ -52,9 +52,8 @@ class FirebaseFunctions extends Component {
           var items = [];
           snapshot.forEach((child) => {
             items.push({
-              title: child.val().city,
-              city: child.val().city,
-              country: child.val().country,
+              title: child.val().address_components.neighborhood,
+              address_components: child.val().address_components,
               coordinate: child.val().coordinates,
               coordinateGoogleAddress: child.val().coordinateGoogleAddress,
               key: child.getKey(),
@@ -83,8 +82,7 @@ class FirebaseFunctions extends Component {
         coordinateGoogleAddress: marker.coordinateGoogleAddress,
         address: marker.address,
         description: marker.description,
-        country: marker.country,
-        city: marker.city,
+        address_components: marker.address_components,
         image: markerImg,
         imagePin: marker.imagePin,
         datePin:  marker.datePin,
@@ -106,8 +104,7 @@ class FirebaseFunctions extends Component {
       coordinateGoogleAddress: marker.coordinateGoogleAddress,
       address: marker.address,
       description: marker.description,
-      country: marker.country,
-      city: marker.city,
+      address_components: marker.address_components,
       image: markerImg,
       imagePin: marker.imagePin,
       datePin:  marker.datePin,

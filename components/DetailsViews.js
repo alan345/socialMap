@@ -145,7 +145,7 @@ class DetailsViews extends Component {
                           />
                           <Text
                             style={styles.text}
-                          >{this.props.selectedMarker.city}</Text>
+                          >{this.props.selectedMarker.address_components.neighborhood}</Text>
 
                           <Image
                             style={styles.iconRight}

@@ -58,6 +58,9 @@ export default class JustMap extends React.Component {
       selectedMarker: {
         key:'',
         address : '',
+        address_components : {
+          neighborhood:''
+        },
         imagePin : '',
         coordinate : {
           latitude: LATITUDE,
@@ -104,7 +107,7 @@ export default class JustMap extends React.Component {
       // })
 
       let queryMyMap = this.itemsRef.orderByChild("userData/id").equalTo("10158181137300068")
-      let querySearch = this.itemsRef.orderByChild("city").equalTo("San Francisco")
+      let querySearch = this.itemsRef.orderByChild("address_components/locality").equalTo("San Francisco")
       let queryToUse
 
       if(this.props.isMyMaps) {
@@ -116,9 +119,8 @@ export default class JustMap extends React.Component {
          var items = [];
          snap.forEach((child) => {
            items.push({
-             title: child.val().city,
-             city: child.val().city,
-             country: child.val().country,
+             title: child.val().address_components.neighborhood,
+             address_components: child.val().address_components,
              coordinate: child.val().coordinates,
              coordinateGoogleAddress: child.val().coordinateGoogleAddress,
              key: child.getKey(),
@@ -197,19 +199,12 @@ export default class JustMap extends React.Component {
         ]
       })
 
-      this._childGoogleAPI.getDataFromGoogleAPiByCoordinates(coordinates).then(function(data){
-        let marker= {
-          key:key,
-          address : data.formatted_address,
-          imagePin: data.imagePin,
-          city: data.address_components[3].long_name,
-          country:data.address_components[6].long_name,
-          datePin: Date(),
-          description: "",
-          coordinate : data.coordinateNative,
-          coordinateGoogleAddress : data.coordinate,
-          userData: component.props.userData,
-        }
+      this._childGoogleAPI.getDataFromGoogleAPiByCoordinates(coordinates).then(function(marker){
+        marker.key = key
+        marker.datePin = Date()
+        marker.description = ""
+        marker.userData = component.props.userData
+
         component._addLocationToFirebase(marker);
       })
 
