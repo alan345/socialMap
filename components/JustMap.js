@@ -29,12 +29,15 @@ const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 import FirebaseFunctions from "../includes/FirebaseFunctions";
+import GoogleAPI from '../includes/GoogleAPI';
+
 
 // const SideMenu = require('react-native-side-menu');
 // const Menu = require('./Menu');
 import FBLoginView from './FBLoginView';
 import DetailsViews from './DetailsViews';
 import ShowLoading from './ShowLoading';
+
 
 let keyId = 0
 
@@ -140,63 +143,6 @@ export default class JustMap extends React.Component {
 
 
 
-      getDataFromGoogleAPi(data, typeData) {
-        return new Promise(function(resolve,reject){
-          let urlGoogpleApi = 'https://maps.google.com/maps/api/'
-          let urlGoogpleApiAPI = 'https://maps.googleapis.com/maps/api/'
-          let urlGoogleGeocode = urlGoogpleApi + 'geocode/json'
-          let googleKey = 'AIzaSyAYPpKi0JDHdmhIuuuVndD96VEyavNAlHY'
-          let urlFetch = ""
-          if(typeData == "address") {
-            urlFetch = urlGoogleGeocode + '?address=' + data + '&key=' + googleKey
-          } else if(typeData == "coordinates") {
-            let coordinatesGoogle = data.latitude + "," + data.longitude
-            urlFetch = urlGoogleGeocode + '?latlng=' + coordinatesGoogle + '&key=' + googleKey
-          }
-
-          fetch(urlFetch)
-          .then((response) => response.json())
-          .then((responseJson) => {
-
-            if(responseJson.status == "OK") {
-                let coordinatesGoogle = responseJson.results[0].geometry.location.lat + "," + responseJson.results[0].geometry.location.lng
-                let coordinates = {
-                  latitude:  responseJson.results[0].geometry.location.lat,
-                  longitude:  responseJson.results[0].geometry.location.lng,
-                }
-                let imagePin = urlGoogpleApiAPI + "streetview?size=600x300&location=" + coordinatesGoogle + "&heading=151.78&pitch=-0.76&key=" + googleKey
-                responseJson.results[0].imagePin = imagePin
-                responseJson.results[0].coordinateNative = data
-                responseJson.results[0].coordinate = coordinates
-                resolve(responseJson.results[0])
-            }
-          })
-          .catch((error) => {
-            console.error(error);
-          });
-        })
-      }
-
-
-
-      onChangeAddressInput() {
-        component = this;
-        this.getDataFromGoogleAPi(this.state.selectedMarker.address, "address").then(function(data){
-
-          let marker= {
-            key: component.state.selectedMarker.key,
-            address : data.formatted_address,
-            imagePin: 'https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/3/005/01b/27a/240ddec.jpg',
-            coordinate : {
-              latitude : data.geometry.location.lat,
-              longitude : data.geometry.location.lng,
-            }
-          }
-          component._updateLocationToFirebase(marker);
-        })
-      }
-
-
     componentDidMount() {
       this.listenForItems();
     }
@@ -249,10 +195,9 @@ export default class JustMap extends React.Component {
             }
           }
         ]
-
       })
 
-      this.getDataFromGoogleAPi(coordinates, "coordinates").then(function(data){
+      this._childGoogleAPI.getDataFromGoogleAPiByCoordinates(coordinates).then(function(data){
         let marker= {
           key:key,
           address : data.formatted_address,
@@ -305,6 +250,9 @@ export default class JustMap extends React.Component {
     return (
       <View style={styles.container}>
         <FirebaseFunctions ref={(child) => { this._child = child; }} />
+        <GoogleAPI ref={(child) => { this._childGoogleAPI = child; }} />
+
+
             <MapView
               provider={this.props.provider}
               style={styles.map}
