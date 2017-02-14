@@ -9,7 +9,6 @@ import  {
   LayoutAnimation,
   PanResponder,
   Animated,
-  Keyboard,
   TouchableOpacity,
 } from 'react-native';
 import FirebaseFunctions from "../includes/FirebaseFunctions";
@@ -78,10 +77,10 @@ class DetailsViews extends Component {
           yPosition = 0
 
         if(position == 1)
-          yPosition = -90
+          yPosition = -70
 
         if(position == 2)
-          yPosition = -400
+          yPosition = -300
 
         if(position == 3)
           yPosition = -600
@@ -92,24 +91,11 @@ class DetailsViews extends Component {
         ).start();
       }
 
-      componentWillMount () {
-        this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow.bind(this));
-        this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide.bind(this));
-      }
-
-      componentWillUnmount () {
-        this.keyboardDidShowListener.remove();
-        this.keyboardDidHideListener.remove();
-      }
 
 
-      _keyboardDidShow () {
-      //  this.onSetPositionDetails(3)
-      }
 
-      _keyboardDidHide () {
-      //  this.onSetPositionDetails(2)
-      }
+
+
 
 
       onPressDelete(){
@@ -127,6 +113,18 @@ class DetailsViews extends Component {
         marker.description = description
         this._child.updateLocationToFirebase(marker)
       }
+
+      inputFocused (refName) {
+        setTimeout(() => {
+          let scrollResponder = this.refs.scrollView.getScrollResponder();
+          scrollResponder.scrollResponderScrollNativeHandleToKeyboard(
+            React.findNodeHandle(this.refs[refName]),
+            110, //additionalOffset
+            true
+          );
+        }, 50);
+      }
+
 
       render(){
               return (
@@ -167,6 +165,7 @@ class DetailsViews extends Component {
                           <View style={styles.row}>
                             <Text>Description</Text>
                             <TextInput
+                              placeholder = "Description"
                               style={styles.inputField}
                               onChangeText={this._onChangeText.bind(this)}
                               value={this.props.selectedMarker.description}
@@ -239,14 +238,17 @@ const styles = StyleSheet.create({
        color       : 'black'
      },
      draggableContainer: {
+
+
          position    : 'absolute',
-         top         : Window.height,
-         left        : 0,
+  //       top         : Window.height,
+        left        : 0,
      },
      detailsList      : {
+
          backgroundColor     : '#F7F7F7',
-         width               : Window.width,
-         height              : 800,
+        //  width               : Window.width,
+         height              : 600,
          borderRadius        : 5
      }
 });
