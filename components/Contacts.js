@@ -18,17 +18,10 @@ class DetailsViews extends Component {
       dataSource: new ListView.DataSource({
         rowHasChanged: (r1, r2) => r1 !== r2
       }).cloneWithRows([
-        'Simplicity Matters',
-        'Hammock Driven Development',
-        'Value of Values',
-        'Are We There Yet?',
-        'The Language of the System',
-        'Design, Composition, and Performance',
-        'Clojure core.async',
-        'The Functional Database',
-        'Deconstructing the Database',
-        'Hammock Driven Development',
-        'Value of Values'
+        'Data',
+        this.props.userData.name,
+        this.props.userData.email,
+        this.props.userData.locale,
       ])
     };
   }
@@ -36,6 +29,7 @@ class DetailsViews extends Component {
   render() {
     const { onScroll = () => {} } = this.props;
     return (
+
       <ListView
         ref="ListView"
         style={styles.container}
@@ -100,8 +94,13 @@ class DetailsViews extends Component {
                 </Text>
               </View>
             )}/>
+
+      
         )}
+
       />
+
+
     );
   }
 }

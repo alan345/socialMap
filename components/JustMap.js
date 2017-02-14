@@ -266,10 +266,9 @@ export default class JustMap extends React.Component {
                   <MapView.Marker
                     key={location.key}
                     onPress={() => {this.setState({
-                    //  showDetailsList: true,
                       selectedMarker: location
                     })
-                    this._childDetailsViews.onSetPositionDetails(1)
+                    this._childDetailsViews.onShowDetails()
 
                   }}
                     onDragEnd={(e) => {

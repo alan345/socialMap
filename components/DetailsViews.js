@@ -10,6 +10,7 @@ import  {
   PanResponder,
   Animated,
   Keyboard,
+  TouchableOpacity,
 } from 'react-native';
 import FirebaseFunctions from "../includes/FirebaseFunctions";
 const { width, height } = Dimensions.get('window');
@@ -51,6 +52,22 @@ class DetailsViews extends Component {
         if(this.state.position == 1)
           this.onSetPositionDetails(0)
       }
+      onShowDetails() {
+        if(this.state.position == 0)
+          this.onSetPositionDetails(1)
+        // if(this.state.position == 1)
+        //   this.onSetPositionDetails(2)
+        if(this.state.position == 2)
+          this.onSetPositionDetails(1)
+      }
+
+      onPressImage() {
+        if(this.state.position == 1)
+          this.onSetPositionDetails(2)
+        if(this.state.position == 2)
+          this.onSetPositionDetails(1)
+
+      }
 
 
       onSetPositionDetails(position) {
@@ -66,13 +83,12 @@ class DetailsViews extends Component {
           yPosition = -400
 
         if(position == 3)
-          yPosition = -700
+          yPosition = -600
 
-          Animated.spring(
-              this.state.pan,
-              {toValue:{x:0,y:yPosition}}
-          ).start();
-
+        Animated.spring(
+            this.state.pan,
+            {toValue:{x:0,y:yPosition}}
+        ).start();
       }
 
       componentWillMount () {
@@ -116,7 +132,6 @@ class DetailsViews extends Component {
 
                 <View style={styles.draggableContainer}>
                     <FirebaseFunctions ref={(child) => { this._child = child; }} />
-
                     <Animated.View
                         {...this.panResponder.panHandlers}
                         style={[this.state.pan.getLayout(), styles.detailsList]}>
@@ -130,14 +145,17 @@ class DetailsViews extends Component {
                           />
                           <Text
                             style={styles.text}
-                          >City: {this.props.selectedMarker.city}</Text>
+                          >{this.props.selectedMarker.city}</Text>
+
                           <Image
                             style={styles.iconRight}
                             source={{uri: this.props.selectedMarker.userData.picture.data.url}}
                           />
-                          <Text style={styles.deleteText}
-                            onPress={this.onPressDelete.bind(this)}
-                          >X</Text>
+                          <TouchableOpacity onPress={this.onPressImage.bind(this)}>
+                            <Text style={styles.deleteText}
+                            >^</Text>
+                            </TouchableOpacity>
+
 
                         </View>
                           <Text>Address: {this.props.selectedMarker.address}</Text>
@@ -151,6 +169,9 @@ class DetailsViews extends Component {
                             onChangeText={this._onChangeText.bind(this)}
                             value={this.props.selectedMarker.description}
                           />
+                          <Text style={styles.deleteText}
+                            onPress={this.onPressDelete.bind(this)}
+                          >X  Delete</Text>
                     </Animated.View>
                 </View>
             );
