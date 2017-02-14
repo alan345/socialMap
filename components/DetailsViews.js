@@ -33,11 +33,19 @@ class DetailsViews extends Component {
          }]),
          onPanResponderRelease           : (e, gesture) => {
             this.state.pan.flattenOffset();
+            if(gesture.moveY > 100) {
              if(this.isDropZone(gesture)){
                this.onSetPositionDetails(2)
              }else{
                 this.onSetPositionDetails(1)
              }
+           } else {
+             if(e.nativeEvent.pageY > 500) {
+              this.onSetPositionDetails(2)
+              } else {
+                this.onSetPositionDetails(1)
+              }
+           }
          },
          onPanResponderGrant: (e, gestureState) => {
             this.state.pan.setOffset({x: this.state.pan.x._value, y: this.state.pan.y._value});
@@ -61,13 +69,6 @@ class DetailsViews extends Component {
           this.onSetPositionDetails(1)
       }
 
-      onPressImage() {
-        if(this.state.position == 1)
-          this.onSetPositionDetails(2)
-        if(this.state.position == 2)
-          this.onSetPositionDetails(1)
-
-      }
 
 
       onSetPositionDetails(position) {
@@ -103,11 +104,11 @@ class DetailsViews extends Component {
 
 
       _keyboardDidShow () {
-        this.onSetPositionDetails(3)
+      //  this.onSetPositionDetails(3)
       }
 
       _keyboardDidHide () {
-        this.onSetPositionDetails(2)
+      //  this.onSetPositionDetails(2)
       }
 
 
@@ -118,7 +119,7 @@ class DetailsViews extends Component {
       }
 
       isDropZone(gesture){
-          return gesture.moveY > 0 && gesture.moveY <  380;
+          return gesture.moveY > 0 && gesture.moveY <  420;
       }
 
       _onChangeText(description) {
@@ -151,27 +152,34 @@ class DetailsViews extends Component {
                             style={styles.iconRight}
                             source={{uri: this.props.selectedMarker.userData.picture.data.url}}
                           />
-                          <TouchableOpacity onPress={this.onPressImage.bind(this)}>
-                            <Text style={styles.deleteText}
-                            >^</Text>
-                            </TouchableOpacity>
+
 
 
                         </View>
                           <Text>Address: {this.props.selectedMarker.address}</Text>
-                          <Text>Country: {this.props.selectedMarker.country}</Text>
-                          <Text>Coordinates: {this.props.selectedMarker.coordinate.latitude}</Text>
-                          <Text>Coordinates: {this.props.selectedMarker.coordinate.longitude}</Text>
+                          <Text>Country: {this.props.selectedMarker.address_components.country}</Text>
+                          <Text>Locality: {this.props.selectedMarker.address_components.locality}</Text>
+                          <Text>State: {this.props.selectedMarker.address_components.administrative_area_level_1}</Text>
+                          <Text>Neighborhood: {this.props.selectedMarker.address_components.neighborhood}</Text>
+
                           <Text>Date: {this.props.selectedMarker.datePin}</Text>
                           <Text>Key: {this.props.selectedMarker.key}</Text>
-
-                          <TextInput
-                            onChangeText={this._onChangeText.bind(this)}
-                            value={this.props.selectedMarker.description}
-                          />
-                          <Text style={styles.deleteText}
+                          <View style={styles.row}>
+                            <Text>Description</Text>
+                            <TextInput
+                              style={styles.inputField}
+                              onChangeText={this._onChangeText.bind(this)}
+                              value={this.props.selectedMarker.description}
+                            />
+                          </View>
+                          <TouchableOpacity
                             onPress={this.onPressDelete.bind(this)}
-                          >X  Delete</Text>
+                          >
+                            <Image
+                              style={styles.deleteIcon}
+                              source={require('../assets/delete.png')}
+                            />
+                          </TouchableOpacity>
                     </Animated.View>
                 </View>
             );
@@ -187,6 +195,24 @@ const styles = StyleSheet.create({
       justifyContent: 'space-between',
       height: 65,
       padding: 5
+    },
+    row: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+    },
+    inputField:{
+      height: 40,
+      width: 200,
+      padding: 5,
+      borderColor: 'gray',
+      borderWidth: 1,
+      marginTop   : 5,
+      marginLeft  : 5,
+      marginRight : 5,
+    },
+    deleteIcon:{
+      width: 50,
+      height: 50,
     },
     icon: {
       width: 60,
@@ -206,11 +232,11 @@ const styles = StyleSheet.create({
       fontSize : 30
     },
      text        : {
-         marginTop   : 25,
-         marginLeft  : 5,
-         marginRight : 5,
-         textAlign   : 'center',
-         color       : 'black'
+       marginTop   : 25,
+       marginLeft  : 5,
+       marginRight : 5,
+       textAlign   : 'center',
+       color       : 'black'
      },
      draggableContainer: {
          position    : 'absolute',

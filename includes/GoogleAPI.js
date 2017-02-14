@@ -17,11 +17,11 @@ class GoogleAPI extends Component {
   }
 
 
-  getDataFromGoogleAPiByCoordinates(dataCoordinates) {
+  getDataFromGoogleAPiByCoordinates(dataCoordinatesNative) {
     component = this;
     return new Promise(function(resolve,reject){
       let urlGoogleGeocode = component.state.urlGoogpleApi + 'geocode/json'
-      let coordinatesGoogle = dataCoordinates.latitude + "," + dataCoordinates.longitude
+      let coordinatesGoogle = dataCoordinatesNative.latitude + "," + dataCoordinatesNative.longitude
       let urlFetch = urlGoogleGeocode + '?latlng=' + coordinatesGoogle + '&key=' + component.state.googleKey
 
       fetch(urlFetch)
@@ -38,8 +38,8 @@ class GoogleAPI extends Component {
               address_components:{}
             }
             marker.imagePin = imagePin
-            marker.coordinateGoogleAddress = dataCoordinates
-            marker.coordinate = coordinates
+            marker.coordinateGoogleAddress = coordinates
+            marker.coordinate = dataCoordinatesNative
             marker.address = responseJson.results[0].formatted_address
 
 

@@ -16,7 +16,7 @@ import {
 import markerImg from '../assets/flag-black.png';
 
 import MapView, {Marker} from 'react-native-maps';
-//import ListItem from './ListItem';
+import SearchInput from './SearchInput';
 import * as firebase from 'firebase';
 import Firebase from "../includes/firebase";
 
@@ -61,7 +61,7 @@ export default class JustMap extends React.Component {
         address_components : {
           neighborhood:''
         },
-        imagePin : '',
+        imagePin : 'https://pickaface.net/gallery/avatar/Opi51c74d0125fd4.png',
         coordinate : {
           latitude: LATITUDE,
           longitude: LONGITUDE,
@@ -73,7 +73,7 @@ export default class JustMap extends React.Component {
         userData: {
           picture: {
             data: {
-              url: ''
+              url: 'https://pickaface.net/gallery/avatar/Opi51c74d0125fd4.png'
             }
           }
         }
@@ -130,7 +130,6 @@ export default class JustMap extends React.Component {
              imagePin: child.val().imagePin,
              datePin:  child.val().datePin,
              userData:  child.val().userData,
-
            });
          });
 
@@ -299,7 +298,7 @@ export default class JustMap extends React.Component {
                 />
               }
             </MapView>
-
+            <SearchInput/>
             <ShowLoading
               isLoading={this.state.isLoading}
             />
