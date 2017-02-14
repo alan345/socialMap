@@ -154,7 +154,7 @@ class DetailsViews extends Component {
 
 
                         </View>
-                          <Text>Address: {this.props.selectedMarker.address}</Text>
+                          <Text>{this.props.selectedMarker.address}</Text>
                           <Text>Country: {this.props.selectedMarker.address_components.country}</Text>
                           <Text>Locality: {this.props.selectedMarker.address_components.locality}</Text>
                           <Text>State: {this.props.selectedMarker.address_components.administrative_area_level_1}</Text>
@@ -238,18 +238,16 @@ const styles = StyleSheet.create({
        color       : 'black'
      },
      draggableContainer: {
-
-
          position    : 'absolute',
   //       top         : Window.height,
         left        : 0,
      },
      detailsList      : {
 
-         backgroundColor     : '#F7F7F7',
-        //  width               : Window.width,
-         height              : 600,
-         borderRadius        : 5
+      backgroundColor     : '#F7F7F7',
+      width               : Window.width,
+      height              : 600,
+      borderRadius        : 5
      }
 });
 

@@ -298,14 +298,16 @@ export default class JustMap extends React.Component {
                 />
               }
             </MapView>
-            <SearchInput/>
+
             <ShowLoading
               isLoading={this.state.isLoading}
             />
+            <SearchInput/>
             <DetailsViews
               selectedMarker={this.state.selectedMarker}
               ref={(child) => { this._childDetailsViews = child; }}
             />
+
       </View>
     );
   }
