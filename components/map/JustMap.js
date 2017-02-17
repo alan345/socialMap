@@ -13,12 +13,11 @@ import {
   TextInput,
   TouchableHighlight
 } from 'react-native';
-import markerImg from '../assets/flag-black.png';
+import markerImg from '../../assets/flag-black.png';
 
 import MapView, {Marker} from 'react-native-maps';
-import SearchInput from './SearchInput';
 import * as firebase from 'firebase';
-import Firebase from "../includes/firebase";
+import Firebase from "../../includes/firebase";
 
 const { width, height } = Dimensions.get('window');
 
@@ -28,15 +27,15 @@ const LONGITUDE = -122.4324;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
-import FirebaseFunctions from "../includes/FirebaseFunctions";
-import GoogleAPI from '../includes/GoogleAPI';
+import FirebaseFunctions from "../../includes/FirebaseFunctions";
+import GoogleAPI from '../../includes/GoogleAPI';
 
 
 // const SideMenu = require('react-native-side-menu');
 // const Menu = require('./Menu');
-import FBLoginView from './FBLoginView';
+import FBLoginView from '../FBLoginView';
 import DetailsViews from './DetailsViews';
-import ShowLoading from './ShowLoading';
+import ShowLoading from '../ShowLoading';
 
 
 let keyId = 0
@@ -302,7 +301,7 @@ export default class JustMap extends React.Component {
             <ShowLoading
               isLoading={this.state.isLoading}
             />
-            <SearchInput/>
+
             <DetailsViews
               selectedMarker={this.state.selectedMarker}
               ref={(child) => { this._childDetailsViews = child; }}

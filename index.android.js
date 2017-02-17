@@ -17,7 +17,7 @@
  } from 'react-native';
 
  import socialMap from './socialMap';
- import JustMap from './components/JustMap';
+ import JustMap from './components/map/JustMap';
  //import Contacts from './components/Contacts';
 
 

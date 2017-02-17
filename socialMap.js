@@ -2,9 +2,9 @@ const React = require('react');
 const SideMenu = require('react-native-side-menu');
 const Menu = require('./components/Menu');
 
-import JustMap from './components/JustMap';
+import JustMap from './components/map/JustMap';
 import Contacts from './components/Contacts';
-
+import ListSearch from './components/trips/ListSearch';
 
 
 const {
@@ -16,34 +16,6 @@ const {
 } = require('react-native');
 const { Component } = React;
 
-const styles = StyleSheet.create({
-  button: {
-    position: 'absolute',
-    top: 20,
-    padding: 10,
-  },
-  caption: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    alignItems: 'center',
-  },
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
 
 class Button extends Component {
   handlePress(e) {
@@ -66,7 +38,7 @@ class Button extends Component {
 module.exports = class socialMap extends Component {
   state = {
     isOpen: false,
-    selectedItem: 'About',
+    selectedItem: 'Search',
     userData :{}
   };
 
@@ -101,6 +73,7 @@ module.exports = class socialMap extends Component {
     let isMenuAbout=false;
     let isMenuContacts=false;
     let isMenuMyMaps=false;
+    let isMenuSearch=false;
 
     if(this.state.selectedItem == "About") {
       isMenuAbout = true;
@@ -111,6 +84,9 @@ module.exports = class socialMap extends Component {
 
     if(this.state.selectedItem == "Contacts") {
       isMenuContacts = true;
+    }
+    if(this.state.selectedItem == "Search") {
+      isMenuSearch = true;
     }
 
     return (
@@ -128,7 +104,9 @@ module.exports = class socialMap extends Component {
         {isMenuContacts ?
           <Contacts userData={this.state.userData}/> : <Text></Text>
         }
-
+        {isMenuSearch ?
+          <ListSearch userData={this.state.userData}/> : <Text></Text>
+        }
 
         <Button style={styles.button} onPress={() => this.toggle()}>
           <Image
@@ -138,3 +116,33 @@ module.exports = class socialMap extends Component {
     );
   }
 };
+
+
+const styles = StyleSheet.create({
+  button: {
+    position: 'absolute',
+    top: 20,
+    padding: 10,
+  },
+  caption: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    alignItems: 'center',
+  },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF',
+  },
+  welcome: {
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 10,
+  },
+  instructions: {
+    textAlign: 'center',
+    color: '#333333',
+    marginBottom: 5,
+  },
+});

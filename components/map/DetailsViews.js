@@ -11,7 +11,7 @@ import  {
   Animated,
   TouchableOpacity,
 } from 'react-native';
-import FirebaseFunctions from "../includes/FirebaseFunctions";
+import FirebaseFunctions from "../../includes/FirebaseFunctions";
 const { width, height } = Dimensions.get('window');
 
 
@@ -162,6 +162,8 @@ class DetailsViews extends Component {
 
                           <Text>Date: {this.props.selectedMarker.datePin}</Text>
                           <Text>Key: {this.props.selectedMarker.key}</Text>
+                          <Text>{this.props.selectedMarker.description}</Text>
+
                           <View style={styles.row}>
                             <Text>Description</Text>
                             <TextInput
@@ -176,7 +178,7 @@ class DetailsViews extends Component {
                           >
                             <Image
                               style={styles.deleteIcon}
-                              source={require('../assets/delete.png')}
+                              source={require('../../assets/delete.png')}
                             />
                           </TouchableOpacity>
                     </Animated.View>

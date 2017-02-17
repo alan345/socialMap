@@ -55,6 +55,11 @@ module.exports = class Menu extends Component {
         </View>
 
         <Text
+          onPress={() => this.props.onItemSelected('Search')}
+          style={styles.item}>
+          Search
+        </Text>
+        <Text
           onPress={() => this.props.onItemSelected('About')}
           style={styles.item}>
           Map
