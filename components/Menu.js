@@ -27,7 +27,7 @@ module.exports = class Menu extends Component {
           name : '',
           picture : {
             data : {
-              url: ''
+              url: 'https://pickaface.net/gallery/avatar/Opi51c74d0125fd4.png'
             }
           }
       }

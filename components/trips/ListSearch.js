@@ -19,7 +19,7 @@ export default class ListSearch extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading:false,
+      isLoading:true,
       search:{
         city:'',
       },
@@ -37,7 +37,13 @@ export default class ListSearch extends Component {
   }
 
   listenForItems() {
-    let querySearch = this.getRef().child('trips').orderByChild("city").equalTo(this.state.search.city)
+    let querySearch
+    if(this.state.search.city) {
+      querySearch = this.getRef().child('trips').orderByChild("city").equalTo(this.state.search.city)
+    } else {
+      querySearch = this.getRef().child('trips')
+    }
+
      querySearch.on('value', (snap) => {
        var items = [];
        snap.forEach((child) => {
