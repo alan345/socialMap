@@ -49,6 +49,7 @@ export default class ListSearch extends Component {
        snap.forEach((child) => {
          items.push({
            title: child.val().title,
+           image: child.val().image,
            _key: child.key
          });
        });
@@ -95,6 +96,7 @@ export default class ListSearch extends Component {
           dataSource={this.state.dataSource}
           renderRow={this._renderItem.bind(this)}
           enableEmptySections={true}
+          renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.separator} />}
         />
         <Text>
           Welcome ! {this.state.search.city}
@@ -119,6 +121,11 @@ const styles = StyleSheet.create({
   viewInputSearch: {
     position: 'absolute',
 
+  },
+  separator: {
+    flex: 1,
+    height: StyleSheet.hairlineWidth,
+    backgroundColor: '#8E8E8E',
   },
   caption: {
     fontSize: 20,
