@@ -7,31 +7,38 @@ import {
   ListView,
   Button,
   Dimensions,
+  TextInput,
 } from 'react-native';
 import * as firebase from 'firebase';
 import Firebase from "../../includes/firebase";
 import ListItem from './ListItem';
+import ShowLoading from '../ShowLoading';
+
 
 export default class ListSearch extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isLoading:false,
+      search:{
+        city:'',
+      },
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
       })
     };
 
-    // firebase reference
     this.itemsRef = this.getRef().child('trips');
   }
 
-  // firebase Example
+
   getRef() {
      return firebase.database().ref();
   }
 
-  listenForItems(itemsRef) {
-     itemsRef.on('value', (snap) => {
+  listenForItems() {
+    let querySearch = this.getRef().child('trips').orderByChild("city").equalTo(this.state.search.city)
+     querySearch.on('value', (snap) => {
        var items = [];
        snap.forEach((child) => {
          items.push({
@@ -41,6 +48,7 @@ export default class ListSearch extends Component {
        });
 
        this.setState({
+         isLoading:false,
          dataSource: this.state.dataSource.cloneWithRows(items)
        });
    });
@@ -53,19 +61,37 @@ export default class ListSearch extends Component {
   }
 
   componentDidMount() {
-    this.listenForItems(this.itemsRef);
+    this.listenForItems();
   }
+  _onChangeText(description) {
 
+    this.setState({
+      isLoading:true,
+      search : {
+        city:description
+      }
+    }, function() {
+      this.listenForItems()
+    })
+  }
   render() {
     return (
       <View style={styles.container}>
+        <ShowLoading
+          isLoading={this.state.isLoading}
+        />
+        <TextInput
+          placeholder = "City"
+          style={styles.inputField}
+          onChangeText={this._onChangeText.bind(this)}
+        />
         <ListView
           dataSource={this.state.dataSource}
           renderRow={this._renderItem.bind(this)}
           enableEmptySections={true}
         />
         <Text>
-          Welcome !
+          Welcome ! {this.state.search.city}
         </Text>
         <Text style={styles.instructions}>
           YO
@@ -110,4 +136,7 @@ const styles = StyleSheet.create({
     color: '#333333',
     marginBottom: 5,
   },
+  inputField:{
+    width:100,
+  }
 });

@@ -10,7 +10,6 @@ import {
   Dimensions,
   ScrollView,
   Image,
-  TextInput,
   TouchableHighlight
 } from 'react-native';
 import markerImg from '../../assets/flag-black.png';
