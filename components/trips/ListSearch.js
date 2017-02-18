@@ -8,18 +8,22 @@ import {
   Button,
   Dimensions,
   TextInput,
+  TouchableOpacity,
+  Image,
 } from 'react-native';
 import * as firebase from 'firebase';
 import Firebase from "../../includes/firebase";
 import ListItem from './ListItem';
+import AddTrip from './AddTrip';
 import ShowLoading from '../ShowLoading';
-
+import FirebaseFunctions from "../../includes/FirebaseFunctions";
 
 export default class ListSearch extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isLoading:true,
+      showAddTrip:false,
       search:{
         city:'',
       },
@@ -34,6 +38,16 @@ export default class ListSearch extends Component {
 
   getRef() {
      return firebase.database().ref();
+  }
+
+  showAddTrip() {
+    //this._child.addTrip(this.state.trip)
+    this.setState({showAddTrip:true})
+  }
+
+  hideAddTrip() {
+    //this._child.addTrip(this.state.trip)
+    this.setState({showAddTrip:false})
   }
 
   listenForItems() {
@@ -83,10 +97,11 @@ export default class ListSearch extends Component {
   }
   render() {
     return (
+
       <View style={styles.container}>
-        <ShowLoading
-          isLoading={this.state.isLoading}
-        />
+        <AddTrip showAddTrip={this.state.showAddTrip} hideAddTrip={this.hideAddTrip.bind(this)}/>
+        <FirebaseFunctions ref={(child) => { this._child = child; }} />
+        <ShowLoading isLoading={this.state.isLoading} />
         <TextInput
           placeholder = "City"
           style={styles.inputField}
@@ -98,17 +113,20 @@ export default class ListSearch extends Component {
           enableEmptySections={true}
           renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.separator} />}
         />
-        <Text>
-          Welcome ! {this.state.search.city}
-        </Text>
-        <Text style={styles.instructions}>
-          YO
-        </Text>
+        <TouchableOpacity
+          style={styles.addIconTouchableOpacity}
+          onPress={this.showAddTrip.bind(this)}
+        >
+          <Image
+            style={styles.addIcon}
+            source={require('../../assets/add_button.png')}
+          />
+        </TouchableOpacity>
 
-        <Text style={styles.instructions}>
-          Current selected
-        </Text>
+
       </View>
+
+
     );
   }
 }
@@ -120,7 +138,15 @@ const styles = StyleSheet.create({
   },
   viewInputSearch: {
     position: 'absolute',
-
+  },
+  addIcon:{
+    width: 60,
+    height: 60,
+  },
+  addIconTouchableOpacity : {
+    right:10,
+    bottom:50,
+    position: 'absolute',
   },
   separator: {
     flex: 1,
@@ -137,7 +163,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
-
   },
   welcome: {
     fontSize: 20,

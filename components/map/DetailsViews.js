@@ -91,13 +91,6 @@ class DetailsViews extends Component {
         ).start();
       }
 
-
-
-
-
-
-
-
       onPressDelete(){
         this.onSetPositionDetails(0)
         let marker = this.props.selectedMarker;

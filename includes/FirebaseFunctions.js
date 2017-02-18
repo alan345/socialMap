@@ -23,6 +23,9 @@ class FirebaseFunctions extends Component {
   getRefUsers() {
      return this.getRef().child('users');
   }
+  getRefTrips() {
+     return this.getRef().child('trips');
+  }
 
   updateOrCreateUserToFirebase(userData) {
     let itemsRef = this.getRefUsers();
@@ -34,6 +37,12 @@ class FirebaseFunctions extends Component {
         itemsRef.push(userData.profile);
       }
     });
+  }
+
+  addTrip(trip){
+    let itemsRef = this.getRefTrips();
+    itemsRef.push(trip);
+
   }
 
   getUser(credentials) {
