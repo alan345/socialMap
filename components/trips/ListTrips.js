@@ -35,7 +35,6 @@ export default class ListTrips extends Component {
     };
 
     this.itemsRef = this.getRef().child('trips');
-  //  this.onPressTrip = this.onPressTrip.bind(this);
   }
 
 
@@ -43,8 +42,9 @@ export default class ListTrips extends Component {
      return firebase.database().ref();
   }
 
+
+
   showAddTrip() {
-    //this._child.addTrip(this.state.trip)
     this.setState({showAddTrip:true})
   }
 
@@ -69,7 +69,7 @@ export default class ListTrips extends Component {
            title: child.val().title,
            image: child.val().image,
            city: child.val().city,
-           _key: child.key
+           key: child.key
          });
        });
 
@@ -79,6 +79,16 @@ export default class ListTrips extends Component {
        });
    });
   }
+
+  onPressButtonTrip(){
+    this.setState({
+      showAddTrip:true,
+      trip:{}
+    },function(){
+      this._childAddTrip.propsToState()
+    })
+  }
+
   onPressTrip(item){
     this.setState({
       showAddTrip:true,
@@ -87,6 +97,7 @@ export default class ListTrips extends Component {
       this._childAddTrip.propsToState()
     })
   }
+
   _renderRow(item) {
     return (
       <TouchableOpacity onPress={() => {
@@ -139,7 +150,7 @@ export default class ListTrips extends Component {
         />
         <TouchableOpacity
           style={styles.addIconTouchableOpacity}
-          onPress={this.showAddTrip.bind(this)}
+          onPress={this.onPressButtonTrip.bind(this)}
         >
           <Image
             style={styles.addIcon}

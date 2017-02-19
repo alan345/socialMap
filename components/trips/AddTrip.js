@@ -28,12 +28,9 @@ export default class AddTrip extends Component {
         title:'',
         image:'http://ozandgo.com/wp-content/uploads/2014/10/covoiturage-australie-van-roadtrip.jpg',
       }
-
-
     };
 
     this.itemsRef = this.getRef().child('trips');
-
   }
 
 
@@ -49,7 +46,7 @@ export default class AddTrip extends Component {
   }
 
   saveTrip(){
-    this._child.addTrip(this.state.trip)
+    this._child.addOrUpdateTrip(this.state.trip)
     this.props.hideAddTrip()
   }
   closeWindows(){
@@ -80,7 +77,7 @@ export default class AddTrip extends Component {
           })}
         />
         <TextInput
-          value={this.props.trip.city}
+          value={this.state.trip.city}
           placeholder = "City"
           style={styles.inputField}
           onChangeText={(text) => this.setState({

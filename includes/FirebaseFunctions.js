@@ -39,10 +39,27 @@ class FirebaseFunctions extends Component {
     });
   }
 
+
+  addOrUpdateTrip(trip){
+    if(trip.key) {
+      this.updateTrip(trip)
+    } else {
+      this.addTrip(trip)
+    }
+  }
+
   addTrip(trip){
     let itemsRef = this.getRefTrips();
     itemsRef.push(trip);
+  }
 
+  updateTrip(trip){
+    let itemsRef = this.getRefTrips();
+    itemsRef.child(trip.key).set({
+        title: trip.title,
+        image: trip.image,
+        city: trip.city,
+      });
   }
 
   getUser(credentials) {
