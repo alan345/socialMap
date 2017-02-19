@@ -41,16 +41,15 @@ class FirebaseFunctions extends Component {
 
 
   addOrUpdateTrip(trip){
-    if(trip.key) {
-      this.updateTrip(trip)
-    } else {
+    if(trip.key == null  ) {
       this.addTrip(trip)
+    } else {
+      this.updateTrip(trip)
     }
   }
 
   addTrip(trip){
     let itemsRef = this.getRefTrips();
-    trip.image='https://pickaface.net/gallery/avatar/Opi51c74d0125fd4.png'
     itemsRef.push(trip);
   }
 
@@ -61,6 +60,10 @@ class FirebaseFunctions extends Component {
         image: trip.image,
         city: trip.city,
       });
+  }
+  deleteTrip(trip){
+    let itemsRef = this.getRefTrips();
+    itemsRef.child(trip.key).remove()
   }
 
   getUser(credentials) {

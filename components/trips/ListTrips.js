@@ -42,15 +42,11 @@ export default class ListTrips extends Component {
      return firebase.database().ref();
   }
 
-
-
   showAddTrip() {
     this.setState({showAddTrip:true})
   }
 
-
   hideAddTrip() {
-    //this._child.addTrip(this.state.trip)
     this.setState({showAddTrip:false})
   }
 
@@ -83,7 +79,11 @@ export default class ListTrips extends Component {
   onPressButtonTrip(){
     this.setState({
       showAddTrip:true,
-      trip:{}
+      trip:{
+        city:'',
+        title:'',
+        image:'https://pickaface.net/gallery/avatar/Opi51c74d0125fd4.png',
+      }
     },function(){
       this._childAddTrip.propsToState()
     })
@@ -115,7 +115,6 @@ export default class ListTrips extends Component {
     this.listenForItems();
   }
   _onChangeText(description) {
-
     this.setState({
       isLoading:true,
       search : {

@@ -49,6 +49,10 @@ export default class AddTrip extends Component {
     this._child.addOrUpdateTrip(this.state.trip)
     this.props.hideAddTrip()
   }
+  deleteTrip(){
+    this._child.deleteTrip(this.state.trip)
+    this.props.hideAddTrip()
+  }
   closeWindows(){
     this.props.hideAddTrip()
   }
@@ -72,6 +76,7 @@ export default class AddTrip extends Component {
               city:this.state.trip.city,
               title:text,
               image:this.state.trip.image,
+              key:this.state.trip.key,
             }
 
           })}
@@ -85,6 +90,7 @@ export default class AddTrip extends Component {
               city:text,
               title:this.state.trip.title,
               image:this.state.trip.image,
+              key:this.state.trip.key,
             }
           })}
         />
@@ -93,14 +99,21 @@ export default class AddTrip extends Component {
             onPress={this.closeWindows.bind(this)}
             title="Cancel"
             color="#841584"
-            accessibilityLabel="Learn more about this purple button"
+            accessibilityLabel="cancel"
+          />
+          <Text> </Text>
+          <Button
+            onPress={this.deleteTrip.bind(this)}
+            title="Delete"
+            color="#841584"
+            accessibilityLabel="delete"
           />
           <Text> </Text>
           <Button
             onPress={this.saveTrip.bind(this)}
-            title="Add Trip"
+            title="Ok"
             color="#841584"
-            accessibilityLabel="Learn more about this purple button"
+            accessibilityLabel="ok"
           />
         </View>
       </View>
