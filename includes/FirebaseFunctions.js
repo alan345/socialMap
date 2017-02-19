@@ -50,6 +50,7 @@ class FirebaseFunctions extends Component {
 
   addTrip(trip){
     let itemsRef = this.getRefTrips();
+    trip.image='https://pickaface.net/gallery/avatar/Opi51c74d0125fd4.png'
     itemsRef.push(trip);
   }
 
