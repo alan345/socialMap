@@ -10,6 +10,7 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
+  TouchableHighlight,
 } from 'react-native';
 import * as firebase from 'firebase';
 import Firebase from "../../includes/firebase";
@@ -27,12 +28,14 @@ export default class ListSearch extends Component {
       search:{
         city:'',
       },
+      trip:{},
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
       })
     };
 
     this.itemsRef = this.getRef().child('trips');
+  //  this.onPressTrip = this.onPressTrip.bind(this);
   }
 
 
@@ -44,6 +47,7 @@ export default class ListSearch extends Component {
     //this._child.addTrip(this.state.trip)
     this.setState({showAddTrip:true})
   }
+
 
   hideAddTrip() {
     //this._child.addTrip(this.state.trip)
@@ -64,6 +68,7 @@ export default class ListSearch extends Component {
          items.push({
            title: child.val().title,
            image: child.val().image,
+           city: child.val().city,
            _key: child.key
          });
        });
@@ -74,10 +79,24 @@ export default class ListSearch extends Component {
        });
    });
   }
-
-  _renderItem(item) {
+  onPressTrip(item){
+    this.setState({
+      showAddTrip:true,
+      trip:item
+    },function(){
+      this._childAddTrip.propsToState()
+    })
+  }
+  _renderRow(item) {
     return (
-      <ListItem item={item} />
+      <TouchableOpacity onPress={() => {
+          this.onPressTrip(item)
+        }}>
+        <ListItem
+          item={item}
+          showAddTrip={this.showAddTrip.bind(this)}
+        />
+      </TouchableOpacity>
     );
   }
 
@@ -99,7 +118,12 @@ export default class ListSearch extends Component {
     return (
 
       <View style={styles.container}>
-        <AddTrip showAddTrip={this.state.showAddTrip} hideAddTrip={this.hideAddTrip.bind(this)}/>
+        <AddTrip
+          showAddTrip={this.state.showAddTrip}
+          hideAddTrip={this.hideAddTrip.bind(this)}
+          trip={this.state.trip}
+          ref={(child) => { this._childAddTrip = child; }}
+        />
         <FirebaseFunctions ref={(child) => { this._child = child; }} />
         <ShowLoading isLoading={this.state.isLoading} />
         <TextInput
@@ -109,7 +133,7 @@ export default class ListSearch extends Component {
         />
         <ListView
           dataSource={this.state.dataSource}
-          renderRow={this._renderItem.bind(this)}
+          renderRow={this._renderRow.bind(this)}
           enableEmptySections={true}
           renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.separator} />}
         />

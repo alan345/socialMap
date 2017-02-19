@@ -34,6 +34,7 @@ export default class AddTrip extends Component {
     };
 
     this.itemsRef = this.getRef().child('trips');
+
   }
 
 
@@ -41,8 +42,18 @@ export default class AddTrip extends Component {
      return firebase.database().ref();
   }
 
+
+  propsToState(){
+    this.setState({
+      trip:this.props.trip
+    })
+  }
+
   saveTrip(){
     this._child.addTrip(this.state.trip)
+    this.props.hideAddTrip()
+  }
+  closeWindows(){
     this.props.hideAddTrip()
   }
   render() {
@@ -57,6 +68,7 @@ export default class AddTrip extends Component {
         />
         <Text>Add TRIP</Text>
         <TextInput
+          value={this.state.trip.title}
           placeholder = "Title"
           style={styles.inputField}
           onChangeText={(text) => this.setState({
@@ -69,6 +81,7 @@ export default class AddTrip extends Component {
           })}
         />
         <TextInput
+          value={this.props.trip.city}
           placeholder = "City"
           style={styles.inputField}
           onChangeText={(text) => this.setState({
@@ -79,12 +92,21 @@ export default class AddTrip extends Component {
             }
           })}
         />
-        <Button
-          onPress={this.saveTrip.bind(this)}
-          title="Add Trip"
-          color="#841584"
-          accessibilityLabel="Learn more about this purple button"
-        />
+        <View style={styles.row}>
+          <Button
+            onPress={this.closeWindows.bind(this)}
+            title="Cancel"
+            color="#841584"
+            accessibilityLabel="Learn more about this purple button"
+          />
+          <Text> </Text>
+          <Button
+            onPress={this.saveTrip.bind(this)}
+            title="Add Trip"
+            color="#841584"
+            accessibilityLabel="Learn more about this purple button"
+          />
+        </View>
       </View>
 
 
@@ -99,7 +121,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5FCFF',
 
   },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
   inputField:{
-    width:100,
+    width:180,
   }
 });

@@ -12,12 +12,12 @@ import  {
 class ListItem extends Component {
   render() {
     return (
-      <TouchableHighlight onPress={this.props.onPress}>
+
         <View style={styles.container}>
           <Image source={{ uri: this.props.item.image}} style={styles.photo} />
           <Text style={styles.text}>{this.props.item.title}</Text>
         </View>
-      </TouchableHighlight>
+
     );
   }
 }
