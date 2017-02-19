@@ -73,7 +73,7 @@ module.exports = class Menu extends Component {
         <Text
           onPress={() => this.props.onItemSelected('Contacts')}
           style={styles.item}>
-          Contacts
+          Profile
         </Text>
 
         <FBLoginView
