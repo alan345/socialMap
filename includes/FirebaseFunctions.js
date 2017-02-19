@@ -9,7 +9,7 @@ class FirebaseFunctions extends Component {
 
   render() {
     return (
-      <View></View>
+      <View/>
     )
   }
 
@@ -39,6 +39,15 @@ class FirebaseFunctions extends Component {
     });
   }
 
+  getUser(credentials) {
+    let itemsRef = this.getRefUsers();
+    return new Promise(function(resolve,reject){
+        itemsRef.orderByChild("id").equalTo(credentials.userId).on("child_added", function(snapshot) {
+          resolve( snapshot.val())
+        });
+    })
+  }
+
 
   addOrUpdateTrip(trip){
     if(trip.key == null  ) {
@@ -66,14 +75,6 @@ class FirebaseFunctions extends Component {
     itemsRef.child(trip.key).remove()
   }
 
-  getUser(credentials) {
-    let itemsRef = this.getRefUsers();
-    return new Promise(function(resolve,reject){
-        itemsRef.orderByChild("id").equalTo(credentials.userId).on("child_added", function(snapshot) {
-          resolve( snapshot.val())
-        });
-    })
-  }
 
   getLocations() {
     let itemsRef = this.getRefLocations();
