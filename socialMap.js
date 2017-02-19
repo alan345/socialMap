@@ -4,7 +4,7 @@ const Menu = require('./components/Menu');
 
 import JustMap from './components/map/JustMap';
 import Contacts from './components/Contacts';
-import ListSearch from './components/trips/ListSearch';
+import ListTrips from './components/trips/ListTrips';
 
 
 const {
@@ -105,7 +105,7 @@ module.exports = class socialMap extends Component {
           <Contacts userData={this.state.userData}/> : <Text></Text>
         }
         {isMenuSearch ?
-          <ListSearch userData={this.state.userData}/> : <Text></Text>
+          <ListTrips userData={this.state.userData}/> : <Text></Text>
         }
 
         <Button style={styles.button} onPress={() => this.toggle()}>

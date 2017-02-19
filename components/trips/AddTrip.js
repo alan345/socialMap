@@ -13,7 +13,6 @@ import {
 } from 'react-native';
 import * as firebase from 'firebase';
 import Firebase from "../../includes/firebase";
-import ListItem from './ListItem';
 import ShowLoading from '../ShowLoading';
 import FirebaseFunctions from "../../includes/FirebaseFunctions";
 const { width, height } = Dimensions.get('window');

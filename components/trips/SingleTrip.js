@@ -9,7 +9,7 @@ import  {
 } from 'react-native';
 
 
-class ListItem extends Component {
+class SingleTrip extends Component {
   render() {
     return (
 
@@ -40,4 +40,4 @@ const styles = StyleSheet.create({
   },
 });
 
-module.exports = ListItem;
+module.exports = SingleTrip;

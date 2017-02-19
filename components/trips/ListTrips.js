@@ -14,12 +14,12 @@ import {
 } from 'react-native';
 import * as firebase from 'firebase';
 import Firebase from "../../includes/firebase";
-import ListItem from './ListItem';
+import SingleTrip from './SingleTrip';
 import AddTrip from './AddTrip';
 import ShowLoading from '../ShowLoading';
 import FirebaseFunctions from "../../includes/FirebaseFunctions";
 
-export default class ListSearch extends Component {
+export default class ListTrips extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -92,7 +92,7 @@ export default class ListSearch extends Component {
       <TouchableOpacity onPress={() => {
           this.onPressTrip(item)
         }}>
-        <ListItem
+        <SingleTrip
           item={item}
           showAddTrip={this.showAddTrip.bind(this)}
         />
