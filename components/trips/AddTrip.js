@@ -66,7 +66,7 @@ export default class AddTrip extends Component {
         <ShowLoading
           isLoading={this.state.isLoading}
         />
-        <Text>Add TRIP</Text>
+        <Text>Your Trip</Text>
         <TextInput
           value={this.state.trip.title}
           placeholder = "Title"

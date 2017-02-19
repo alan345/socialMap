@@ -50,6 +50,7 @@ class FirebaseFunctions extends Component {
 
 
   addOrUpdateTrip(trip){
+    console.log(trip.key)
     if(trip.key == null  ) {
       this.addTrip(trip)
     } else {
@@ -59,6 +60,7 @@ class FirebaseFunctions extends Component {
 
   addTrip(trip){
     let itemsRef = this.getRefTrips();
+    delete trip.key
     itemsRef.push(trip);
   }
 
