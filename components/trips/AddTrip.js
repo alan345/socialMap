@@ -10,6 +10,7 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
+  Modal,
 } from 'react-native';
 import * as firebase from 'firebase';
 import Firebase from "../../includes/firebase";
@@ -61,61 +62,72 @@ export default class AddTrip extends Component {
       return null
     return (
 
-      <View style={styles.container}>
-        <FirebaseFunctions ref={(child) => { this._child = child; }} />
-        <ShowLoading
-          isLoading={this.state.isLoading}
-        />
-        <Text>Your Trip</Text>
-        <TextInput
-          value={this.state.trip.title}
-          placeholder = "Title"
-          style={styles.inputField}
-          onChangeText={(text) => this.setState({
-            trip: {
-              city:this.state.trip.city,
-              title:text,
-              image:this.state.trip.image,
-              key:this.state.trip.key,
-            }
+      <View style={{marginTop: 22}}>
+        <Modal
+          animationType={"slide"}
+          transparent={false}
+          visible={this.state.modalVisible}
+          onRequestClose={() => {alert("Modal has been closed.")}}
+          >
+         <View style={styles.container}>
+          <View>
+                <FirebaseFunctions ref={(child) => { this._child = child; }} />
+                <ShowLoading
+                  isLoading={this.state.isLoading}
+                />
+                <Text>Your Trip</Text>
+                <TextInput
+                  value={this.state.trip.title}
+                  placeholder = "Title"
+                  style={styles.inputField}
+                  onChangeText={(text) => this.setState({
+                    trip: {
+                      city:this.state.trip.city,
+                      title:text,
+                      image:this.state.trip.image,
+                      key:this.state.trip.key,
+                    }
 
-          })}
-        />
-        <TextInput
-          value={this.state.trip.city}
-          placeholder = "City"
-          style={styles.inputField}
-          onChangeText={(text) => this.setState({
-            trip: {
-              city:text,
-              title:this.state.trip.title,
-              image:this.state.trip.image,
-              key:this.state.trip.key,
-            }
-          })}
-        />
-        <View style={styles.row}>
-          <Button
-            onPress={this.closeWindows.bind(this)}
-            title="Cancel"
-            color="#841584"
-            accessibilityLabel="cancel"
-          />
-          <Text> </Text>
-          <Button
-            onPress={this.deleteTrip.bind(this)}
-            title="Delete"
-            color="#841584"
-            accessibilityLabel="delete"
-          />
-          <Text> </Text>
-          <Button
-            onPress={this.saveTrip.bind(this)}
-            title="Ok"
-            color="#841584"
-            accessibilityLabel="ok"
-          />
-        </View>
+                  })}
+                />
+                <TextInput
+                  value={this.state.trip.city}
+                  placeholder = "City"
+                  style={styles.inputField}
+                  onChangeText={(text) => this.setState({
+                    trip: {
+                      city:text,
+                      title:this.state.trip.title,
+                      image:this.state.trip.image,
+                      key:this.state.trip.key,
+                    }
+                  })}
+                />
+
+                  <Button
+                    onPress={this.closeWindows.bind(this)}
+                    title="Cancel"
+                    color="#841584"
+                    accessibilityLabel="cancel"
+                  />
+                  <Text> </Text>
+                  <Button
+                    onPress={this.deleteTrip.bind(this)}
+                    title="Delete"
+                    color="#841584"
+                    accessibilityLabel="delete"
+                  />
+                  <Text> </Text>
+                  <Button
+                    onPress={this.saveTrip.bind(this)}
+                    title="Ok"
+                    color="#841584"
+                    accessibilityLabel="ok"
+                  />
+
+          </View>
+         </View>
+        </Modal>
       </View>
 
 
@@ -124,17 +136,15 @@ export default class AddTrip extends Component {
 }
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    padding:40,
+
+
 
   },
   row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+
   },
   inputField:{
-    width:180,
+
   }
 });
