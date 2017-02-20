@@ -34,7 +34,9 @@ module.exports = class Menu extends Component {
     }
   }
 
-
+  goToMap(){
+    alert(goToMap)
+  }
   onChangeUserData(userData){
     this.setState({
       userData: userData

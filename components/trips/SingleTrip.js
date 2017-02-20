@@ -6,17 +6,39 @@ import  {
   Text,
   Image,
   TouchableHighlight,
+  Button,
+  TouchableOpacity,
 } from 'react-native';
 
 
 class SingleTrip extends Component {
   render() {
     return (
+      <TouchableHighlight
+        onPress={this.props.onItemSelected}
+      >
+        <View>
+          <View style={styles.container}>
+            <Image source={{ uri: this.props.item.image}} style={styles.photo} />
+            <Text> </Text>
+            <Button
+              onPress={() => {
+                this.props.onPressTrip(this.props.item)
+              }}
+              title="Edit"
+              color="#841584"
+              accessibilityLabel="Edit"
+            />
+            <Text style={styles.text}>{this.props.item.title}</Text>
+          </View>
+          <View style={styles.container}>
+            <Text>Rank</Text>
+            <Image source={{ uri: 'https://daveexaminesmovies.files.wordpress.com/2012/10/5-star_rating_system_pcar_011-e1349505423547.png'}} style={styles.imageStar} />
 
-        <View style={styles.container}>
-          <Image source={{ uri: this.props.item.image}} style={styles.photo} />
-          <Text style={styles.text}>{this.props.item.title}</Text>
+            <Text>City: {this.props.item.city}</Text>
+          </View>
         </View>
+      </TouchableHighlight>
 
     );
   }
@@ -28,6 +50,11 @@ const styles = StyleSheet.create({
     padding: 12,
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  imageStar:{
+    height: 18,
+    width: 75,
+
   },
   text: {
     marginLeft: 12,

@@ -105,7 +105,7 @@ module.exports = class socialMap extends Component {
           <Contacts userData={this.state.userData}/> : <Text></Text>
         }
         {isMenuSearch ?
-          <ListTrips userData={this.state.userData}/> : <Text></Text>
+          <ListTrips onItemSelected={this.onMenuItemSelected} userData={this.state.userData}/> : <Text></Text>
         }
 
         <Button style={styles.button} onPress={() => this.toggle()}>

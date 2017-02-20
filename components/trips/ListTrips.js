@@ -76,7 +76,13 @@ export default class ListTrips extends Component {
    });
   }
 
+  onItemSelected(){
+    this.props.onItemSelected('MyMaps')
+  }
+
+
   onPressButtonTrip(){
+  //  this.props.onItemSelected('MyMaps')
     this.setState({
       showAddTrip:true,
       trip:{
@@ -84,7 +90,7 @@ export default class ListTrips extends Component {
         title:'',
         image:'https://pickaface.net/gallery/avatar/Opi51c74d0125fd4.png',
       }
-    },function(){
+    }, function(){
       this._childAddTrip.propsToState()
     })
   }
@@ -100,14 +106,11 @@ export default class ListTrips extends Component {
 
   _renderRow(item) {
     return (
-      <TouchableOpacity onPress={() => {
-          this.onPressTrip(item)
-        }}>
-        <SingleTrip
-          item={item}
-          showAddTrip={this.showAddTrip.bind(this)}
-        />
-      </TouchableOpacity>
+      <SingleTrip
+        item={item}
+        onPressTrip={this.onPressTrip.bind(this)}
+        onItemSelected={this.onItemSelected.bind(this)}
+      />
     );
   }
 
