@@ -83,6 +83,9 @@ export default class JustMap extends React.Component {
       })
     };
     this.onLongPressCreateMarker = this.onLongPressCreateMarker.bind(this);
+    this.changeRegionAnimate = this.changeRegionAnimate.bind(this);
+
+
     this.itemsRef = this.getRef().child('locations');
   }
 
@@ -239,6 +242,22 @@ export default class JustMap extends React.Component {
     }
 
 
+
+    changeRegionAnimate() {
+    //  alert("toto")
+      this.map.animateToRegion(this.randomRegion());
+    }
+
+    randomRegion() {
+      const { region } = this.state;
+      return {
+        ...this.state.region,
+        latitude: region.latitude + ((Math.random() - 0.5) * (region.latitudeDelta / 2)),
+        longitude: region.longitude + ((Math.random() - 0.5) * (region.longitudeDelta / 2)),
+      };
+    }
+
+
   render() {
     return (
       <View style={styles.container}>
@@ -246,6 +265,7 @@ export default class JustMap extends React.Component {
         <GoogleAPI ref={(child) => { this._childGoogleAPI = child; }} />
 
             <MapView
+              ref={ref => { this.map = ref; }}
               provider={this.props.provider}
               style={styles.map}
               initialRegion={this.state.region}
@@ -300,7 +320,11 @@ export default class JustMap extends React.Component {
             <ShowLoading
               isLoading={this.state.isLoading}
             />
-            <ListTrips onItemSelected={this.onMenuItemSelected} userData={this.state.userData}/>
+            <ListTrips
+              onItemSelected={this.onMenuItemSelected}
+              userData={this.state.userData}
+              changeRegionAnimate={this.changeRegionAnimate}
+            />
             {
             <DetailsViews
               selectedMarker={this.state.selectedMarker}

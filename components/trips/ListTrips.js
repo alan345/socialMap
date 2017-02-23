@@ -78,11 +78,7 @@ export default class ListTrips extends Component {
    });
   }
 
-  onTripSelected(item){
-    //this.props.onTripSelected('MyMaps')
-    alert("Go to: " + item.title)
-//    console.log(item)
-  }
+
 
 
   onPressButtonTrip(){
@@ -97,6 +93,13 @@ export default class ListTrips extends Component {
     }, function(){
       this._childAddTrip.propsToState()
     })
+  }
+
+  onTripSelected(item){
+    //this.props.onTripSelected('MyMaps')
+    this.props.changeRegionAnimate()
+  //  alert("Go to: " + item.title)
+    console.log(item)
   }
 
   onEditTrip(item){
