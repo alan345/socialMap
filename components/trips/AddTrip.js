@@ -65,7 +65,7 @@ export default class AddTrip extends React.Component {
         }
       },function(){
           component._addTripToFireBase(component.state.trip)
-
+          component.props.onTripSelected(component.state.trip)
       })
     })
     this.props.hideAddTrip()

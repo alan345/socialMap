@@ -46,7 +46,6 @@ module.exports = class Menu extends Component {
 
   render() {
     return (
-
       <ScrollView scrollsToTop={false} style={styles.menu}>
         <View style={styles.avatarContainer}>
           <Image
@@ -56,11 +55,7 @@ module.exports = class Menu extends Component {
           <Text style={styles.name}>{this.state.userData.name}</Text>
         </View>
 
-        <Text
-          onPress={() => this.props.onItemSelected('Search')}
-          style={styles.item}>
-          Search
-        </Text>
+
         <Text
           onPress={() => this.props.onItemSelected('About')}
           style={styles.item}>

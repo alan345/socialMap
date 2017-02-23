@@ -45,7 +45,7 @@ export default class ListTrips extends Component {
   onReduceTrips() {
     this.setState({
       styleHeight:{
-        height:50
+        height:60
       }
     })
   }
@@ -164,6 +164,7 @@ export default class ListTrips extends Component {
           showAddTrip={this.state.showAddTrip}
           hideAddTrip={this.hideAddTrip.bind(this)}
           trip={this.state.trip}
+          onTripSelected={this.onTripSelected.bind(this)}
           ref={(child) => { this._childAddTrip = child; }}
         />
         <FirebaseFunctions ref={(child) => { this._child = child; }} />
@@ -211,8 +212,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
   },
   addIcon:{
-    width: 40,
-    height: 40,
+    width: 35,
+    height: 35,
   },
   addIconTouchableOpacity : {
     right:10,
