@@ -239,6 +239,7 @@ export default class JustMap extends React.Component {
 
     onPressMap(){
       this._childDetailsViews.onReduceDetails()
+      this._childListTrips.onReduceTrips()
     }
 
 
@@ -321,6 +322,7 @@ export default class JustMap extends React.Component {
               onItemSelected={this.onMenuItemSelected}
               userData={this.state.userData}
               changeRegionAnimate={this.changeRegionAnimate}
+              ref={(child) => { this._childListTrips = child; }}
             />
             {
             <DetailsViews

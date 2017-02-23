@@ -43,6 +43,7 @@ export default class AddTrip extends React.Component {
   }
 
 
+
   propsToState(){
     this.setState({
       trip:this.props.trip
@@ -64,13 +65,14 @@ export default class AddTrip extends React.Component {
         }
       },function(){
           component._addTripToFireBase(component.state.trip)
+
       })
     })
     this.props.hideAddTrip()
   }
 
   _addTripToFireBase(trip){
-    //nico need  help
+    //nico need help
     //this._childFirebaseFunctions.addOrUpdateTrip(trip)
     this.addOrUpdateTrip(trip)
 

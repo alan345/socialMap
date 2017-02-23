@@ -25,6 +25,9 @@ export default class ListTrips extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      styleHeight :{
+        height:height/3
+      },
       isLoading:true,
       showAddTrip:false,
       search:{
@@ -39,6 +42,21 @@ export default class ListTrips extends Component {
     this.itemsRef = this.getRef().child('trips');
   }
 
+  onReduceTrips() {
+    this.setState({
+      styleHeight:{
+        height:50
+      }
+    })
+  }
+
+  onIncreaseTrips() {
+    this.setState({
+      styleHeight:{
+        height:height/3
+      }
+    })
+  }
 
   getRef() {
      return firebase.database().ref();
@@ -139,7 +157,9 @@ export default class ListTrips extends Component {
   render() {
     return (
 
-      <View style={styles.container}>
+      <View style={[styles.container,this.state.styleHeight]}>
+      <TouchableOpacity onPress={this.onIncreaseTrips.bind(this)}>
+
         <AddTrip
           showAddTrip={this.state.showAddTrip}
           hideAddTrip={this.hideAddTrip.bind(this)}
@@ -171,7 +191,7 @@ export default class ListTrips extends Component {
           />
         </TouchableOpacity>
 
-
+      </TouchableOpacity>
       </View>
 
 
@@ -212,9 +232,7 @@ const styles = StyleSheet.create({
   container: {
     position: 'absolute',
     top:0,
-    height: 90,
     width: width,
-    height: height/3,
     backgroundColor: '#F5FCFF',
     paddingBottom:5,
 
