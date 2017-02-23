@@ -19,14 +19,17 @@ import AddTrip from './AddTrip';
 import ShowLoading from '../ShowLoading';
 import FirebaseFunctions from "../../includes/FirebaseFunctions";
 
+import SearchInput from './SearchInput'
 const { width, height } = Dimensions.get('window');
+const heightSearchTopMenuOpen = height / 3
+const heightSearchTopMenuClose = 60
 
 export default class ListTrips extends Component {
   constructor(props) {
     super(props);
     this.state = {
       styleHeight :{
-        height:height/3
+        height:heightSearchTopMenuOpen
       },
       isLoading:true,
       showAddTrip:false,
@@ -42,10 +45,17 @@ export default class ListTrips extends Component {
     this.itemsRef = this.getRef().child('trips');
   }
 
+  onTogggleTrips(){
+    if(this.state.styleHeight.height == heightSearchTopMenuClose) {
+      this.onIncreaseTrips()
+    } else {
+      this.onReduceTrips()
+    }
+  }
   onReduceTrips() {
     this.setState({
       styleHeight:{
-        height:60
+        height:heightSearchTopMenuClose
       }
     })
   }
@@ -53,7 +63,7 @@ export default class ListTrips extends Component {
   onIncreaseTrips() {
     this.setState({
       styleHeight:{
-        height:height/3
+        height:heightSearchTopMenuOpen
       }
     })
   }
@@ -73,7 +83,7 @@ export default class ListTrips extends Component {
   listenForItems() {
     let querySearch
     if(this.state.search.city) {
-      querySearch = this.getRef().child('trips').orderByChild("city").equalTo(this.state.search.city)
+      querySearch = this.getRef().child('trips').orderByChild("googleData/address").equalTo(this.state.search.city)
     } else {
       querySearch = this.getRef().child('trips')
     }
@@ -141,7 +151,7 @@ export default class ListTrips extends Component {
     );
   }
   onCleanInput(){
-    this.refs['textInputSearch'].setNativeProps({text: ''});
+    this.refs['GooglePlacesAutocomplete'].setNativeProps({text: ''});
     this.setState({
       isLoading:true,
       search : {
@@ -157,6 +167,8 @@ export default class ListTrips extends Component {
     this.listenForItems();
   }
   _onChangeText(description) {
+    console.log(description)
+    this.onIncreaseTrips()
     this.setState({
       isLoading:true,
       search : {
@@ -170,7 +182,7 @@ export default class ListTrips extends Component {
     return (
 
       <View style={[styles.container,this.state.styleHeight]}>
-      <TouchableOpacity onPress={this.onIncreaseTrips.bind(this)}>
+      <TouchableOpacity onPress={this.onTogggleTrips.bind(this)}>
 
         <AddTrip
           showAddTrip={this.state.showAddTrip}
@@ -182,15 +194,14 @@ export default class ListTrips extends Component {
         <FirebaseFunctions ref={(child) => { this._child = child; }} />
         <ShowLoading isLoading={this.state.isLoading} />
         <View style={styles.searchView}>
-          <TextInput
-            ref={'textInputSearch'}
-            placeholder = "🔎"
-            style={styles.inputField}
+          <SearchInput
             onChangeText={this._onChangeText.bind(this)}
           />
           <TouchableOpacity onPress={this.onCleanInput.bind(this)}>
-            <Text style={styles.TouchableOpacityCleanInput}> X</Text>
+            <Text style={styles.TouchableOpacityCleanInput}> ✘</Text>
           </TouchableOpacity>
+          <View style={{width: 75}}>
+          </View>
         </View>
         <ListView
           dataSource={this.state.dataSource}
@@ -219,13 +230,10 @@ const styles = StyleSheet.create({
   searchView:{
     marginLeft: 40,
     flexDirection: 'row',
-
-
-
   },
   TouchableOpacityCleanInput:{
     paddingTop:22,
-    fontSize: 22,
+    fontSize: 25,
   },
   button: {
     position: 'absolute',
@@ -271,8 +279,5 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#333333',
     marginBottom: 5,
-  },
-  inputField:{
-    width:100,
   }
 });

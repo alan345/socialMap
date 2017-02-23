@@ -18,15 +18,17 @@ export default class SearchInput extends Component {
     return (
 
           <GooglePlacesAutocomplete
-          placeholder='Search'
+          placeholder='🔎'
           minLength={2} // minimum length of text to search
           autoFocus={false}
           listViewDisplayed='auto'    // true/false/undefined
           fetchDetails={true}
           renderDescription={(row) => row.description} // custom description render
           onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
-            console.log(data);
-            console.log(details);
+            // console.log(data);
+            // console.log(details);
+            this.props.onChangeText(details.formatted_address)
+          //  this.onChangeText('');
           }}
           getDefaultValue={() => {
             return ''; // text input default value
@@ -44,14 +46,33 @@ export default class SearchInput extends Component {
             predefinedPlacesDescription: {
               color: '#1faadb',
             },
-            textInput: {
+            container: {
+              backgroundColor:'#F5FCFF',
+              margin:0,
+              padding:0
 
+            },
+            textInputContainer: {
+              backgroundColor: '#F5FCFF',
 
 
             },
-          }}
+            textInput:{
+              backgroundColor: '#F5FCFF',
+              borderRadius:0,
+              paddingTop:0,
+              paddingBottom:0,
+              paddingLeft:0,
+              paddingRight:0,
+              marginTop:0,
+              marginLeft:0,
+              height:50
+            }
 
-          currentLocation={true} // Will add a 'Current location' button at the top of the predefined places list
+          }}
+          enableEmptySections={true}
+          enablePoweredByContainer={false}
+          currentLocation={false} // Will add a 'Current location' button at the top of the predefined places list
           currentLocationLabel="Current location"
           nearbyPlacesAPI='GooglePlacesSearch' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch
           GoogleReverseGeocodingQuery={{
@@ -63,7 +84,7 @@ export default class SearchInput extends Component {
             types: 'food',
           }}
           filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
-          predefinedPlaces={[homePlace, workPlace]}
+
         />
 
 
