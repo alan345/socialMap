@@ -191,12 +191,12 @@ const styles = StyleSheet.create({
     position: 'absolute',
   },
   addIcon:{
-    width: 60,
-    height: 60,
+    width: 40,
+    height: 40,
   },
   addIconTouchableOpacity : {
     right:10,
-    bottom:50,
+    top:10,
     position: 'absolute',
   },
   separator: {
