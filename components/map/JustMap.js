@@ -121,7 +121,7 @@ export default class JustMap extends React.Component {
          var items = [];
          snap.forEach((child) => {
            items.push({
-             title: child.val().address_components.neighborhood,
+             title: child.val().title,
              address_components: child.val().address_components,
              coordinate: child.val().coordinates,
              coordinateGoogleAddress: child.val().coordinateGoogleAddress,
@@ -205,6 +205,7 @@ export default class JustMap extends React.Component {
         marker.datePin = Date()
         marker.description = ""
         marker.userData = component.props.userData
+        marker.title = marker.address_components.route
 
         component._addLocationToFirebase(marker);
       })

@@ -108,7 +108,7 @@ class FirebaseFunctions extends Component {
   updateLocationToFirebase(marker) {
     let itemsRef = this.getRefLocations();
     itemsRef.child(marker.key).set({
-        title: "title",
+        title: marker.title,
         coordinates: marker.coordinate,
         coordinateGoogleAddress: marker.coordinateGoogleAddress,
         address: marker.address,
@@ -130,7 +130,7 @@ class FirebaseFunctions extends Component {
   addLocationToFirebase(marker) {
     let itemsRef = this.getRefLocations();
     itemsRef.push({
-      title: "title",
+      title: marker.title,
       coordinates: marker.coordinate,
       coordinateGoogleAddress: marker.coordinateGoogleAddress,
       address: marker.address,

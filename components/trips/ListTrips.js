@@ -140,6 +140,18 @@ export default class ListTrips extends Component {
       />
     );
   }
+  onCleanInput(){
+    this.refs['textInputSearch'].setNativeProps({text: ''});
+    this.setState({
+      isLoading:true,
+      search : {
+        city:''
+      }
+    }, function() {
+      this.listenForItems()
+    })
+
+  }
 
   componentDidMount() {
     this.listenForItems();
@@ -171,10 +183,14 @@ export default class ListTrips extends Component {
         <ShowLoading isLoading={this.state.isLoading} />
         <View style={styles.searchView}>
           <TextInput
-            placeholder = "City"
+            ref={'textInputSearch'}
+            placeholder = "🔎"
             style={styles.inputField}
             onChangeText={this._onChangeText.bind(this)}
           />
+          <TouchableOpacity onPress={this.onCleanInput.bind(this)}>
+            <Text style={styles.TouchableOpacityCleanInput}> X</Text>
+          </TouchableOpacity>
         </View>
         <ListView
           dataSource={this.state.dataSource}
@@ -202,6 +218,14 @@ export default class ListTrips extends Component {
 const styles = StyleSheet.create({
   searchView:{
     marginLeft: 40,
+    flexDirection: 'row',
+
+
+
+  },
+  TouchableOpacityCleanInput:{
+    paddingTop:22,
+    fontSize: 22,
   },
   button: {
     position: 'absolute',
