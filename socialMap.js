@@ -38,7 +38,7 @@ class Button extends Component {
 module.exports = class socialMap extends Component {
   state = {
     isOpen: false,
-    selectedItem: 'Search',
+    selectedItem: 'MyMaps',
     userData :{}
   };
 

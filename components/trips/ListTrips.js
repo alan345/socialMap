@@ -19,6 +19,8 @@ import AddTrip from './AddTrip';
 import ShowLoading from '../ShowLoading';
 import FirebaseFunctions from "../../includes/FirebaseFunctions";
 
+const { width, height } = Dimensions.get('window');
+
 export default class ListTrips extends Component {
   constructor(props) {
     super(props);
@@ -76,8 +78,10 @@ export default class ListTrips extends Component {
    });
   }
 
-  onItemSelected(){
-    this.props.onItemSelected('MyMaps')
+  onTripSelected(item){
+    //this.props.onTripSelected('MyMaps')
+    alert("Go to: " + item.title)
+//    console.log(item)
   }
 
 
@@ -95,7 +99,8 @@ export default class ListTrips extends Component {
     })
   }
 
-  onPressTrip(item){
+  onEditTrip(item){
+    //console.log(item)
     this.setState({
       showAddTrip:true,
       trip:item
@@ -108,8 +113,8 @@ export default class ListTrips extends Component {
     return (
       <SingleTrip
         item={item}
-        onPressTrip={this.onPressTrip.bind(this)}
-        onItemSelected={this.onItemSelected.bind(this)}
+        onEditTrip={this.onEditTrip.bind(this)}
+        onTripSelected={this.onTripSelected.bind(this)}
       />
     );
   }
@@ -139,11 +144,13 @@ export default class ListTrips extends Component {
         />
         <FirebaseFunctions ref={(child) => { this._child = child; }} />
         <ShowLoading isLoading={this.state.isLoading} />
-        <TextInput
-          placeholder = "City"
-          style={styles.inputField}
-          onChangeText={this._onChangeText.bind(this)}
-        />
+        <View style={styles.searchView}>
+          <TextInput
+            placeholder = "City"
+            style={styles.inputField}
+            onChangeText={this._onChangeText.bind(this)}
+          />
+        </View>
         <ListView
           dataSource={this.state.dataSource}
           renderRow={this._renderRow.bind(this)}
@@ -168,6 +175,9 @@ export default class ListTrips extends Component {
   }
 }
 const styles = StyleSheet.create({
+  searchView:{
+    marginLeft: 40,
+  },
   button: {
     position: 'absolute',
     top: 20,
@@ -196,10 +206,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    position: 'absolute',
+    top:0,
+    height: 90,
+    width: width,
+    height: height/3,
     backgroundColor: '#F5FCFF',
+    paddingBottom:5,
+
   },
   welcome: {
     fontSize: 20,

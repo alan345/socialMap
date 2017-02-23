@@ -15,7 +15,9 @@ class SingleTrip extends Component {
   render() {
     return (
       <TouchableHighlight
-        onPress={this.props.onItemSelected}
+        onPress={() => {
+          this.props.onTripSelected(this.props.item)
+        }}
       >
         <View>
           <View style={styles.container}>
@@ -23,19 +25,19 @@ class SingleTrip extends Component {
             <Text> </Text>
             <Button
               onPress={() => {
-                this.props.onPressTrip(this.props.item)
+                this.props.onEditTrip(this.props.item)
               }}
-              title="Edit"
+              title="✎"
               color="#841584"
-              accessibilityLabel="Edit"
+              accessibilityLabel="✎"
             />
-            <Text style={styles.text}>{this.props.item.title}</Text>
-          </View>
-          <View style={styles.container}>
-            <Text>Rank</Text>
             <Image source={{ uri: 'https://daveexaminesmovies.files.wordpress.com/2012/10/5-star_rating_system_pcar_011-e1349505423547.png'}} style={styles.imageStar} />
 
-            <Text>City: {this.props.item.city}</Text>
+            <Text> {this.props.item.city}</Text>
+            <Text style={styles.text}>{this.props.item.title}</Text>
+
+
+
           </View>
         </View>
       </TouchableHighlight>
@@ -47,7 +49,7 @@ class SingleTrip extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 12,
+    padding: 0,
     flexDirection: 'row',
     alignItems: 'center',
   },

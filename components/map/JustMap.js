@@ -35,6 +35,7 @@ import GoogleAPI from '../../includes/GoogleAPI';
 import FBLoginView from '../FBLoginView';
 import DetailsViews from './DetailsViews';
 import ShowLoading from '../ShowLoading';
+import ListTrips from '../trips/ListTrips';
 
 
 let keyId = 0
@@ -244,7 +245,6 @@ export default class JustMap extends React.Component {
         <FirebaseFunctions ref={(child) => { this._child = child; }} />
         <GoogleAPI ref={(child) => { this._childGoogleAPI = child; }} />
 
-
             <MapView
               provider={this.props.provider}
               style={styles.map}
@@ -300,11 +300,13 @@ export default class JustMap extends React.Component {
             <ShowLoading
               isLoading={this.state.isLoading}
             />
-
+            <ListTrips onItemSelected={this.onMenuItemSelected} userData={this.state.userData}/>
+            {
             <DetailsViews
               selectedMarker={this.state.selectedMarker}
               ref={(child) => { this._childDetailsViews = child; }}
             />
+            }
 
       </View>
     );
