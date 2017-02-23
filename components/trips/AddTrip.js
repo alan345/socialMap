@@ -19,8 +19,7 @@ import FirebaseFunctions from "../../includes/FirebaseFunctions";
 const { width, height } = Dimensions.get('window');
 import GoogleAPI from '../../includes/GoogleAPI';
 
-
-export default class AddTrip extends Component {
+export default class AddTrip extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -34,10 +33,6 @@ export default class AddTrip extends Component {
     };
     this._addTripToFireBase = this._addTripToFireBase.bind(this);
     this.saveTrip = this.saveTrip.bind(this);
-
-
-
-
 
     this.itemsRef = this.getRef().child('trips');
   }
@@ -55,40 +50,55 @@ export default class AddTrip extends Component {
   }
 
   saveTrip(){
-    let address = "paris, france"
+
+    let address = this.state.trip.city
     let component = this;
 
     this._childGoogleAPI.getDataFromGoogleAPiByAddress(address).then(function(marker){
-      // component.setState({
-      //   trip:{
-      //     googleData:marker
-      //   }
-      // },function(){
-      //     component._child.addOrUpdateTrip(this.state.trip)
-      // })
-    //  component._childFirebaseFunctions.addOrUpdateTrip(this.state.trip)
-
-      let trip = component.state.trip
-      trip.googleData = marker
-      component._addTripToFireBase(trip)
-
-    //  console.log(marker)
-
-      // marker.key = key
-      // marker.datePin = Date()
-      // marker.description = ""
-      // marker.userData = component.props.userData
-      //
-      // component._addLocationToFirebase(marker);
+      component.setState({
+        trip:{
+          googleData:marker,
+          city:component.state.trip.city,
+          title:component.state.trip.title,
+          image:component.state.trip.image
+        }
+      },function(){
+          component._addTripToFireBase(component.state.trip)
+      })
     })
-
-
     this.props.hideAddTrip()
   }
 
   _addTripToFireBase(trip){
-    this._childFirebaseFunctions.addOrUpdateTrip(trip)
+    //nico need  help
+    //this._childFirebaseFunctions.addOrUpdateTrip(trip)
+    this.addOrUpdateTrip(trip)
+
   }
+  // should be in firebase Function mais jai un bug
+  addOrUpdateTrip(trip){
+    if(trip.key == null  ) {
+      this.addTrip(trip)
+    } else {
+      this.updateTrip(trip)
+    }
+  }
+  // should be in firebase Function mais jai un bug
+  addTrip(trip){
+    let itemsRef = firebase.database().ref().child('trips');
+    delete trip.key
+    itemsRef.push(trip);
+  }
+  // should be in firebase Function mais jai un bug
+  updateTrip(trip){
+    let itemsRef = firebase.database().ref().child('trips');
+    itemsRef.child(trip.key).set({
+        title: trip.title,
+        image: trip.image,
+        city: trip.city,
+      });
+  }
+
 
   deleteTrip(){
     this._childFirebaseFunctions.deleteTrip(this.state.trip)

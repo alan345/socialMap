@@ -48,7 +48,7 @@ class FirebaseFunctions extends Component {
     })
   }
 
-  
+
   addOrUpdateTrip(trip){
     if(trip.key == null  ) {
       this.addTrip(trip)

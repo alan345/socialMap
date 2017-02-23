@@ -65,6 +65,7 @@ export default class ListTrips extends Component {
        snap.forEach((child) => {
          items.push({
            title: child.val().title,
+           googleData: child.val().googleData,
            image: child.val().image,
            city: child.val().city,
            key: child.key
@@ -97,9 +98,9 @@ export default class ListTrips extends Component {
 
   onTripSelected(item){
     //this.props.onTripSelected('MyMaps')
-    this.props.changeRegionAnimate()
+    this.props.changeRegionAnimate(item)
   //  alert("Go to: " + item.title)
-    console.log(item)
+  //  console.log(item)
   }
 
   onEditTrip(item){

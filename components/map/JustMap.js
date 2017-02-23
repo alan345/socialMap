@@ -243,19 +243,16 @@ export default class JustMap extends React.Component {
 
 
 
-    changeRegionAnimate() {
-    //  alert("toto")
-      this.map.animateToRegion(this.randomRegion());
+    changeRegionAnimate(item) {
+      let newRegion = {
+        ...this.state.region,
+        latitude: item.googleData.coordinateGoogleAddress.latitude,
+        longitude: item.googleData.coordinateGoogleAddress.longitude,
+      }
+      this.map.animateToRegion(newRegion);
     }
 
-    randomRegion() {
-      const { region } = this.state;
-      return {
-        ...this.state.region,
-        latitude: region.latitude + ((Math.random() - 0.5) * (region.latitudeDelta / 2)),
-        longitude: region.longitude + ((Math.random() - 0.5) * (region.longitudeDelta / 2)),
-      };
-    }
+
 
 
   render() {
