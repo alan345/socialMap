@@ -139,6 +139,7 @@ export default class AddTrip extends React.Component {
                     trip: {
                       city:this.state.trip.city,
                       title:text,
+                      locations:locations,
                       image:this.state.trip.image,
                       key:this.state.trip.key,
                     }
@@ -153,6 +154,7 @@ export default class AddTrip extends React.Component {
                     trip: {
                       city:text,
                       title:this.state.trip.title,
+                      locations:locations,
                       image:this.state.trip.image,
                       key:this.state.trip.key,
                     }

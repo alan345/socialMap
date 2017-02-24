@@ -96,7 +96,8 @@ export default class ListTrips extends Component {
            googleData: child.val().googleData,
            image: child.val().image,
            city: child.val().city,
-           key: child.key
+           locations:child.val().locations,
+           key: child.key,
          });
        });
 
@@ -118,6 +119,7 @@ export default class ListTrips extends Component {
         city:'',
         title:'',
         image:'https://pickaface.net/gallery/avatar/Opi51c74d0125fd4.png',
+        locations:{},
       }
     }, function(){
       this._childAddTrip.propsToState()
@@ -126,7 +128,7 @@ export default class ListTrips extends Component {
 
   onTripSelected(item){
     //this.props.onTripSelected('MyMaps')
-    this.props.changeRegionAnimate(item)
+    this.props.onTripSelected(item)
   //  alert("Go to: " + item.title)
   //  console.log(item)
   }

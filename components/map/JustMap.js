@@ -45,6 +45,7 @@ export default class JustMap extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      tripId : 'firstTripIdToShow',
       region: {
         latitude: LATITUDE,
         longitude: LONGITUDE,
@@ -86,7 +87,7 @@ export default class JustMap extends React.Component {
     this.changeRegionAnimate = this.changeRegionAnimate.bind(this);
 
 
-    this.itemsRef = this.getRef().child('locations');
+    this.itemsRef = this.getRef().child('trips').child(this.state.tripId).child('locations');
   }
 
 
@@ -107,7 +108,7 @@ export default class JustMap extends React.Component {
       //     isLoading:false,
       //   });
       // })
-
+      /*
       let queryMyMap = this.itemsRef.orderByChild("userData/id").equalTo("10158181137300068")
       let querySearch = this.itemsRef.orderByChild("address_components/locality").equalTo("San Francisco")
       let queryToUse
@@ -117,6 +118,8 @@ export default class JustMap extends React.Component {
       } else {
         queryToUse = querySearch
       }
+      */
+      let queryToUse = this.getRef().child('trips').child(this.state.tripId).child('locations');
        queryToUse.on('value', (snap) => {
          var items = [];
          snap.forEach((child) => {
@@ -150,15 +153,15 @@ export default class JustMap extends React.Component {
       this.listenForItems();
     }
 
-    _updateLocationToFirebase(marker) {
-      this._child.updateLocationToFirebase(marker)
+    _updateLocationToFirebase(marker, tripId) {
+      this._child.updateLocationToFirebase(marker, tripId)
     }
 
-   _addLocationToFirebase(marker) {
+   _addLocationToFirebase(marker, tripId) {
      if(marker.key) {
-       this._child.updateLocationToFirebase(marker)
+       this._child.updateLocationToFirebase(marker, tripId)
      } else {
-       this._child.addLocationToFirebase(marker)
+       this._child.addLocationToFirebase(marker, tripId)
      }
    }
 
@@ -167,6 +170,10 @@ export default class JustMap extends React.Component {
     createOrUpdateMarker(e, marker) {
       if(!this.props.userData.id) {
         alert("You must be logged !")
+        return;
+      }
+      if(!this.state.tripId) {
+        alert("Select or Create a trip first!")
         return;
       }
       let key=""
@@ -206,8 +213,7 @@ export default class JustMap extends React.Component {
         marker.description = ""
         marker.userData = component.props.userData
         marker.title = marker.address_components.route
-
-        component._addLocationToFirebase(marker);
+        component._addLocationToFirebase(marker, component.state.tripId);
       })
 
 
@@ -244,7 +250,19 @@ export default class JustMap extends React.Component {
     }
 
 
+    onTripSelected(item) {
 
+      
+      this.setState({
+        tripId:item.key
+      },function(){
+        this.listenForItems();
+        console.log(this.state)
+      })
+      this.changeRegionAnimate(item)
+
+
+    }
     changeRegionAnimate(item) {
       let newRegion = {
         ...this.state.region,
@@ -322,7 +340,7 @@ export default class JustMap extends React.Component {
             <ListTrips
               onItemSelected={this.onMenuItemSelected}
               userData={this.state.userData}
-              changeRegionAnimate={this.changeRegionAnimate}
+              onTripSelected={this.onTripSelected.bind(this)}
               ref={(child) => { this._childListTrips = child; }}
             />
             {

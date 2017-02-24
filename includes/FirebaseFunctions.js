@@ -17,8 +17,8 @@ class FirebaseFunctions extends Component {
   getRef() {
      return firebase.database().ref();
   }
-  getRefLocations() {
-     return this.getRef().child('locations');
+  getRefLocations(tripId) {
+     return this.getRef().child('trips').child(tripId).child('locations');
   }
   getRefUsers() {
      return this.getRef().child('users');
@@ -106,7 +106,7 @@ class FirebaseFunctions extends Component {
 
 
   updateLocationToFirebase(marker) {
-    let itemsRef = this.getRefLocations();
+    let itemsRef = this.getRefLocations(marker.tripId);
     itemsRef.child(marker.key).set({
         title: marker.title,
         coordinates: marker.coordinate,
@@ -127,8 +127,8 @@ class FirebaseFunctions extends Component {
   }
 
 
-  addLocationToFirebase(marker) {
-    let itemsRef = this.getRefLocations();
+  addLocationToFirebase(marker, tripId) {
+    let itemsRef = this.getRefLocations(tripId);
     itemsRef.push({
       title: marker.title,
       coordinates: marker.coordinate,
