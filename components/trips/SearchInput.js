@@ -8,16 +8,15 @@ import {
   Button,
   Dimensions
 } from 'react-native';
+
 var {GooglePlacesAutocomplete} = require('react-native-google-places-autocomplete');
-const homePlace = {description: 'Home', geometry: { location: { lat: 48.8152937, lng: 2.4597668 } }};
-const workPlace = {description: 'Work', geometry: { location: { lat: 48.8496818, lng: 2.2940881 } }};
 
 
 export default class SearchInput extends Component {
   render() {
     return (
 
-          <GooglePlacesAutocomplete
+        <GooglePlacesAutocomplete
           placeholder='🔎'
           minLength={2} // minimum length of text to search
           autoFocus={false}

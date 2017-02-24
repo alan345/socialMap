@@ -151,7 +151,7 @@ export default class ListTrips extends Component {
     );
   }
   onCleanInput(){
-    this.refs['GooglePlacesAutocomplete'].setNativeProps({text: ''});
+  //  this.refs['GooglePlacesAutocomplete'].setNativeProps({text: ''});
     this.setState({
       isLoading:true,
       search : {
@@ -197,8 +197,8 @@ export default class ListTrips extends Component {
           <SearchInput
             onChangeText={this._onChangeText.bind(this)}
           />
-          <TouchableOpacity onPress={this.onCleanInput.bind(this)}>
-            <Text style={styles.TouchableOpacityCleanInput}> ✘</Text>
+          <TouchableOpacity onPress={this.onTogggleTrips.bind(this)}>
+            <Text style={styles.TouchableOpacityCleanInput}> ⇅</Text>
           </TouchableOpacity>
           <View style={{width: 75}}>
           </View>
