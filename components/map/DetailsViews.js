@@ -144,8 +144,6 @@ class DetailsViews extends Component {
                             source={{uri: this.props.selectedMarker.userData.picture.data.url}}
                           />
 
-
-
                         </View>
                           <Text>{this.props.selectedMarker.address}</Text>
                           <Text>Country: {this.props.selectedMarker.address_components.country}</Text>

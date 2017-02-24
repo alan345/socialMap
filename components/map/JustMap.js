@@ -158,6 +158,9 @@ export default class JustMap extends React.Component {
     }
 
    _addLocationToFirebase(marker, tripId) {
+
+     console.log(marker)
+     console.log(tripId)
      if(marker.key) {
        this._child.updateLocationToFirebase(marker, tripId)
      } else {
@@ -173,6 +176,7 @@ export default class JustMap extends React.Component {
         return;
       }
       if(!this.state.tripId) {
+        console.log(this.state.tripId)
         alert("Select or Create a trip first!")
         return;
       }
@@ -251,7 +255,7 @@ export default class JustMap extends React.Component {
 
 
     onTripSelected(item) {
-
+      console.log(item)
       // help nico. Ici, on a deja les markers. dans item.locations. Pas besoin de listenForItems() qui refait un appel dans la base de donnee
       this.setState({
         tripId:item.key
@@ -336,7 +340,7 @@ export default class JustMap extends React.Component {
             />
             <ListTrips
               onItemSelected={this.onMenuItemSelected}
-              userData={this.state.userData}
+              userData={this.props.userData}
               onTripSelected={this.onTripSelected.bind(this)}
               ref={(child) => { this._childListTrips = child; }}
             />

@@ -130,7 +130,7 @@ export default class ListTrips extends Component {
     //this.props.onTripSelected('MyMaps')
     this.props.onTripSelected(item)
   //  alert("Go to: " + item.title)
-  //  console.log(item)
+    console.log(item)
   }
 
   onEditTrip(item){
@@ -169,7 +169,6 @@ export default class ListTrips extends Component {
     this.listenForItems();
   }
   _onChangeText(description) {
-    console.log(description)
     this.onIncreaseTrips()
     this.setState({
       isLoading:true,
@@ -187,6 +186,7 @@ export default class ListTrips extends Component {
       <TouchableOpacity onPress={this.onTogggleTrips.bind(this)}>
 
         <AddTrip
+          userData={this.props.userData}
           showAddTrip={this.state.showAddTrip}
           hideAddTrip={this.hideAddTrip.bind(this)}
           trip={this.state.trip}

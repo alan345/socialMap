@@ -61,18 +61,19 @@ export default class AddTrip extends React.Component {
           googleData:marker,
           city:component.state.trip.city,
           title:component.state.trip.title,
-          image:component.state.trip.image
+          image:component.state.trip.image,
+          userData:component.props.userData,
         }
       },function(){
           component._addTripToFireBase(component.state.trip)
-          component.props.onTripSelected(component.state.trip)
+
       })
     })
     this.props.hideAddTrip()
   }
 
   _addTripToFireBase(trip){
-    //nico need help
+    //help nico need help
     //this._childFirebaseFunctions.addOrUpdateTrip(trip)
     this.addOrUpdateTrip(trip)
 
@@ -88,8 +89,12 @@ export default class AddTrip extends React.Component {
   // should be in firebase Function mais jai un bug
   addTrip(trip){
     let itemsRef = firebase.database().ref().child('trips');
-    delete trip.key
-    itemsRef.push(trip);
+    var newRef = itemsRef.push();
+    var key = newRef.key;
+    trip.key = key
+    trip.locations = {}
+    this.props.onTripSelected(trip)
+    this.updateTrip(trip)
   }
   // should be in firebase Function mais jai un bug
   updateTrip(trip){
@@ -98,6 +103,9 @@ export default class AddTrip extends React.Component {
         title: trip.title,
         image: trip.image,
         city: trip.city,
+        googleData: trip.googleData,
+        userData: trip.userData,
+        locations: trip.locations,
       });
   }
 

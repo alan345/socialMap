@@ -105,8 +105,8 @@ class FirebaseFunctions extends Component {
 
 
 
-  updateLocationToFirebase(marker) {
-    let itemsRef = this.getRefLocations(marker.tripId);
+  updateLocationToFirebase(marker, tripId) {
+    let itemsRef = this.getRefLocations(tripId);
     itemsRef.child(marker.key).set({
         title: marker.title,
         coordinates: marker.coordinate,
