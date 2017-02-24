@@ -127,14 +127,10 @@ export default class ListTrips extends Component {
   }
 
   onTripSelected(item){
-    //this.props.onTripSelected('MyMaps')
     this.props.onTripSelected(item)
-  //  alert("Go to: " + item.title)
-    console.log(item)
   }
 
   onEditTrip(item){
-    //console.log(item)
     this.setState({
       showAddTrip:true,
       trip:item
