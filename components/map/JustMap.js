@@ -150,7 +150,7 @@ export default class JustMap extends React.Component {
 
 
     componentDidMount() {
-      this.listenForItems();
+      //this.listenForItems();
     }
 
     _updateLocationToFirebase(marker, tripId) {
@@ -257,7 +257,6 @@ export default class JustMap extends React.Component {
         tripId:item.key
       },function(){
         this.listenForItems();
-        console.log(this.state)
       })
       this.changeRegionAnimate(item)
 
@@ -271,8 +270,6 @@ export default class JustMap extends React.Component {
       }
       this.map.animateToRegion(newRegion);
     }
-
-
 
 
   render() {
