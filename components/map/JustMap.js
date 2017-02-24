@@ -252,7 +252,7 @@ export default class JustMap extends React.Component {
 
     onTripSelected(item) {
 
-      
+      // help nico. Ici, on a deja les markers. dans item.locations. Pas besoin de listenForItems() qui refait un appel dans la base de donnee
       this.setState({
         tripId:item.key
       },function(){
