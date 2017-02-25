@@ -251,6 +251,9 @@ export default class JustMap extends React.Component {
       this._childListTrips.onReduceTrips()
     }
 
+    onSetPositionDetails(position){
+      this._childDetailsViews.onSetPositionDetails(position)
+    }
 
     onTripSelected(item) {
       // help nico. Ici, on a deja les markers. dans item.locations. Pas besoin de listenForItems() qui refait un appel dans la base de donnee
@@ -270,6 +273,13 @@ export default class JustMap extends React.Component {
         longitude: item.googleData.coordinateGoogleAddress.longitude,
       }
       this.map.animateToRegion(newRegion);
+    }
+
+    onPressMarker(location){
+      this.setState({
+        selectedMarker: location
+      })
+      this._childDetailsViews.onShowDetails()
     }
 
 
@@ -292,12 +302,7 @@ export default class JustMap extends React.Component {
                 return (
                   <MapView.Marker
                     key={location.key}
-                    onPress={() => {this.setState({
-                      selectedMarker: location
-                    })
-                    this._childDetailsViews.onShowDetails()
-
-                  }}
+                    onPress={()=>{this.onPressMarker(location)}}
                     onDragEnd={(e) => {
                       this.createOrUpdateMarker(e, location);
                     }}
@@ -341,7 +346,10 @@ export default class JustMap extends React.Component {
               onTripSelected={this.onTripSelected.bind(this)}
               ref={(child) => { this._childListTrips = child; }}
             />
-            <CreateLocationButton/>
+            <CreateLocationButton
+              onPressMarker={this.onPressMarker.bind(this)}
+              onSetPositionDetails={this.onSetPositionDetails.bind(this)}
+            />
             <DetailsViews
               selectedMarker={this.state.selectedMarker}
               ref={(child) => { this._childDetailsViews = child; }}

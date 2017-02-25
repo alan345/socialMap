@@ -19,10 +19,34 @@ export default class CreateLocationButton extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-    };
+      emptySelectedMarker: {
+        key:'',
+        address : '',
+        address_components : {
+          neighborhood:''
+        },
+        imagePin : 'https://pickaface.net/gallery/avatar/Opi51c74d0125fd4.png',
+        coordinate : {
+          latitude: '',
+          longitude: '',
+        },
+        coordinateGoogleAddress : {
+          latitude: '',
+          longitude: '',
+        },
+        userData: {
+          picture: {
+            data: {
+              url: 'https://pickaface.net/gallery/avatar/Opi51c74d0125fd4.png'
+            }
+          }
+        }
+      }
+    }
   }
   addLocation(){
-    alert("toto")
+    this.props.onPressMarker(this.state.emptySelectedMarker)
+    this.props.onSetPositionDetails(2)
   }
   render() {
     // if(!this.props.showAddTrip)
