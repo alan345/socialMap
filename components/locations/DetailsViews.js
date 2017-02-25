@@ -130,81 +130,80 @@ class DetailsViews extends Component {
 
 
       render(){
-        if(this.props.selectedMarker.key=='')
-        return null
+        if(this.props.trip.key=='')
+          return null
 
-              return (
+          return (
 
-                <View style={styles.draggableContainer}>
-                    <FirebaseFunctions ref={(child) => { this._child = child; }} />
-                    <Animated.View
-                        {...this.panResponder.panHandlers}
-                        style={[this.state.pan.getLayout(), styles.detailsList]}>
+            <View style={styles.draggableContainer}>
+                <FirebaseFunctions ref={(child) => { this._child = child; }} />
+                <Animated.View
+                    {...this.panResponder.panHandlers}
+                    style={[this.state.pan.getLayout(), styles.detailsList]}>
 
-                        <View style={styles.headerDetails}>
-                          <Image
-                            style={styles.icon}
-                            source={{uri: this.props.selectedMarker.imagePin}}
-                          />
-                          <Text
-                            style={styles.text}
-                          >{this.props.selectedMarker.address_components.neighborhood}</Text>
+                    <View style={styles.headerDetails}>
+                      <Image
+                        style={styles.icon}
+                        source={{uri: this.props.selectedMarker.imagePin}}
+                      />
+                      <Text
+                        style={styles.text}
+                      >{this.props.selectedMarker.address_components.neighborhood}</Text>
 
-                          <Image
-                            style={styles.iconRight}
-                            source={{uri: this.props.trip.userData.picture.data.url}}
-                          />
+                      <Image
+                        style={styles.iconRight}
+                        source={{uri: this.props.trip.userData.picture.data.url}}
+                      />
 
 
-                        </View>
-                          {this.state.isEditMode ?
-                            <TextInput
-                              placeholder = "Description"
-                              style={styles.inputField}
-                              onChangeText={this._onChangeText.bind(this)}
-                              value={this.props.selectedMarker.description}
-                            />
-                            :
-                            <Text>{this.props.selectedMarker.address}</Text>
-                          }
+                    </View>
+                      {this.state.isEditMode ?
+                        <TextInput
+                          placeholder = "Description"
+                          style={styles.inputField}
+                          onChangeText={this._onChangeText.bind(this)}
+                          value={this.props.selectedMarker.description}
+                        />
+                        :
+                        <Text>{this.props.selectedMarker.address}</Text>
+                      }
 
-                          <Text>Country: {this.props.selectedMarker.address_components.country}</Text>
-                          <Text>Locality: {this.props.selectedMarker.address_components.locality}</Text>
-                          <Text>State: {this.props.selectedMarker.address_components.administrative_area_level_1}</Text>
-                          <Text>Neighborhood: {this.props.selectedMarker.address_components.neighborhood}</Text>
+                      <Text>Country: {this.props.selectedMarker.address_components.country}</Text>
+                      <Text>Locality: {this.props.selectedMarker.address_components.locality}</Text>
+                      <Text>State: {this.props.selectedMarker.address_components.administrative_area_level_1}</Text>
+                      <Text>Neighborhood: {this.props.selectedMarker.address_components.neighborhood}</Text>
 
-                          <Text>Date: {this.props.selectedMarker.datePin}</Text>
-                          <Text>{this.props.selectedMarker.description}</Text>
+                      <Text>Date: {this.props.selectedMarker.datePin}</Text>
+                      <Text>{this.props.selectedMarker.description}</Text>
 
-                          <View style={styles.row}>
-                            <Text>Description</Text>
-                            <TextInput
-                              placeholder = "Description"
-                              style={styles.inputField}
-                              onChangeText={this._onChangeText.bind(this)}
-                              value={this.props.selectedMarker.description}
-                            />
-                          </View>
-                          <View style={styles.row}>
-                            <Button
-                              onPress={this.onPressDelete.bind(this)}
-                              title="✘"
-                              color="#841584"
-                              accessibilityLabel="✘"
-                            />
-                            <Text>  </Text>
+                      <View style={styles.row}>
+                        <Text>Description</Text>
+                        <TextInput
+                          placeholder = "Description"
+                          style={styles.inputField}
+                          onChangeText={this._onChangeText.bind(this)}
+                          value={this.props.selectedMarker.description}
+                        />
+                      </View>
+                      <View style={styles.row}>
+                        <Button
+                          onPress={this.onPressDelete.bind(this)}
+                          title="✘"
+                          color="#841584"
+                          accessibilityLabel="✘"
+                        />
+                        <Text>  </Text>
 
-                            <Button
-                              onPress={this.toggleEditMode.bind(this)}
-                              title="✎"
-                              color="#841584"
-                              accessibilityLabel="✎"
-                            />
-                          </View>
-                    </Animated.View>
-                </View>
-            );
-
+                        <Button
+                          onPress={this.toggleEditMode.bind(this)}
+                          title="✎"
+                          color="#841584"
+                          accessibilityLabel="✎"
+                        />
+                      </View>
+                </Animated.View>
+            </View>
+        );
       }
 };
 
