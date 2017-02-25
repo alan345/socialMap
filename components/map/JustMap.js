@@ -33,9 +33,11 @@ import GoogleAPI from '../../includes/GoogleAPI';
 // const SideMenu = require('react-native-side-menu');
 // const Menu = require('./Menu');
 import FBLoginView from '../FBLoginView';
-import DetailsViews from './DetailsViews';
+import DetailsViews from '../locations/DetailsViews';
 import ShowLoading from '../ShowLoading';
 import ListTrips from '../trips/ListTrips';
+import CreateLocationButton from '../locations/CreateLocationButton';
+
 
 
 let keyId = 0
@@ -158,9 +160,6 @@ export default class JustMap extends React.Component {
     }
 
    _addLocationToFirebase(marker, tripId) {
-
-     console.log(marker)
-     console.log(tripId)
      if(marker.key) {
        this._child.updateLocationToFirebase(marker, tripId)
      } else {
@@ -176,7 +175,6 @@ export default class JustMap extends React.Component {
         return;
       }
       if(!this.state.tripId) {
-        console.log(this.state.tripId)
         alert("Select or Create a trip first!")
         return;
       }
@@ -343,12 +341,12 @@ export default class JustMap extends React.Component {
               onTripSelected={this.onTripSelected.bind(this)}
               ref={(child) => { this._childListTrips = child; }}
             />
-            {
+            <CreateLocationButton/>
             <DetailsViews
               selectedMarker={this.state.selectedMarker}
               ref={(child) => { this._childDetailsViews = child; }}
             />
-            }
+
 
       </View>
     );
