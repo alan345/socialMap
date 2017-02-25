@@ -21,7 +21,7 @@ class SingleTrip extends Component {
       >
         <View>
           <View style={styles.container}>
-            <Image source={{ uri: this.props.item.image}} style={styles.photo} />
+            <Image source={{ uri: this.props.item.userData.picture.data.url}} style={styles.photo} />
             <Text> </Text>
             <Button
               onPress={() => {

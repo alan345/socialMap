@@ -97,7 +97,9 @@ export default class ListTrips extends Component {
            image: child.val().image,
            city: child.val().city,
            locations:child.val().locations,
+           userData: child.val().userData,
            key: child.key,
+
          });
        });
 

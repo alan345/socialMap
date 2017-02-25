@@ -130,6 +130,9 @@ class DetailsViews extends Component {
 
 
       render(){
+        if(this.props.selectedMarker.key=='')
+        return null
+
               return (
 
                 <View style={styles.draggableContainer}>
@@ -149,9 +152,8 @@ class DetailsViews extends Component {
 
                           <Image
                             style={styles.iconRight}
-                            source={{uri: this.props.selectedMarker.userData.picture.data.url}}
+                            source={{uri: this.props.trip.userData.picture.data.url}}
                           />
-
 
 
                         </View>
