@@ -45,7 +45,6 @@ export default class CreateLocationButton extends React.Component {
     }
   }
   addLocation(){
-
     this.props.onPressMarker(this.state.emptySelectedMarker)
     this.props.onSetPositionDetails(2)
   }

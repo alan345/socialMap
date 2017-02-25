@@ -13,6 +13,10 @@ import  {
   Button,
 } from 'react-native';
 import FirebaseFunctions from "../../includes/FirebaseFunctions";
+import AutocompleteAddress from "./AutocompleteAddress";
+import GoogleAPI from '../../includes/GoogleAPI';
+
+
 const { width, height } = Dimensions.get('window');
 
 
@@ -103,10 +107,29 @@ class DetailsViews extends Component {
           return gesture.moveY > 0 && gesture.moveY <  420;
       }
 
-      _onChangeText(description) {
-        let marker = this.props.selectedMarker;
-        marker.description = description
-        this._child.updateLocationToFirebase(marker, this.props.trip.key)
+      _onChangeText(text, type) {
+        let selectedMarker = this.props.selectedMarker;
+        if(type=='address') {
+          //selectedMarker.address = text
+
+
+          var component = this;
+          this._childGoogleAPI.getDataFromGoogleAPiByAddress(text).then(function(marker){
+            console.log(selectedMarker)
+            console.log(marker)
+            selectedMarker.address_components = marker.address_components
+            selectedMarker.address = marker.address
+            selectedMarker.coordinate = marker.coordinateGoogleAddress
+            selectedMarker.coordinateGoogleAddress = marker.coordinateGoogleAddress
+            component._child.updateLocationToFirebase(selectedMarker, component.props.trip.key)
+
+            //il faut animer ici
+          })
+        }
+        if(type=='description') {
+          marker.description = text
+          this._child.updateLocationToFirebase(marker, this.props.trip.key)
+        }
       }
 
       inputFocused (refName) {
@@ -137,6 +160,8 @@ class DetailsViews extends Component {
 
             <View style={styles.draggableContainer}>
                 <FirebaseFunctions ref={(child) => { this._child = child; }} />
+                <GoogleAPI ref={(child) => { this._childGoogleAPI = child; }} />
+
                 <Animated.View
                     {...this.panResponder.panHandlers}
                     style={[this.state.pan.getLayout(), styles.detailsList]}>
@@ -158,15 +183,28 @@ class DetailsViews extends Component {
 
                     </View>
                       {this.state.isEditMode ?
-                        <TextInput
-                          placeholder = "Description"
-                          style={styles.inputField}
-                          onChangeText={this._onChangeText.bind(this)}
-                          value={this.props.selectedMarker.description}
-                        />
+                        <View>
+                          <View style={{height:80}}>
+                            <AutocompleteAddress
+                              onChangeText={this._onChangeText.bind(this)}
+                            />
+                          </View>
+                          <TextInput
+                            placeholder = "Description"
+                            style={styles.inputField}
+                            onChangeText={(text)=>this._onChangeText(text,'description')}
+                            value={this.props.selectedMarker.description}
+                          />
+                        </View>
                         :
-                        <Text>{this.props.selectedMarker.address}</Text>
+                        <View>
+                          <Text>{this.props.selectedMarker.address}</Text>
+                          <Text>{this.props.selectedMarker.description}</Text>
+                        </View>
                       }
+
+
+
 
                       <Text>Country: {this.props.selectedMarker.address_components.country}</Text>
                       <Text>Locality: {this.props.selectedMarker.address_components.locality}</Text>
@@ -174,17 +212,10 @@ class DetailsViews extends Component {
                       <Text>Neighborhood: {this.props.selectedMarker.address_components.neighborhood}</Text>
 
                       <Text>Date: {this.props.selectedMarker.datePin}</Text>
-                      <Text>{this.props.selectedMarker.description}</Text>
 
-                      <View style={styles.row}>
-                        <Text>Description</Text>
-                        <TextInput
-                          placeholder = "Description"
-                          style={styles.inputField}
-                          onChangeText={this._onChangeText.bind(this)}
-                          value={this.props.selectedMarker.description}
-                        />
-                      </View>
+
+
+
                       <View style={styles.row}>
                         <Button
                           onPress={this.onPressDelete.bind(this)}
