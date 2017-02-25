@@ -55,9 +55,9 @@ export default class CreateLocationButton extends React.Component {
       <View style={styles.container}>
           <Button
             onPress={this.addLocation.bind(this)}
-            title="+"
+            title="✚"
             color="#841584"
-            accessibilityLabel="+"
+            accessibilityLabel="✚"
           />
       </View>
 

@@ -179,45 +179,43 @@ export default class ListTrips extends Component {
     return (
 
       <View style={[styles.container,this.state.styleHeight]}>
-      <TouchableOpacity onPress={this.onTogggleTrips.bind(this)}>
-
-        <AddTrip
-          userData={this.props.userData}
-          showAddTrip={this.state.showAddTrip}
-          hideAddTrip={this.hideAddTrip.bind(this)}
-          trip={this.state.trip}
-          onTripSelected={this.onTripSelected.bind(this)}
-          ref={(child) => { this._childAddTrip = child; }}
-        />
-        <FirebaseFunctions ref={(child) => { this._child = child; }} />
-        <ShowLoading isLoading={this.state.isLoading} />
-        <View style={styles.searchView}>
-          <SearchInput
-            onChangeText={this._onChangeText.bind(this)}
+        <TouchableOpacity onPress={this.onTogggleTrips.bind(this)}>
+          <AddTrip
+            userData={this.props.userData}
+            showAddTrip={this.state.showAddTrip}
+            hideAddTrip={this.hideAddTrip.bind(this)}
+            trip={this.state.trip}
+            onTripSelected={this.onTripSelected.bind(this)}
+            ref={(child) => { this._childAddTrip = child; }}
           />
-          <TouchableOpacity onPress={this.onTogggleTrips.bind(this)}>
-            <Text style={styles.TouchableOpacityCleanInput}> ⇅</Text>
-          </TouchableOpacity>
-          <View style={{width: 75}}>
+          <FirebaseFunctions ref={(child) => { this._child = child; }} />
+          <ShowLoading isLoading={this.state.isLoading} />
+          <View style={styles.searchView}>
+            <SearchInput
+              onChangeText={this._onChangeText.bind(this)}
+            />
+            <TouchableOpacity onPress={this.onTogggleTrips.bind(this)}>
+              <Text style={styles.TouchableOpacityCleanInput}> ⇅</Text>
+            </TouchableOpacity>
+            <View style={{width: 75}}>
+            </View>
           </View>
-        </View>
-        <ListView
-          dataSource={this.state.dataSource}
-          renderRow={this._renderRow.bind(this)}
-          enableEmptySections={true}
-          renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.separator} />}
-        />
-        <TouchableOpacity
-          style={styles.addIconTouchableOpacity}
-          onPress={this.onPressButtonTrip.bind(this)}
-        >
-          <Image
-            style={styles.addIcon}
-            source={require('../../assets/add_button.png')}
+          <ListView
+            dataSource={this.state.dataSource}
+            renderRow={this._renderRow.bind(this)}
+            enableEmptySections={true}
+            renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.separator} />}
           />
         </TouchableOpacity>
 
-      </TouchableOpacity>
+        <View style={styles.addIconTouchableOpacity}>
+          <Button
+            onPress={this.onPressButtonTrip.bind(this)}
+            title="✚"
+            color="#841584"
+            accessibilityLabel="✚"
+          />
+        </View>
       </View>
 
 
