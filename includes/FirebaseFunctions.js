@@ -121,8 +121,8 @@ class FirebaseFunctions extends Component {
       });
   }
 
-  deleteLocationToFirebase(marker) {
-    let itemsRef = this.getRefLocations();
+  deleteLocationToFirebase(marker, tripId) {
+    let itemsRef = this.getRefLocations(tripId);
     itemsRef.child(marker.key).remove()
   }
 

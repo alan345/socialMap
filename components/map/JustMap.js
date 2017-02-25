@@ -47,7 +47,9 @@ export default class JustMap extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      tripId : 'firstTripIdToShow',
+      trip : {
+        key:''
+      },
       region: {
         latitude: LATITUDE,
         longitude: LONGITUDE,
@@ -88,8 +90,6 @@ export default class JustMap extends React.Component {
     this.onLongPressCreateMarker = this.onLongPressCreateMarker.bind(this);
     this.changeRegionAnimate = this.changeRegionAnimate.bind(this);
 
-
-    this.itemsRef = this.getRef().child('trips').child(this.state.tripId).child('locations');
   }
 
 
@@ -98,7 +98,6 @@ export default class JustMap extends React.Component {
     }
 
     listenForItems() {
-
       // NICO NEEDS HELP.
 
       // component = this;
@@ -121,7 +120,8 @@ export default class JustMap extends React.Component {
         queryToUse = querySearch
       }
       */
-      let queryToUse = this.getRef().child('trips').child(this.state.tripId).child('locations');
+
+      let queryToUse = this.getRef().child('trips').child(this.state.trip.key).child('locations');
        queryToUse.on('value', (snap) => {
          var items = [];
          snap.forEach((child) => {
@@ -174,7 +174,7 @@ export default class JustMap extends React.Component {
         alert("You must be logged !")
         return;
       }
-      if(!this.state.tripId) {
+      if(!this.state.trip.key) {
         alert("Select or Create a trip first!")
         return;
       }
@@ -215,7 +215,7 @@ export default class JustMap extends React.Component {
         marker.description = ""
         marker.userData = component.props.userData
         marker.title = marker.address_components.route
-        component._addLocationToFirebase(marker, component.state.tripId);
+        component._addLocationToFirebase(marker, component.state.trip.key);
       })
 
 
@@ -258,7 +258,7 @@ export default class JustMap extends React.Component {
     onTripSelected(item) {
       // help nico. Ici, on a deja les markers. dans item.locations. Pas besoin de listenForItems() qui refait un appel dans la base de donnee
       this.setState({
-        tripId:item.key
+        trip:item
       },function(){
         this.listenForItems();
       })
@@ -347,11 +347,13 @@ export default class JustMap extends React.Component {
               ref={(child) => { this._childListTrips = child; }}
             />
             <CreateLocationButton
+              trip={this.state.trip}
               onPressMarker={this.onPressMarker.bind(this)}
               onSetPositionDetails={this.onSetPositionDetails.bind(this)}
             />
             <DetailsViews
               selectedMarker={this.state.selectedMarker}
+              trip={this.state.trip}
               ref={(child) => { this._childDetailsViews = child; }}
             />
 

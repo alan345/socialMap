@@ -10,6 +10,7 @@ import  {
   PanResponder,
   Animated,
   TouchableOpacity,
+  Button,
 } from 'react-native';
 import FirebaseFunctions from "../../includes/FirebaseFunctions";
 const { width, height } = Dimensions.get('window');
@@ -19,6 +20,7 @@ class DetailsViews extends Component {
   constructor(props){
     super();
     this.state = {
+      isEditMode:false,
       pan     : new Animated.ValueXY(),
       position : 0
     };
@@ -94,7 +96,7 @@ class DetailsViews extends Component {
       onPressDelete(){
         this.onSetPositionDetails(0)
         let marker = this.props.selectedMarker;
-        this._child.deleteLocationToFirebase(marker)
+        this._child.deleteLocationToFirebase(marker, this.props.trip.key)
       }
 
       isDropZone(gesture){
@@ -104,7 +106,7 @@ class DetailsViews extends Component {
       _onChangeText(description) {
         let marker = this.props.selectedMarker;
         marker.description = description
-        this._child.updateLocationToFirebase(marker)
+        this._child.updateLocationToFirebase(marker, this.props.trip.key)
       }
 
       inputFocused (refName) {
@@ -118,6 +120,14 @@ class DetailsViews extends Component {
         }, 50);
       }
 
+      toggleEditMode(){
+        if(this.state.isEditMode) {
+          this.setState({isEditMode:false})
+        } else {
+          this.setState({isEditMode:true})
+        }
+      }
+
 
       render(){
               return (
@@ -128,9 +138,7 @@ class DetailsViews extends Component {
                         {...this.panResponder.panHandlers}
                         style={[this.state.pan.getLayout(), styles.detailsList]}>
 
-                        <View
-                          style={styles.headerDetails}
-                        >
+                        <View style={styles.headerDetails}>
                           <Image
                             style={styles.icon}
                             source={{uri: this.props.selectedMarker.imagePin}}
@@ -144,15 +152,26 @@ class DetailsViews extends Component {
                             source={{uri: this.props.selectedMarker.userData.picture.data.url}}
                           />
 
+
+
                         </View>
-                          <Text>{this.props.selectedMarker.address}</Text>
+                          {this.state.isEditMode ?
+                            <TextInput
+                              placeholder = "Description"
+                              style={styles.inputField}
+                              onChangeText={this._onChangeText.bind(this)}
+                              value={this.props.selectedMarker.description}
+                            />
+                            :
+                            <Text>{this.props.selectedMarker.address}</Text>
+                          }
+
                           <Text>Country: {this.props.selectedMarker.address_components.country}</Text>
                           <Text>Locality: {this.props.selectedMarker.address_components.locality}</Text>
                           <Text>State: {this.props.selectedMarker.address_components.administrative_area_level_1}</Text>
                           <Text>Neighborhood: {this.props.selectedMarker.address_components.neighborhood}</Text>
 
                           <Text>Date: {this.props.selectedMarker.datePin}</Text>
-                          <Text>Key: {this.props.selectedMarker.key}</Text>
                           <Text>{this.props.selectedMarker.description}</Text>
 
                           <View style={styles.row}>
@@ -164,14 +183,22 @@ class DetailsViews extends Component {
                               value={this.props.selectedMarker.description}
                             />
                           </View>
-                          <TouchableOpacity
-                            onPress={this.onPressDelete.bind(this)}
-                          >
-                            <Image
-                              style={styles.deleteIcon}
-                              source={require('../../assets/delete.png')}
+                          <View style={styles.row}>
+                            <Button
+                              onPress={this.onPressDelete.bind(this)}
+                              title="✘"
+                              color="#841584"
+                              accessibilityLabel="✘"
                             />
-                          </TouchableOpacity>
+                            <Text>  </Text>
+
+                            <Button
+                              onPress={this.toggleEditMode.bind(this)}
+                              title="✎"
+                              color="#841584"
+                              accessibilityLabel="✎"
+                            />
+                          </View>
                     </Animated.View>
                 </View>
             );
@@ -190,7 +217,7 @@ const styles = StyleSheet.create({
     },
     row: {
       flexDirection: 'row',
-      justifyContent: 'space-between',
+      padding: 5,
     },
     inputField:{
       height: 40,
