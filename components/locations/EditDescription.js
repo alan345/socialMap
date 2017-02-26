@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, Text, TextInput, TouchableHighlight, View } from 'react-native';
+import { Modal, Text, Button, TextInput, TouchableHighlight, View } from 'react-native';
 import AutocompleteAddress from "./AutocompleteAddress";
 import FirebaseFunctions from "../../includes/FirebaseFunctions";
 import GoogleAPI from '../../includes/GoogleAPI';
@@ -16,7 +16,6 @@ export default class EditDescription extends Component {
   _onChangeText(text) {
     let selectedMarker = this.props.selectedMarker;
     selectedMarker.description = text
-    console.log(selectedMarker, this.props.trip)
     this._child.updateLocationToFirebase(selectedMarker, this.props.trip.key)
   //  this.setModalVisible(false)
     //il faut animer ici
@@ -36,22 +35,23 @@ export default class EditDescription extends Component {
             this.setModalVisible(false)
           }}
           >
+            <View>
+              <Button
+                onPress={() => {
+                  this.setModalVisible(false)
+                }}
+                title="✎"
+                color="#841584"
+                accessibilityLabel="✎"
+              />
 
-            <TouchableHighlight onPress={() => {
-              this.setModalVisible(!this.state.modalVisible)
-            }}>
-              <Text>Hide Modal</Text>
-            </TouchableHighlight>
+              <TextInput
+                placeholder = "Description"
+                onChangeText={(text)=>this._onChangeText(text)}
+                value={this.props.selectedMarker.description}
+              />
 
-
-            <Text>Hello World!</Text>
-            <TextInput
-              placeholder = "Description"
-              onChangeText={(text)=>this._onChangeText(text)}
-              value={this.props.selectedMarker.description}
-            />
-
-
+            </View>
         </Modal>
       </View>
     );
