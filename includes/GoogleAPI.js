@@ -103,8 +103,9 @@ class GoogleAPI extends Component {
             },
           }
 
-          marker.coordinateGoogleAddress = coordinates
-          marker.address = responseJson.results[0].formatted_address
+          marker.coordinates = coordinates
+          marker.googleData.coordinateGoogleAddress = coordinates
+          marker.googleData.address = responseJson.results[0].formatted_address
 
 
           responseJson.results[0].address_components.forEach(function(element) {

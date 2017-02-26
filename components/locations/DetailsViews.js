@@ -5,16 +5,17 @@ import  {
   StyleSheet,
   Dimensions,
   Image,
-  TextInput,
   LayoutAnimation,
   PanResponder,
   Animated,
   TouchableOpacity,
   Button,
 } from 'react-native';
-import FirebaseFunctions from "../../includes/FirebaseFunctions";
-import AutocompleteAddress from "./AutocompleteAddress";
-import GoogleAPI from '../../includes/GoogleAPI';
+
+import EditAddress from './EditAddress';
+import EditDescription from './EditDescription';
+
+
 
 
 const { width, height } = Dimensions.get('window');
@@ -25,6 +26,7 @@ class DetailsViews extends Component {
     super();
     this.state = {
       isEditMode:false,
+      isEditAddress:false,
       pan     : new Animated.ValueXY(),
       position : 0
     };
@@ -107,30 +109,7 @@ class DetailsViews extends Component {
           return gesture.moveY > 0 && gesture.moveY <  420;
       }
 
-      _onChangeText(text, type) {
-        let selectedMarker = this.props.selectedMarker;
-        if(type=='address') {
-          //selectedMarker.address = text
 
-
-          var component = this;
-          this._childGoogleAPI.getDataFromGoogleAPiByAddress(text).then(function(marker){
-            console.log(selectedMarker)
-            console.log(marker)
-            selectedMarker.address_components = marker.address_components
-            selectedMarker.address = marker.address
-            selectedMarker.coordinate = marker.coordinateGoogleAddress
-            selectedMarker.coordinateGoogleAddress = marker.coordinateGoogleAddress
-            component._child.updateLocationToFirebase(selectedMarker, component.props.trip.key)
-
-            //il faut animer ici
-          })
-        }
-        if(type=='description') {
-          marker.description = text
-          this._child.updateLocationToFirebase(marker, this.props.trip.key)
-        }
-      }
 
       inputFocused (refName) {
         setTimeout(() => {
@@ -159,8 +138,6 @@ class DetailsViews extends Component {
           return (
 
             <View style={styles.draggableContainer}>
-                <FirebaseFunctions ref={(child) => { this._child = child; }} />
-                <GoogleAPI ref={(child) => { this._childGoogleAPI = child; }} />
 
                 <Animated.View
                     {...this.panResponder.panHandlers}
@@ -182,26 +159,43 @@ class DetailsViews extends Component {
 
 
                     </View>
-                      {this.state.isEditMode ?
+
                         <View>
-                          <View style={{height:80}}>
-                            <AutocompleteAddress
-                              onChangeText={this._onChangeText.bind(this)}
+                          <View style={styles.row}>
+                            <Button
+                              onPress={() => {
+                                this._childEditAddress.setModalVisible(true)
+                              }}
+                              title="✎"
+                              color="#841584"
+                              accessibilityLabel="✎"
+                            />
+                            <Text>{this.props.selectedMarker.googleData.address}</Text>
+                            <EditAddress
+                              selectedMarker={this.props.selectedMarker}
+                              trip={this.props.trip}
+                              ref={(child) => { this._childEditAddress = child; }}
                             />
                           </View>
-                          <TextInput
-                            placeholder = "Description"
-                            style={styles.inputField}
-                            onChangeText={(text)=>this._onChangeText(text,'description')}
-                            value={this.props.selectedMarker.description}
-                          />
+                          <View style={styles.row}>
+                            <Button
+                              onPress={() => {
+                                this._childEditDescription.setModalVisible(true)
+                              }}
+                              title="✎"
+                              color="#841584"
+                              accessibilityLabel="✎"
+                            />
+                            <Text>{this.props.selectedMarker.description}</Text>
+                            <EditDescription
+                              selectedMarker={this.props.selectedMarker}
+                              trip={this.props.trip}
+                              ref={(child) => { this._childEditDescription = child; }}
+                            />
+                          </View>
+
                         </View>
-                        :
-                        <View>
-                          <Text>{this.props.selectedMarker.address}</Text>
-                          <Text>{this.props.selectedMarker.description}</Text>
-                        </View>
-                      }
+
 
 
 
@@ -225,12 +219,7 @@ class DetailsViews extends Component {
                         />
                         <Text>  </Text>
 
-                        <Button
-                          onPress={this.toggleEditMode.bind(this)}
-                          title="✎"
-                          color="#841584"
-                          accessibilityLabel="✎"
-                        />
+
                       </View>
                 </Animated.View>
             </View>

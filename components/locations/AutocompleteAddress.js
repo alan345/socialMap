@@ -26,7 +26,7 @@ export default class AutocompleteAddress extends Component {
           onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
             // console.log(data);
             // console.log(details);
-            this.props.onChangeText(details.formatted_address,'address')
+            this.props.onChangeText(details.formatted_address)
           //  this.onChangeText('');
           }}
           getDefaultValue={() => {
@@ -36,7 +36,7 @@ export default class AutocompleteAddress extends Component {
             // available options: https://developers.google.com/places/web-service/autocomplete
             key: 'AIzaSyAYPpKi0JDHdmhIuuuVndD96VEyavNAlHY',
             language: 'en', // language of the results
-            types: '(cities)', // default: 'geocode'
+            types: 'geocode', // default: 'geocode'
           }}
           styles={{
             description: {
@@ -74,7 +74,7 @@ export default class AutocompleteAddress extends Component {
             rankby: 'distance',
             types: 'food',
           }}
-          filterReverseGeocodingByTypes={['locality', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
+          //filterReverseGeocodingByTypes={['address', 'administrative_area_level_3']} // filter the reverse geocoding results by types - ['locality', 'administrative_area_level_3'] if you want to display only cities
 
         />
 

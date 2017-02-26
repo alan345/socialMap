@@ -109,7 +109,7 @@ class FirebaseFunctions extends Component {
     let itemsRef = this.getRefLocations(tripId);
     itemsRef.child(marker.key).set({
         title: marker.title,
-        coordinates: marker.coordinate,
+        coordinates: marker.coordinates,
         googleData:marker.googleData,
         description: marker.description,
         image: markerImg,

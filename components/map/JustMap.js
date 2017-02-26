@@ -74,7 +74,7 @@ export default class JustMap extends React.Component {
           },
         },
 
-
+        coordinates:{},
         coordinate : {
           latitude: LATITUDE,
           longitude: LONGITUDE,
@@ -129,6 +129,7 @@ export default class JustMap extends React.Component {
              googleData:child.val().googleData,
         //     address_components: child.val().address_components,
              coordinate: child.val().coordinates,
+             coordinates: child.val().coordinates,
         //     coordinateGoogleAddress: child.val().coordinateGoogleAddress,
              key: child.getKey(),
           //   address: child.val().address,
@@ -193,6 +194,7 @@ export default class JustMap extends React.Component {
           ...this.state.locations,
           {
             coordinate: coordinates,
+            coordinates: coordinates,
             title: "title",
             key:keyId++,
             coordinateGoogleAddress: coordinates,
