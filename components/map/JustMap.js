@@ -268,6 +268,7 @@ export default class JustMap extends React.Component {
 
     }
     changeRegionAnimate(item) {
+      console.log(item)
       let newRegion = {
         ...this.state.region,
         latitude: item.googleData.coordinateGoogleAddress.latitude,

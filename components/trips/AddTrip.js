@@ -58,7 +58,7 @@ export default class AddTrip extends React.Component {
     this._childGoogleAPI.getDataFromGoogleAPiByAddress(address).then(function(marker){
       component.setState({
         trip:{
-          googleData:marker,
+          googleData:marker.googleData,
           city:component.state.trip.city,
           title:component.state.trip.title,
           image:component.state.trip.image,
@@ -88,6 +88,7 @@ export default class AddTrip extends React.Component {
   }
   // should be in firebase Function mais jai un bug
   addTrip(trip){
+    console.log(trip)
     let itemsRef = firebase.database().ref().child('trips');
     var newRef = itemsRef.push();
     var key = newRef.key;
