@@ -169,11 +169,11 @@ class DetailsViews extends Component {
                     <View style={styles.headerDetails}>
                       <Image
                         style={styles.icon}
-                        source={{uri: this.props.selectedMarker.imagePin}}
+                        source={{uri: this.props.selectedMarker.googleData.imagePin}}
                       />
                       <Text
                         style={styles.text}
-                      >{this.props.selectedMarker.address_components.neighborhood}</Text>
+                      >{this.props.selectedMarker.googleData.address_components.neighborhood}</Text>
 
                       <Image
                         style={styles.iconRight}
@@ -206,10 +206,10 @@ class DetailsViews extends Component {
 
 
 
-                      <Text>Country: {this.props.selectedMarker.address_components.country}</Text>
-                      <Text>Locality: {this.props.selectedMarker.address_components.locality}</Text>
-                      <Text>State: {this.props.selectedMarker.address_components.administrative_area_level_1}</Text>
-                      <Text>Neighborhood: {this.props.selectedMarker.address_components.neighborhood}</Text>
+                      <Text>Country: {this.props.selectedMarker.googleData.address_components.country}</Text>
+                      <Text>Locality: {this.props.selectedMarker.googleData.address_components.locality}</Text>
+                      <Text>State: {this.props.selectedMarker.googleData.address_components.administrative_area_level_1}</Text>
+                      <Text>Neighborhood: {this.props.selectedMarker.googleData.address_components.neighborhood}</Text>
 
                       <Text>Date: {this.props.selectedMarker.datePin}</Text>
 

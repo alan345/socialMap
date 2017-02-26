@@ -110,14 +110,10 @@ class FirebaseFunctions extends Component {
     itemsRef.child(marker.key).set({
         title: marker.title,
         coordinates: marker.coordinate,
-        coordinateGoogleAddress: marker.coordinateGoogleAddress,
-        address: marker.address,
+        googleData:marker.googleData,
         description: marker.description,
-        address_components: marker.address_components,
         image: markerImg,
-        imagePin: marker.imagePin,
         datePin:  marker.datePin,
-        userData: marker.userData,
       });
   }
 
@@ -132,14 +128,10 @@ class FirebaseFunctions extends Component {
     itemsRef.push({
       title: marker.title,
       coordinates: marker.coordinate,
-      coordinateGoogleAddress: marker.coordinateGoogleAddress,
-      address: marker.address,
+      googleData:marker.googleData,
       description: marker.description,
-      address_components: marker.address_components,
       image: markerImg,
-      imagePin: marker.imagePin,
       datePin:  marker.datePin,
-      userData: marker.userData,
     });
   }
 }

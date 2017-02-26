@@ -21,26 +21,23 @@ export default class CreateLocationButton extends React.Component {
     this.state = {
       emptySelectedMarker: {
         key:'',
-        address : '',
-        address_components : {
-          neighborhood:''
+        googleData : {
+          address : '',
+          coordinateGoogleAddress : {
+            latitude: '',
+            longitude: '',
+          },
+          address_components : {
+            neighborhood:''
+          },
+          imagePin : 'https://pickaface.net/gallery/avatar/Opi51c74d0125fd4.png',
         },
-        imagePin : 'https://pickaface.net/gallery/avatar/Opi51c74d0125fd4.png',
         coordinate : {
           latitude: '',
           longitude: '',
         },
-        coordinateGoogleAddress : {
-          latitude: '',
-          longitude: '',
-        },
-        userData: {
-          picture: {
-            data: {
-              url: 'https://pickaface.net/gallery/avatar/Opi51c74d0125fd4.png'
-            }
-          }
-        }
+
+
       }
     }
   }

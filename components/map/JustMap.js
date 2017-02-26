@@ -61,26 +61,25 @@ export default class JustMap extends React.Component {
       isLoading : true,
       selectedMarker: {
         key:'',
-        address : '',
-        address_components : {
-          neighborhood:''
+
+        googleData:{
+          imagePin : 'https://pickaface.net/gallery/avatar/Opi51c74d0125fd4.png',
+          address : '',
+          address_components : {
+            neighborhood:''
+          },
+          coordinateGoogleAddress : {
+            latitude: LATITUDE,
+            longitude: LONGITUDE,
+          },
         },
-        imagePin : 'https://pickaface.net/gallery/avatar/Opi51c74d0125fd4.png',
+
+
         coordinate : {
           latitude: LATITUDE,
           longitude: LONGITUDE,
         },
-        coordinateGoogleAddress : {
-          latitude: LATITUDE,
-          longitude: LONGITUDE,
-        },
-        userData: {
-          picture: {
-            data: {
-              url: 'https://pickaface.net/gallery/avatar/Opi51c74d0125fd4.png'
-            }
-          }
-        }
+
       },
 
       dataSource: new ListView.DataSource({
@@ -127,16 +126,16 @@ export default class JustMap extends React.Component {
          snap.forEach((child) => {
            items.push({
              title: child.val().title,
-             address_components: child.val().address_components,
+             googleData:child.val().googleData,
+        //     address_components: child.val().address_components,
              coordinate: child.val().coordinates,
-             coordinateGoogleAddress: child.val().coordinateGoogleAddress,
+        //     coordinateGoogleAddress: child.val().coordinateGoogleAddress,
              key: child.getKey(),
-             address: child.val().address,
+          //   address: child.val().address,
              description: child.val().description,
              image: child.val().image,
-             imagePin: child.val().imagePin,
              datePin:  child.val().datePin,
-             userData:  child.val().userData,
+          //   userData:  child.val().userData,
            });
          });
 
@@ -198,13 +197,13 @@ export default class JustMap extends React.Component {
             key:keyId++,
             coordinateGoogleAddress: coordinates,
             image: markerImg,
-            userData: {
-              picture: {
-                data: {
-                  url: ''
-                }
-              }
-            }
+            // userData: {
+            //   picture: {
+            //     data: {
+            //       url: ''
+            //     }
+            //   }
+            // }
           }
         ]
       })
@@ -213,8 +212,8 @@ export default class JustMap extends React.Component {
         marker.key = key
         marker.datePin = Date()
         marker.description = ""
-        marker.userData = component.props.userData
-        marker.title = marker.address_components.route
+      //  marker.userData = component.props.userData
+        marker.title = marker.googleData.address_components.route
         component._addLocationToFirebase(marker, component.state.trip.key);
       })
 
@@ -354,6 +353,7 @@ export default class JustMap extends React.Component {
             <DetailsViews
               selectedMarker={this.state.selectedMarker}
               trip={this.state.trip}
+              changeRegionAnimate={this.changeRegionAnimate}
               ref={(child) => { this._childDetailsViews = child; }}
             />
 

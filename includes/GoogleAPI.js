@@ -35,30 +35,36 @@ class GoogleAPI extends Component {
             }
             let imagePin = component.state.urlGoogpleApiImage + "streetview?size=600x300&location=" + coordinatesGoogle + "&heading=151.78&pitch=-0.76&key=" + component.state.googleKey
             let marker = {
-              address_components:{}
+              googleData:{
+                address_components:{},
+                address:'',
+                coordinateGoogleAddress:{},
+                imagePin:imagePin,
+              },
+
             }
-            marker.imagePin = imagePin
-            marker.coordinateGoogleAddress = coordinates
+
             marker.coordinate = dataCoordinatesNative
-            marker.address = responseJson.results[0].formatted_address
+            marker.googleData.coordinateGoogleAddress = coordinates
+            marker.googleData.address = responseJson.results[0].formatted_address
 
 
             responseJson.results[0].address_components.forEach(function(element) {
             //  console.log(element)
               if(element.types[0] == "street_number")
-                marker.address_components.street_number = element.long_name
+                marker.googleData.address_components.street_number = element.long_name
               if(element.types[0] == "route")
-                marker.address_components.route = element.long_name
+                marker.googleData.address_components.route = element.long_name
               if(element.types[0] == "neighborhood")
-                marker.address_components.neighborhood = element.long_name
+                marker.googleData.address_components.neighborhood = element.long_name
               if(element.types[0] == "locality")
-                marker.address_components.locality = element.long_name
+                marker.googleData.address_components.locality = element.long_name
               if(element.types[0] == "administrative_area_level_1")
-                marker.address_components.administrative_area_level_1 = element.long_name
+                marker.googleData.address_components.administrative_area_level_1 = element.long_name
               if(element.types[0] == "country")
-                marker.address_components.country = element.long_name
+                marker.googleData.address_components.country = element.long_name
               if(element.types[0] == "postal_code")
-                marker.address_components.postal_code = element.long_name
+                marker.googleData.address_components.postal_code = element.long_name
             });
           //  console.log(marker)
             resolve(marker)
@@ -89,9 +95,14 @@ class GoogleAPI extends Component {
           }
           let imagePin = component.state.urlGoogpleApiImage + "streetview?size=600x300&location=" + coordinatesGoogle + "&heading=151.78&pitch=-0.76&key=" + component.state.googleKey
           let marker = {
-            address_components:{}
+            googleData:{
+              address_components:{},
+              address:'',
+              coordinateGoogleAddress:{},
+              imagePin:imagePin,
+            },
           }
-          marker.imagePin = imagePin
+
           marker.coordinateGoogleAddress = coordinates
           marker.address = responseJson.results[0].formatted_address
 
@@ -99,19 +110,19 @@ class GoogleAPI extends Component {
           responseJson.results[0].address_components.forEach(function(element) {
           //  console.log(element)
             if(element.types[0] == "street_number")
-              marker.address_components.street_number = element.long_name
+              marker.googleData.address_components.street_number = element.long_name
             if(element.types[0] == "route")
-              marker.address_components.route = element.long_name
+              marker.googleData.address_components.route = element.long_name
             if(element.types[0] == "neighborhood")
-              marker.address_components.neighborhood = element.long_name
+              marker.googleData.address_components.neighborhood = element.long_name
             if(element.types[0] == "locality")
-              marker.address_components.locality = element.long_name
+              marker.googleData.address_components.locality = element.long_name
             if(element.types[0] == "administrative_area_level_1")
-              marker.address_components.administrative_area_level_1 = element.long_name
+              marker.googleData.address_components.administrative_area_level_1 = element.long_name
             if(element.types[0] == "country")
-              marker.address_components.country = element.long_name
+              marker.googleData.address_components.country = element.long_name
             if(element.types[0] == "postal_code")
-              marker.address_components.postal_code = element.long_name
+              marker.googleData.address_components.postal_code = element.long_name
           });
         //  console.log(marker)
           resolve(marker)
