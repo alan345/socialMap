@@ -15,9 +15,6 @@ import  {
 import EditAddress from './EditAddress';
 import EditDescription from './EditDescription';
 
-
-
-
 const { width, height } = Dimensions.get('window');
 
 

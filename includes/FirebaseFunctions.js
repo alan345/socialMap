@@ -122,16 +122,25 @@ class FirebaseFunctions extends Component {
     itemsRef.child(marker.key).remove()
   }
 
+  addOrUpdateLocation(marker, tripId){
+    if(marker.key == ''  ) {
+      console.log(marker, tripId)
+      this.addLocationToFirebase(marker, tripId)
+    } else {
+      console.log(marker, tripId)
+      this.updateLocationToFirebase(marker, tripId)
+    }
+  }
 
   addLocationToFirebase(marker, tripId) {
     let itemsRef = this.getRefLocations(tripId);
     itemsRef.push({
       title: marker.title,
-      coordinates: marker.coordinate,
+      coordinates: marker.coordinates,
       googleData:marker.googleData,
       description: marker.description,
       image: markerImg,
-      datePin:  marker.datePin,
+      datePin: Date(),
     });
   }
 }

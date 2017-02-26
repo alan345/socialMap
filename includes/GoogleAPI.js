@@ -44,7 +44,7 @@ class GoogleAPI extends Component {
 
             }
 
-            marker.coordinate = dataCoordinatesNative
+            marker.coordinates = dataCoordinatesNative
             marker.googleData.coordinateGoogleAddress = coordinates
             marker.googleData.address = responseJson.results[0].formatted_address
 

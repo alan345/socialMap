@@ -21,6 +21,8 @@ export default class CreateLocationButton extends React.Component {
     this.state = {
       emptySelectedMarker: {
         key:'',
+        title:'',
+        description:'',
         googleData : {
           address : '',
           coordinateGoogleAddress : {
@@ -32,7 +34,7 @@ export default class CreateLocationButton extends React.Component {
           },
           imagePin : 'https://pickaface.net/gallery/avatar/Opi51c74d0125fd4.png',
         },
-        coordinate : {
+        coordinates : {
           latitude: '',
           longitude: '',
         },

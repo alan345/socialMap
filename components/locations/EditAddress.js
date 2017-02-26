@@ -22,7 +22,8 @@ export default class EditAddress extends Component {
         selectedMarker.googleData.address = marker.googleData.address
         selectedMarker.coordinates = marker.coordinates
         selectedMarker.googleData.coordinateGoogleAddress = marker.googleData.coordinateGoogleAddress
-        component._child.updateLocationToFirebase(selectedMarker, component.props.trip.key)
+        console.log(selectedMarker, component.props.trip.key)
+        component._child.addOrUpdateLocation(selectedMarker, component.props.trip.key)
         component.setModalVisible(false)
         //il faut animer ici
       })
