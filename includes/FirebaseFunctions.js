@@ -66,7 +66,7 @@ class FirebaseFunctions extends Component {
   updateTrip(trip){
     let itemsRef = this.getRefTrips();
     itemsRef.child(trip.key).set({
-        title: trip.title,
+    //    title: trip.title,
         image: trip.image,
         city: trip.city,
       });
@@ -84,7 +84,7 @@ class FirebaseFunctions extends Component {
           var items = [];
           snapshot.forEach((child) => {
             items.push({
-              title: child.val().address_components.neighborhood,
+          //    title: child.val().address_components.neighborhood,
               address_components: child.val().address_components,
               coordinate: child.val().coordinates,
               coordinateGoogleAddress: child.val().coordinateGoogleAddress,
@@ -108,7 +108,7 @@ class FirebaseFunctions extends Component {
   updateLocationToFirebase(marker, tripId) {
     let itemsRef = this.getRefLocations(tripId);
     itemsRef.child(marker.key).set({
-        title: marker.title,
+    //    title: marker.title,
         coordinates: marker.coordinates,
         googleData:marker.googleData,
         description: marker.description,
@@ -135,7 +135,7 @@ class FirebaseFunctions extends Component {
   addLocationToFirebase(marker, tripId) {
     let itemsRef = this.getRefLocations(tripId);
     itemsRef.push({
-      title: marker.title,
+    //  title: marker.title,
       coordinates: marker.coordinates,
       googleData:marker.googleData,
       description: marker.description,
