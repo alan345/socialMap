@@ -96,10 +96,10 @@ class DetailsViews extends Component {
         ).start();
       }
 
-      onPressDelete(){
+      onPressDeleteMarker(){
         this.onSetPositionDetails(0)
         let marker = this.props.selectedMarker;
-        this._child.deleteLocationToFirebase(marker, this.props.trip.key)
+        this.props.onPressDeleteMarker(marker)
       }
 
       isDropZone(gesture){
@@ -210,7 +210,7 @@ class DetailsViews extends Component {
 
                       <View style={styles.row}>
                         <Button
-                          onPress={this.onPressDelete.bind(this)}
+                          onPress={this.onPressDeleteMarker.bind(this)}
                           title="✘"
                           color="#841584"
                           accessibilityLabel="✘"

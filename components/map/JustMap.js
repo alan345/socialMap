@@ -266,6 +266,9 @@ export default class JustMap extends React.Component {
       this.changeRegionAnimate(item)
     }
 
+    onPressDeleteMarker(marker){
+      this._child.deleteLocationToFirebase(marker, this.state.trip.key)
+    }
     onMarkerSelected(item)
     {
       this.changeRegionAnimate(item)
@@ -360,6 +363,7 @@ export default class JustMap extends React.Component {
               selectedMarker={this.state.selectedMarker}
               trip={this.state.trip}
               onMarkerSelected={this.onMarkerSelected.bind(this)}
+              onPressDeleteMarker={this.onPressDeleteMarker.bind(this)}
               changeRegionAnimate={this.changeRegionAnimate}
               ref={(child) => { this._childDetailsViews = child; }}
             />
