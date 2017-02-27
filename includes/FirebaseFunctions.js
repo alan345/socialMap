@@ -55,20 +55,18 @@ class FirebaseFunctions extends Component {
       this.updateTrip(trip)
     }
   }
-  // should be in firebase Function mais jai un bug
+
   addTrip(trip){
-    console.log(trip)
     let itemsRef = firebase.database().ref().child('trips');
     var newRef = itemsRef.push();
     var key = newRef.key;
     trip.key = key
-    trip.locations = {}
+  //  trip.locations = {}
 //    this.props.onTripSelected(trip)
     this.updateTrip(trip)
   }
   // should be in firebase Function mais jai un bug
   updateTrip(trip){
-    console.log(trip)
     let itemsRef = firebase.database().ref().child('trips');
     itemsRef.child(trip.key).set({
         title: trip.title,
