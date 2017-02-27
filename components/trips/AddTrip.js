@@ -55,6 +55,8 @@ export default class AddTrip extends React.Component {
     let address = this.state.trip.city
     let component = this;
 
+
+
     this._childGoogleAPI.getDataFromGoogleAPiByAddress(address).then(function(marker){
       component.setState({
         trip:{
@@ -73,13 +75,41 @@ export default class AddTrip extends React.Component {
   }
 
   _addTripToFireBase(trip){
+    trip.locations = {}
     //help nico need help
-    //this._childFirebaseFunctions.addOrUpdateTrip(trip)
+    //  this._childFirebaseFunctions.addOrUpdateTrip(trip)
     this.addOrUpdateTrip(trip)
-
   }
   // should be in firebase Function mais jai un bug
+    addOrUpdateTrip(trip){
+      if(trip.key == null  ) {
+        this.addTrip(trip)
+      } else {
+        this.updateTrip(trip)
+      }
+    }
 
+    addTrip(trip){
+      let itemsRef = firebase.database().ref().child('trips');
+      var newRef = itemsRef.push();
+      var key = newRef.key;
+      trip.key = key
+    //  trip.locations = {}
+  //    this.props.onTripSelected(trip)
+      this.updateTrip(trip)
+    }
+    // should be in firebase Function mais jai un bug
+    updateTrip(trip){
+      let itemsRef = firebase.database().ref().child('trips');
+      itemsRef.child(trip.key).set({
+          title: trip.title,
+          image: trip.image,
+          city: trip.city,
+          googleData: trip.googleData,
+          userData: trip.userData,
+          locations: trip.locations,
+        });
+    }
 
 
   deleteTrip(){

@@ -39,7 +39,7 @@ import ListTrips from '../trips/ListTrips';
 import CreateLocationButton from '../locations/CreateLocationButton';
 import SearchLocation from '../locations/SearchLocation';
 import SaveToMyTripsButton from '../trips/SaveToMyTripsButton';
-
+import ShowTripTitle from '../trips/ShowTripTitle';
 
 
 let keyId = 0
@@ -360,9 +360,11 @@ export default class JustMap extends React.Component {
             <ShowLoading
               isLoading={this.state.isLoading}
             />
+            <ShowTripTitle
+              trip={this.state.trip}
+            />
             <SaveToMyTripsButton
               trip={this.state.trip}
-  
               isEditingMyTrip={this.state.isEditingMyTrip}
               onEditTripMode={this.onEditTripMode.bind(this)}
             />
