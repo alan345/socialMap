@@ -19,6 +19,7 @@ export default class EditDescription extends Component {
     this._child.updateLocationToFirebase(selectedMarker, this.props.trip.key)
   //  this.setModalVisible(false)
     //il faut animer ici
+    //this.props.onMarkerSelected(selectedMarker)
 
   }
 

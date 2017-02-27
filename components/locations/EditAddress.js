@@ -14,7 +14,7 @@ export default class EditAddress extends Component {
     this.setState({modalVisible: visible});
   }
   _onChangeText(text) {
-    
+
     let selectedMarker = this.props.selectedMarker;
 
       var component = this;
@@ -27,6 +27,8 @@ export default class EditAddress extends Component {
         component._child.addOrUpdateLocation(selectedMarker, component.props.trip.key)
         component.setModalVisible(false)
         //il faut animer ici
+
+        component.props.onMarkerSelected(selectedMarker)
       })
 
   }

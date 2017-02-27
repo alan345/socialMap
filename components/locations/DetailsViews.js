@@ -169,6 +169,7 @@ class DetailsViews extends Component {
                             />
                             <Text>{this.props.selectedMarker.googleData.address}</Text>
                             <EditAddress
+                              onMarkerSelected={this.props.onMarkerSelected}
                               selectedMarker={this.props.selectedMarker}
                               trip={this.props.trip}
                               ref={(child) => { this._childEditAddress = child; }}

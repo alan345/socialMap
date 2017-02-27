@@ -264,11 +264,14 @@ export default class JustMap extends React.Component {
         this.listenForItems();
       })
       this.changeRegionAnimate(item)
+    }
 
-
+    onMarkerSelected(item)
+    {
+      this.changeRegionAnimate(item)
     }
     changeRegionAnimate(item) {
-      console.log(item)
+      //console.log(item)
       let newRegion = {
         ...this.state.region,
         latitude: item.googleData.coordinateGoogleAddress.latitude,
@@ -356,6 +359,7 @@ export default class JustMap extends React.Component {
             <DetailsViews
               selectedMarker={this.state.selectedMarker}
               trip={this.state.trip}
+              onMarkerSelected={this.onMarkerSelected.bind(this)}
               changeRegionAnimate={this.changeRegionAnimate}
               ref={(child) => { this._childDetailsViews = child; }}
             />
