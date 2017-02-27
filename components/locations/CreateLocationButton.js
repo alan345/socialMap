@@ -48,6 +48,8 @@ export default class CreateLocationButton extends React.Component {
     this.props.onSetPositionDetails(2)
   }
   render() {
+    if(!this.props.isEditingMyTrip)
+      return null
     if(!this.props.trip.key)
       return null
     return (

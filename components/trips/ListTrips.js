@@ -178,6 +178,8 @@ export default class ListTrips extends Component {
     })
   }
   render() {
+    if(this.props.isEditingMyTrip)
+      return null
     return (
 
       <View style={[styles.container,this.state.styleHeight]}>

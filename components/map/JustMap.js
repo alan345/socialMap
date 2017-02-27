@@ -37,6 +37,8 @@ import DetailsViews from '../locations/DetailsViews';
 import ShowLoading from '../ShowLoading';
 import ListTrips from '../trips/ListTrips';
 import CreateLocationButton from '../locations/CreateLocationButton';
+import SearchLocation from '../locations/SearchLocation';
+import SaveToMyTripsButton from '../trips/SaveToMyTripsButton';
 
 
 
@@ -59,6 +61,7 @@ export default class JustMap extends React.Component {
       polylines: [],
       locations: [],
       isLoading : true,
+      isEditingMyTrip : false,
       selectedMarker: {
         key:'',
 
@@ -125,7 +128,7 @@ export default class JustMap extends React.Component {
          var items = [];
          snap.forEach((child) => {
            items.push({
-        
+
              title: child.val().googleData.address_components.route,
              googleData:child.val().googleData,
         //     address_components: child.val().address_components,
@@ -291,6 +294,14 @@ export default class JustMap extends React.Component {
       this._childDetailsViews.onShowDetails()
     }
 
+    onEditTripMode(){
+      this.setState({isEditingMyTrip:true})
+    }
+
+    saveTrip(trip){
+      this.t._addTripToFireBase(component.state.trip)
+    }
+
 
   render() {
     return (
@@ -349,14 +360,27 @@ export default class JustMap extends React.Component {
             <ShowLoading
               isLoading={this.state.isLoading}
             />
+            <SaveToMyTripsButton
+              trip={this.state.trip}
+              locations={this.state.locations}
+              isEditingMyTrip={this.state.isEditingMyTrip}
+              onEditTripMode={this.onEditTripMode.bind(this)}
+            />
             <ListTrips
               onItemSelected={this.onMenuItemSelected}
               userData={this.props.userData}
+              trip={this.state.trip}
+              isEditingMyTrip={this.state.isEditingMyTrip}
               onTripSelected={this.onTripSelected.bind(this)}
               ref={(child) => { this._childListTrips = child; }}
             />
+            <SearchLocation
+              trip={this.state.trip}
+              isEditingMyTrip={this.state.isEditingMyTrip}
+            />
             <CreateLocationButton
               trip={this.state.trip}
+              isEditingMyTrip={this.state.isEditingMyTrip}
               onPressMarker={this.onPressMarker.bind(this)}
               onSetPositionDetails={this.onSetPositionDetails.bind(this)}
             />

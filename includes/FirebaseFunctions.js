@@ -48,7 +48,6 @@ class FirebaseFunctions extends Component {
     })
   }
 
-
   addOrUpdateTrip(trip){
     if(trip.key == null  ) {
       this.addTrip(trip)
@@ -56,21 +55,31 @@ class FirebaseFunctions extends Component {
       this.updateTrip(trip)
     }
   }
-
+  // should be in firebase Function mais jai un bug
   addTrip(trip){
-    let itemsRef = this.getRefTrips();
-    delete trip.key
-    itemsRef.push(trip);
+    console.log(trip)
+    let itemsRef = firebase.database().ref().child('trips');
+    var newRef = itemsRef.push();
+    var key = newRef.key;
+    trip.key = key
+    trip.locations = {}
+//    this.props.onTripSelected(trip)
+    this.updateTrip(trip)
   }
-
+  // should be in firebase Function mais jai un bug
   updateTrip(trip){
-    let itemsRef = this.getRefTrips();
+    console.log(trip)
+    let itemsRef = firebase.database().ref().child('trips');
     itemsRef.child(trip.key).set({
-    //    title: trip.title,
+        title: trip.title,
         image: trip.image,
         city: trip.city,
+        googleData: trip.googleData,
+        userData: trip.userData,
+        locations: trip.locations,
       });
   }
+
   deleteTrip(trip){
     let itemsRef = this.getRefTrips();
     itemsRef.child(trip.key).remove()

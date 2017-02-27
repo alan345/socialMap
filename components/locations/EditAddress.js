@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Modal, Text, TouchableHighlight, View } from 'react-native';
-import AutocompleteAddress from "./AutocompleteAddress";
+import AutocompleteAddress from "../../includes/AutocompleteAddress";
 import FirebaseFunctions from "../../includes/FirebaseFunctions";
 import GoogleAPI from '../../includes/GoogleAPI';
 

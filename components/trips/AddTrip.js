@@ -66,7 +66,7 @@ export default class AddTrip extends React.Component {
         }
       },function(){
           component._addTripToFireBase(component.state.trip)
-
+          // must be changed to a function in JustMap
       })
     })
     this.props.hideAddTrip()
@@ -79,36 +79,7 @@ export default class AddTrip extends React.Component {
 
   }
   // should be in firebase Function mais jai un bug
-  addOrUpdateTrip(trip){
-    if(trip.key == null  ) {
-      this.addTrip(trip)
-    } else {
-      this.updateTrip(trip)
-    }
-  }
-  // should be in firebase Function mais jai un bug
-  addTrip(trip){
-    console.log(trip)
-    let itemsRef = firebase.database().ref().child('trips');
-    var newRef = itemsRef.push();
-    var key = newRef.key;
-    trip.key = key
-    trip.locations = {}
-    this.props.onTripSelected(trip)
-    this.updateTrip(trip)
-  }
-  // should be in firebase Function mais jai un bug
-  updateTrip(trip){
-    let itemsRef = firebase.database().ref().child('trips');
-    itemsRef.child(trip.key).set({
-        title: trip.title,
-        image: trip.image,
-        city: trip.city,
-        googleData: trip.googleData,
-        userData: trip.userData,
-        locations: trip.locations,
-      });
-  }
+
 
 
   deleteTrip(){
