@@ -26,7 +26,8 @@ export default class AutocompleteAddress extends Component {
           onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
             // console.log(data);
             // console.log(details);
-            this.props.onChangeText(details.formatted_address)
+            //console.log(details)
+            this.props.onChangeText(data.description)
           //  this.onChangeText('');
           }}
           getDefaultValue={() => {

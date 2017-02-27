@@ -77,6 +77,7 @@ class GoogleAPI extends Component {
   }
 
   getDataFromGoogleAPiByAddress(data){
+    console.log(data)
     component = this;
     return new Promise(function(resolve,reject){
       let urlGoogleGeocode = component.state.urlGoogpleApi + 'geocode/json'
@@ -102,7 +103,7 @@ class GoogleAPI extends Component {
               imagePin:imagePin,
             },
           }
-
+          console.log(responseJson.results)
           marker.coordinates = coordinates
           marker.googleData.coordinateGoogleAddress = coordinates
           marker.googleData.address = responseJson.results[0].formatted_address

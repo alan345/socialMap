@@ -14,6 +14,7 @@ export default class EditAddress extends Component {
     this.setState({modalVisible: visible});
   }
   _onChangeText(text) {
+    
     let selectedMarker = this.props.selectedMarker;
 
       var component = this;
