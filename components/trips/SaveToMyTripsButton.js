@@ -19,6 +19,8 @@ export default class SaveToMyTripsButton extends Component {
   saveToMyTrips(){
     let trip = this.props.trip
     delete trip.key
+    if(!trip.locations)
+      trip.locations={}
     trip.title = 'My trip: ' + this.props.trip.title
     trip.userData = this.props.userData
     this.props.onEditTripMode()

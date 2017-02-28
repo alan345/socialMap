@@ -50,36 +50,47 @@ export default class AddTrip extends React.Component {
   saveTrip(){
     let address = this.state.trip.city
     let component = this;
-
+    let trip = this.props.trip
     this._childGoogleAPI.getDataFromGoogleAPiByAddress(address).then(function(marker){
-      component.setState({
-        trip:{
-          googleData:marker.googleData,
-          city:component.state.trip.city,
-          title:component.state.trip.title,
-          image:component.state.trip.image,
-          userData:component.props.userData,
-        }
-      },function(){
-          component._addTripToFireBase(component.state.trip)
-      })
+      trip.googleData = marker.googleData
+      trip.title = component.state.trip.title
+      console.log(trip)
+      component._addTripToFireBase(trip)
+
+      // component.setState({
+      //   trip:{
+      //     googleData:marker.googleData,
+      //     city:component.state.trip.city,
+      //     title:component.state.trip.title,
+      //     image:component.state.trip.image,
+      //     userData:component.props.userData,
+      //   }
+      // },function(){
+      //   console.log(component.state.trip)
+      //     component._addTripToFireBase(component.state.trip)
+      // })
     })
     this.props.hideAddTrip()
   }
 
   _addTripToFireBase(trip){
-    trip.locations = {}
+    if(!trip.locations)
+      trip.locations={}
+
     //help nico need help // should be in firebase Function mais jai un bug a cause de la promise.
     //Je ne comprends pas je fais la meme chose L60 dans seacrhLocations. Promesses, puis save..
     //this._childFirebaseFunctions.addOrUpdateTrip(trip)
     this.addOrUpdateTrip(trip)
   }
   // should be in firebase Function mais jai un bug
-    addOrUpdateTrip(trip){
-      if(trip.key == null  ) {
-        this.addTrip(trip)
+    addOrUpdateTrip(_trip){
+      console.log(_trip)
+      if(_trip.key == ''  ) {
+        this.addTrip(_trip)
       } else {
-        this.updateTrip(trip)
+        console.log(_trip)
+        this.updateTrip(_trip)
+
       }
     }
     // should be in firebase Function mais jai un bug
@@ -142,9 +153,6 @@ export default class AddTrip extends React.Component {
                     trip: {
                       city:this.state.trip.city,
                       title:text,
-                      locations:this.state.trip.locations,
-                      image:this.state.trip.image,
-                      key:this.state.trip.key,
                     }
 
                   })}
@@ -157,9 +165,6 @@ export default class AddTrip extends React.Component {
                     trip: {
                       city:text,
                       title:this.state.trip.title,
-                      locations:this.state.trip.locations,
-                      image:this.state.trip.image,
-                      key:this.state.trip.key,
                     }
                   })}
                 />
