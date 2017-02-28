@@ -16,6 +16,8 @@ import * as firebase from 'firebase';
 import Firebase from "../../includes/firebase";
 import SingleTrip from './SingleTrip';
 import AddTrip from './AddTrip';
+import AddTripButton from './AddTripButton';
+
 import ShowLoading from '../ShowLoading';
 import FirebaseFunctions from "../../includes/FirebaseFunctions";
 
@@ -183,6 +185,10 @@ export default class ListTrips extends Component {
     return (
 
       <View style={[styles.container,this.state.styleHeight]}>
+
+        <AddTripButton
+          onPressButtonTrip={this.onPressButtonTrip.bind(this)}
+        />
         <TouchableOpacity onPress={this.onTogggleTrips.bind(this)}>
           <AddTrip
             userData={this.props.userData}
@@ -211,15 +217,6 @@ export default class ListTrips extends Component {
             renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.separator} />}
           />
         </TouchableOpacity>
-
-        <View style={styles.addIconTouchableOpacity}>
-          <Button
-            onPress={this.onPressButtonTrip.bind(this)}
-            title="✚"
-            color="#841584"
-            accessibilityLabel="✚"
-          />
-        </View>
       </View>
 
 
