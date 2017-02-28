@@ -42,6 +42,7 @@ export default class AddTrip extends React.Component {
   }
 
   propsToState(){
+    console.log(this.props.trip)
     this.setState({
       trip:this.props.trip
     })
@@ -54,6 +55,7 @@ export default class AddTrip extends React.Component {
     this._childGoogleAPI.getDataFromGoogleAPiByAddress(address).then(function(marker){
       trip.googleData = marker.googleData
       trip.title = component.state.trip.title
+      trip.city = marker.googleData.address_components.locality
       trip.userData = component.props.userData
       console.log(trip)
       component._addTripToFireBase(trip)

@@ -265,6 +265,7 @@ const styles = StyleSheet.create({
     width: width,
     backgroundColor: '#F5FCFF',
     paddingBottom:5,
+    zIndex:95,
 
   },
   welcome: {

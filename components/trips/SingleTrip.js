@@ -33,7 +33,7 @@ class SingleTrip extends Component {
             />
             <Image source={{ uri: 'https://daveexaminesmovies.files.wordpress.com/2012/10/5-star_rating_system_pcar_011-e1349505423547.png'}} style={styles.imageStar} />
 
-            <Text> {this.props.item.city}</Text>
+            <Text> {this.props.item.googleData.address_components.locality}</Text>
             <Text style={styles.text}>{this.props.item.title}</Text>
 
 
