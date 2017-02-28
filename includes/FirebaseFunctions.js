@@ -61,21 +61,19 @@ class FirebaseFunctions extends Component {
     var newRef = itemsRef.push();
     var key = newRef.key;
     trip.key = key
-  //  trip.locations = {}
-//    this.props.onTripSelected(trip)
     this.updateTrip(trip)
   }
-  // should be in firebase Function mais jai un bug
+
   updateTrip(trip){
     let itemsRef = firebase.database().ref().child('trips');
     itemsRef.child(trip.key).set({
-        title: trip.title,
-        image: trip.image,
-        city: trip.city,
-        googleData: trip.googleData,
-        userData: trip.userData,
-        locations: trip.locations,
-      });
+      title: trip.title,
+      image: trip.image,
+      city: trip.city,
+      googleData: trip.googleData,
+      userData: trip.userData,
+      locations: trip.locations,
+    });
   }
 
   deleteTrip(trip){

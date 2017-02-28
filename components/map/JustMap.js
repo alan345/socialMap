@@ -30,13 +30,11 @@ import FirebaseFunctions from "../../includes/FirebaseFunctions";
 import GoogleAPI from '../../includes/GoogleAPI';
 
 
-// const SideMenu = require('react-native-side-menu');
-// const Menu = require('./Menu');
 import FBLoginView from '../FBLoginView';
 import DetailsViews from '../locations/DetailsViews';
 import ShowLoading from '../ShowLoading';
 import ListTrips from '../trips/ListTrips';
-import CreateLocationButton from '../locations/CreateLocationButton';
+import TakePictureButton from '../locations/TakePictureButton';
 import SearchLocation from '../locations/SearchLocation';
 import SaveToMyTripsButton from '../trips/SaveToMyTripsButton';
 import ShowTripTitle from '../trips/ShowTripTitle';
@@ -178,6 +176,10 @@ export default class JustMap extends React.Component {
         alert("You must be logged !")
         return;
       }
+      if(!this.state.isEditingMyTrip) {
+        alert("Save to your trips first")
+        return;
+      }
       if(!this.state.trip.key) {
         alert("Select or Create a trip first!")
         return;
@@ -203,6 +205,13 @@ export default class JustMap extends React.Component {
             key:keyId++,
             coordinateGoogleAddress: coordinates,
             image: markerImg,
+            googleData : {
+              imagePin:'https://pickaface.net/gallery/avatar/Opi51c74d0125fd4.png',
+              address_components:{
+                neighborhood:''
+              }
+            }
+
             // userData: {
             //   picture: {
             //     data: {
@@ -221,6 +230,7 @@ export default class JustMap extends React.Component {
       //  marker.userData = component.props.userData
         //marker.title = marker.googleData.address_components.route
         component._addLocationToFirebase(marker, component.state.trip.key);
+        component.listenForItems()
       })
 
 
@@ -273,8 +283,8 @@ export default class JustMap extends React.Component {
     onPressDeleteMarker(marker){
       this._child.deleteLocationToFirebase(marker, this.state.trip.key)
     }
-    onMarkerSelected(item)
-    {
+    onMarkerSelected(item) {
+      this.listenForItems();
       this.changeRegionAnimate(item)
     }
     changeRegionAnimate(item) {
@@ -367,6 +377,7 @@ export default class JustMap extends React.Component {
               trip={this.state.trip}
               isEditingMyTrip={this.state.isEditingMyTrip}
               onEditTripMode={this.onEditTripMode.bind(this)}
+              userData={this.props.userData}
             />
             <ListTrips
               onItemSelected={this.onMenuItemSelected}
@@ -379,8 +390,11 @@ export default class JustMap extends React.Component {
             <SearchLocation
               trip={this.state.trip}
               isEditingMyTrip={this.state.isEditingMyTrip}
+              onPressMarker={this.onPressMarker.bind(this)}
+              onMarkerSelected={this.onMarkerSelected.bind(this)}
+              onSetPositionDetails={this.onSetPositionDetails.bind(this)}
             />
-            <CreateLocationButton
+            <TakePictureButton
               trip={this.state.trip}
               isEditingMyTrip={this.state.isEditingMyTrip}
               onPressMarker={this.onPressMarker.bind(this)}

@@ -33,7 +33,6 @@ export default class AddTrip extends React.Component {
     };
     this._addTripToFireBase = this._addTripToFireBase.bind(this);
     this.saveTrip = this.saveTrip.bind(this);
-
     this.itemsRef = this.getRef().child('trips');
   }
 
@@ -42,8 +41,6 @@ export default class AddTrip extends React.Component {
      return firebase.database().ref();
   }
 
-
-
   propsToState(){
     this.setState({
       trip:this.props.trip
@@ -51,11 +48,8 @@ export default class AddTrip extends React.Component {
   }
 
   saveTrip(){
-
     let address = this.state.trip.city
     let component = this;
-
-
 
     this._childGoogleAPI.getDataFromGoogleAPiByAddress(address).then(function(marker){
       component.setState({
@@ -68,7 +62,6 @@ export default class AddTrip extends React.Component {
         }
       },function(){
           component._addTripToFireBase(component.state.trip)
-          // must be changed to a function in JustMap
       })
     })
     this.props.hideAddTrip()
@@ -76,8 +69,9 @@ export default class AddTrip extends React.Component {
 
   _addTripToFireBase(trip){
     trip.locations = {}
-    //help nico need help
-    //  this._childFirebaseFunctions.addOrUpdateTrip(trip)
+    //help nico need help // should be in firebase Function mais jai un bug a cause de la promise.
+    //Je ne comprends pas je fais la meme chose L60 dans seacrhLocations. Promesses, puis save..
+    //this._childFirebaseFunctions.addOrUpdateTrip(trip)
     this.addOrUpdateTrip(trip)
   }
   // should be in firebase Function mais jai un bug
@@ -88,27 +82,25 @@ export default class AddTrip extends React.Component {
         this.updateTrip(trip)
       }
     }
-
+    // should be in firebase Function mais jai un bug
     addTrip(trip){
       let itemsRef = firebase.database().ref().child('trips');
       var newRef = itemsRef.push();
       var key = newRef.key;
       trip.key = key
-    //  trip.locations = {}
-  //    this.props.onTripSelected(trip)
       this.updateTrip(trip)
     }
     // should be in firebase Function mais jai un bug
     updateTrip(trip){
       let itemsRef = firebase.database().ref().child('trips');
       itemsRef.child(trip.key).set({
-          title: trip.title,
-          image: trip.image,
-          city: trip.city,
-          googleData: trip.googleData,
-          userData: trip.userData,
-          locations: trip.locations,
-        });
+        title: trip.title,
+        image: trip.image,
+        city: trip.city,
+        googleData: trip.googleData,
+        userData: trip.userData,
+        locations: trip.locations,
+      });
     }
 
 
@@ -127,6 +119,7 @@ export default class AddTrip extends React.Component {
       <View style={{marginTop: 22}}>
         <FirebaseFunctions ref={(child) => { this._childFirebaseFunctions = child; }} />
         <GoogleAPI ref={(child) => { this._childGoogleAPI = child; }} />
+
 
         <Modal
           animationType={"slide"}
