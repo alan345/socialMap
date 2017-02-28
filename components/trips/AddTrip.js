@@ -54,6 +54,7 @@ export default class AddTrip extends React.Component {
     this._childGoogleAPI.getDataFromGoogleAPiByAddress(address).then(function(marker){
       trip.googleData = marker.googleData
       trip.title = component.state.trip.title
+      trip.userData = component.props.userData
       console.log(trip)
       component._addTripToFireBase(trip)
 
@@ -85,7 +86,7 @@ export default class AddTrip extends React.Component {
   // should be in firebase Function mais jai un bug
     addOrUpdateTrip(_trip){
       console.log(_trip)
-      if(_trip.key == ''  ) {
+      if(_trip.key == null  ) {
         this.addTrip(_trip)
       } else {
         console.log(_trip)
