@@ -42,7 +42,6 @@ export default class AddTrip extends React.Component {
   }
 
   propsToState(){
-    console.log(this.props.trip)
     this.setState({
       trip:this.props.trip
     })
@@ -57,21 +56,7 @@ export default class AddTrip extends React.Component {
       trip.title = component.state.trip.title
       trip.city = marker.googleData.address_components.locality
       trip.userData = component.props.userData
-      console.log(trip)
       component._addTripToFireBase(trip)
-
-      // component.setState({
-      //   trip:{
-      //     googleData:marker.googleData,
-      //     city:component.state.trip.city,
-      //     title:component.state.trip.title,
-      //     image:component.state.trip.image,
-      //     userData:component.props.userData,
-      //   }
-      // },function(){
-      //   console.log(component.state.trip)
-      //     component._addTripToFireBase(component.state.trip)
-      // })
     })
     this.props.hideAddTrip()
   }
