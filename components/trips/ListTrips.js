@@ -178,7 +178,6 @@ export default class ListTrips extends Component {
       }
     }, function() {
       this.listenForItems()
-      
     })
   }
   render() {
