@@ -19,12 +19,13 @@ export default class EditMyTripButton extends Component {
 
 
   editMyTrip(){
-
     this.props.onEditTripMode()
-
   }
 
   render() {
+
+    if(this.props.isEditingMyTrip)
+      return null  
     if(!this.props.trip.key)
       return null
     if(!this.props.isTripSelectedIsMine)

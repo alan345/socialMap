@@ -57,23 +57,37 @@ class FirebaseFunctions extends Component {
   }
 
   addTrip(trip){
-    let itemsRef = firebase.database().ref().child('trips');
-    var newRef = itemsRef.push();
-    var key = newRef.key;
-    trip.key = key
-    this.updateTrip(trip)
+    var component = this
+    return new Promise(function(resolve,reject){
+      let _trip = {
+        title:trip.title,
+        googleData:trip.googleData,
+        image:trip.image,
+        locations:trip.locations,
+        userData:trip.userData,
+      }
+      let itemsRef = firebase.database().ref().child('trips');
+      var newRef = itemsRef.push();
+      var key = newRef.key;
+      _trip.key = key
+      component.updateTrip(_trip).then(function(trip){
+        resolve(trip)
+      })
+    })
   }
 
   updateTrip(trip){
-    let itemsRef = firebase.database().ref().child('trips');
-    itemsRef.child(trip.key).set({
-      title: trip.title,
-      image: trip.image,
-      city: trip.city,
-      googleData: trip.googleData,
-      userData: trip.userData,
-      locations: trip.locations,
-    });
+    return new Promise(function(resolve,reject){
+      let itemsRef = firebase.database().ref().child('trips');
+      itemsRef.child(trip.key).set({
+        title: trip.title,
+        image: trip.image,
+        googleData: trip.googleData,
+        userData: trip.userData,
+        locations: trip.locations,
+      });
+      resolve(trip)
+    })
   }
 
   deleteTrip(trip){
@@ -103,7 +117,7 @@ class FirebaseFunctions extends Component {
 
             });
           });
-          resolve( items)
+          resolve(items)
         });
     })
   }

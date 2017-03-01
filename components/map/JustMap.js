@@ -274,7 +274,8 @@ export default class JustMap extends React.Component {
       this._childDetailsViews.onSetPositionDetails(position)
     }
 
-    onTripSelected(item) {
+    onSelecetTrip(item) {
+      console.log(item)
       let isTripSelectedIsMine = false;
       if(item.userData.id == this.props.userData.id) {
         isTripSelectedIsMine = true;
@@ -391,6 +392,7 @@ export default class JustMap extends React.Component {
               isEditingMyTrip={this.state.isEditingMyTrip}
               onEditTripMode={this.onEditTripMode.bind(this)}
               userData={this.props.userData}
+              onSelecetTrip={this.onSelecetTrip.bind(this)}
             />
             <EditMyTripButton
               trip={this.state.trip}
@@ -404,7 +406,7 @@ export default class JustMap extends React.Component {
               userData={this.props.userData}
               trip={this.state.trip}
               isEditingMyTrip={this.state.isEditingMyTrip}
-              onTripSelected={this.onTripSelected.bind(this)}
+              onSelecetTrip={this.onSelecetTrip.bind(this)}
               ref={(child) => { this._childListTrips = child; }}
             />
             <SearchLocation
