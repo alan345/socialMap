@@ -48,7 +48,7 @@ export default class EditMyTripButton extends Component {
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    bottom:50,
+    bottom:40,
     width: width,
     padding : 40,
     paddingBottom:25,
