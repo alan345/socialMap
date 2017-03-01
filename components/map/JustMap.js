@@ -274,14 +274,6 @@ export default class JustMap extends React.Component {
     onPressMap(){
       this._childDetailsViews.onReduceDetails()
       this._childListTrips.onReduceTrips()
-      if(!this.state.isEditingMyTrip) {
-        this.setState({
-          trip:{}
-        }, function(){
-            this.resetStatusMap()
-        })
-
-      }
 
     }
 
