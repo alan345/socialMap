@@ -16,7 +16,7 @@ class SingleTrip extends Component {
     return (
       <TouchableHighlight
         onPress={() => {
-          this.props.onTripSelected(this.props.item)
+          this.props.onSelecetTrip(this.props.item)
         }}
       >
         <View>

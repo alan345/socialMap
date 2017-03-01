@@ -18,6 +18,7 @@ export default class SaveToMyTripsButton extends Component {
 
 
   saveToMyTrips(){
+    let component = this
     let trip = this.props.trip
     delete trip.key
     if(!trip.locations)
@@ -25,7 +26,9 @@ export default class SaveToMyTripsButton extends Component {
     trip.title = 'My trip: ' + this.props.trip.title
     trip.userData = this.props.userData
     this.props.onEditTripMode()
-    this._childFirebaseFunctions.addOrUpdateTrip(trip)
+    this._childFirebaseFunctions.addTrip(trip).then(function(trip){
+      component.props.onSelecetTrip(trip)
+    })
   }
 
   render() {

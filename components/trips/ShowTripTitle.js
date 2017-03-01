@@ -31,7 +31,7 @@ export default class ShowTripTitle extends Component {
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    top:0,
+    top:120,
     width: width/1.3,
 
     paddingLeft:40,

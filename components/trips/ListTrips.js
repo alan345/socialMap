@@ -130,8 +130,8 @@ export default class ListTrips extends Component {
     })
   }
 
-  onTripSelected(item){
-    this.props.onTripSelected(item)
+  onSelecetTrip(item){
+    this.props.onSelecetTrip(item)
   }
 
   onEditTrip(item){
@@ -148,7 +148,7 @@ export default class ListTrips extends Component {
       <SingleTrip
         item={item}
         onEditTrip={this.onEditTrip.bind(this)}
-        onTripSelected={this.onTripSelected.bind(this)}
+        onSelecetTrip={this.onSelecetTrip.bind(this)}
         userData={this.props.userData}
       />
     );
@@ -196,7 +196,7 @@ export default class ListTrips extends Component {
             showAddTrip={this.state.showAddTrip}
             hideAddTrip={this.hideAddTrip.bind(this)}
             trip={this.state.trip}
-            onTripSelected={this.onTripSelected.bind(this)}
+            onSelecetTrip={this.onSelecetTrip.bind(this)}
             ref={(child) => { this._childAddTrip = child; }}
           />
           <FirebaseFunctions ref={(child) => { this._child = child; }} />
