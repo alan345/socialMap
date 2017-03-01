@@ -259,7 +259,13 @@ export default class JustMap extends React.Component {
       }
 
     }
-
+    resetStatusMap(){
+      this.setState({
+        isLoading : true,
+        isEditingMyTrip : false,
+        isTripSelectedIsMine : false,
+      })
+    }
     onLongPressCreateMarker(e) {
       this.createOrUpdateMarker(e, {})
     }
@@ -268,6 +274,15 @@ export default class JustMap extends React.Component {
     onPressMap(){
       this._childDetailsViews.onReduceDetails()
       this._childListTrips.onReduceTrips()
+      if(!this.state.isEditingMyTrip) {
+        this.setState({
+          trip:{}
+        }, function(){
+            this.resetStatusMap()
+        })
+
+      }
+
     }
 
     onSetPositionDetails(position){
@@ -275,7 +290,6 @@ export default class JustMap extends React.Component {
     }
 
     onSelecetTrip(item) {
-      console.log(item)
       let isTripSelectedIsMine = false;
       if(item.userData.id == this.props.userData.id) {
         isTripSelectedIsMine = true;
