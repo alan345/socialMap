@@ -13,7 +13,7 @@ import {
   TouchableHighlight
 } from 'react-native';
 import markerImg from '../../assets/flag-black.png';
-
+import MapStyle from "./MapStyle";
 import MapView, {Marker} from 'react-native-maps';
 import * as firebase from 'firebase';
 import Firebase from "../../includes/firebase";
@@ -355,6 +355,7 @@ export default class JustMap extends React.Component {
               showsUserLocation = {true}
               onLongPress = {this.onLongPressCreateMarker}
               onPress = {this.onPressMap.bind(this)}
+              customMapStyle={MapStyle}
             >
               {this.state.locations.map((location,i) =>{
                 return (
