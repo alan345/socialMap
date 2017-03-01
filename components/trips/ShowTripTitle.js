@@ -14,16 +14,23 @@ import FirebaseFunctions from "../../includes/FirebaseFunctions";
 const { width, height } = Dimensions.get('window');
 
 export default class ShowTripTitle extends Component {
-
+  editTitleTripButton(){
+  }
 
   render() {
+    if(!this.props.isEditingMyTrip)
+      return null
     if(!this.props.trip.key)
       return null
 
     return (
-
       <View style={styles.container}>
-        <Text>{this.props.trip.title}</Text>
+        <Button
+          onPress={this.editTitleTripButton.bind(this)}
+          title={this.props.trip.title}
+          color="#841584"
+          accessibilityLabel={this.props.trip.title}
+        />
       </View>
     );
   }
@@ -31,11 +38,9 @@ export default class ShowTripTitle extends Component {
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    top:120,
-    width: width/1.3,
-
-    paddingLeft:40,
-    paddingRight:40,
-    backgroundColor: '#F5FCFF',
+    top:0,
+    width: width,
+    padding : 80,
+    paddingTop:2,
   },
 });

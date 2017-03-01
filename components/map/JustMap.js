@@ -386,6 +386,7 @@ export default class JustMap extends React.Component {
             />
             <ShowTripTitle
               trip={this.state.trip}
+              isEditingMyTrip={this.state.isEditingMyTrip}
             />
             <SaveToMyTripsButton
               trip={this.state.trip}
