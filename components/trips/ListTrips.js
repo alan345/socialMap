@@ -23,7 +23,7 @@ import FirebaseFunctions from "../../includes/FirebaseFunctions";
 
 import SearchInput from './SearchInput'
 const { width, height } = Dimensions.get('window');
-const heightSearchTopMenuOpen = height / 3
+const heightSearchTopMenuOpen = height / 2.5
 const heightSearchTopMenuClose = 60
 
 export default class ListTrips extends Component {
@@ -149,6 +149,7 @@ export default class ListTrips extends Component {
         item={item}
         onEditTrip={this.onEditTrip.bind(this)}
         onTripSelected={this.onTripSelected.bind(this)}
+        userData={this.props.userData}
       />
     );
   }
@@ -232,32 +233,10 @@ const styles = StyleSheet.create({
     paddingTop:22,
     fontSize: 25,
   },
-  button: {
-    position: 'absolute',
-    top: 20,
-    padding: 10,
-  },
-  viewInputSearch: {
-    position: 'absolute',
-  },
-  addIcon:{
-    width: 35,
-    height: 35,
-  },
-  addIconTouchableOpacity : {
-    right:10,
-    top:10,
-    position: 'absolute',
-  },
   separator: {
     flex: 1,
     height: StyleSheet.hairlineWidth,
     backgroundColor: '#8E8E8E',
-  },
-  caption: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    alignItems: 'center',
   },
   container: {
     position: 'absolute',
@@ -265,17 +244,5 @@ const styles = StyleSheet.create({
     width: width,
     backgroundColor: '#F5FCFF',
     paddingBottom:5,
-
-
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  }
 });

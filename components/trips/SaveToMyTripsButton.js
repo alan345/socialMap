@@ -16,6 +16,7 @@ const { width, height } = Dimensions.get('window');
 export default class SaveToMyTripsButton extends Component {
 
 
+
   saveToMyTrips(){
     let trip = this.props.trip
     delete trip.key

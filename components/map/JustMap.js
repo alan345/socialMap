@@ -37,6 +37,9 @@ import ListTrips from '../trips/ListTrips';
 import TakePictureButton from '../locations/TakePictureButton';
 import SearchLocation from '../locations/SearchLocation';
 import SaveToMyTripsButton from '../trips/SaveToMyTripsButton';
+import EditMyTripButton from '../trips/EditMyTripButton';
+
+
 import ShowTripTitle from '../trips/ShowTripTitle';
 
 
@@ -60,6 +63,7 @@ export default class JustMap extends React.Component {
       locations: [],
       isLoading : true,
       isEditingMyTrip : false,
+      isTripSelectedIsMine : false,
       selectedMarker: {
         key:'',
 
@@ -271,9 +275,18 @@ export default class JustMap extends React.Component {
     }
 
     onTripSelected(item) {
+      let isTripSelectedIsMine = false;
+      if(item.userData.id == this.props.userData.id) {
+        isTripSelectedIsMine = true;
+      } else {
+        isTripSelectedIsMine = false;
+      }
+
       // help nico. Ici, on a deja les markers. dans item.locations. Pas besoin de listenForItems() qui refait un appel dans la base de donnee
+
       this.setState({
-        trip:item
+        trip:item,
+        isTripSelectedIsMine:isTripSelectedIsMine,
       },function(){
         this.listenForItems();
       })
@@ -379,8 +392,15 @@ export default class JustMap extends React.Component {
               onEditTripMode={this.onEditTripMode.bind(this)}
               userData={this.props.userData}
             />
+            <EditMyTripButton
+              trip={this.state.trip}
+              isEditingMyTrip={this.state.isEditingMyTrip}
+              onEditTripMode={this.onEditTripMode.bind(this)}
+              userData={this.props.userData}
+              isTripSelectedIsMine={this.state.isTripSelectedIsMine}
+            />
             <ListTrips
-              onItemSelected={this.onMenuItemSelected}
+            //  onItemSelected={this.onMenuItemSelected}
               userData={this.props.userData}
               trip={this.state.trip}
               isEditingMyTrip={this.state.isEditingMyTrip}
