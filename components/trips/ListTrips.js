@@ -153,18 +153,7 @@ export default class ListTrips extends Component {
       />
     );
   }
-  onCleanInput(){
-  //  this.refs['GooglePlacesAutocomplete'].setNativeProps({text: ''});
-    this.setState({
-      isLoading:true,
-      search : {
-        city:''
-      }
-    }, function() {
-      this.listenForItems()
-    })
 
-  }
 
   componentDidMount() {
     this.listenForItems();

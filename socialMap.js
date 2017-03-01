@@ -59,6 +59,10 @@ module.exports = class socialMap extends Component {
   }
 
   onMenuItemSelected = (item) => {
+    //nico help. si je change de menu, jai une erreur. je perds lhistorique
+    //setState(…): Can only update a mounted or mounting component. This usually means you called setState() on an unmounted component. This is a no-op
+
+
     this.setState({
       isOpen: false,
       selectedItem: item,
@@ -73,11 +77,10 @@ module.exports = class socialMap extends Component {
     let isMenuAbout=false;
     let isMenuContacts=false;
     let isMenuMyMaps=false;
-    let isMenuSearch=false;
 
-    if(this.state.selectedItem == "About") {
-      isMenuAbout = true;
-    }
+    // if(this.state.selectedItem == "About") {
+    //   isMenuAbout = true;
+    // }
     if(this.state.selectedItem == "MyMaps") {
       isMenuMyMaps = true;
     }
@@ -85,9 +88,7 @@ module.exports = class socialMap extends Component {
     if(this.state.selectedItem == "Contacts") {
       isMenuContacts = true;
     }
-    if(this.state.selectedItem == "Search") {
-      isMenuSearch = true;
-    }
+
 
     return (
       <SideMenu
@@ -95,18 +96,15 @@ module.exports = class socialMap extends Component {
         disableGestures={true}
         isOpen={this.state.isOpen}
         onChange={(isOpen) => this.updateMenuState(isOpen)}>
-        {isMenuAbout ?
-          <JustMap userData={this.state.userData} isMyMaps ={false} /> : <View/>
-        }
+
+
         {isMenuMyMaps ?
-          <JustMap userData={this.state.userData} isMyMaps ={true}/> : <View/>
+          <JustMap userData={this.state.userData} /> : <View/>
         }
         {isMenuContacts ?
           <Contacts userData={this.state.userData}/> : <Text></Text>
         }
-        {isMenuSearch ?
-          <ListTrips onItemSelected={this.onMenuItemSelected} userData={this.state.userData}/> : <Text></Text>
-        }
+
 
         <Button style={styles.button} onPress={() => this.toggle()}>
           <Image
