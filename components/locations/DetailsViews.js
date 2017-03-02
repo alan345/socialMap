@@ -129,7 +129,7 @@ class DetailsViews extends Component {
 
 
       render(){
-        if(this.props.trip.key=='')
+        if(!this.props.trip.key)
           return null
 
           return (

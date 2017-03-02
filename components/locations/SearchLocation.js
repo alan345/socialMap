@@ -50,21 +50,15 @@ export default class SearchLocation extends Component {
   _onChangeText(text) {
 
     let selectedMarker = this.state.emptySelectedMarker;
-
-      var component = this;
-      this._childGoogleAPI.getDataFromGoogleAPiByAddress(text).then(function(marker){
-        selectedMarker.googleData.address_components = marker.googleData.address_components
-        selectedMarker.googleData.address = marker.googleData.address
-        selectedMarker.coordinates = marker.coordinates
-        selectedMarker.googleData.coordinateGoogleAddress = marker.googleData.coordinateGoogleAddress
-        component._child.addOrUpdateLocation(selectedMarker, component.props.trip.key)
-
-
-        component.props.onMarkerSelected(selectedMarker)
-      })
-    //
-    // this.props.onPressMarker(this.state.emptySelectedMarker)
-    // this.props.onSetPositionDetails(2)
+    var component = this;
+    this._childGoogleAPI.getDataFromGoogleAPiByAddress(text).then(function(marker){
+      selectedMarker.googleData.address_components = marker.googleData.address_components
+      selectedMarker.googleData.address = marker.googleData.address
+      selectedMarker.coordinates = marker.coordinates
+      selectedMarker.googleData.coordinateGoogleAddress = marker.googleData.coordinateGoogleAddress
+      component._child.addOrUpdateLocation(selectedMarker, component.props.trip.key)
+      component.props.onMarkerSelected(selectedMarker)
+    })
   }
 
   render() {
@@ -86,7 +80,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top:0,
     width: width,
-    paddingTop:30,
+    paddingTop:40,
     padding:55,
 
   },

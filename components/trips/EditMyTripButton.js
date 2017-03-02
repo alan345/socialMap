@@ -25,7 +25,7 @@ export default class EditMyTripButton extends Component {
   render() {
 
     if(this.props.isEditingMyTrip)
-      return null  
+      return null
     if(!this.props.trip.key)
       return null
     if(!this.props.isTripSelectedIsMine)
@@ -44,10 +44,11 @@ export default class EditMyTripButton extends Component {
     );
   }
 }
+
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    bottom:50,
+    bottom:40,
     width: width,
     padding : 40,
     paddingBottom:25,

@@ -13,7 +13,7 @@ import {
   TouchableHighlight
 } from 'react-native';
 import markerImg from '../../assets/flag-black.png';
-
+import MapStyle from "./MapStyle";
 import MapView, {Marker} from 'react-native-maps';
 import * as firebase from 'firebase';
 import Firebase from "../../includes/firebase";
@@ -259,7 +259,13 @@ export default class JustMap extends React.Component {
       }
 
     }
-
+    resetStatusMap(){
+      this.setState({
+        isLoading : true,
+        isEditingMyTrip : false,
+        isTripSelectedIsMine : false,
+      })
+    }
     onLongPressCreateMarker(e) {
       this.createOrUpdateMarker(e, {})
     }
@@ -268,6 +274,7 @@ export default class JustMap extends React.Component {
     onPressMap(){
       this._childDetailsViews.onReduceDetails()
       this._childListTrips.onReduceTrips()
+
     }
 
     onSetPositionDetails(position){
@@ -275,7 +282,6 @@ export default class JustMap extends React.Component {
     }
 
     onSelecetTrip(item) {
-      console.log(item)
       let isTripSelectedIsMine = false;
       if(item.userData.id == this.props.userData.id) {
         isTripSelectedIsMine = true;
@@ -341,6 +347,7 @@ export default class JustMap extends React.Component {
               showsUserLocation = {true}
               onLongPress = {this.onLongPressCreateMarker}
               onPress = {this.onPressMap.bind(this)}
+              customMapStyle={MapStyle}
             >
               {this.state.locations.map((location,i) =>{
                 return (
@@ -386,6 +393,7 @@ export default class JustMap extends React.Component {
             />
             <ShowTripTitle
               trip={this.state.trip}
+              isEditingMyTrip={this.state.isEditingMyTrip}
             />
             <SaveToMyTripsButton
               trip={this.state.trip}
