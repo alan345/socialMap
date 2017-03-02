@@ -132,19 +132,14 @@ export default class JustMap extends React.Component {
          var items = [];
          snap.forEach((child) => {
            items.push({
-
              title: child.val().googleData.address_components.route,
              googleData:child.val().googleData,
-        //     address_components: child.val().address_components,
              coordinate: child.val().coordinates,
              coordinates: child.val().coordinates,
-        //     coordinateGoogleAddress: child.val().coordinateGoogleAddress,
              key: child.getKey(),
-          //   address: child.val().address,
              description: child.val().description,
              image: child.val().image,
              datePin:  child.val().datePin,
-          //   userData:  child.val().userData,
            });
          });
 
@@ -217,14 +212,6 @@ export default class JustMap extends React.Component {
                 neighborhood:''
               }
             }
-
-            // userData: {
-            //   picture: {
-            //     data: {
-            //       url: ''
-            //     }
-            //   }
-            // }
           }
         ]
       })
@@ -268,9 +255,7 @@ export default class JustMap extends React.Component {
         isTripSelectedIsMine : false,
       })
     }
-    onLongPressCreateMarker(e) {
-      this.createOrUpdateMarker(e, {})
-    }
+
 
 
     onPressMap(){
@@ -283,25 +268,10 @@ export default class JustMap extends React.Component {
       this._childDetailsViews.onSetPositionDetails(position)
     }
 
-    onSelecetTrip(item) {
-      let isTripSelectedIsMine = false;
-      if(item.userData.id == this.props.userData.id) {
-        isTripSelectedIsMine = true;
-      } else {
-        isTripSelectedIsMine = false;
-      }
 
-      // help nico. Ici, on a deja les markers. dans item.locations. Pas besoin de listenForItems() qui refait un appel dans la base de donnee
-
-      this.setState({
-        trip:item,
-        isTripSelectedIsMine:isTripSelectedIsMine,
-      },function(){
-        this.listenForItems();
-      })
-      this.changeRegionAnimate(item)
+    onLongPressCreateMarker(e) {
+      this.createOrUpdateMarker(e, {})
     }
-
     onPressDeleteMarker(marker){
       this._child.deleteLocationToFirebase(marker, this.state.trip.key)
     }
@@ -334,6 +304,27 @@ export default class JustMap extends React.Component {
       })
       this._childDetailsViews.onShowDetails()
     }
+
+
+    onSelecetTrip(item) {
+      let isTripSelectedIsMine = false;
+      if(item.userData.id == this.props.userData.id) {
+        isTripSelectedIsMine = true;
+      } else {
+        isTripSelectedIsMine = false;
+      }
+
+      // help nico. Ici, on a deja les markers. dans item.locations. Pas besoin de listenForItems() qui refait un appel dans la base de donnee
+
+      this.setState({
+        trip:item,
+        isTripSelectedIsMine:isTripSelectedIsMine,
+      },function(){
+        this.listenForItems();
+      })
+      this.changeRegionAnimate(item)
+    }
+
 
     onEditTripMode(){
       this.setState({isEditingMyTrip:true})
@@ -461,8 +452,6 @@ export default class JustMap extends React.Component {
               isEditingMyTrip={this.state.isEditingMyTrip}
               trip={this.state.trip}
               ref={(child) => { this._childAddTrip = child; }}
-
-
             />
 
             <AddTrip
