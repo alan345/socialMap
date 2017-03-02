@@ -68,7 +68,6 @@ export default class JustMap extends React.Component {
       showAddTrip:false,
       selectedMarker: {
         key:'',
-
         googleData:{
           imagePin : 'https://pickaface.net/gallery/avatar/Opi51c74d0125fd4.png',
           address : '',
@@ -80,15 +79,12 @@ export default class JustMap extends React.Component {
             longitude: LONGITUDE,
           },
         },
-
         coordinates:{},
         coordinate : {
           latitude: LATITUDE,
           longitude: LONGITUDE,
         },
-
       },
-
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
       })
@@ -246,7 +242,6 @@ export default class JustMap extends React.Component {
           },
         });
       }
-
     }
     resetStatusMap(){
       this.setState({
@@ -268,7 +263,12 @@ export default class JustMap extends React.Component {
       this._childDetailsViews.onSetPositionDetails(position)
     }
 
-
+    onPressMarker(location){
+      this.setState({
+        selectedMarker: location
+      })
+      this._childDetailsViews.onShowDetails()
+    }
     onLongPressCreateMarker(e) {
       this.createOrUpdateMarker(e, {})
     }
@@ -289,6 +289,10 @@ export default class JustMap extends React.Component {
       this.map.animateToRegion(newRegion);
     }
 
+
+
+
+
     onEditDetailsTrip(){
       this.setState({
         showAddTrip:true,
@@ -296,16 +300,6 @@ export default class JustMap extends React.Component {
         this._childAddTrip.propsToState()
       })
     }
-
-
-    onPressMarker(location){
-      this.setState({
-        selectedMarker: location
-      })
-      this._childDetailsViews.onShowDetails()
-    }
-
-
     onSelecetTrip(item) {
       let isTripSelectedIsMine = false;
       if(item.userData.id == this.props.userData.id) {
@@ -330,9 +324,9 @@ export default class JustMap extends React.Component {
       this.setState({isEditingMyTrip:true})
     }
 
-    saveTrip(trip){
-      this.t._addTripToFireBase(component.state.trip)
-    }
+    // saveTrip(trip){
+    //   this.t._addTripToFireBase(component.state.trip)
+    // }
 
     showAddTrip() {
       this.setState({showAddTrip:true})
