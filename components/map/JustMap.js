@@ -38,7 +38,8 @@ import TakePictureButton from '../locations/TakePictureButton';
 import SearchLocation from '../locations/SearchLocation';
 import SaveToMyTripsButton from '../trips/SaveToMyTripsButton';
 import EditMyTripButton from '../trips/EditMyTripButton';
-
+import EditMyTripDetailsButton from '../trips/EditMyTripDetailsButton';
+import AddTrip from '../trips/AddTrip';
 
 import ShowTripTitle from '../trips/ShowTripTitle';
 
@@ -64,6 +65,7 @@ export default class JustMap extends React.Component {
       isLoading : true,
       isEditingMyTrip : false,
       isTripSelectedIsMine : false,
+      showAddTrip:false,
       selectedMarker: {
         key:'',
 
@@ -317,6 +319,15 @@ export default class JustMap extends React.Component {
       this.map.animateToRegion(newRegion);
     }
 
+    onEditTrip(){
+      this.setState({
+        showAddTrip:true,
+      },function(){
+        this._childAddTrip.propsToState()
+      })
+    }
+
+
     onPressMarker(location){
       this.setState({
         selectedMarker: location
@@ -332,6 +343,13 @@ export default class JustMap extends React.Component {
       this.t._addTripToFireBase(component.state.trip)
     }
 
+    showAddTrip() {
+      this.setState({showAddTrip:true})
+    }
+
+    hideAddTrip() {
+      this.setState({showAddTrip:false})
+    }
 
   render() {
     return (
@@ -438,7 +456,23 @@ export default class JustMap extends React.Component {
               changeRegionAnimate={this.changeRegionAnimate}
               ref={(child) => { this._childDetailsViews = child; }}
             />
+            <EditMyTripDetailsButton
+              onEditTrip={this.onEditTrip.bind(this)}
+              isEditingMyTrip={this.state.isEditingMyTrip}
+              trip={this.state.trip}
+              ref={(child) => { this._childAddTrip = child; }}
 
+
+            />
+
+            <AddTrip
+              userData={this.props.userData}
+              showAddTrip={this.state.showAddTrip}
+              hideAddTrip={this.hideAddTrip.bind(this)}
+              trip={this.state.trip}
+              onSelecetTrip={this.onSelecetTrip.bind(this)}
+              ref={(child) => { this._childAddTrip = child; }}
+            />
 
       </View>
     );

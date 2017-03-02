@@ -23,14 +23,7 @@ class SingleTrip extends Component {
           <View style={styles.container}>
             <Image source={{ uri: this.props.item.userData.picture.data.url}} style={styles.photo} />
             <Text> </Text>
-            <Button
-              onPress={() => {
-                this.props.onEditTrip(this.props.item)
-              }}
-              title="✎"
-              color="#841584"
-              accessibilityLabel="✎"
-            />
+
             <Image source={{ uri: 'https://daveexaminesmovies.files.wordpress.com/2012/10/5-star_rating_system_pcar_011-e1349505423547.png'}} style={styles.imageStar} />
 
             <Text> {this.props.item.googleData.address_components.locality}</Text>
