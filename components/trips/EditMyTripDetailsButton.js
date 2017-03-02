@@ -29,7 +29,7 @@ export default class EditMyTripDetailsButton extends React.Component {
       <View style={styles.container}>
         <Button
           onPress={() => {
-            this.props.onEditTrip(this.props.item)
+            this.props.onEditDetailsTrip(this.props.item)
           }}
           title="✎"
           color="#841584"

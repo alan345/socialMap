@@ -319,7 +319,7 @@ export default class JustMap extends React.Component {
       this.map.animateToRegion(newRegion);
     }
 
-    onEditTrip(){
+    onEditDetailsTrip(){
       this.setState({
         showAddTrip:true,
       },function(){
@@ -457,7 +457,7 @@ export default class JustMap extends React.Component {
               ref={(child) => { this._childDetailsViews = child; }}
             />
             <EditMyTripDetailsButton
-              onEditTrip={this.onEditTrip.bind(this)}
+              onEditDetailsTrip={this.onEditDetailsTrip.bind(this)}
               isEditingMyTrip={this.state.isEditingMyTrip}
               trip={this.state.trip}
               ref={(child) => { this._childAddTrip = child; }}
