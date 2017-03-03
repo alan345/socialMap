@@ -28,6 +28,9 @@ Which branch is selected in local
 ```git branch```
 
 
+Updating a local repository with changes from a Github repository
+```git pull origin master```
+
 Commit changes in a new branch
 ```git add .```
 ```git commit -m <branch> ```
