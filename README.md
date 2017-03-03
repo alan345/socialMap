@@ -27,6 +27,9 @@ Push the branch on github :
 Which branch is selected in local
 ```git branch```
 
+How to switch back to 'master' with git?
+```git checkout master```
+
 
 Updating a local repository with changes from a Github repository
 ```git pull origin master```
