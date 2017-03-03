@@ -14,7 +14,6 @@
 ...
 
 
-
 ## GIT
 
 Create the branch on your local machine and switch in this branch
@@ -27,6 +26,12 @@ Push the branch on github :
 Which branch is selected in local
 ```git branch```
 
+How to switch back to 'master' with git?
+```git checkout master```
+
+
+Updating a local repository with changes from a Github repository
+```git pull origin master```
 
 Commit changes in a new branch
 ```git add .```
