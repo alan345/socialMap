@@ -17,7 +17,7 @@ export default class SearchInput extends Component {
     return (
 
         <GooglePlacesAutocomplete
-          placeholder='🔎'
+          placeholder='Search trips in an area'
           minLength={2} // minimum length of text to search
           autoFocus={false}
           listViewDisplayed='auto'    // true/false/undefined
@@ -46,18 +46,18 @@ export default class SearchInput extends Component {
               color: '#1faadb',
             },
             container: {
-              backgroundColor:'#F5FCFF',
+              backgroundColor:'transparent',
               margin:0,
               padding:0
 
             },
             textInputContainer: {
-              backgroundColor: '#F5FCFF',
-
-
+              backgroundColor: 'rgba(255,255,255,0.8)',
+              borderRadius: 5,
+              padding: 5
             },
             textInput:{
-              backgroundColor: '#F5FCFF',
+              backgroundColor: 'transparent',
               borderRadius:0,
               paddingTop:0,
               paddingBottom:0,
