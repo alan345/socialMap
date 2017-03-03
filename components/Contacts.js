@@ -25,6 +25,7 @@ class DetailsViews extends Component {
       ])
     };
   }
+  
 
   render() {
     const { onScroll = () => {} } = this.props;
@@ -95,7 +96,7 @@ class DetailsViews extends Component {
               </View>
             )}/>
 
-      
+
         )}
 
       />
