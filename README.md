@@ -14,7 +14,6 @@
 ...
 
 
-
 ## GIT
 
 Create the branch on your local machine and switch in this branch
