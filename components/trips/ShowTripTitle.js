@@ -35,6 +35,7 @@ export default class ShowTripTitle extends Component {
     );
   }
 }
+
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
