@@ -6,7 +6,6 @@ import {
   View,
   Button,
   Dimensions,
-  TouchableWithoutFeedback
 } from 'react-native';
 
 const { width, height } = Dimensions.get('window');
@@ -16,22 +15,21 @@ export default class AddTripButton extends Component {
     return (
 
       <View style={styles.container}>
-            <TouchableWithoutFeedback onPress={this.props.onPressButtonTrip}>
-              <View
-                title="✚"
-                color="#841584"
-                style={{borderRadius: 40, backgroundColor: '#841584', height: 40, width: 40, paddingTop:5}}>
-                   <Text style={{color:"#ffffff", textAlign: 'center', fontSize: 22}}>+</Text>
-              </View>
-          </TouchableWithoutFeedback>
+        <Button
+          onPress={this.props.onPressButtonTrip}
+          title="✚"
+          color="#841584"
+          accessibilityLabel="✚"
+        />
       </View>
     );
   }
 }
 const styles = StyleSheet.create({
   container: {
-    margin: 10,
-    borderRadius: 30,
-    marginTop: 70
+    position    : 'absolute',
+    top      : 20,
+    right    : 20,
+    zIndex:95,
   },
 });

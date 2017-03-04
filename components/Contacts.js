@@ -9,7 +9,6 @@ import {
   View,
 } from 'react-native';
 
-
 import ParallaxScrollView from 'react-native-parallax-scroll-view';
 
 class DetailsViews extends Component {
@@ -96,7 +95,7 @@ class DetailsViews extends Component {
               </View>
             )}/>
 
-
+      
         )}
 
       />
