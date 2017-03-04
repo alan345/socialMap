@@ -73,7 +73,6 @@ module.exports = class Menu extends Component {
               Trip Ideas
             </Text>
 
-
             <FBLoginView
               updateUserData={this.onChangeUserData.bind(this)}/>
 
