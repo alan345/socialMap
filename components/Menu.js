@@ -12,7 +12,6 @@ const {
   View,
   Image,
   Text,
-  TouchableWithoutFeedback
 } = require('react-native');
 const { Component } = React;
 
@@ -49,32 +48,31 @@ module.exports = class Menu extends Component {
     return (
       <ScrollView scrollsToTop={false} style={styles.menu}>
 
-
-          <TouchableWithoutFeedback  onPress={() => this.props.onItemSelected('Contacts')}>
-                <View style={styles.avatarContainer}>
-                      <Image
-                        style={styles.avatar}
-                        source={{uri: this.state.userData.picture.data.url}}
-                      />
-                      <Text style={styles.name}>{this.state.userData.name}</Text>
-                </View>
-            </TouchableWithoutFeedback>
+        <View style={styles.avatarContainer}>
+          <Image
+            style={styles.avatar}
+            source={{uri: this.state.userData.picture.data.url}}
+          />
+          <Text style={styles.name}>{this.state.userData.name}</Text>
+        </View>
 
 
-            <Text
-              onPress={() => this.props.onItemSelected('MyMaps')}
-              style={styles.item}>
-              My Trips
-            </Text>
 
-            <Text
-              onPress={() => this.props.onItemSelected('MyMaps')}
-              style={styles.item}>
-              Trip Ideas
-            </Text>
+        <Text
+          onPress={() => this.props.onItemSelected('MyMaps')}
+          style={styles.item}>
+          My Maps
+        </Text>
 
-            <FBLoginView
-              updateUserData={this.onChangeUserData.bind(this)}/>
+        <Text
+          onPress={() => this.props.onItemSelected('Contacts')}
+          style={styles.item}>
+          Profile
+        </Text>
+
+        <FBLoginView
+          updateUserData={this.onChangeUserData.bind(this)}/>
+
 
 
       </ScrollView>

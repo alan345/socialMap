@@ -14,7 +14,7 @@ import React, { Component } from 'react'; import {
 import * as firebase from 'firebase';
 import Firebase from "../../includes/firebase";
 import SingleTrip from './SingleTrip';
-import AddTrip from './AddTrip';
+
 import AddTripButton from './AddTripButton';
 
 import ShowLoading from '../ShowLoading';
@@ -32,8 +32,10 @@ export default class ListTrips extends Component {
       styleHeight :{
         height:heightSearchTopMenuOpen
       },
+
       isLoading:false,
       showAddTrip:false,
+
       search:{
         city:'',
       },
@@ -73,13 +75,7 @@ export default class ListTrips extends Component {
      return firebase.database().ref();
   }
 
-  showAddTrip() {
-    this.setState({showAddTrip:true})
-  }
 
-  hideAddTrip() {
-    this.setState({showAddTrip:false})
-  }
 
   listenForItems() {
     let querySearch
@@ -133,20 +129,13 @@ export default class ListTrips extends Component {
     this.props.onSelecetTrip(item)
   }
 
-  onEditTrip(item){
-    this.setState({
-      showAddTrip:true,
-      trip:item
-    },function(){
-      this._childAddTrip.propsToState()
-    })
-  }
+
 
   _renderRow(item) {
     return (
       <SingleTrip
         item={item}
-        onEditTrip={this.onEditTrip.bind(this)}
+//        onEditTrip={this.onEditTrip.bind(this)}
         onSelecetTrip={this.onSelecetTrip.bind(this)}
         userData={this.props.userData}
       />
@@ -183,20 +172,20 @@ export default class ListTrips extends Component {
       <View style={[styles.container,this.state.styleHeight]}>
 
 
-          <AddTrip
-            userData={this.props.userData}
-            showAddTrip={this.state.showAddTrip}
-            hideAddTrip={this.hideAddTrip.bind(this)}
-            trip={this.state.trip}
-            onSelecetTrip={this.onSelecetTrip.bind(this)}
-            ref={(child) => { this._childAddTrip = child; }}
-          />
+        <AddTripButton
+          onPressButtonTrip={this.onPressButtonTrip.bind(this)}
+        />
+        <TouchableOpacity onPress={this.onTogggleTrips.bind(this)}>
+
+
           <FirebaseFunctions ref={(child) => { this._child = child; }} />
           <View style={styles.searchView}>
             <SearchInput
               onChangeText={this._onChangeText.bind(this)}
             />
-            <TouchableOpacity onPress={this.onTogggleTrips.bind(this)}>
+            <
+              
+              onPress={this.onTogggleTrips.bind(this)}>
               <Text style={styles.TouchableOpacityCleanInput}> ⇅</Text>
             </TouchableOpacity>
             <View style={{width: 75}}>

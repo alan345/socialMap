@@ -19,7 +19,13 @@ class SingleTrip extends Component {
           this.props.onSelecetTrip(this.props.item)
         }}
       >
-        <View style={{flex: 1, flexDirection: 'column', borderRadius: 5, marginRight:10, padding: 10, backgroundColor: '#ffffff'}} >
+
+        <View>
+          <View style={styles.container}>
+            <Image source={{ uri: this.props.item.userData.picture.data.url}} style={styles.photo} />
+            <Text> </Text>
+
+            <Image source={{ uri: 'https://daveexaminesmovies.files.wordpress.com/2012/10/5-star_rating_system_pcar_011-e1349505423547.png'}} style={styles.imageStar} />
 
             <View>
                   <Image source={require('../../assets/trip_pic_example.png')} />
