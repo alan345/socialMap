@@ -38,6 +38,7 @@ class SingleTrip extends Component {
                 <Text>{this.props.item.userData.name}</Text>
             </View>
 
+
         </View>
       </TouchableWithoutFeedback>
 
