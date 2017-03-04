@@ -5,20 +5,21 @@ import  {
   View,
   Text,
   Image,
-  TouchableHighlight,
-  Button,
-  TouchableOpacity,
+  TouchableWithoutFeedback,
+  Button
 } from 'react-native';
 
+// ({this.props.item.googleData.address_components.locality}...)
 
 class SingleTrip extends Component {
   render() {
     return (
-      <TouchableHighlight
+      <TouchableWithoutFeedback
         onPress={() => {
           this.props.onSelecetTrip(this.props.item)
         }}
       >
+
         <View>
           <View style={styles.container}>
             <Image source={{ uri: this.props.item.userData.picture.data.url}} style={styles.photo} />
@@ -26,14 +27,24 @@ class SingleTrip extends Component {
 
             <Image source={{ uri: 'https://daveexaminesmovies.files.wordpress.com/2012/10/5-star_rating_system_pcar_011-e1349505423547.png'}} style={styles.imageStar} />
 
-            <Text> {this.props.item.googleData.address_components.locality}</Text>
-            <Text style={styles.text}>{this.props.item.title}</Text>
+            <View>
+                  <Image source={require('../../assets/trip_pic_example.png')} />
+            </View>
 
+            <View>
+              <Text>US, California</Text>
+              <Text>4 cities</Text>
+              <Text>34 stops</Text>
+              <Image source={{ uri: 'https://daveexaminesmovies.files.wordpress.com/2012/10/5-star_rating_system_pcar_011-e1349505423547.png'}} style={styles.imageStar} />
+            </View>
 
+            <View style={{flex: 1, flexDirection: 'row'}}>
+                <Image source={{ uri: this.props.item.userData.picture.data.url}} style={styles.photo} />
+                <Text>Alan S. </Text>
+            </View>
 
-          </View>
         </View>
-      </TouchableHighlight>
+      </TouchableWithoutFeedback>
 
     );
   }
@@ -44,7 +55,6 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 0,
     flexDirection: 'row',
-    alignItems: 'center',
   },
   imageStar:{
     height: 18,
@@ -56,8 +66,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   photo: {
-    height: 40,
-    width: 40,
+    height: 20,
+    width: 20,
     borderRadius: 20,
   },
 });

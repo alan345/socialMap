@@ -47,6 +47,7 @@ module.exports = class Menu extends Component {
   render() {
     return (
       <ScrollView scrollsToTop={false} style={styles.menu}>
+
         <View style={styles.avatarContainer}>
           <Image
             style={styles.avatar}
@@ -71,6 +72,7 @@ module.exports = class Menu extends Component {
 
         <FBLoginView
           updateUserData={this.onChangeUserData.bind(this)}/>
+
 
 
       </ScrollView>
