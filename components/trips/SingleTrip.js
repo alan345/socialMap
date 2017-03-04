@@ -26,7 +26,8 @@ class SingleTrip extends Component {
             </View>
 
             <View>
-              <Text>US, California</Text>
+              <Text>{this.props.item.title}</Text>
+              <Text>{this.props.item.googleData.address}</Text>
               <Text>4 cities</Text>
               <Text>34 stops</Text>
               <Image source={{ uri: 'https://daveexaminesmovies.files.wordpress.com/2012/10/5-star_rating_system_pcar_011-e1349505423547.png'}} style={styles.imageStar} />
@@ -34,7 +35,7 @@ class SingleTrip extends Component {
 
             <View style={{flex: 1, flexDirection: 'row'}}>
                 <Image source={{ uri: this.props.item.userData.picture.data.url}} style={styles.photo} />
-                <Text>Alan S. </Text>
+                <Text>{this.props.item.userData.name}</Text>
             </View>
 
         </View>
