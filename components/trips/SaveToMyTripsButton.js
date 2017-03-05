@@ -32,10 +32,14 @@ export default class SaveToMyTripsButton extends Component {
   }
 
   render() {
-    if(!this.props.trip.key)
-      return null
     if(this.props.isEditingMyTrip)
       return null
+    if(!this.props.trip.key)
+      return null
+    if(this.props.isTripSelectedIsMine)
+      return null
+
+
     return (
       <View style={styles.container}>
         <FirebaseFunctions ref={(child) => { this._childFirebaseFunctions = child; }} />

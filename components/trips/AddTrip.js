@@ -32,7 +32,7 @@ export default class AddTrip extends React.Component {
       }
     };
     this._addTripToFireBase = this._addTripToFireBase.bind(this);
-    this.saveTrip = this.saveTrip.bind(this);
+//this.saveTrip = this.saveTrip.bind(this);
     this.itemsRef = this.getRef().child('trips');
   }
 
@@ -172,7 +172,7 @@ export default class AddTrip extends React.Component {
                   />
                   <Text> </Text>
                   <Button
-                    onPress={this.saveTrip}
+                    onPress={this.saveTrip.bind(this)}
                     title="Ok"
                     color="#841584"
                     accessibilityLabel="ok"

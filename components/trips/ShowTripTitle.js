@@ -18,8 +18,8 @@ export default class ShowTripTitle extends Component {
   }
 
   render() {
-    if(!this.props.isEditingMyTrip)
-      return null
+    // if(!this.props.isEditingMyTrip)
+    //   return null
     if(!this.props.trip.key)
       return null
 
@@ -35,12 +35,14 @@ export default class ShowTripTitle extends Component {
     );
   }
 }
+
+
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    top:0,
+    bottom:25,
     width: width,
-    padding : 80,
+    padding : 40,
     paddingTop:2,
   },
 });
