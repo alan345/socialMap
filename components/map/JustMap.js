@@ -96,13 +96,7 @@ export default class JustMap extends React.Component {
 
   }
 
-    nbLocationsPerTrip(trip) {
-      var size = 0, key;
-      for (key in trip.locations) {
-          if (trip.locations.hasOwnProperty(key)) size++;
-      }
-      return size;
-    }
+
 
     getRef() {
        return firebase.database().ref();
