@@ -37,6 +37,9 @@ export default class ShowDetailsTripModal extends Component {
             <Image source={{ uri: this.props.trip.userData.picture.data.url}} style={styles.photo} />
             <Text>{this.props.trip.title}</Text>
             <Text>{this.props.trip.userData.name}</Text>
+            <Text>{this.props.trip.googleData.address_components.administrative_area_level_1}</Text>
+            <Text>{this.props.trip.googleData.address_components.country}</Text>
+            <Text>{this.props.trip.googleData.address_components.locality}</Text>
             <Button
               onPress={() => {
                 this.setModalVisible(!this.state.modalVisible)
