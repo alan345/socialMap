@@ -63,6 +63,8 @@ module.exports = class socialMap extends Component {
     //setState(…): Can only update a mounted or mounting component. This usually means you called setState() on an unmounted component. This is a no-op
 
 
+    this._childJustMap.onEditTripMode(false)
+
     this.setState({
       isOpen: false,
       selectedItem: item,
@@ -99,7 +101,10 @@ module.exports = class socialMap extends Component {
 
 
         {isMenuMyMaps ?
-          <JustMap userData={this.state.userData} /> : <View/>
+          <JustMap
+            ref={(child) => { this._childJustMap = child; }}
+            userData={this.state.userData}
+          /> : <View/>
         }
         {isMenuContacts ?
           <Contacts userData={this.state.userData}/> : <Text></Text>

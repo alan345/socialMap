@@ -325,8 +325,8 @@ export default class JustMap extends React.Component {
       this._childDetailsViews.onShowDetails()
     }
 
-    onEditTripMode(){
-      this.setState({isEditingMyTrip:true})
+    onEditTripMode(editTripMode = true){
+      this.setState({isEditingMyTrip:editTripMode})
     }
 
     saveTrip(trip){
