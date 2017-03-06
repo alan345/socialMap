@@ -27,6 +27,11 @@ Push the branch on github :
 Which branch is selected in local
 ```git branch```
 
+how to discard git local branch changes?
+```git reset --hard```
+or
+```git checkout -f```
+
 
 Commit changes in a new branch
 ```git add .```
