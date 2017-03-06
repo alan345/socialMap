@@ -44,5 +44,6 @@ const styles = StyleSheet.create({
     width: width,
     padding : 40,
     paddingTop:2,
+    zIndex:0,
   },
 });

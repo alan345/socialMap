@@ -44,6 +44,7 @@ export default class EditMyTripButton extends Component {
     );
   }
 }
+
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',

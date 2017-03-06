@@ -19,6 +19,7 @@ export default class ShowDetailsTripModal extends Component {
     this.setState({modalVisible: visible});
   }
 
+
   render() {
     return (
       <View>
@@ -40,6 +41,7 @@ export default class ShowDetailsTripModal extends Component {
             <Text>{this.props.trip.googleData.address_components.administrative_area_level_1}</Text>
             <Text>{this.props.trip.googleData.address_components.country}</Text>
             <Text>{this.props.trip.googleData.address_components.locality}</Text>
+          
             <Button
               onPress={() => {
                 this.setModalVisible(!this.state.modalVisible)
