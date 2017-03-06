@@ -13,17 +13,37 @@
 
  import React, { Component } from 'react';
  import {
-   AppRegistry,
+   AppRegistry, Navigator
  } from 'react-native';
 
- import socialMap from './socialMap';
+ import SocialMap from './socialMap';
  import JustMap from './components/map/JustMap';
- //import Contacts from './components/Contacts';
+ import Capture from './components/Capture';
 
 
- AppRegistry.registerComponent('socialMap', () => socialMap);
+ export default class Index extends Component {
 
- AppRegistry.registerComponent('JustMap', () => JustMap);
+  renderScene(route, navigator) {
+     if(route.name == 'trip_ideas') {
+       return <SocialMap navigator={navigator} {...route.passProps} />
+     }
+     if(route.name == 'my_trip') {
+       return <SocialMap navigator={navigator} {...route.passProps} />
+     }
+     if(route.name == 'capture') {
+       return <Capture navigator={navigator} {...route.passProps} />
+     }
+  }
 
+  render() {
+    return (
+        <Navigator
+          style={{ flex:1 }}
+          initialRoute={{ name: 'trip_ideas'}}
+          renderScene={ this.renderScene }
+          />
+    );
+  }
+}
 
- //AppRegistry.registerComponent('Contacts', () => Contacts);
+ AppRegistry.registerComponent('socialMap', () => Index);

@@ -21,8 +21,8 @@ const window = Dimensions.get('window');
 
 
 module.exports = class Menu extends Component {
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
     this.state = {
       userData:{
           name : '',
@@ -35,15 +35,14 @@ module.exports = class Menu extends Component {
     }
   }
 
-  goToMap(){
-    alert(goToMap)
-  }
   onChangeUserData(userData){
     this.setState({
       userData: userData
     })
     this.props.updateUserData(this.state.userData)
   }
+
+
 
   render() {
     return (

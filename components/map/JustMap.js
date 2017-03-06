@@ -275,7 +275,6 @@ export default class JustMap extends React.Component {
     onPressMap(){
       this._childDetailsViews.onReduceDetails()
       this._childListTrips.onReduceTrips()
-
     }
 
     onSetPositionDetails(position){
@@ -333,6 +332,11 @@ export default class JustMap extends React.Component {
       this.t._addTripToFireBase(component.state.trip)
     }
 
+    capture(){
+      this.props.navigator.replace({
+          name: 'capture' });
+    }
+
 
   render() {
     return (
@@ -388,6 +392,11 @@ export default class JustMap extends React.Component {
                 />
               }
             </MapView>
+
+            <Button
+              onPress={this.capture.bind(this)}
+              title="test picture"
+            />
 
             <ShowLoading
               isLoading={this.state.isLoading}

@@ -35,7 +35,7 @@ class Button extends Component {
   }
 }
 
-module.exports = class socialMap extends Component {
+module.exports = class SocialMap extends Component {
   state = {
     isOpen: false,
     selectedItem: 'MyMaps',
@@ -101,10 +101,14 @@ module.exports = class socialMap extends Component {
 
 
         {isMenuMyMaps ?
+
+         
           <JustMap
+          navigator={this.props.navigator}
             ref={(child) => { this._childJustMap = child; }}
             userData={this.state.userData}
           /> : <View/>
+
         }
         {isMenuContacts ?
           <Contacts userData={this.state.userData}/> : <Text></Text>
