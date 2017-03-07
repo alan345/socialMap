@@ -9,18 +9,15 @@ import {
   TouchableWithoutFeedback
 } from 'react-native';
 
-const { width, height } = Dimensions.get('window');
 export default class AddTripButton extends Component {
-
   render() {
     return (
       <View style={styles.container}>
         <TouchableWithoutFeedback onPress={this.props.onPressButtonTrip}>
           <View
             title="✚"
-            color="#841584"
             style={styles.roundButton}>
-               <Text style={{color:"#ffffff", textAlign: 'center', fontSize: 22}}>+</Text>
+               <Text style={styles.textInsideBuddon}>+</Text>
           </View>
         </TouchableWithoutFeedback>
       </View>
@@ -29,15 +26,21 @@ export default class AddTripButton extends Component {
 }
 const styles = StyleSheet.create({
   container: {
-    margin: 10,
+    position: 'absolute',
     borderRadius: 30,
-    marginTop: 70
+    bottom: 70,
+    right: 15,
   },
   roundButton: {
     borderRadius: 40,
     backgroundColor: '#841584',
-    height: 40,
-    width: 40,
-    paddingTop:5
+    height: 50,
+    width: 50,
+    paddingTop:10
+  },
+  textInsideBuddon:{
+    color:"#ffffff",
+    textAlign: 'center',
+    fontSize: 22
   }
 });

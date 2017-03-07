@@ -18,6 +18,7 @@ import ShowLoading from '../ShowLoading';
 import FirebaseFunctions from "../../includes/FirebaseFunctions";
 const { width, height } = Dimensions.get('window');
 import GoogleAPI from '../../includes/GoogleAPI';
+var {GooglePlacesAutocomplete} = require('react-native-google-places-autocomplete');
 
 export default class AddTrip extends React.Component {
   constructor(props) {
@@ -50,13 +51,18 @@ export default class AddTrip extends React.Component {
   saveTrip(){
     let address = this.state.trip.city
     let component = this;
+    var toto = 'toto'
+//    component._childFirebaseFunctions.functionToDelete()
     let trip = this.props.trip
     this._childGoogleAPI.getDataFromGoogleAPiByAddress(address).then(function(marker){
       trip.googleData = marker.googleData
       trip.title = component.state.trip.title
       trip.city = marker.googleData.address_components.locality
       trip.userData = component.props.userData
-      component._addTripToFireBase(trip)
+      //component._addTripToFireBase(trip)
+      alert(toto)
+
+      component._childFirebaseFunctions.functionToDelete()
     })
     this.props.hideAddTrip()
   }

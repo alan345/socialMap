@@ -420,14 +420,6 @@ export default class JustMap extends React.Component {
               userData={this.props.userData}
               isTripSelectedIsMine={this.state.isTripSelectedIsMine}
             />
-            <ListTrips
-            //  onItemSelected={this.onMenuItemSelected}
-              userData={this.props.userData}
-              trip={this.state.trip}
-              isEditingMyTrip={this.state.isEditingMyTrip}
-              onSelecetTrip={this.onSelecetTrip.bind(this)}
-              ref={(child) => { this._childListTrips = child; }}
-            />
             <SearchLocation
               trip={this.state.trip}
               isEditingMyTrip={this.state.isEditingMyTrip}

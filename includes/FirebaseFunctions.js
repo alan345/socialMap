@@ -13,6 +13,9 @@ class FirebaseFunctions extends Component {
     )
   }
 
+  functionToDelete(){
+    alert('toto')
+  }
 
   getRef() {
      return firebase.database().ref();

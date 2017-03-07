@@ -20,7 +20,9 @@ import AddTripButton from './AddTripButton';
 import ShowLoading from '../ShowLoading';
 import FirebaseFunctions from "../../includes/FirebaseFunctions";
 
-import SearchInput from './SearchInput'
+
+import AutocompleteAddress from "../../includes/AutocompleteAddress";
+
 const { width, height } = Dimensions.get('window');
 const heightSearchTopMenuOpen = height / 2.5
 const heightSearchTopMenuClose = 60
@@ -46,28 +48,6 @@ export default class ListTrips extends Component {
     this.itemsRef = this.getRef().child('trips');
   }
 
-  onTogggleTrips(){
-    if(this.state.styleHeight.height == heightSearchTopMenuClose) {
-      this.onIncreaseTrips()
-    } else {
-      this.onReduceTrips()
-    }
-  }
-  onReduceTrips() {
-    this.setState({
-      styleHeight:{
-        height:heightSearchTopMenuClose
-      }
-    })
-  }
-
-  onIncreaseTrips() {
-    this.setState({
-      styleHeight:{
-        height:heightSearchTopMenuOpen
-      }
-    })
-  }
 
   getRef() {
      return firebase.database().ref();
@@ -80,6 +60,7 @@ export default class ListTrips extends Component {
   hideAddTrip() {
     this.setState({showAddTrip:false})
   }
+
 
   listenForItems() {
     let querySearch
@@ -130,7 +111,12 @@ export default class ListTrips extends Component {
   }
 
   onSelecetTrip(item){
-    this.props.onSelecetTrip(item)
+
+    this.props.navigator.replace({
+        name: 'mapTrip'
+    });
+  //  this.props.onSelecetTrip(item)
+
   }
 
   onEditTrip(item){
@@ -153,19 +139,10 @@ export default class ListTrips extends Component {
     );
   }
 
-  _renderSectionHeader() {
-    return (
-      <AddTripButton
-        onPressButtonTrip={this.onPressButtonTrip.bind(this)}
-      />    );
-  }
-
-
   componentDidMount() {
     this.listenForItems();
   }
   _onChangeText(description) {
-    this.onIncreaseTrips()
     this.setState({
       isLoading:true,
       search : {
@@ -176,13 +153,10 @@ export default class ListTrips extends Component {
     })
   }
   render() {
-    if(this.props.isEditingMyTrip)
-      return null
     return (
 
-      <View style={[styles.container,this.state.styleHeight]}>
-
-
+      <View style={styles.container}>
+          <FirebaseFunctions ref={(child) => { this._child = child; }} />
           <AddTrip
             userData={this.props.userData}
             showAddTrip={this.state.showAddTrip}
@@ -191,35 +165,33 @@ export default class ListTrips extends Component {
             onSelecetTrip={this.onSelecetTrip.bind(this)}
             ref={(child) => { this._childAddTrip = child; }}
           />
-          <FirebaseFunctions ref={(child) => { this._child = child; }} />
+
           <View style={styles.searchView}>
-            <SearchInput
+            <AutocompleteAddress
               onChangeText={this._onChangeText.bind(this)}
             />
-            <TouchableOpacity onPress={this.onTogggleTrips.bind(this)}>
-              <Text style={styles.TouchableOpacityCleanInput}> ⇅</Text>
-            </TouchableOpacity>
-            <View style={{width: 75}}>
-            </View>
           </View>
           <ShowLoading isLoading={this.state.isLoading} />
           <ListView
             dataSource={this.state.dataSource}
             renderRow={this._renderRow.bind(this)}
-            renderSectionHeader={this._renderSectionHeader.bind(this)}
+          //  renderSectionHeader={this._renderSectionHeader.bind(this)}
             enableEmptySections={true}
-            horizontal={true}
+            horizontal={false}
             renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.separator} />}
           />
+          <AddTripButton
+            onPressButtonTrip={this.onPressButtonTrip.bind(this)}
+          />
       </View>
-
-
     );
   }
 }
+
 const styles = StyleSheet.create({
   searchView:{
     marginLeft: 40,
+    marginRight: 10,
     flexDirection: 'row',
   },
   TouchableOpacityCleanInput:{
@@ -235,6 +207,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top:0,
     width: width,
+    height:height,
     paddingBottom:5,
+    backgroundColor:'white',
+    zIndex:5,
   },
 });

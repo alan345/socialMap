@@ -18,15 +18,22 @@
 
  import SocialMap from './socialMap';
  import JustMap from './components/map/JustMap';
+ import ListTrips from './components/trips/ListTrips';
+
  import Capture from './components/Capture';
 
 
  export default class Index extends Component {
 
   renderScene(route, navigator) {
-     if(route.name == 'trip_ideas') {
-       return <SocialMap navigator={navigator} {...route.passProps} />
+     if(route.name == 'listTrips') {
+       return <ListTrips navigator={navigator} {...route.passProps} />
      }
+     if(route.name == 'mapTrip') {
+       return <JustMap navigator={navigator} {...route.passProps} />
+     }
+
+
      if(route.name == 'my_trip') {
        return <SocialMap navigator={navigator} {...route.passProps} />
      }
@@ -35,13 +42,16 @@
      }
   }
 
+
   render() {
     return (
         <Navigator
           style={{ flex:1 }}
-          initialRoute={{ name: 'trip_ideas'}}
+          initialRoute={{ name: 'listTrips'}}
           renderScene={ this.renderScene }
-          />
+          configureScene={(route, routeStack) =>
+            Navigator.SceneConfigs.FloatFromBottom}
+        />
     );
   }
 }

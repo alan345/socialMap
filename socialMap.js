@@ -38,7 +38,7 @@ class Button extends Component {
 module.exports = class SocialMap extends Component {
   state = {
     isOpen: false,
-    selectedItem: 'MyMaps',
+    selectedItem: 'ListTrips',
     userData :{}
   };
 
@@ -79,10 +79,11 @@ module.exports = class SocialMap extends Component {
     let isMenuAbout=false;
     let isMenuContacts=false;
     let isMenuMyMaps=false;
+    let isMenuListTrips=false;
 
-    // if(this.state.selectedItem == "About") {
-    //   isMenuAbout = true;
-    // }
+    if(this.state.selectedItem == "ListTrips") {
+      isMenuListTrips = true;
+    }
     if(this.state.selectedItem == "MyMaps") {
       isMenuMyMaps = true;
     }
@@ -95,16 +96,21 @@ module.exports = class SocialMap extends Component {
     return (
       <SideMenu
         menu={menu}
-        disableGestures={true}
+        disableGestures={false}
         isOpen={this.state.isOpen}
         onChange={(isOpen) => this.updateMenuState(isOpen)}>
 
+        {isMenuListTrips ?
+          <ListTrips
+            navigator={this.props.navigator}
+          />: <View/>
+        }
 
         {isMenuMyMaps ?
 
-         
+
           <JustMap
-          navigator={this.props.navigator}
+            navigator={this.props.navigator}
             ref={(child) => { this._childJustMap = child; }}
             userData={this.state.userData}
           /> : <View/>
