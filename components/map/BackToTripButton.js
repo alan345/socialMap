@@ -28,12 +28,14 @@ export default class BackToTripButton extends Component {
     );
   }
 }
+
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
     borderRadius: 30,
     top: 10,
     left: 15,
+    zIndex : 50,
   },
   roundButton: {
     borderRadius: 40,
