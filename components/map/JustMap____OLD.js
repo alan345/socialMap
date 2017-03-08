@@ -12,7 +12,7 @@ import {
   Image,
   TouchableHighlight
 } from 'react-native';
-import markerImg from '../../assets/map_marker_default.png';
+import markerImg from '../../assets/flag-black.png';
 import MapStyle from "./MapStyle";
 import MapView, {Marker} from 'react-native-maps';
 import * as firebase from 'firebase';
@@ -126,7 +126,7 @@ export default class JustMap extends React.Component {
       }
       */
 
-      let queryToUse = this.getRef().child('trips').child(this.props.trip.key).child('locations');
+      let queryToUse = this.getRef().child('trips').child(this.state.trip.key).child('locations');
        queryToUse.on('value', (snap) => {
          var items = [];
          snap.forEach((child) => {
@@ -159,8 +159,7 @@ export default class JustMap extends React.Component {
 
 
     componentDidMount() {
-      this.listenForItems();
-
+      //this.listenForItems();
     }
 
     _updateLocationToFirebase(marker, tripId) {

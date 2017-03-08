@@ -20,8 +20,8 @@ export default class ShowTripTitle extends Component {
   render() {
     // if(!this.props.isEditingMyTrip)
     //   return null
-    if(!this.props.trip.key)
-      return null
+    // if(!this.props.trip.key)
+    //   return null
 
     return (
       <View style={styles.container}>

@@ -50,13 +50,18 @@ export default class AddTrip extends React.Component {
   saveTrip(){
     let address = this.state.trip.city
     let component = this;
+    var toto = 'toto'
+//    component._childFirebaseFunctions.functionToDelete()
     let trip = this.props.trip
     this._childGoogleAPI.getDataFromGoogleAPiByAddress(address).then(function(marker){
       trip.googleData = marker.googleData
       trip.title = component.state.trip.title
       trip.city = marker.googleData.address_components.locality
       trip.userData = component.props.userData
-      component._addTripToFireBase(trip)
+      //component._addTripToFireBase(trip)
+      alert(toto)
+
+      component._childFirebaseFunctions.functionToDelete()
     })
     this.props.hideAddTrip()
   }
@@ -110,20 +115,19 @@ export default class AddTrip extends React.Component {
   closeWindows(){
     this.props.hideAddTrip()
   }
+
+
   render() {
-    if(!this.props.showAddTrip)
-      return null
+
     return (
 
       <View style={{marginTop: 22}}>
         <FirebaseFunctions ref={(child) => { this._childFirebaseFunctions = child; }} />
         <GoogleAPI ref={(child) => { this._childGoogleAPI = child; }} />
-
-
         <Modal
           animationType={"slide"}
           transparent={false}
-          visible={this.state.modalVisible}
+          visible={this.props.showAddTrip}
           onRequestClose={() => {alert("Modal has been closed.")}}
           >
          <View style={styles.container}>
@@ -190,8 +194,6 @@ export default class AddTrip extends React.Component {
 const styles = StyleSheet.create({
   container: {
     padding:40,
-
-
 
   },
   row: {

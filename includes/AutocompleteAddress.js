@@ -47,17 +47,15 @@ export default class AutocompleteAddress extends Component {
               color: '#1faadb',
             },
             container: {
-              backgroundColor:'#F5FCFF',
-
-
+              backgroundColor:'white',
             },
             textInputContainer: {
-              backgroundColor: '#F5FCFF',
+              backgroundColor: 'white',
 
 
             },
             textInput:{
-              backgroundColor: '#F5FCFF',
+              backgroundColor: 'white',
 
             }
 
