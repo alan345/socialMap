@@ -87,9 +87,6 @@ export default class JustMap extends React.Component {
 
       },
 
-      dataSource: new ListView.DataSource({
-        rowHasChanged: (row1, row2) => row1 !== row2,
-      })
     };
     this.onLongPressCreateMarker = this.onLongPressCreateMarker.bind(this);
     this.changeRegionAnimate = this.changeRegionAnimate.bind(this);
@@ -98,61 +95,19 @@ export default class JustMap extends React.Component {
 
 
 
-    getRef() {
-       return firebase.database().ref();
-    }
 
     listenForItems() {
-      // NICO NEEDS HELP.
-
-      // component = this;
-      // this._child.getLocations().then(function(items){
-      //   console.log(items)
-      //   component.setState({
-      //     dataSource: component.state.dataSource.cloneWithRows(items),
-      //     locations: items,
-      //     isLoading:false,
-      //   });
-      // })
-      /*
-      let queryMyMap = this.itemsRef.orderByChild("userData/id").equalTo("10158181137300068")
-      let querySearch = this.itemsRef.orderByChild("address_components/locality").equalTo("San Francisco")
-      let queryToUse
-
-      if(this.props.isMyMaps) {
-        queryToUse = queryMyMap
-      } else {
-        queryToUse = querySearch
-      }
-      */
-
-      let queryToUse = this.getRef().child('trips').child(this.props.trip.key).child('locations');
-       queryToUse.on('value', (snap) => {
-         var items = [];
-         snap.forEach((child) => {
-           items.push({
-
-             title: child.val().googleData.address_components.route,
-             googleData:child.val().googleData,
-        //     address_components: child.val().address_components,
-             coordinate: child.val().coordinates,
-             coordinates: child.val().coordinates,
-        //     coordinateGoogleAddress: child.val().coordinateGoogleAddress,
-             key: child.getKey(),
-          //   address: child.val().address,
-             description: child.val().description,
-             image: child.val().image,
-             datePin:  child.val().datePin,
-          //   userData:  child.val().userData,
-           });
-         });
-
-         this.setState({
-           dataSource: this.state.dataSource.cloneWithRows(items),
-           locations: items,
-           isLoading:false,
-         });
-       });
+     let locations = this.props.trip.locations
+     arr = []
+     for(var key in locations){
+         var location = locations[key]
+         location['key'] = key
+         arr.push(location)
+     }
+     this.setState({
+       locations: arr,
+       isLoading:false,
+     });
     }
 
 
@@ -160,8 +115,9 @@ export default class JustMap extends React.Component {
 
     componentDidMount() {
       this.listenForItems();
-
     }
+
+
 
     _updateLocationToFirebase(marker, tripId) {
       this._child.updateLocationToFirebase(marker, tripId)
@@ -359,6 +315,7 @@ export default class JustMap extends React.Component {
                 return (
                   <MapView.Marker
                     key={location.key}
+                    coordinate={location.coordinates}
                     onPress={()=>{this.onPressMarker(location)}}
                     onDragEnd={(e) => {
                       this.createOrUpdateMarker(e, location);
