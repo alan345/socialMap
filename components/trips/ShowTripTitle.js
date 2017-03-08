@@ -40,10 +40,10 @@ export default class ShowTripTitle extends Component {
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    bottom:25,
+    top:0,
     width: width,
-    padding : 40,
-    paddingTop:2,
+    padding : 60,
+    paddingTop:10,
     zIndex:0,
   },
-});
+})

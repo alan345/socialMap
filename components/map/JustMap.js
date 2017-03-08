@@ -333,12 +333,6 @@ export default class JustMap extends React.Component {
                 />
               }
             </MapView>
-            <View style={styles.buttonTestPicture}>
-              <Button
-                onPress={this.capture.bind(this)}
-                title="test picture"
-              />
-            </View>
             <BackToTripButton
               goToListTrips={this.goToListTrips.bind(this)}
             />
@@ -376,6 +370,7 @@ export default class JustMap extends React.Component {
               isEditingMyTrip={this.state.isEditingMyTrip}
               onPressMarker={this.onPressMarker.bind(this)}
               onSetPositionDetails={this.onSetPositionDetails.bind(this)}
+              capture={this.capture.bind(this)}
             />
             <DetailsViews
               selectedMarker={this.state.selectedMarker}
@@ -401,10 +396,6 @@ const styles = StyleSheet.create({
     },
     marker: {
       marginTop: 0,
-    },
-    buttonTestPicture:{
-      position: 'absolute',
-      bottom:200,
     },
     map: {
      ...StyleSheet.absoluteFillObject,
