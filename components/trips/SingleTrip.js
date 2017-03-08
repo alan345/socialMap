@@ -13,13 +13,7 @@ import ShowDetailsTripModal from './ShowDetailsTripModal';
 
 
 class SingleTrip extends Component {
-  nbLocationsPerTrip(trip) {
-    var size = 0, key;
-    for (key in trip.locations) {
-        if (trip.locations.hasOwnProperty(key)) size++;
-    }
-    return size;
-  }
+
 
   onShowDetailsTripModal(){
     this._childShowDetailsTripModal.setModalVisible(true)
@@ -58,7 +52,7 @@ class SingleTrip extends Component {
               <Text>{this.props.item.title}</Text>
               <Text>{this.props.item.googleData.address}</Text>
               <Text>4 cities</Text>
-              <Text>{this.nbLocationsPerTrip(this.props.item)} stops</Text>
+              <Text>{this.props.item.nbLocationsPerTrip} stops</Text>
               <Image source={{ uri: 'https://daveexaminesmovies.files.wordpress.com/2012/10/5-star_rating_system_pcar_011-e1349505423547.png'}} style={styles.imageStar} />
             </View>
 

@@ -61,6 +61,13 @@ export default class ListTrips extends Component {
     this.setState({showAddTrip:false})
   }
 
+  nbLocationsPerTrip(trip) {
+    var size = 0, key;
+    for (key in trip.locations) {
+        if (trip.locations.hasOwnProperty(key)) size++;
+    }
+    return size;
+  }
 
   listenForItems() {
     let querySearch
@@ -80,11 +87,11 @@ export default class ListTrips extends Component {
            city: child.val().city,
            locations:child.val().locations,
            userData: child.val().userData,
+           nbLocationsPerTrip:this.nbLocationsPerTrip(child.val()),
            key: child.key,
-
          });
        });
-
+       console.log(items)
        this.setState({
          isLoading:false,
          dataSource: this.state.dataSource.cloneWithRows(items)
