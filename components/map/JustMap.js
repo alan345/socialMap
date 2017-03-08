@@ -251,6 +251,7 @@ export default class JustMap extends React.Component {
     }
 
     onPressMarker(location){
+
       this.setState({
         selectedMarker: location
       })
@@ -369,7 +370,7 @@ export default class JustMap extends React.Component {
             />
             <DetailsViews
               selectedMarker={this.state.selectedMarker}
-              trip={this.state.trip}
+              trip={this.props.trip}
               onMarkerSelected={this.onMarkerSelected.bind(this)}
               onPressDeleteMarker={this.onPressDeleteMarker.bind(this)}
               changeRegionAnimate={this.changeRegionAnimate}
