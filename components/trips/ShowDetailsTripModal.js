@@ -44,7 +44,7 @@ export default class ShowDetailsTripModal extends Component {
               />
               <Text>Trip!</Text>
             </View>
-            
+
             <View style={{marginTop: 22}}>
               <Image source={{ uri: this.props.trip.userData.picture.data.url}} style={styles.photo} />
               <Text>{this.props.trip.title}</Text>
@@ -62,11 +62,7 @@ export default class ShowDetailsTripModal extends Component {
          </View>
         </Modal>
 
-        <TouchableHighlight onPress={() => {
-          this.setModalVisible(true)
-        }}>
-          <Text>Show Modal</Text>
-        </TouchableHighlight>
+
 
       </View>
     );
