@@ -126,7 +126,7 @@ export default class JustMap extends React.Component {
       }
       */
 
-      let queryToUse = this.getRef().child('trips').child(this.props.trip.key).child('locations');
+      let queryToUse = this.getRef().child('trips').child(this.state.trip.key).child('locations');
        queryToUse.on('value', (snap) => {
          var items = [];
          snap.forEach((child) => {
@@ -159,8 +159,7 @@ export default class JustMap extends React.Component {
 
 
     componentDidMount() {
-      this.listenForItems();
-
+      //this.listenForItems();
     }
 
     _updateLocationToFirebase(marker, tripId) {

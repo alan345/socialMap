@@ -18,7 +18,6 @@ import ShowLoading from '../ShowLoading';
 import FirebaseFunctions from "../../includes/FirebaseFunctions";
 const { width, height } = Dimensions.get('window');
 import GoogleAPI from '../../includes/GoogleAPI';
-var {GooglePlacesAutocomplete} = require('react-native-google-places-autocomplete');
 
 export default class AddTrip extends React.Component {
   constructor(props) {
@@ -116,20 +115,19 @@ export default class AddTrip extends React.Component {
   closeWindows(){
     this.props.hideAddTrip()
   }
+
+
   render() {
-    if(!this.props.showAddTrip)
-      return null
+
     return (
 
       <View style={{marginTop: 22}}>
         <FirebaseFunctions ref={(child) => { this._childFirebaseFunctions = child; }} />
         <GoogleAPI ref={(child) => { this._childGoogleAPI = child; }} />
-
-
         <Modal
           animationType={"slide"}
           transparent={false}
-          visible={this.state.modalVisible}
+          visible={this.props.showAddTrip}
           onRequestClose={() => {alert("Modal has been closed.")}}
           >
          <View style={styles.container}>
@@ -196,8 +194,6 @@ export default class AddTrip extends React.Component {
 const styles = StyleSheet.create({
   container: {
     padding:40,
-
-
 
   },
   row: {

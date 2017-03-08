@@ -13,9 +13,6 @@ class FirebaseFunctions extends Component {
     )
   }
 
-  functionToDelete(){
-    alert('toto')
-  }
 
   getRef() {
      return firebase.database().ref();
@@ -37,7 +34,7 @@ class FirebaseFunctions extends Component {
         //update
         //console.log(snapshot.val())
       } else {
-        itemsRef.push(userData.profile);
+        itemsRef.push(userData);
       }
     });
   }
@@ -45,7 +42,7 @@ class FirebaseFunctions extends Component {
   getUser(credentials) {
     let itemsRef = this.getRefUsers();
     return new Promise(function(resolve,reject){
-        itemsRef.orderByChild("id").equalTo(credentials.userId).on("child_added", function(snapshot) {
+        itemsRef.orderByChild("profile/id").equalTo(credentials.userId).on("child_added", function(snapshot) {
           resolve( snapshot.val())
         });
     })

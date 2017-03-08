@@ -110,8 +110,9 @@ export default class ListTrips extends Component {
     })
   }
 
-  onSelecetTrip(item){
 
+  onSelecetTrip(trip){
+    this.props.onSelecetTrip(trip)
     this.props.navigator.replace({
         name: 'mapTrip'
     });
@@ -154,7 +155,6 @@ export default class ListTrips extends Component {
   }
   render() {
     return (
-
       <View style={styles.container}>
           <FirebaseFunctions ref={(child) => { this._child = child; }} />
           <AddTrip
@@ -210,6 +210,5 @@ const styles = StyleSheet.create({
     height:height,
     paddingBottom:5,
     backgroundColor:'white',
-    zIndex:5,
   },
 });

@@ -35,6 +35,7 @@ class Button extends Component {
   }
 }
 
+
 module.exports = class SocialMap extends Component {
   state = {
     isOpen: false,

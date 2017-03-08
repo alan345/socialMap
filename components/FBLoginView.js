@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import  {View, Text, Button, StyleSheet} from 'react-native';
+import {View, Text, Button, StyleSheet, Dimensions} from 'react-native';
 var {FBLogin, FBLoginManager} = require('react-native-facebook-login');
 import FirebaseFunctions from "../includes/FirebaseFunctions";
-
+const { width, height } = Dimensions.get('window');
 
 let initUserData = {
     name : "",
@@ -21,43 +21,56 @@ class FBLoginView extends Component {
     }
   }
 
+  updateUserData(userData){
+    // this.setState({
+    //   userData: userData
+    // })
+    // this.updateUserData(this.state.userData)
+  }
 
   componentDidMount() {
-    this.props.updateUserData(this.state.userData)
+  //  this.updateUserData(this.state.userData)
   }
 
   onLogoutFunction(){
-    this.state = {
-      userData:initUserData
-    }
-    this.props.updateUserData(this.state.userData)
+    // this.state = {
+    //   userData:initUserData
+    // }
+    // this.updateUserData(this.state.userData)
   }
   onLoginFoundFunction(userData) {
-    component = this;
+    let component = this
     this._child.getUser(userData.credentials).then(function(data){
-      component.setState({
-        userData: data
-      })
+
+
       component.props.updateUserData(data)
+      component.goToNextScreen()
     })
+  }
+
+
+  goToNextScreen(){
+    this.props.navigator.replace({
+        name: 'listTrips'
+    });
   }
 
   onLoginFunction(userData) {
     this._child.updateOrCreateUserToFirebase(userData)
-    this.setState({
-      userData: userData.profile
-    })
-    this.props.updateUserData(userData.profile)
+    // this.setState({
+    //   userData: userData
+    // })
+    this.goToNextScreen()
+    //this.updateUserData(userData.profile)
   }
 
 
   render() {
     return (
-      <View>
+      <View style={styles.container}>
         <FirebaseFunctions ref={(child) => { this._child = child; }} />
-
-        <FBLogin style={styles.FBLogin}
-
+        <FBLogin
+          style={styles.FBLogin}
           ref={(fbLogin) => { this.fbLogin = fbLogin }}
           permissions={["email","user_friends"]}
           loginBehavior={FBLoginManager.LoginBehaviors.Native}
@@ -79,20 +92,26 @@ class FBLoginView extends Component {
             console.log(data);
           }}
         />
-
       </View>
     );
   }
 };
 
 
+
 const styles = StyleSheet.create({
-
     FBLogin: {
-
-      width:200,
+      width: window.width,
+      height: window.height,
     },
+    container: {
+      position: 'absolute',
+      top:0,
 
+      width: window.width,
+      height: window.height,
+      padding: 20,
+    },
 });
 
 
