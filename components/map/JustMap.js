@@ -33,6 +33,7 @@ import GoogleAPI from '../../includes/GoogleAPI';
 import FBLoginView from '../FBLoginView';
 import DetailsViews from '../locations/DetailsViews';
 import ShowLoading from '../ShowLoading';
+import BackToTripButton from './BackToTripButton';
 import ListTrips from '../trips/ListTrips';
 import TakePictureButton from '../locations/TakePictureButton';
 import SearchLocation from '../locations/SearchLocation';
@@ -61,9 +62,7 @@ export default class JustMap extends React.Component {
       },
       polylines: [],
       locations: [],
-      isLoading : true,
-      isEditingMyTrip : false,
-      isTripSelectedIsMine : false,
+
       selectedMarker: {
         key:'',
 
@@ -87,9 +86,6 @@ export default class JustMap extends React.Component {
 
       },
 
-      dataSource: new ListView.DataSource({
-        rowHasChanged: (row1, row2) => row1 !== row2,
-      })
     };
     this.onLongPressCreateMarker = this.onLongPressCreateMarker.bind(this);
     this.changeRegionAnimate = this.changeRegionAnimate.bind(this);
@@ -98,70 +94,34 @@ export default class JustMap extends React.Component {
 
 
 
-    getRef() {
-       return firebase.database().ref();
-    }
-
-    listenForItems() {
-      // NICO NEEDS HELP.
-
-      // component = this;
-      // this._child.getLocations().then(function(items){
-      //   console.log(items)
-      //   component.setState({
-      //     dataSource: component.state.dataSource.cloneWithRows(items),
-      //     locations: items,
-      //     isLoading:false,
-      //   });
-      // })
-      /*
-      let queryMyMap = this.itemsRef.orderByChild("userData/id").equalTo("10158181137300068")
-      let querySearch = this.itemsRef.orderByChild("address_components/locality").equalTo("San Francisco")
-      let queryToUse
-
-      if(this.props.isMyMaps) {
-        queryToUse = queryMyMap
-      } else {
-        queryToUse = querySearch
-      }
-      */
-
-      let queryToUse = this.getRef().child('trips').child(this.props.trip.key).child('locations');
-       queryToUse.on('value', (snap) => {
-         var items = [];
-         snap.forEach((child) => {
-           items.push({
-
-             title: child.val().googleData.address_components.route,
-             googleData:child.val().googleData,
-        //     address_components: child.val().address_components,
-             coordinate: child.val().coordinates,
-             coordinates: child.val().coordinates,
-        //     coordinateGoogleAddress: child.val().coordinateGoogleAddress,
-             key: child.getKey(),
-          //   address: child.val().address,
-             description: child.val().description,
-             image: child.val().image,
-             datePin:  child.val().datePin,
-          //   userData:  child.val().userData,
-           });
-         });
-
-         this.setState({
-           dataSource: this.state.dataSource.cloneWithRows(items),
-           locations: items,
-           isLoading:false,
-         });
-       });
-    }
-
 
 
 
     componentDidMount() {
       this.listenForItems();
+    //  console.log(this.props.trip)
+    let component = this
+    setTimeout(function(){
+      component.changeRegionAnimate(component.props.trip)
+    }, 1000);
 
     }
+
+    listenForItems() {
+     let locations = this.props.trip.locations
+     arr = []
+     for(var key in locations){
+         var location = locations[key]
+         location['key'] = key
+         arr.push(location)
+     }
+     this.setState({
+       locations: arr,
+       isLoading:false,
+     });
+    }
+
+
 
     _updateLocationToFirebase(marker, tripId) {
       this._child.updateLocationToFirebase(marker, tripId)
@@ -178,18 +138,6 @@ export default class JustMap extends React.Component {
 
 
     createOrUpdateMarker(e, marker) {
-      if(!this.props.userData.id) {
-        alert("You must be logged !")
-        return;
-      }
-      if(!this.state.isEditingMyTrip) {
-        alert("Save to your trips first")
-        return;
-      }
-      if(!this.state.trip.key) {
-        alert("Select or Create a trip first!")
-        return;
-      }
       let key=""
       if(marker)
         key = marker.key
@@ -218,13 +166,6 @@ export default class JustMap extends React.Component {
               }
             }
 
-            // userData: {
-            //   picture: {
-            //     data: {
-            //       url: ''
-            //     }
-            //   }
-            // }
           }
         ]
       })
@@ -261,13 +202,7 @@ export default class JustMap extends React.Component {
       }
 
     }
-    resetStatusMap(){
-      this.setState({
-        isLoading : true,
-        isEditingMyTrip : false,
-        isTripSelectedIsMine : false,
-      })
-    }
+
     onLongPressCreateMarker(e) {
       this.createOrUpdateMarker(e, {})
     }
@@ -290,8 +225,6 @@ export default class JustMap extends React.Component {
         isTripSelectedIsMine = false;
       }
 
-      // help nico. Ici, on a deja les markers. dans item.locations. Pas besoin de listenForItems() qui refait un appel dans la base de donnee
-
       this.setState({
         trip:item,
         isTripSelectedIsMine:isTripSelectedIsMine,
@@ -309,7 +242,7 @@ export default class JustMap extends React.Component {
       this.changeRegionAnimate(item)
     }
     changeRegionAnimate(item) {
-      //console.log(item)
+
       let newRegion = {
         ...this.state.region,
         latitude: item.googleData.coordinateGoogleAddress.latitude,
@@ -319,6 +252,7 @@ export default class JustMap extends React.Component {
     }
 
     onPressMarker(location){
+
       this.setState({
         selectedMarker: location
       })
@@ -335,7 +269,13 @@ export default class JustMap extends React.Component {
 
     capture(){
       this.props.navigator.replace({
-          name: 'capture' });
+          name: 'capture'
+      });
+    }
+    goToListTrips(){
+      this.props.navigator.replace({
+          name: 'listTrips'
+      });
     }
 
 
@@ -359,6 +299,7 @@ export default class JustMap extends React.Component {
                 return (
                   <MapView.Marker
                     key={location.key}
+                    coordinate={location.coordinates}
                     onPress={()=>{this.onPressMarker(location)}}
                     onDragEnd={(e) => {
                       this.createOrUpdateMarker(e, location);
@@ -393,12 +334,15 @@ export default class JustMap extends React.Component {
                 />
               }
             </MapView>
-
-            <Button
-              onPress={this.capture.bind(this)}
-              title="test picture"
+            <View style={styles.buttonTestPicture}>
+              <Button
+                onPress={this.capture.bind(this)}
+                title="test picture"
+              />
+            </View>
+            <BackToTripButton
+              goToListTrips={this.goToListTrips.bind(this)}
             />
-
             <ShowLoading
               isLoading={this.state.isLoading}
             />
@@ -436,7 +380,7 @@ export default class JustMap extends React.Component {
             />
             <DetailsViews
               selectedMarker={this.state.selectedMarker}
-              trip={this.state.trip}
+              trip={this.props.trip}
               onMarkerSelected={this.onMarkerSelected.bind(this)}
               onPressDeleteMarker={this.onPressDeleteMarker.bind(this)}
               changeRegionAnimate={this.changeRegionAnimate}
@@ -458,6 +402,10 @@ const styles = StyleSheet.create({
     },
     marker: {
       marginTop: 0,
+    },
+    buttonTestPicture:{
+      position: 'absolute',
+      bottom:200,
     },
     map: {
      ...StyleSheet.absoluteFillObject,

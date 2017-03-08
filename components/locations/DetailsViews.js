@@ -65,6 +65,7 @@ class DetailsViews extends Component {
           this.onSetPositionDetails(0)
       }
       onShowDetails() {
+  
         if(this.state.position == 0)
           this.onSetPositionDetails(1)
         // if(this.state.position == 1)
