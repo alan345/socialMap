@@ -61,9 +61,7 @@ export default class JustMap extends React.Component {
       },
       polylines: [],
       locations: [],
-      isLoading : true,
-      isEditingMyTrip : false,
-      isTripSelectedIsMine : false,
+
       selectedMarker: {
         key:'',
 
@@ -96,6 +94,12 @@ export default class JustMap extends React.Component {
 
 
 
+
+
+    componentDidMount() {
+      this.listenForItems();
+    }
+
     listenForItems() {
      let locations = this.props.trip.locations
      arr = []
@@ -108,13 +112,6 @@ export default class JustMap extends React.Component {
        locations: arr,
        isLoading:false,
      });
-    }
-
-
-
-
-    componentDidMount() {
-      this.listenForItems();
     }
 
 
@@ -134,18 +131,6 @@ export default class JustMap extends React.Component {
 
 
     createOrUpdateMarker(e, marker) {
-      if(!this.props.userData.id) {
-        alert("You must be logged !")
-        return;
-      }
-      if(!this.state.isEditingMyTrip) {
-        alert("Save to your trips first")
-        return;
-      }
-      if(!this.state.trip.key) {
-        alert("Select or Create a trip first!")
-        return;
-      }
       let key=""
       if(marker)
         key = marker.key
@@ -174,13 +159,6 @@ export default class JustMap extends React.Component {
               }
             }
 
-            // userData: {
-            //   picture: {
-            //     data: {
-            //       url: ''
-            //     }
-            //   }
-            // }
           }
         ]
       })
@@ -246,8 +224,6 @@ export default class JustMap extends React.Component {
         isTripSelectedIsMine = false;
       }
 
-      // help nico. Ici, on a deja les markers. dans item.locations. Pas besoin de listenForItems() qui refait un appel dans la base de donnee
-
       this.setState({
         trip:item,
         isTripSelectedIsMine:isTripSelectedIsMine,
@@ -265,7 +241,7 @@ export default class JustMap extends React.Component {
       this.changeRegionAnimate(item)
     }
     changeRegionAnimate(item) {
-      //console.log(item)
+
       let newRegion = {
         ...this.state.region,
         latitude: item.googleData.coordinateGoogleAddress.latitude,
