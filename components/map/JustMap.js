@@ -99,6 +99,12 @@ export default class JustMap extends React.Component {
 
     componentDidMount() {
       this.listenForItems();
+    //  console.log(this.props.trip)
+    let component = this
+    setTimeout(function(){
+      component.changeRegionAnimate(component.props.trip)
+    }, 1000);
+
     }
 
     listenForItems() {
