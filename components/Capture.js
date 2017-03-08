@@ -63,7 +63,7 @@ export default class Capture extends React.Component {
     this.state = {
       camera: {
         aspect: Camera.constants.Aspect.fill,
-        captureTarget: Camera.constants.CaptureTarget.cameraRoll,
+        captureTarget: Camera.constants.CaptureTarget.disk,
         type: Camera.constants.Type.back,
         orientation: Camera.constants.Orientation.auto,
         flashMode: Camera.constants.FlashMode.auto,
@@ -74,8 +74,12 @@ export default class Capture extends React.Component {
 
   takePicture = () => {
     if (this.camera) {
+      let _this = this;
       this.camera.capture()
-        .then((data) => console.log(data))
+        .then(function(data) {
+            console.log('picture data', data);
+            _this.props.navigator.replace({name: 'mapTrip'});
+        })
         .catch(err => console.error(err));
     }
   }
@@ -217,28 +221,6 @@ export default class Capture extends React.Component {
             </TouchableOpacity>
             ||
             null
-          }
-          <View style={styles.buttonsSpace} />
-          {
-              !this.state.isRecording
-              &&
-              <TouchableOpacity
-                  style={styles.captureButton}
-                  onPress={this.startRecording}
-              >
-                <Image
-                    source={require('../assets/capture/ic_videocam_36pt.png')}
-                />
-              </TouchableOpacity>
-              ||
-              <TouchableOpacity
-                  style={styles.captureButton}
-                  onPress={this.stopRecording}
-              >
-                <Image
-                    source={require('../assets/capture/ic_stop_36pt.png')}
-                />
-              </TouchableOpacity>
           }
         </View>
       </View>

@@ -12,7 +12,7 @@ import {
   Image,
   TouchableHighlight
 } from 'react-native';
-import markerImg from '../../assets/flag-black.png';
+import markerImg from '../../assets/map_marker_default.png';
 import MapStyle from "./MapStyle";
 import MapView, {Marker} from 'react-native-maps';
 import * as firebase from 'firebase';
