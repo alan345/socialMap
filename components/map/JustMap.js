@@ -195,13 +195,7 @@ export default class JustMap extends React.Component {
       }
 
     }
-    resetStatusMap(){
-      this.setState({
-        isLoading : true,
-        isEditingMyTrip : false,
-        isTripSelectedIsMine : false,
-      })
-    }
+
     onLongPressCreateMarker(e) {
       this.createOrUpdateMarker(e, {})
     }
