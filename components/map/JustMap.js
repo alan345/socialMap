@@ -321,11 +321,12 @@ export default class JustMap extends React.Component {
                 />
               }
             </MapView>
-
-            <Button
-              onPress={this.capture.bind(this)}
-              title="test picture"
-            />
+            <View style={styles.buttonTestPicture}>
+              <Button
+                onPress={this.capture.bind(this)}
+                title="test picture"
+              />
+            </View>
 
             <ShowLoading
               isLoading={this.state.isLoading}
@@ -386,6 +387,10 @@ const styles = StyleSheet.create({
     },
     marker: {
       marginTop: 0,
+    },
+    buttonTestPicture:{
+      position: 'absolute',
+      bottom:200,
     },
     map: {
      ...StyleSheet.absoluteFillObject,
