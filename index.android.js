@@ -5,7 +5,7 @@
    Navigator
  } from 'react-native';
 
- import JustMap from './components/map/JustMap';
+ import MapAndDetails from './components/map/MapAndDetails';
  import ListTrips from './components/trips/listTrips/ListTrips';
  import FBLoginView from './components/FBLoginView';
  import Capture from './components/Capture';
@@ -33,7 +33,7 @@
       navigator={navigator} {...route.passProps} />
     }
     if(route.name == 'mapTrip') {
-     return <JustMap
+     return <MapAndDetails
       trip={this.state.trip}
       navigator={navigator} {...route.passProps} />
     }

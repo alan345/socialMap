@@ -66,7 +66,7 @@ let initSelectedMarker = {
   },
 }
 
-export default class JustMap extends React.Component {
+export default class MapAndDetails extends React.Component {
 
   constructor(props) {
     super(props);
@@ -251,7 +251,7 @@ export default class JustMap extends React.Component {
     //  this._childDetailsViews.onShowDetails()
     }
     onPressMarker(location){
-      this.onSelecetLocation(location)
+      onSelecetLocation(location)
     }
 
     onEditTripMode(editTripMode = true){
