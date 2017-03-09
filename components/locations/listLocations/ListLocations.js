@@ -21,7 +21,7 @@ export default class ListLocations extends Component {
     }
   }
   onSelecetLocation(location){
-
+    alert('ICI on verra le detail du point')
   }
 
   _renderRow(item) {
@@ -75,5 +75,10 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     bottom: 70,
     right: 15,
-  }
+  },
+  separator: {
+    flex: 1,
+    height: StyleSheet.hairlineWidth,
+    backgroundColor: '#8E8E8E',
+  },  
 });

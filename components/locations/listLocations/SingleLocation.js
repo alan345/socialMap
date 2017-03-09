@@ -13,10 +13,7 @@ import  {
 export default class SingleLocation extends Component {
 
 
-  onShowDetailsTripModal(){
 
-
-  }
   render() {
     return (
       <TouchableWithoutFeedback
@@ -29,26 +26,16 @@ export default class SingleLocation extends Component {
 
             <View style={styles.row}>
               <View>
-                    <Image source={require('../../../assets/trip_pic_example.png')} />
-              </View>
-              <View>
-                <TouchableWithoutFeedback onPress={this.onShowDetailsTripModal.bind(this)}>
-                  <View
-                    title="❐"
-                    color="#841584"
-                    style={styles.roundButton}>
-                       <Text style={{color:"#ffffff", textAlign: 'center', fontSize: 18}}>❐</Text>
-
-                  </View>
-                </TouchableWithoutFeedback>
+                <Image
+                  style={styles.icon}
+                  source={{uri: this.props.item.googleData.imagePin}}
+                />
               </View>
             </View>
             <View>
-              <Text>{this.props.item.title}</Text>
               <Text>{this.props.item.googleData.address}</Text>
-              <Text>4 cities</Text>
-              <Text>{this.props.item.nbLocationsPerTrip} stops</Text>
-              <Image source={{ uri: 'https://daveexaminesmovies.files.wordpress.com/2012/10/5-star_rating_system_pcar_011-e1349505423547.png'}} style={styles.imageStar} />
+              <Text>{this.props.item.googleData.address_components.neighborhood}</Text>
+
             </View>
 
 
@@ -73,7 +60,10 @@ const styles = StyleSheet.create({
   imageStar:{
     height: 18,
     width: 75,
-
+  },
+  icon: {
+    width: 60,
+    height: 60,
   },
   text: {
     marginLeft: 12,
