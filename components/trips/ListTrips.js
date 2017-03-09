@@ -91,7 +91,7 @@ export default class ListTrips extends Component {
            key: child.key,
          });
        });
-       console.log(items)
+
        this.setState({
          isLoading:false,
          dataSource: this.state.dataSource.cloneWithRows(items)

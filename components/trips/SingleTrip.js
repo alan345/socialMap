@@ -33,19 +33,18 @@ class SingleTrip extends Component {
                     <Image source={require('../../assets/trip_pic_example.png')} />
               </View>
               <View>
-                    <TouchableWithoutFeedback onPress={this.onShowDetailsTripModal.bind(this)}>
-                      <View
-                        title="❐"
-                        color="#841584"
-                        style={styles.roundButton}>
-                           <Text style={{color:"#ffffff", textAlign: 'center', fontSize: 18}}>❐</Text>
-                           <ShowDetailsTripModal
-                            trip={this.props.item}
-                            ref={(child) => { this._childShowDetailsTripModal = child; }}
-                           />
-                      </View>
-
-                  </TouchableWithoutFeedback>
+                <TouchableWithoutFeedback onPress={this.onShowDetailsTripModal.bind(this)}>
+                  <View
+                    title="❐"
+                    color="#841584"
+                    style={styles.roundButton}>
+                       <Text style={{color:"#ffffff", textAlign: 'center', fontSize: 18}}>❐</Text>
+                       <ShowDetailsTripModal
+                        trip={this.props.item}
+                        ref={(child) => { this._childShowDetailsTripModal = child; }}
+                       />
+                  </View>
+                </TouchableWithoutFeedback>
               </View>
             </View>
             <View>

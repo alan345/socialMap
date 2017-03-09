@@ -11,9 +11,8 @@ import  {
   TouchableOpacity,
   Button,
 } from 'react-native';
+import DetailsLocation from './DetailsLocation';
 
-import EditAddress from './EditAddress';
-import EditDescription from './EditDescription';
 
 const { width, height } = Dimensions.get('window');
 
@@ -65,7 +64,7 @@ class DetailsViews extends Component {
           this.onSetPositionDetails(0)
       }
       onShowDetails() {
-  
+
         if(this.state.position == 0)
           this.onSetPositionDetails(1)
         // if(this.state.position == 1)
@@ -97,11 +96,7 @@ class DetailsViews extends Component {
         ).start();
       }
 
-      onPressDeleteMarker(){
-        this.onSetPositionDetails(0)
-        let marker = this.props.selectedMarker;
-        this.props.onPressDeleteMarker(marker)
-      }
+
 
       isDropZone(gesture){
           return gesture.moveY > 0 && gesture.moveY <  420;
@@ -134,92 +129,16 @@ class DetailsViews extends Component {
           return null
 
           return (
-
             <View style={styles.draggableContainer}>
 
                 <Animated.View
-                    {...this.panResponder.panHandlers}
-                    style={[this.state.pan.getLayout(), styles.detailsList]}>
-
-                    <View style={styles.headerDetails}>
-                      <Image
-                        style={styles.icon}
-                        source={{uri: this.props.selectedMarker.googleData.imagePin}}
-                      />
-                      <Text
-                        style={styles.text}
-                      >{this.props.selectedMarker.googleData.address_components.neighborhood}</Text>
-
-                      <Image
-                        style={styles.iconRight}
-                        source={{uri: this.props.trip.userData.picture.data.url}}
-                      />
-
-
-                    </View>
-
-                        <View>
-                          <View style={styles.row}>
-                            <Button
-                              onPress={() => {
-                                this._childEditAddress.setModalVisible(true)
-                              }}
-                              title="✎"
-                              color="#841584"
-                              accessibilityLabel="✎"
-                            />
-                            <Text>{this.props.selectedMarker.googleData.address}</Text>
-                            <EditAddress
-                              onMarkerSelected={this.props.onMarkerSelected}
-                              selectedMarker={this.props.selectedMarker}
-                              trip={this.props.trip}
-                              ref={(child) => { this._childEditAddress = child; }}
-                            />
-                          </View>
-                          <View style={styles.row}>
-                            <Button
-                              onPress={() => {
-                                this._childEditDescription.setModalVisible(true)
-                              }}
-                              title="✎"
-                              color="#841584"
-                              accessibilityLabel="✎"
-                            />
-                            <Text>{this.props.selectedMarker.description}</Text>
-                            <EditDescription
-                              selectedMarker={this.props.selectedMarker}
-                              trip={this.props.trip}
-                              ref={(child) => { this._childEditDescription = child; }}
-                            />
-                          </View>
-
-                        </View>
-
-
-
-
-
-                      <Text>Country: {this.props.selectedMarker.googleData.address_components.country}</Text>
-                      <Text>Locality: {this.props.selectedMarker.googleData.address_components.locality}</Text>
-                      <Text>State: {this.props.selectedMarker.googleData.address_components.administrative_area_level_1}</Text>
-                      <Text>Neighborhood: {this.props.selectedMarker.googleData.address_components.neighborhood}</Text>
-
-                      <Text>Date: {this.props.selectedMarker.datePin}</Text>
-
-
-
-
-                      <View style={styles.row}>
-                        <Button
-                          onPress={this.onPressDeleteMarker.bind(this)}
-                          title="✘"
-                          color="#841584"
-                          accessibilityLabel="✘"
-                        />
-                        <Text>  </Text>
-
-
-                      </View>
+                  {...this.panResponder.panHandlers}
+                  style={[this.state.pan.getLayout(), styles.detailsList]}
+                >
+                  <DetailsLocation
+                    trip={this.props.trip}
+                    selectedMarker={this.props.selectedMarker}
+                  />
                 </Animated.View>
             </View>
         );
@@ -229,54 +148,7 @@ class DetailsViews extends Component {
 
 let Window = Dimensions.get('window');
 const styles = StyleSheet.create({
-    headerDetails: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      height: 65,
-      padding: 5
-    },
-    row: {
-      flexDirection: 'row',
-      padding: 5,
-    },
-    inputField:{
-      height: 40,
-      width: 200,
-      padding: 5,
-      borderColor: 'gray',
-      borderWidth: 1,
-      marginTop   : 5,
-      marginLeft  : 5,
-      marginRight : 5,
-    },
-    deleteIcon:{
-      width: 50,
-      height: 50,
-    },
-    icon: {
-      width: 60,
-      height: 60,
-    },
-    iconRight: {
-      width: 60,
-      height: 60,
-      borderRadius: 30,
-    },
-    deleteText : {
-       marginTop   : 10,
-      // marginLeft  : 5,
-       marginRight : 5,
-      // textAlign   : 'center',
-      color       : 'black',
-      fontSize : 30
-    },
-     text        : {
-       marginTop   : 25,
-       marginLeft  : 5,
-       marginRight : 5,
-       textAlign   : 'center',
-       color       : 'black'
-     },
+  
      draggableContainer: {
          position    : 'absolute',
   //       top         : Window.height,
