@@ -8,15 +8,14 @@ import  {
   TouchableWithoutFeedback,
   Button
 } from 'react-native';
-import ShowDetailsTripModal from './ShowDetailsTripModal';
 
 
-
-class SingleTrip extends Component {
+export default class SingleLocation extends Component {
 
 
   onShowDetailsTripModal(){
-    this._childShowDetailsTripModal.setModalVisible(true)
+
+
   }
   render() {
     return (
@@ -30,7 +29,7 @@ class SingleTrip extends Component {
 
             <View style={styles.row}>
               <View>
-                    <Image source={require('../../assets/trip_pic_example.png')} />
+                    <Image source={require('../../../assets/trip_pic_example.png')} />
               </View>
               <View>
                 <TouchableWithoutFeedback onPress={this.onShowDetailsTripModal.bind(this)}>
@@ -39,10 +38,7 @@ class SingleTrip extends Component {
                     color="#841584"
                     style={styles.roundButton}>
                        <Text style={{color:"#ffffff", textAlign: 'center', fontSize: 18}}>❐</Text>
-                       <ShowDetailsTripModal
-                        trip={this.props.item}
-                        ref={(child) => { this._childShowDetailsTripModal = child; }}
-                       />
+
                   </View>
                 </TouchableWithoutFeedback>
               </View>
@@ -55,10 +51,6 @@ class SingleTrip extends Component {
               <Image source={{ uri: 'https://daveexaminesmovies.files.wordpress.com/2012/10/5-star_rating_system_pcar_011-e1349505423547.png'}} style={styles.imageStar} />
             </View>
 
-            <View style={{flex: 1, flexDirection: 'row'}}>
-                <Image source={{ uri: this.props.item.userData.picture.data.url}} style={styles.photo} />
-                <Text>{this.props.item.userData.name}</Text>
-            </View>
 
         </View>
       </TouchableWithoutFeedback>
@@ -100,5 +92,3 @@ const styles = StyleSheet.create({
     paddingTop:0
   }
 });
-
-module.exports = SingleTrip;

@@ -34,7 +34,7 @@ import FBLoginView from '../FBLoginView';
 import DetailsViews from '../locations/detailsViews/DetailsViews';
 import ShowLoading from '../ShowLoading';
 import BackToTripButton from './BackToTripButton';
-import ListTrips from '../trips/ListTrips';
+
 import TakePictureButton from '../locations/TakePictureButton';
 import SearchLocation from '../locations/SearchLocation';
 import SaveToMyTripsButton from '../trips/SaveToMyTripsButton';

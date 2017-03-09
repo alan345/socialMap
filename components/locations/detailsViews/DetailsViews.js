@@ -12,6 +12,8 @@ import  {
   Button,
 } from 'react-native';
 import DetailsLocation from './detailsLocation/DetailsLocation';
+import DetailsTrip from '../../trips/detailsTrip/DetailsTrip';
+
 
 
 const { width, height } = Dimensions.get('window');
@@ -134,6 +136,10 @@ class DetailsViews extends Component {
                   {...this.panResponder.panHandlers}
                   style={[this.state.pan.getLayout(), styles.detailsList]}
                 >
+                  <DetailsTrip
+                    trip={this.props.trip}
+                  />
+
                   <DetailsLocation
                     trip={this.props.trip}
                     selectedMarker={this.props.selectedMarker}

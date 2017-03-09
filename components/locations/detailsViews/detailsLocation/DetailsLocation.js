@@ -20,6 +20,7 @@ export default class DetailsLocation extends Component {
     this.props.onPressDeleteMarker(marker)
   }
   render() {
+    return null
     return (
       <View style={styles.container}>
 
