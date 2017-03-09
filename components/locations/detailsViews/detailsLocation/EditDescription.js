@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Modal, Text, Button, TextInput, TouchableHighlight, View } from 'react-native';
 
-import FirebaseFunctions from "../../includes/FirebaseFunctions";
-import GoogleAPI from '../../includes/GoogleAPI';
+import FirebaseFunctions from "../../../../includes/FirebaseFunctions";
+import GoogleAPI from '../../../../includes/GoogleAPI';
 
 export default class EditDescription extends Component {
 

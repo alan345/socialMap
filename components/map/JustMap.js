@@ -31,7 +31,7 @@ import GoogleAPI from '../../includes/GoogleAPI';
 
 
 import FBLoginView from '../FBLoginView';
-import DetailsViews from '../locations/DetailsViews';
+import DetailsViews from '../locations/detailsViews/DetailsViews';
 import ShowLoading from '../ShowLoading';
 import BackToTripButton from './BackToTripButton';
 import ListTrips from '../trips/ListTrips';

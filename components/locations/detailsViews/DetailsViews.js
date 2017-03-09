@@ -11,11 +11,10 @@ import  {
   TouchableOpacity,
   Button,
 } from 'react-native';
-import DetailsLocation from './DetailsLocation';
+import DetailsLocation from './detailsLocation/DetailsLocation';
 
 
 const { width, height } = Dimensions.get('window');
-
 
 class DetailsViews extends Component {
   constructor(props){
@@ -148,7 +147,7 @@ class DetailsViews extends Component {
 
 let Window = Dimensions.get('window');
 const styles = StyleSheet.create({
-  
+
      draggableContainer: {
          position    : 'absolute',
   //       top         : Window.height,
