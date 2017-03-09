@@ -144,6 +144,7 @@ export default class DetailsViews extends Component {
 
                   <DetailsLocation
                     trip={this.props.trip}
+                    showDetailsTrip={this.props.showDetailsTrip}
                     selectedMarker={this.props.selectedMarker}
                   />
                 </Animated.View>

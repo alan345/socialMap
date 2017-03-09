@@ -203,12 +203,15 @@ export default class JustMap extends React.Component {
       this.createOrUpdateMarker(e, {})
     }
 
-
-    onPressMap(){
+    showDetailsTrip(){
       this.setState({
         selectedMarker: initSelectedMarker
       })
   //    this._childDetailsViews.onReduceDetails()
+    }
+
+    onPressMap(){
+      this.showDetailsTrip()
     }
 
 
@@ -248,7 +251,7 @@ export default class JustMap extends React.Component {
     //  this._childDetailsViews.onShowDetails()
     }
     onPressMarker(location){
-      onSelecetLocation(location)
+      this.onSelecetLocation(location)
     }
 
     onEditTripMode(editTripMode = true){
@@ -366,6 +369,7 @@ export default class JustMap extends React.Component {
             <DetailsViews
               selectedMarker={this.state.selectedMarker}
               trip={this.props.trip}
+              showDetailsTrip={this.showDetailsTrip.bind(this)}
               onMarkerSelected={this.onMarkerSelected.bind(this)}
               onSelecetLocation={this.onSelecetLocation.bind(this)}
               onPressDeleteMarker={this.onPressDeleteMarker.bind(this)}

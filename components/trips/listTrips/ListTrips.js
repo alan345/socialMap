@@ -136,7 +136,6 @@ export default class ListTrips extends Component {
     this.props.navigator.replace({
         name: 'mapTrip'
     });
-  //  this.props.onSelecetTrip(item)
 
   }
 
