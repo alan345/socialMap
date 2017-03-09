@@ -218,7 +218,6 @@ export default class JustMap extends React.Component {
 
       this.setState({
         trip:item,
-    //    isTripSelectedIsMine:isTripSelectedIsMine,
       },function(){
         this.listenForItems();
       })
@@ -336,7 +335,6 @@ export default class JustMap extends React.Component {
               isEditingMyTrip={this.state.isEditingMyTrip}
             />
             <SaveToMyTripsButton
-              isTripSelectedIsMine={this.state.isTripSelectedIsMine}
               trip={this.state.trip}
               isEditingMyTrip={this.state.isEditingMyTrip}
               onEditTripMode={this.onEditTripMode.bind(this)}
@@ -348,7 +346,6 @@ export default class JustMap extends React.Component {
               isEditingMyTrip={this.state.isEditingMyTrip}
               onEditTripMode={this.onEditTripMode.bind(this)}
               userData={this.props.userData}
-              isTripSelectedIsMine={this.state.isTripSelectedIsMine}
             />
             <SearchLocation
               trip={this.state.trip}
