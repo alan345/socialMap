@@ -93,10 +93,6 @@ export default class JustMap extends React.Component {
   }
 
 
-
-
-
-
     componentDidMount() {
       this.listenForItems();
       let component = this
