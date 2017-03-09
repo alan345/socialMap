@@ -11,7 +11,7 @@ import  {
   TouchableOpacity,
   Button,
 } from 'react-native';
-import DetailsLocation from './detailsLocation/DetailsLocation';
+import DetailsLocation from '../../locations/detailsLocation/DetailsLocation';
 import DetailsTrip from '../../trips/detailsTrip/DetailsTrip';
 
 
