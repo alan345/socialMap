@@ -9,7 +9,7 @@ import {
   TouchableWithoutFeedback,
   ListView,
 } from 'react-native';
-import SingleLocation from './SingleLocation';
+import RowLocation from './RowLocation';
 
 export default class ListLocations extends Component {
   constructor(props) {
@@ -24,7 +24,7 @@ export default class ListLocations extends Component {
 
   _renderRow(item) {
     return (
-      <SingleLocation
+      <RowLocation
         item={item}
         onSelecetLocation={this.props.onSelecetLocation}
         userData={this.props.userData}

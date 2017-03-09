@@ -10,7 +10,7 @@ import  {
 } from 'react-native';
 
 
-export default class SingleLocation extends Component {
+export default class RowLocation extends Component {
 
 
 

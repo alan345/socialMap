@@ -13,7 +13,7 @@ import React, { Component } from 'react'; import {
 } from 'react-native';
 import * as firebase from 'firebase';
 import Firebase from "../../../includes/firebase";
-import SingleTrip from './SingleTrip';
+import RowTrip from './RowTrip';
 import AddTrip from '../AddTrip';
 import AddTripButton from '../AddTripButton';
 
@@ -150,7 +150,7 @@ export default class ListTrips extends Component {
 
   _renderRow(item) {
     return (
-      <SingleTrip
+      <RowTrip
         item={item}
         onEditTrip={this.onEditTrip.bind(this)}
         onSelecetTrip={this.onSelecetTrip.bind(this)}

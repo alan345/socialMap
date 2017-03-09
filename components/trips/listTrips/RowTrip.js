@@ -12,11 +12,11 @@ import ShowDetailsTripModal from '../ShowDetailsTripModal';
 
 
 
-class SingleTrip extends Component {
+export default class RowTrip extends Component {
 
 
   actionToDetermine(){
-    
+
   }
   render() {
     return (
@@ -99,5 +99,3 @@ const styles = StyleSheet.create({
     paddingTop:0
   }
 });
-
-module.exports = SingleTrip;
