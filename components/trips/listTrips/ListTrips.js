@@ -69,6 +69,18 @@ export default class ListTrips extends Component {
     return size;
   }
 
+  isMyTrip(trip){
+    let isMyTrip = false;
+    if(trip.userData.id == this.props.userData.id) {
+      isMyTrip = true;
+    } else {
+      isMyTrip = false;
+    }
+    return isMyTrip
+  }
+
+
+
   listenForItems() {
     let querySearch
     if(this.state.search.city) {
@@ -88,6 +100,7 @@ export default class ListTrips extends Component {
            locations:child.val().locations,
            userData: child.val().userData,
            nbLocationsPerTrip:this.nbLocationsPerTrip(child.val()),
+           isMyTrip:this.isMyTrip(child.val()),
            key: child.key,
          });
        });

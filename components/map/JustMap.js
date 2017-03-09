@@ -214,16 +214,11 @@ export default class JustMap extends React.Component {
     }
 
     onSelecetTrip(item) {
-      let isTripSelectedIsMine = false;
-      if(item.userData.id == this.props.userData.id) {
-        isTripSelectedIsMine = true;
-      } else {
-        isTripSelectedIsMine = false;
-      }
+
 
       this.setState({
         trip:item,
-        isTripSelectedIsMine:isTripSelectedIsMine,
+    //    isTripSelectedIsMine:isTripSelectedIsMine,
       },function(){
         this.listenForItems();
       })
