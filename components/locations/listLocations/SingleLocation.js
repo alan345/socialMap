@@ -22,8 +22,7 @@ export default class SingleLocation extends Component {
         }}
       >
 
-        <View style={{flex: 1, flexDirection: 'column', borderRadius: 5, marginRight:10, padding: 10, backgroundColor: '#ffffff'}} >
-
+        <View style={styles.singleItem} >
             <View style={styles.row}>
               <View>
                 <Image
@@ -48,13 +47,18 @@ export default class SingleLocation extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    padding: 0,
-    flexDirection: 'row',
+  },
+  singleItem:{
+    flex: 1, 
+    flexDirection: 'column',
+    borderRadius: 5,
+    marginRight:10,
+    padding: 10,
+    backgroundColor: '#ffffff'
   },
   row: {
     flexDirection: 'row',
-    padding: 5,
+
     justifyContent: 'space-between',
   },
   imageStar:{
