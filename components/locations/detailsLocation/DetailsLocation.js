@@ -19,8 +19,13 @@ export default class DetailsLocation extends Component {
     let marker = this.props.selectedMarker;
     this.props.onPressDeleteMarker(marker)
   }
+
+
+
   render() {
-    return null
+    if(!this.props.selectedMarker.key)
+      return null
+      
     return (
       <View style={styles.container}>
 

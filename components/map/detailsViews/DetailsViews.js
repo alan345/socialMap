@@ -137,6 +137,7 @@ export default class DetailsViews extends Component {
                   style={[this.state.pan.getLayout(), styles.detailsList]}
                 >
                   <DetailsTrip
+                    selectedMarker={this.props.selectedMarker}
                     trip={this.props.trip}
                   />
 

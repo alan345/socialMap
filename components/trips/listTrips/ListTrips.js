@@ -104,8 +104,6 @@ export default class ListTrips extends Component {
          });
        });
 
-       console.log(items)
-
        this.setState({
          isLoading:false,
          dataSource: this.state.dataSource.cloneWithRows(items)
@@ -162,7 +160,6 @@ export default class ListTrips extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props.userData)
     this.listenForItems();
   }
   _onChangeText(description) {

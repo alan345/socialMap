@@ -46,6 +46,26 @@ import ShowTripTitle from '../trips/ShowTripTitle';
 
 let keyId = 0
 
+let initSelectedMarker = {
+  key:'',
+  googleData:{
+    imagePin : 'https://pickaface.net/gallery/avatar/Opi51c74d0125fd4.png',
+    address : '',
+    address_components : {
+      neighborhood:''
+    },
+    coordinateGoogleAddress : {
+      latitude: LATITUDE,
+      longitude: LONGITUDE,
+    },
+  },
+  coordinates:{},
+  coordinate : {
+    latitude: LATITUDE,
+    longitude: LONGITUDE,
+  },
+}
+
 export default class JustMap extends React.Component {
 
   constructor(props) {
@@ -64,28 +84,7 @@ export default class JustMap extends React.Component {
       polylines: [],
       locations: [],
 
-      selectedMarker: {
-        key:'',
-
-        googleData:{
-          imagePin : 'https://pickaface.net/gallery/avatar/Opi51c74d0125fd4.png',
-          address : '',
-          address_components : {
-            neighborhood:''
-          },
-          coordinateGoogleAddress : {
-            latitude: LATITUDE,
-            longitude: LONGITUDE,
-          },
-        },
-
-        coordinates:{},
-        coordinate : {
-          latitude: LATITUDE,
-          longitude: LONGITUDE,
-        },
-
-      },
+      selectedMarker: initSelectedMarker
 
     };
     this.onLongPressCreateMarker = this.onLongPressCreateMarker.bind(this);
@@ -206,16 +205,18 @@ export default class JustMap extends React.Component {
 
 
     onPressMap(){
-      this._childDetailsViews.onReduceDetails()
+      this.setState({
+        selectedMarker: initSelectedMarker
+      })
+  //    this._childDetailsViews.onReduceDetails()
     }
+
 
     onSetPositionDetails(position){
       this._childDetailsViews.onSetPositionDetails(position)
     }
 
     onSelecetTrip(item) {
-
-
       this.setState({
         trip:item,
       },function(){
@@ -246,7 +247,7 @@ export default class JustMap extends React.Component {
       this.setState({
         selectedMarker: location
       })
-      this._childDetailsViews.onShowDetails()
+    //  this._childDetailsViews.onShowDetails()
     }
 
     onEditTripMode(editTripMode = true){

@@ -13,7 +13,14 @@ import ListLocations from '../../locations/listLocations/ListLocations';
 
 
 export default class AddTripButton extends Component {
+
+
+
+
   render() {
+    if(this.props.selectedMarker.key)
+      return null
+      
     return (
       <View>
         <View style={{marginTop: 0}}>
