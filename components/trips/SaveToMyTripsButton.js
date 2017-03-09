@@ -34,7 +34,7 @@ export default class SaveToMyTripsButton extends Component {
   render() {
     if(this.props.isEditingMyTrip)
       return null
-    if(this.props.isTripSelectedIsMine)
+    if(this.props.trip.isMyTrip)
       return null
 
 

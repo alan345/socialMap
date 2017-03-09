@@ -71,7 +71,7 @@ export default class ListTrips extends Component {
 
   isMyTrip(trip){
     let isMyTrip = false;
-    if(trip.userData.id == this.props.userData.id) {
+    if(trip.userData.id === this.props.userData.profile.id) {
       isMyTrip = true;
     } else {
       isMyTrip = false;
@@ -88,7 +88,6 @@ export default class ListTrips extends Component {
     } else {
       querySearch = this.getRef().child('trips')
     }
-
      querySearch.on('value', (snap) => {
        var items = [];
        snap.forEach((child) => {
@@ -104,6 +103,8 @@ export default class ListTrips extends Component {
            key: child.key,
          });
        });
+
+       console.log(items)
 
        this.setState({
          isLoading:false,
@@ -161,6 +162,7 @@ export default class ListTrips extends Component {
   }
 
   componentDidMount() {
+    console.log(this.props.userData)
     this.listenForItems();
   }
   _onChangeText(description) {
