@@ -34,7 +34,7 @@ export default class TakePictureButton extends React.Component {
 const styles = StyleSheet.create({
   container: {
     position    : 'absolute',
-    bottom      : 60,
+    bottom      : 80,
     left        : width/2 - 25,
   },
   roundButton: {

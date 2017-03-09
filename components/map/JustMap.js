@@ -54,6 +54,7 @@ export default class JustMap extends React.Component {
       trip : {
         key:''
       },
+      isEditingMyTrip: false,
       region: {
         latitude: LATITUDE,
         longitude: LONGITUDE,
