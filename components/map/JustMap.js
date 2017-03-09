@@ -93,11 +93,8 @@ export default class JustMap extends React.Component {
   }
 
 
-
-
-
-
     componentDidMount() {
+      this.onSetPositionDetails(2)
       this.listenForItems();
       let component = this
       setTimeout(function(){
