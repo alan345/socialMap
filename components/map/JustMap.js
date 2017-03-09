@@ -335,14 +335,14 @@ export default class JustMap extends React.Component {
               isEditingMyTrip={this.state.isEditingMyTrip}
             />
             <SaveToMyTripsButton
-              trip={this.state.trip}
+              trip={this.props.trip}
               isEditingMyTrip={this.state.isEditingMyTrip}
               onEditTripMode={this.onEditTripMode.bind(this)}
               userData={this.props.userData}
               onSelecetTrip={this.onSelecetTrip.bind(this)}
             />
             <EditMyTripButton
-              trip={this.state.trip}
+              trip={this.props.trip}
               isEditingMyTrip={this.state.isEditingMyTrip}
               onEditTripMode={this.onEditTripMode.bind(this)}
               userData={this.props.userData}

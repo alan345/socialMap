@@ -26,8 +26,6 @@ export default class EditMyTripButton extends Component {
 
     if(this.props.isEditingMyTrip)
       return null
-    if(!this.props.trip.key)
-      return null
     if(!this.props.trip.isMyTrip)
       return null
 
