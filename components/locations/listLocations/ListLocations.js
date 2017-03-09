@@ -20,15 +20,13 @@ export default class ListLocations extends Component {
       })
     }
   }
-  onSelecetLocation(location){
-    alert('ICI on verra le detail du point')
-  }
+
 
   _renderRow(item) {
     return (
       <SingleLocation
         item={item}
-        onSelecetTrip={this.onSelecetLocation.bind(this)}
+        onSelecetLocation={this.props.onSelecetLocation}
         userData={this.props.userData}
       />
     );

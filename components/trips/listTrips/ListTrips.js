@@ -130,6 +130,7 @@ export default class ListTrips extends Component {
   }
 
 
+
   onSelecetTrip(trip){
     this.props.onSelecetTrip(trip)
     this.props.navigator.replace({

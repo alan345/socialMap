@@ -18,7 +18,7 @@ export default class SingleLocation extends Component {
     return (
       <TouchableWithoutFeedback
         onPress={() => {
-          this.props.onSelecetTrip(this.props.item)
+          this.props.onSelecetLocation(this.props.item)
         }}
       >
 
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
   container: {
   },
   singleItem:{
-    flex: 1, 
+    flex: 1,
     flexDirection: 'column',
     borderRadius: 5,
     marginRight:10,
