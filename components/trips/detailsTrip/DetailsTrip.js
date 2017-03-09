@@ -16,7 +16,7 @@ export default class AddTripButton extends Component {
   render() {
     return (
       <View>
-        <View style={{marginTop: 22}}>
+        <View style={{marginTop: 0}}>
           <View style={styles.row}>
             <View>
               <Image source={{ uri: this.props.trip.userData.picture.data.url}} style={styles.photo} />
