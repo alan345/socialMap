@@ -29,7 +29,7 @@ class FirebaseFunctions extends Component {
 
   updateOrCreateUserToFirebase(userData) {
     let itemsRef = this.getRefUsers();
-    itemsRef.orderByChild("id").equalTo(userData.profile.id).on("value", function(snapshot) {
+    itemsRef.orderByChild("profile/id").equalTo(userData.profile.id).on("value", function(snapshot) {
       if (snapshot.val()) {
         //update
         //console.log(snapshot.val())

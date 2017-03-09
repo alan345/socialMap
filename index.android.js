@@ -57,7 +57,7 @@
     return (
         <Navigator
           style={{ flex:1 }}
-          initialRoute={{ name: 'listTrips'}}
+          initialRoute={{ name: 'fBLoginView'}}
           renderScene={ this.renderScene.bind(this) }
           configureScene={(route, routeStack) =>
             Navigator.SceneConfigs.FloatFromBottom}
