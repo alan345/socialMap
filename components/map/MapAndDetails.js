@@ -88,7 +88,7 @@ export default class MapAndDetails extends React.Component {
       selectedMarker: initSelectedMarker
 
     };
-    this.onLongPressCreateMarker = this.onLongPressCreateMarker.bind(this);
+
     this.changeRegionAnimate = this.changeRegionAnimate.bind(this);
 
   }
@@ -171,9 +171,10 @@ export default class MapAndDetails extends React.Component {
         marker.key = key
         marker.datePin = Date()
         marker.description = ""
+
       //  marker.userData = component.props.userData
         //marker.title = marker.googleData.address_components.route
-        component._addLocationToFirebase(marker, component.state.trip.key);
+        component._addLocationToFirebase(marker, component.props.trip.key);
         component.listenForItems()
       })
 
@@ -286,6 +287,7 @@ export default class MapAndDetails extends React.Component {
               onPressMap={this.onPressMap.bind(this)}
               provider={this.props.provider}
               onPressMarker={this.onPressMarker.bind(this)}
+              onLongPressCreateMarker={this.onLongPressCreateMarker.bind(this)}
             />
             <BackToTripButton
               goToListTrips={this.goToListTrips.bind(this)}

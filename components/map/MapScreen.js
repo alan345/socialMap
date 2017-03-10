@@ -76,10 +76,12 @@ export default class MapScreen extends Component {
           style={styles.map}
           initialRegion={this.state.region}
           showsUserLocation = {true}
-          onLongPress = {this.onLongPressCreateMarker}
+          onLongPress = {this.props.onLongPressCreateMarker}
           onPress = {this.props.onPressMap}
           customMapStyle={MapStyle}
         >
+
+      
           {this.props.locations.map((location,i) =>{
             return (
               <MapView.Marker
