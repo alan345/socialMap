@@ -44,6 +44,9 @@ export default class ListTrips extends Component {
         rowHasChanged: (row1, row2) => row1 !== row2,
       })
     };
+    // http://stackoverflow.com/questions/35345338/react-setstate-can-only-update-a-mounted-or-mounting-component#35345455
+    // this.onSelecetTrip = this.onSelecetTrip.bind(this);
+    //this.listenForItems = this.listenForItems.bind(this);
 
     this.itemsRef = this.getRef().child('trips');
   }

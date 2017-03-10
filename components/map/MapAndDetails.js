@@ -77,28 +77,28 @@ export default class MapAndDetails extends React.Component {
 
 
     componentDidMount() {
-      this.onSetPositionDetails(2)
-      this.listenForItems();
-      let component = this
-      setTimeout(function(){
-        component.changeRegionAnimate(component.props.trip)
-      }, 1000);
+      // this.onSetPositionDetails(2)
+      // this.listenForItems();
+      // let component = this
+      // setTimeout(function(){
+      //   component.changeRegionAnimate(component.props.trip)
+      // }, 1000);
 
     }
 
     listenForItems() {
-     let locations = this.props.trip.locations
-     arr = []
-     for(var key in locations){
-         var location = locations[key]
-         location['key'] = key
-         location['title'] = locations[key].googleData.address_components.neighborhood
-         arr.push(location)
-     }
-     this.setState({
-       locations: arr,
-       isLoading:false,
-     });
+    //  let locations = this.props.trip.locations
+    //  arr = []
+    //  for(var key in locations){
+    //      var location = locations[key]
+    //      location['key'] = key
+    //      location['title'] = locations[key].googleData.address_components.neighborhood
+    //      arr.push(location)
+    //  }
+    //  this.setState({
+    //    locations: arr,
+    //    isLoading:false,
+    //  });
     }
 
 
@@ -241,7 +241,7 @@ export default class MapAndDetails extends React.Component {
         <FirebaseFunctions ref={(child) => { this._child = child; }} />
         <GoogleAPI ref={(child) => { this._childGoogleAPI = child; }} />
             <MapScreen
-              locations={this.state.locations}
+              locations={this.props.locationsArr}
               onPressMap={this.onPressMap.bind(this)}
               provider={this.props.provider}
               onSelecetLocation={this.onSelecetLocation.bind(this)}

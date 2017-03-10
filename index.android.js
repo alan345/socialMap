@@ -17,6 +17,8 @@
      this.state = {
        userData:{}
      }
+
+  //   this.onSelecetTrip = this.onSelecetTrip.bind(this);
    }
 
   renderScene(route, navigator) {
@@ -34,8 +36,10 @@
     }
     if(route.name == 'mapTrip') {
      return <MapAndDetails
-      trip={this.state.trip}
-      navigator={navigator} {...route.passProps} /> 
+        trip={this.state.trip}
+        navigator={navigator} {...route.passProps}
+        locationsArr={this.state.locationsArr}
+      />
     }
     if(route.name == 'capture') {
       return <Capture navigator={navigator} {...route.passProps} />
@@ -43,10 +47,22 @@
   }
 
   onSelecetTrip(trip){
+    let locations = trip.locations
+    arr = []
+    for(var key in locations){
+        var location = locations[key]
+        location['key'] = key
+        location['title'] = locations[key].googleData.address_components.neighborhood
+        arr.push(location)
+    }
     this.setState({
+      locationsArr: arr,
       trip: trip
-    })
+    });
+
   }
+
+
   updateUserData(userData){
     this.setState({
       userData: userData
