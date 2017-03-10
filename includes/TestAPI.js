@@ -5,14 +5,11 @@ let instance = null;
 
 class TestAPI {
 
-  //
-
   constructor() {
       if(!instance){
             instance = this;
       }
       return instance;
-
   }
 
   callTest() {
