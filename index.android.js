@@ -6,7 +6,7 @@
  } from 'react-native';
 
  import JustMap from './components/map/JustMap';
- import ListTrips from './components/trips/ListTrips';
+ import ListTrips from './components/trips/listTrips/ListTrips';
  import FBLoginView from './components/FBLoginView';
  import Capture from './components/Capture';
 
@@ -57,7 +57,7 @@
     return (
         <Navigator
           style={{ flex:1 }}
-          initialRoute={{ name: 'listTrips'}}
+          initialRoute={{ name: 'fBLoginView'}}
           renderScene={ this.renderScene.bind(this) }
           configureScene={(route, routeStack) =>
             Navigator.SceneConfigs.FloatFromBottom}

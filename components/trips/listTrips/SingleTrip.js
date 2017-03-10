@@ -8,7 +8,7 @@ import  {
   TouchableWithoutFeedback,
   Button
 } from 'react-native';
-import ShowDetailsTripModal from './ShowDetailsTripModal';
+import ShowDetailsTripModal from '../ShowDetailsTripModal';
 
 
 
@@ -30,7 +30,7 @@ class SingleTrip extends Component {
 
             <View style={styles.row}>
               <View>
-                    <Image source={require('../../assets/trip_pic_example.png')} />
+                    <Image source={require('../../../assets/trip_pic_example.png')} />
               </View>
               <View>
                 <TouchableWithoutFeedback onPress={this.onShowDetailsTripModal.bind(this)}>

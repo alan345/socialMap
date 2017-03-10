@@ -11,11 +11,12 @@ import  {
   TouchableOpacity,
   Button,
 } from 'react-native';
-import DetailsLocation from './DetailsLocation';
+import DetailsLocation from '../../locations/detailsLocation/DetailsLocation';
+import DetailsTrip from '../../trips/detailsTrip/DetailsTrip';
+
 
 
 const { width, height } = Dimensions.get('window');
-
 
 class DetailsViews extends Component {
   constructor(props){
@@ -135,6 +136,10 @@ class DetailsViews extends Component {
                   {...this.panResponder.panHandlers}
                   style={[this.state.pan.getLayout(), styles.detailsList]}
                 >
+                  <DetailsTrip
+                    trip={this.props.trip}
+                  />
+
                   <DetailsLocation
                     trip={this.props.trip}
                     selectedMarker={this.props.selectedMarker}
@@ -148,7 +153,7 @@ class DetailsViews extends Component {
 
 let Window = Dimensions.get('window');
 const styles = StyleSheet.create({
-  
+
      draggableContainer: {
          position    : 'absolute',
   //       top         : Window.height,

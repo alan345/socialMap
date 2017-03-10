@@ -31,10 +31,10 @@ import GoogleAPI from '../../includes/GoogleAPI';
 
 
 import FBLoginView from '../FBLoginView';
-import DetailsViews from '../locations/DetailsViews';
+import DetailsViews from './detailsViews/DetailsViews';
 import ShowLoading from '../ShowLoading';
 import BackToTripButton from './BackToTripButton';
-import ListTrips from '../trips/ListTrips';
+
 import TakePictureButton from '../locations/TakePictureButton';
 import SearchLocation from '../locations/SearchLocation';
 import SaveToMyTripsButton from '../trips/SaveToMyTripsButton';
@@ -94,6 +94,7 @@ export default class JustMap extends React.Component {
 
 
     componentDidMount() {
+      this.onSetPositionDetails(2)
       this.listenForItems();
       let component = this
       setTimeout(function(){

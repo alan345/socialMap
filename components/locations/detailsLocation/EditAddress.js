@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Modal, Text, TouchableHighlight, View } from 'react-native';
-import AutocompleteAddress from "../../includes/AutocompleteAddress";
-import FirebaseFunctions from "../../includes/FirebaseFunctions";
-import GoogleAPI from '../../includes/GoogleAPI';
+import AutocompleteAddress from "../../../includes/AutocompleteAddress";
+import FirebaseFunctions from "../../../includes/FirebaseFunctions";
+import GoogleAPI from '../../../includes/GoogleAPI';
+
 
 export default class EditAddress extends Component {
 

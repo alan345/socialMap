@@ -12,16 +12,16 @@ import React, { Component } from 'react'; import {
   TouchableHighlight,
 } from 'react-native';
 import * as firebase from 'firebase';
-import Firebase from "../../includes/firebase";
+import Firebase from "../../../includes/firebase";
 import SingleTrip from './SingleTrip';
-import AddTrip from './AddTrip';
-import AddTripButton from './AddTripButton';
+import AddTrip from '../AddTrip';
+import AddTripButton from '../AddTripButton';
 
-import ShowLoading from '../ShowLoading';
-import FirebaseFunctions from "../../includes/FirebaseFunctions";
+import ShowLoading from '../../ShowLoading';
+import FirebaseFunctions from "../../../includes/FirebaseFunctions";
 
 
-import AutocompleteAddress from "../../includes/AutocompleteAddress";
+import AutocompleteAddress from "../../../includes/AutocompleteAddress";
 
 const { width, height } = Dimensions.get('window');
 const heightSearchTopMenuOpen = height / 2.5

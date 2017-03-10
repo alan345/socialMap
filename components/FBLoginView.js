@@ -22,11 +22,12 @@ class FBLoginView extends Component {
   }
 
   updateUserData(userData){
-    // this.setState({
-    //   userData: userData
-    // })
-    // this.updateUserData(this.state.userData)
+    this._child.updateOrCreateUserToFirebase(userData)
+    this.setState({
+      userData: userData
+    })
   }
+
 
   componentDidMount() {
   //  this.updateUserData(this.state.userData)
@@ -41,9 +42,13 @@ class FBLoginView extends Component {
   onLoginFoundFunction(userData) {
     let component = this
     this._child.getUser(userData.credentials).then(function(data){
-
-
-      component.props.updateUserData(data)
+      let updatedUserData = {
+        credentials:userData.credentials,
+        provider:userData.provider,
+        type:userData.type,
+        profile:data.profile
+      }
+      component.updateUserData(updatedUserData)
       component.goToNextScreen()
     })
   }

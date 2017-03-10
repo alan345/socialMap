@@ -12,6 +12,7 @@ import {
 import EditAddress from './EditAddress';
 import EditDescription from './EditDescription';
 
+
 export default class DetailsLocation extends Component {
   onPressDeleteMarker(){
     this.onSetPositionDetails(0)
@@ -19,6 +20,7 @@ export default class DetailsLocation extends Component {
     this.props.onPressDeleteMarker(marker)
   }
   render() {
+    return null
     return (
       <View style={styles.container}>
 
