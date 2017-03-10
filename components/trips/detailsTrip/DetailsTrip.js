@@ -13,7 +13,12 @@ import ListLocations from '../../locations/listLocations/ListLocations';
 
 
 export default class AddTripButton extends Component {
+
+
   render() {
+    if(this.props.selectedMarker.key)
+      return null
+      
     return (
       <View>
         <View style={{marginTop: 0}}>
@@ -28,11 +33,11 @@ export default class AddTripButton extends Component {
               <Text>{this.props.trip.googleData.address_components.administrative_area_level_1}</Text>
               <Text>{this.props.trip.googleData.address_components.country}</Text>
               <Text>{this.props.trip.googleData.address_components.locality}</Text>
-
             </View>
           </View>
           <ListLocations
             trip={this.props.trip}
+            onSelecetLocation={this.props.onSelecetLocation}
           />
         </View>
       </View>

@@ -12,11 +12,11 @@ import ShowDetailsTripModal from '../ShowDetailsTripModal';
 
 
 
-class SingleTrip extends Component {
+export default class RowTrip extends Component {
 
 
-  onShowDetailsTripModal(){
-    this._childShowDetailsTripModal.setModalVisible(true)
+  actionToDetermine(){
+
   }
   render() {
     return (
@@ -25,7 +25,6 @@ class SingleTrip extends Component {
           this.props.onSelecetTrip(this.props.item)
         }}
       >
-
         <View style={{flex: 1, flexDirection: 'column', borderRadius: 5, marginRight:10, padding: 10, backgroundColor: '#ffffff'}} >
 
             <View style={styles.row}>
@@ -33,7 +32,7 @@ class SingleTrip extends Component {
                     <Image source={require('../../../assets/trip_pic_example.png')} />
               </View>
               <View>
-                <TouchableWithoutFeedback onPress={this.onShowDetailsTripModal.bind(this)}>
+                <TouchableWithoutFeedback onPress={this.actionToDetermine.bind(this)}>
                   <View
                     title="❐"
                     color="#841584"
@@ -100,5 +99,3 @@ const styles = StyleSheet.create({
     paddingTop:0
   }
 });
-
-module.exports = SingleTrip;

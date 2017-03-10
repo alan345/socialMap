@@ -46,7 +46,27 @@ import ShowTripTitle from '../trips/ShowTripTitle';
 
 let keyId = 0
 
-export default class JustMap extends React.Component {
+let initSelectedMarker = {
+  key:'',
+  googleData:{
+    imagePin : 'https://pickaface.net/gallery/avatar/Opi51c74d0125fd4.png',
+    address : '',
+    address_components : {
+      neighborhood:''
+    },
+    coordinateGoogleAddress : {
+      latitude: LATITUDE,
+      longitude: LONGITUDE,
+    },
+  },
+  coordinates:{},
+  coordinate : {
+    latitude: LATITUDE,
+    longitude: LONGITUDE,
+  },
+}
+
+export default class MapAndDetails extends React.Component {
 
   constructor(props) {
     super(props);
@@ -54,6 +74,7 @@ export default class JustMap extends React.Component {
       trip : {
         key:''
       },
+      isEditingMyTrip: false,
       region: {
         latitude: LATITUDE,
         longitude: LONGITUDE,
@@ -63,28 +84,7 @@ export default class JustMap extends React.Component {
       polylines: [],
       locations: [],
 
-      selectedMarker: {
-        key:'',
-
-        googleData:{
-          imagePin : 'https://pickaface.net/gallery/avatar/Opi51c74d0125fd4.png',
-          address : '',
-          address_components : {
-            neighborhood:''
-          },
-          coordinateGoogleAddress : {
-            latitude: LATITUDE,
-            longitude: LONGITUDE,
-          },
-        },
-
-        coordinates:{},
-        coordinate : {
-          latitude: LATITUDE,
-          longitude: LONGITUDE,
-        },
-
-      },
+      selectedMarker: initSelectedMarker
 
     };
     this.onLongPressCreateMarker = this.onLongPressCreateMarker.bind(this);
@@ -203,26 +203,25 @@ export default class JustMap extends React.Component {
       this.createOrUpdateMarker(e, {})
     }
 
+    showDetailsTrip(){
+      this.setState({
+        selectedMarker: initSelectedMarker
+      })
+  //    this._childDetailsViews.onReduceDetails()
+    }
 
     onPressMap(){
-      this._childDetailsViews.onReduceDetails()
+      this.showDetailsTrip()
     }
+
 
     onSetPositionDetails(position){
       this._childDetailsViews.onSetPositionDetails(position)
     }
 
     onSelecetTrip(item) {
-      let isTripSelectedIsMine = false;
-      if(item.userData.id == this.props.userData.id) {
-        isTripSelectedIsMine = true;
-      } else {
-        isTripSelectedIsMine = false;
-      }
-
       this.setState({
         trip:item,
-        isTripSelectedIsMine:isTripSelectedIsMine,
       },function(){
         this.listenForItems();
       })
@@ -237,7 +236,6 @@ export default class JustMap extends React.Component {
       this.changeRegionAnimate(item)
     }
     changeRegionAnimate(item) {
-
       let newRegion = {
         ...this.state.region,
         latitude: item.googleData.coordinateGoogleAddress.latitude,
@@ -246,12 +244,14 @@ export default class JustMap extends React.Component {
       this.map.animateToRegion(newRegion);
     }
 
-    onPressMarker(location){
-
+    onSelecetLocation(location) {
       this.setState({
         selectedMarker: location
       })
-      this._childDetailsViews.onShowDetails()
+    //  this._childDetailsViews.onShowDetails()
+    }
+    onPressMarker(location){
+      onSelecetLocation(location)
     }
 
     onEditTripMode(editTripMode = true){
@@ -340,19 +340,17 @@ export default class JustMap extends React.Component {
               isEditingMyTrip={this.state.isEditingMyTrip}
             />
             <SaveToMyTripsButton
-              isTripSelectedIsMine={this.state.isTripSelectedIsMine}
-              trip={this.state.trip}
+              trip={this.props.trip}
               isEditingMyTrip={this.state.isEditingMyTrip}
               onEditTripMode={this.onEditTripMode.bind(this)}
               userData={this.props.userData}
               onSelecetTrip={this.onSelecetTrip.bind(this)}
             />
             <EditMyTripButton
-              trip={this.state.trip}
+              trip={this.props.trip}
               isEditingMyTrip={this.state.isEditingMyTrip}
               onEditTripMode={this.onEditTripMode.bind(this)}
               userData={this.props.userData}
-              isTripSelectedIsMine={this.state.isTripSelectedIsMine}
             />
             <SearchLocation
               trip={this.state.trip}
@@ -371,7 +369,9 @@ export default class JustMap extends React.Component {
             <DetailsViews
               selectedMarker={this.state.selectedMarker}
               trip={this.props.trip}
+              showDetailsTrip={this.showDetailsTrip.bind(this)}
               onMarkerSelected={this.onMarkerSelected.bind(this)}
+              onSelecetLocation={this.onSelecetLocation.bind(this)}
               onPressDeleteMarker={this.onPressDeleteMarker.bind(this)}
               changeRegionAnimate={this.changeRegionAnimate}
               ref={(child) => { this._childDetailsViews = child; }}

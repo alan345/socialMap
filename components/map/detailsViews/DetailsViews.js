@@ -18,7 +18,7 @@ import DetailsTrip from '../../trips/detailsTrip/DetailsTrip';
 
 const { width, height } = Dimensions.get('window');
 
-class DetailsViews extends Component {
+export default class DetailsViews extends Component {
   constructor(props){
     super();
     this.state = {
@@ -86,7 +86,7 @@ class DetailsViews extends Component {
           yPosition = -70
 
         if(position == 2)
-          yPosition = -300
+          yPosition = -400
 
         if(position == 3)
           yPosition = -600
@@ -100,7 +100,7 @@ class DetailsViews extends Component {
 
 
       isDropZone(gesture){
-          return gesture.moveY > 0 && gesture.moveY <  420;
+          return gesture.moveY > 0 && gesture.moveY <  400;
       }
 
 
@@ -137,11 +137,14 @@ class DetailsViews extends Component {
                   style={[this.state.pan.getLayout(), styles.detailsList]}
                 >
                   <DetailsTrip
+                    selectedMarker={this.props.selectedMarker}
                     trip={this.props.trip}
+                    onSelecetLocation={this.props.onSelecetLocation}
                   />
 
                   <DetailsLocation
                     trip={this.props.trip}
+                    showDetailsTrip={this.props.showDetailsTrip}
                     selectedMarker={this.props.selectedMarker}
                   />
                 </Animated.View>
@@ -149,7 +152,6 @@ class DetailsViews extends Component {
         );
       }
 };
-
 
 let Window = Dimensions.get('window');
 const styles = StyleSheet.create({
@@ -160,14 +162,9 @@ const styles = StyleSheet.create({
         left        : 0,
      },
      detailsList      : {
-
       backgroundColor     : '#F7F7F7',
       width               : Window.width,
-      height              : 600,
+      height              : 400,
       borderRadius        : 5
      }
 });
-
-
-
-module.exports = DetailsViews;

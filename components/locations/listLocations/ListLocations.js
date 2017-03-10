@@ -9,7 +9,7 @@ import {
   TouchableWithoutFeedback,
   ListView,
 } from 'react-native';
-import SingleLocation from './SingleLocation';
+import RowLocation from './RowLocation';
 
 export default class ListLocations extends Component {
   constructor(props) {
@@ -20,15 +20,13 @@ export default class ListLocations extends Component {
       })
     }
   }
-  onSelecetLocation(location){
-    alert('ICI on verra le detail du point')
-  }
+
 
   _renderRow(item) {
     return (
-      <SingleLocation
+      <RowLocation
         item={item}
-        onSelecetTrip={this.onSelecetLocation.bind(this)}
+        onSelecetLocation={this.props.onSelecetLocation}
         userData={this.props.userData}
       />
     );
@@ -71,14 +69,11 @@ export default class ListLocations extends Component {
 }
 const styles = StyleSheet.create({
   container: {
-    position: 'absolute',
-    borderRadius: 30,
-    bottom: 70,
-    right: 15,
+
   },
   separator: {
     flex: 1,
     height: StyleSheet.hairlineWidth,
     backgroundColor: '#8E8E8E',
-  },  
+  },
 });

@@ -10,7 +10,7 @@ import  {
 } from 'react-native';
 
 
-export default class SingleLocation extends Component {
+export default class RowLocation extends Component {
 
 
 
@@ -18,12 +18,11 @@ export default class SingleLocation extends Component {
     return (
       <TouchableWithoutFeedback
         onPress={() => {
-          this.props.onSelecetTrip(this.props.item)
+          this.props.onSelecetLocation(this.props.item)
         }}
       >
 
-        <View style={{flex: 1, flexDirection: 'column', borderRadius: 5, marginRight:10, padding: 10, backgroundColor: '#ffffff'}} >
-
+        <View style={styles.singleItem} >
             <View style={styles.row}>
               <View>
                 <Image
@@ -48,13 +47,18 @@ export default class SingleLocation extends Component {
 
 const styles = StyleSheet.create({
   container: {
+  },
+  singleItem:{
     flex: 1,
-    padding: 0,
-    flexDirection: 'row',
+    flexDirection: 'column',
+    borderRadius: 5,
+    marginRight:10,
+    padding: 10,
+    backgroundColor: '#ffffff'
   },
   row: {
     flexDirection: 'row',
-    padding: 5,
+
     justifyContent: 'space-between',
   },
   imageStar:{

@@ -26,6 +26,7 @@ class FirebaseFunctions extends Component {
   getRefTrips() {
      return this.getRef().child('trips');
   }
+  
 
   updateOrCreateUserToFirebase(userData) {
     let itemsRef = this.getRefUsers();

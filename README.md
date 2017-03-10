@@ -24,6 +24,9 @@ Push the branch on github :
 ```git push -u origin feature/[name_of_your_new_branch]```
 
 
+Digaram fo the App
+https://docs.google.com/drawings/d/1Rcc-UFXhL88AssH0elXD59Twj_qaulpTgIGdAf7-Yxk/edit?usp=sharing
+
 Which branch is selected in local
 ```git branch```
 

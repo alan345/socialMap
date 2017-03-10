@@ -6,24 +6,22 @@ import {
   View,
   Button,
   Dimensions,
-  TouchableWithoutFeedback,
+  TouchableWithoutFeedback
 } from 'react-native';
 
-const { width, height } = Dimensions.get('window');
-
-export default class TakePictureButton extends React.Component {
-
-  takePicture(){
-    this.props.capture()
+export default class BackToDetailsTripButton extends Component {
+  onPressBackToTripButton(){
+    this.props.goToListTrips()
   }
+
   render() {
     return (
       <View style={styles.container}>
-        <TouchableWithoutFeedback onPress={this.takePicture.bind(this)}>
+        <TouchableWithoutFeedback onPress={this.props.showDetailsTrip}>
           <View
-            title="Ø"
+            title="←"
             style={styles.roundButton}>
-               <Text style={styles.textInsideBuddon}>Ø</Text>
+               <Text style={styles.textInsideBuddon}>←</Text>
           </View>
         </TouchableWithoutFeedback>
       </View>
@@ -33,16 +31,14 @@ export default class TakePictureButton extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    position    : 'absolute',
-    bottom      : 80,
-    left        : width/2 - 25,
+
   },
   roundButton: {
     borderRadius: 40,
     backgroundColor: '#841584',
-    height: 50,
-    width: 50,
-    paddingTop:10
+    height: 40,
+    width: 40,
+    paddingTop:2
   },
   textInsideBuddon:{
     color:"#ffffff",

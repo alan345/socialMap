@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import EditAddress from './EditAddress';
 import EditDescription from './EditDescription';
+import BackToDetailsTripButton from './BackToDetailsTripButton';
 
 
 export default class DetailsLocation extends Component {
@@ -19,12 +20,20 @@ export default class DetailsLocation extends Component {
     let marker = this.props.selectedMarker;
     this.props.onPressDeleteMarker(marker)
   }
+
+
+
   render() {
-    return null
+    if(!this.props.selectedMarker.key)
+      return null
+
     return (
       <View style={styles.container}>
 
           <View style={styles.headerDetails}>
+            <BackToDetailsTripButton
+              showDetailsTrip={this.props.showDetailsTrip}
+            />
             <Image
               style={styles.icon}
               source={{uri: this.props.selectedMarker.googleData.imagePin}}

@@ -13,7 +13,7 @@ import React, { Component } from 'react'; import {
 } from 'react-native';
 import * as firebase from 'firebase';
 import Firebase from "../../../includes/firebase";
-import SingleTrip from './SingleTrip';
+import RowTrip from './RowTrip';
 import AddTrip from '../AddTrip';
 import AddTripButton from '../AddTripButton';
 
@@ -69,6 +69,18 @@ export default class ListTrips extends Component {
     return size;
   }
 
+  isMyTrip(trip){
+    let isMyTrip = false;
+    if(trip.userData.id === this.props.userData.profile.id) {
+      isMyTrip = true;
+    } else {
+      isMyTrip = false;
+    }
+    return isMyTrip
+  }
+
+
+
   listenForItems() {
     let querySearch
     if(this.state.search.city) {
@@ -76,7 +88,6 @@ export default class ListTrips extends Component {
     } else {
       querySearch = this.getRef().child('trips')
     }
-
      querySearch.on('value', (snap) => {
        var items = [];
        snap.forEach((child) => {
@@ -88,6 +99,7 @@ export default class ListTrips extends Component {
            locations:child.val().locations,
            userData: child.val().userData,
            nbLocationsPerTrip:this.nbLocationsPerTrip(child.val()),
+           isMyTrip:this.isMyTrip(child.val()),
            key: child.key,
          });
        });
@@ -118,12 +130,12 @@ export default class ListTrips extends Component {
   }
 
 
+
   onSelecetTrip(trip){
     this.props.onSelecetTrip(trip)
     this.props.navigator.replace({
         name: 'mapTrip'
     });
-  //  this.props.onSelecetTrip(item)
 
   }
 
@@ -138,7 +150,7 @@ export default class ListTrips extends Component {
 
   _renderRow(item) {
     return (
-      <SingleTrip
+      <RowTrip
         item={item}
         onEditTrip={this.onEditTrip.bind(this)}
         onSelecetTrip={this.onSelecetTrip.bind(this)}
