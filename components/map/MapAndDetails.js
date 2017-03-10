@@ -13,13 +13,14 @@ import {
   TouchableHighlight
 } from 'react-native';
 import markerImg from '../../assets/map_marker_default.png';
-import MapStyle from "./MapStyle";
+
+import MapScreen from "./MapScreen";
+
 import MapView, {Marker} from 'react-native-maps';
 import * as firebase from 'firebase';
 import Firebase from "../../includes/firebase";
 
 const { width, height } = Dimensions.get('window');
-
 const ASPECT_RATIO = width / height;
 const LATITUDE = 37.78825;
 const LONGITUDE = -122.4324;
@@ -241,7 +242,7 @@ export default class MapAndDetails extends React.Component {
         latitude: item.googleData.coordinateGoogleAddress.latitude,
         longitude: item.googleData.coordinateGoogleAddress.longitude,
       }
-      this.map.animateToRegion(newRegion);
+    //  this.map.animateToRegion(newRegion);
     }
 
     onSelecetLocation(location) {
@@ -251,7 +252,7 @@ export default class MapAndDetails extends React.Component {
     //  this._childDetailsViews.onShowDetails()
     }
     onPressMarker(location){
-      onSelecetLocation(location)
+      this.onSelecetLocation(location)
     }
 
     onEditTripMode(editTripMode = true){
@@ -274,61 +275,18 @@ export default class MapAndDetails extends React.Component {
     }
 
 
+
   render() {
     return (
       <View style={styles.container}>
         <FirebaseFunctions ref={(child) => { this._child = child; }} />
         <GoogleAPI ref={(child) => { this._childGoogleAPI = child; }} />
-
-            <MapView
-              ref={ref => { this.map = ref; }}
+            <MapScreen
+              locations={this.state.locations}
+              onPressMap={this.onPressMap.bind(this)}
               provider={this.props.provider}
-              style={styles.map}
-              initialRegion={this.state.region}
-              showsUserLocation = {true}
-              onLongPress = {this.onLongPressCreateMarker}
-              onPress = {this.onPressMap.bind(this)}
-              customMapStyle={MapStyle}
-            >
-              {this.state.locations.map((location,i) =>{
-                return (
-                  <MapView.Marker
-                    key={location.key}
-                    coordinate={location.coordinates}
-                    onPress={()=>{this.onPressMarker(location)}}
-                    onDragEnd={(e) => {
-                      this.createOrUpdateMarker(e, location);
-                    }}
-
-                    draggable
-                    {... location}
-                    >
-                      <View style={styles.marker}>
-                        <Text style={styles.text}>{location.name}</Text>
-                      </View>
-                  </MapView.Marker>
-                )
-              })}
-
-              {this.state.polylines.map(polyline => (
-                <MapView.Polyline
-                  key={polyline.id}
-                  coordinates={polyline.coordinates}
-                  strokeColor="#F00"
-                  fillColor="rgba(255,0,0,0.5)"
-                  strokeWidth={1}
-                />
-              ))}
-              {this.state.editing &&
-                <MapView.Polyline
-                  key="editingPolyline"
-                  coordinates={this.state.editing.coordinates}
-                  strokeColor="#808080"
-                  fillColor="rgba(255,0,0,0.5)"
-                  strokeWidth={5}
-                />
-              }
-            </MapView>
+              onPressMarker={this.onPressMarker.bind(this)}
+            />
             <BackToTripButton
               goToListTrips={this.goToListTrips.bind(this)}
             />
@@ -389,11 +347,5 @@ const styles = StyleSheet.create({
       ...StyleSheet.absoluteFillObject,
       justifyContent: 'flex-end',
       alignItems: 'center',
-    },
-    marker: {
-      marginTop: 0,
-    },
-    map: {
-     ...StyleSheet.absoluteFillObject,
-    },
+    }
 });
