@@ -60,6 +60,7 @@ class FBLoginView extends Component {
 
   onLoginFunction(userData) {
     this._child.updateOrCreateUserToFirebase(userData)
+    this.props.updateUserData(userData)
     // this.setState({
     //   userData: userData
     // })
