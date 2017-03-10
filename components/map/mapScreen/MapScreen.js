@@ -81,13 +81,13 @@ export default class MapScreen extends Component {
           customMapStyle={MapStyle}
         >
 
-      
+
           {this.props.locations.map((location,i) =>{
             return (
               <MapView.Marker
                 key={location.key}
                 coordinate={location.coordinates}
-                onPress={()=>{this.props.onPressMarker(location)}}
+                onPress={()=>{this.props.onSelecetLocation(location)}}
                 onDragEnd={(e) => {
                   this.createOrUpdateMarker(e, location);
                 }}

@@ -244,7 +244,7 @@ export default class MapAndDetails extends React.Component {
               locations={this.state.locations}
               onPressMap={this.onPressMap.bind(this)}
               provider={this.props.provider}
-              onPressMarker={this.onPressMarker.bind(this)}
+              onSelecetLocation={this.onSelecetLocation.bind(this)}
               onLongPressCreateMarker={this.onLongPressCreateMarker.bind(this)}
             />
             <BackToTripButton
