@@ -91,6 +91,7 @@ export default class MapScreen extends Component {
                 onDragEnd={(e) => {
                   this.createOrUpdateMarker(e, location);
                 }}
+                image={require('../../../assets/map_marker_default.png')}
 
                 draggable
                 {... location}

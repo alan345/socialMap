@@ -3,7 +3,7 @@ import ReactNative from 'react-native';
 const { View, TouchableHighlight, Text } = ReactNative;
 import * as firebase from 'firebase';
 import Firebase from "./firebase";
-import markerImg from '../assets/flag-black.png';
+import markerImg from '../assets/map_marker_default.png';
 
 class FirebaseFunctions extends Component {
 

@@ -35,7 +35,7 @@
     if(route.name == 'mapTrip') {
      return <MapAndDetails
       trip={this.state.trip}
-      navigator={navigator} {...route.passProps} />
+      navigator={navigator} {...route.passProps} /> 
     }
     if(route.name == 'capture') {
       return <Capture navigator={navigator} {...route.passProps} />
