@@ -18,7 +18,6 @@ import AddTrip from '../AddTrip';
 import AddTripButton from '../AddTripButton';
 
 import ShowLoading from '../../ShowLoading';
-import FirebaseFunctions from "../../../includes/FirebaseFunctions";
 
 
 import AutocompleteAddress from "../../../includes/AutocompleteAddress";
@@ -165,6 +164,11 @@ export default class ListTrips extends Component {
   componentDidMount() {
     this.listenForItems();
   }
+
+  componentWillUnmount() {
+   this.getRef().child('trips').off();
+ }
+
   _onChangeText(description) {
     this.setState({
       isLoading:true,
@@ -175,10 +179,10 @@ export default class ListTrips extends Component {
       this.listenForItems()
     })
   }
+
   render() {
     return (
       <View style={styles.container}>
-          <FirebaseFunctions ref={(child) => { this._child = child; }} />
           <AddTrip
             userData={this.props.userData}
             showAddTrip={this.state.showAddTrip}

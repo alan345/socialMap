@@ -20,8 +20,8 @@ import MapView, {Marker} from 'react-native-maps';
 import * as firebase from 'firebase';
 import Firebase from "../../includes/firebase";
 
+import FirebaseFunctions2 from "../../includes/FirebaseFunctions2";
 
-import FirebaseFunctions from "../../includes/FirebaseFunctions";
 import GoogleAPI from '../../includes/GoogleAPI';
 
 
@@ -37,6 +37,8 @@ import EditMyTripButton from '../trips/EditMyTripButton';
 
 
 import ShowTripTitle from '../trips/ShowTripTitle';
+
+var firebaseFunctions = new FirebaseFunctions2();
 
 
 let keyId = 0
@@ -75,42 +77,13 @@ export default class MapAndDetails extends React.Component {
 
   }
 
-
-    componentDidMount() {
-      // this.onSetPositionDetails(2)
-      // this.listenForItems();
-      // let component = this
-      // setTimeout(function(){
-      //   component.changeRegionAnimate(component.props.trip)
-      // }, 1000);
-
-    }
-
-    listenForItems() {
-    //  let locations = this.props.trip.locations
-    //  arr = []
-    //  for(var key in locations){
-    //      var location = locations[key]
-    //      location['key'] = key
-    //      location['title'] = locations[key].googleData.address_components.neighborhood
-    //      arr.push(location)
-    //  }
-    //  this.setState({
-    //    locations: arr,
-    //    isLoading:false,
-    //  });
-    }
-
-
-
     _updateLocationToFirebase(marker, tripId) {
-      this._child.updateLocationToFirebase(marker, tripId)
+      firebaseFunctions.updateLocationToFirebase(marker, tripId)
     }
 
    _addLocationToFirebase(marker, tripId) {
-       this._child.addOrUpdateLocation(marker, tripId)
+       firebaseFunctions.addOrUpdateLocation(marker, tripId)
    }
-
 
 
     createOrUpdateMarker(e, marker) {
@@ -134,7 +107,7 @@ export default class MapAndDetails extends React.Component {
             title: "title",
             key:keyId++,
             coordinateGoogleAddress: coordinates,
-            image: markerImg,
+            // image: markerImg,
             googleData : {
               imagePin:'https://pickaface.net/gallery/avatar/Opi51c74d0125fd4.png',
               address_components:{
@@ -153,8 +126,8 @@ export default class MapAndDetails extends React.Component {
 
       //  marker.userData = component.props.userData
         //marker.title = marker.googleData.address_components.route
-        component._addLocationToFirebase(marker, component.props.trip.key);
-        component.listenForItems()
+        firebaseFunctions.addLocationToFirebase(marker, component.props.trip.key);
+        // component.listenForItems()
       })
 
     }
@@ -189,7 +162,7 @@ export default class MapAndDetails extends React.Component {
     }
 
     onPressDeleteMarker(marker){
-      this._child.deleteLocationToFirebase(marker, this.props.trip.key)
+      firebaseFunctions.deleteLocationToFirebase(marker, this.props.trip.key)
     }
     onMarkerSelected(item) {
       this.listenForItems();
@@ -218,9 +191,9 @@ export default class MapAndDetails extends React.Component {
       this.setState({isEditingMyTrip:editTripMode})
     }
 
-    saveTrip(trip){
-      this.t._addTripToFireBase(component.state.trip)
-    }
+    // saveTrip(trip){
+    //   this.t._addTripToFireBase(component.state.trip)
+    // }
 
     capture(){
       this.props.navigator.replace({
@@ -238,7 +211,6 @@ export default class MapAndDetails extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <FirebaseFunctions ref={(child) => { this._child = child; }} />
         <GoogleAPI ref={(child) => { this._childGoogleAPI = child; }} />
             <MapScreen
               locations={this.props.locationsArr}

@@ -5,6 +5,8 @@ import * as firebase from 'firebase';
 import Firebase from "./firebase";
 import markerImg from '../assets/map_marker_default.png';
 
+let instance = null;
+
 class FirebaseFunctions2 {
 
   constructor() {
