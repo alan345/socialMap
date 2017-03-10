@@ -16,7 +16,7 @@ import BackToDetailsTripButton from './BackToDetailsTripButton';
 
 export default class DetailsLocation extends Component {
   onPressDeleteMarker(){
-    this.onSetPositionDetails(0)
+    this.props.showDetailsTrip()
     let marker = this.props.selectedMarker;
     this.props.onPressDeleteMarker(marker)
   }

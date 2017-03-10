@@ -13,18 +13,13 @@ import {
   TouchableHighlight
 } from 'react-native';
 import markerImg from '../../assets/map_marker_default.png';
-import MapStyle from "./MapStyle";
+
+import MapScreen from "./mapScreen/MapScreen";
+
 import MapView, {Marker} from 'react-native-maps';
 import * as firebase from 'firebase';
 import Firebase from "../../includes/firebase";
 
-const { width, height } = Dimensions.get('window');
-
-const ASPECT_RATIO = width / height;
-const LATITUDE = 37.78825;
-const LONGITUDE = -122.4324;
-const LATITUDE_DELTA = 0.0922;
-const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 import FirebaseFunctions from "../../includes/FirebaseFunctions";
 import GoogleAPI from '../../includes/GoogleAPI';
@@ -54,16 +49,10 @@ let initSelectedMarker = {
     address_components : {
       neighborhood:''
     },
-    coordinateGoogleAddress : {
-      latitude: LATITUDE,
-      longitude: LONGITUDE,
-    },
+
   },
   coordinates:{},
-  coordinate : {
-    latitude: LATITUDE,
-    longitude: LONGITUDE,
-  },
+
 }
 
 export default class MapAndDetails extends React.Component {
@@ -75,19 +64,13 @@ export default class MapAndDetails extends React.Component {
         key:''
       },
       isEditingMyTrip: false,
-      region: {
-        latitude: LATITUDE,
-        longitude: LONGITUDE,
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA,
-      },
       polylines: [],
       locations: [],
 
       selectedMarker: initSelectedMarker
 
     };
-    this.onLongPressCreateMarker = this.onLongPressCreateMarker.bind(this);
+
     this.changeRegionAnimate = this.changeRegionAnimate.bind(this);
 
   }
@@ -109,6 +92,7 @@ export default class MapAndDetails extends React.Component {
      for(var key in locations){
          var location = locations[key]
          location['key'] = key
+         location['title'] = locations[key].googleData.address_components.neighborhood
          arr.push(location)
      }
      this.setState({
@@ -124,11 +108,7 @@ export default class MapAndDetails extends React.Component {
     }
 
    _addLocationToFirebase(marker, tripId) {
-     if(marker.key) {
-       this._child.updateLocationToFirebase(marker, tripId)
-     } else {
-       this._child.addLocationToFirebase(marker, tripId)
-     }
+       this._child.addOrUpdateLocation(marker, tripId)
    }
 
 
@@ -170,32 +150,12 @@ export default class MapAndDetails extends React.Component {
         marker.key = key
         marker.datePin = Date()
         marker.description = ""
+
       //  marker.userData = component.props.userData
         //marker.title = marker.googleData.address_components.route
-        component._addLocationToFirebase(marker, component.state.trip.key);
+        component._addLocationToFirebase(marker, component.props.trip.key);
         component.listenForItems()
       })
-
-
-
-      const { editing } = this.state;
-      if (!editing) {
-        this.setState({
-          editing: {
-            coordinates: [e.nativeEvent.coordinate],
-          },
-        });
-      } else {
-        this.setState({
-          editing: {
-            ...editing,
-            coordinates: [
-              ...editing.coordinates,
-              e.nativeEvent.coordinate,
-            ],
-          },
-        });
-      }
 
     }
 
@@ -229,7 +189,7 @@ export default class MapAndDetails extends React.Component {
     }
 
     onPressDeleteMarker(marker){
-      this._child.deleteLocationToFirebase(marker, this.state.trip.key)
+      this._child.deleteLocationToFirebase(marker, this.props.trip.key)
     }
     onMarkerSelected(item) {
       this.listenForItems();
@@ -241,7 +201,7 @@ export default class MapAndDetails extends React.Component {
         latitude: item.googleData.coordinateGoogleAddress.latitude,
         longitude: item.googleData.coordinateGoogleAddress.longitude,
       }
-      this.map.animateToRegion(newRegion);
+    //  this.map.animateToRegion(newRegion);
     }
 
     onSelecetLocation(location) {
@@ -251,7 +211,7 @@ export default class MapAndDetails extends React.Component {
     //  this._childDetailsViews.onShowDetails()
     }
     onPressMarker(location){
-      onSelecetLocation(location)
+      this.onSelecetLocation(location)
     }
 
     onEditTripMode(editTripMode = true){
@@ -274,61 +234,19 @@ export default class MapAndDetails extends React.Component {
     }
 
 
+
   render() {
     return (
       <View style={styles.container}>
         <FirebaseFunctions ref={(child) => { this._child = child; }} />
         <GoogleAPI ref={(child) => { this._childGoogleAPI = child; }} />
-
-            <MapView
-              ref={ref => { this.map = ref; }}
+            <MapScreen
+              locations={this.state.locations}
+              onPressMap={this.onPressMap.bind(this)}
               provider={this.props.provider}
-              style={styles.map}
-              initialRegion={this.state.region}
-              showsUserLocation = {true}
-              onLongPress = {this.onLongPressCreateMarker}
-              onPress = {this.onPressMap.bind(this)}
-              customMapStyle={MapStyle}
-            >
-              {this.state.locations.map((location,i) =>{
-                return (
-                  <MapView.Marker
-                    key={location.key}
-                    coordinate={location.coordinates}
-                    onPress={()=>{this.onPressMarker(location)}}
-                    onDragEnd={(e) => {
-                      this.createOrUpdateMarker(e, location);
-                    }}
-
-                    draggable
-                    {... location}
-                    >
-                      <View style={styles.marker}>
-                        <Text style={styles.text}>{location.name}</Text>
-                      </View>
-                  </MapView.Marker>
-                )
-              })}
-
-              {this.state.polylines.map(polyline => (
-                <MapView.Polyline
-                  key={polyline.id}
-                  coordinates={polyline.coordinates}
-                  strokeColor="#F00"
-                  fillColor="rgba(255,0,0,0.5)"
-                  strokeWidth={1}
-                />
-              ))}
-              {this.state.editing &&
-                <MapView.Polyline
-                  key="editingPolyline"
-                  coordinates={this.state.editing.coordinates}
-                  strokeColor="#808080"
-                  fillColor="rgba(255,0,0,0.5)"
-                  strokeWidth={5}
-                />
-              }
-            </MapView>
+              onSelecetLocation={this.onSelecetLocation.bind(this)}
+              onLongPressCreateMarker={this.onLongPressCreateMarker.bind(this)}
+            />
             <BackToTripButton
               goToListTrips={this.goToListTrips.bind(this)}
             />
@@ -389,11 +307,5 @@ const styles = StyleSheet.create({
       ...StyleSheet.absoluteFillObject,
       justifyContent: 'flex-end',
       alignItems: 'center',
-    },
-    marker: {
-      marginTop: 0,
-    },
-    map: {
-     ...StyleSheet.absoluteFillObject,
-    },
+    }
 });

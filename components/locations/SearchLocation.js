@@ -17,7 +17,6 @@ import AutocompleteAddress from "../../includes/AutocompleteAddress";
 import FirebaseFunctions from "../../includes/FirebaseFunctions";
 import GoogleAPI from '../../includes/GoogleAPI';
 
-
 const { width, height } = Dimensions.get('window');
 
 export default class SearchLocation extends Component {
