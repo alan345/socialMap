@@ -5,14 +5,14 @@ import * as firebase from 'firebase';
 import Firebase from "./firebase";
 import markerImg from '../assets/map_marker_default.png';
 
-class FirebaseFunctions extends Component {
+class FirebaseFunctions2 {
 
-  render() {
-    return (
-      <View/>
-    )
+  constructor() {
+      if(!instance){
+            instance = this;
+      }
+      return instance;
   }
-
 
   getRef() {
      return firebase.database().ref();
@@ -166,4 +166,4 @@ class FirebaseFunctions extends Component {
   }
 }
 
-module.exports = FirebaseFunctions;
+module.exports = FirebaseFunctions2;
