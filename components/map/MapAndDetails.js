@@ -92,6 +92,7 @@ export default class MapAndDetails extends React.Component {
      for(var key in locations){
          var location = locations[key]
          location['key'] = key
+         location['title'] = locations[key].googleData.address_components.neighborhood
          arr.push(location)
      }
      this.setState({
