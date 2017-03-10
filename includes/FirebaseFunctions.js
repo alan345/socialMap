@@ -26,7 +26,7 @@ class FirebaseFunctions extends Component {
   getRefTrips() {
      return this.getRef().child('trips');
   }
-  
+
 
   updateOrCreateUserToFirebase(userData) {
     let itemsRef = this.getRefUsers();
@@ -143,11 +143,11 @@ class FirebaseFunctions extends Component {
   }
 
   addOrUpdateLocation(marker, tripId){
-    if(marker.key == ''  ) {
-      console.log(marker, tripId)
+    if(!marker.key ) {
+      //console.log(marker, tripId)
       this.addLocationToFirebase(marker, tripId)
     } else {
-      console.log(marker, tripId)
+    //  console.log(marker, tripId)
       this.updateLocationToFirebase(marker, tripId)
     }
   }

@@ -20,12 +20,6 @@ import MapView, {Marker} from 'react-native-maps';
 import * as firebase from 'firebase';
 import Firebase from "../../includes/firebase";
 
-const { width, height } = Dimensions.get('window');
-const ASPECT_RATIO = width / height;
-const LATITUDE = 37.78825;
-const LONGITUDE = -122.4324;
-const LATITUDE_DELTA = 0.0922;
-const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 import FirebaseFunctions from "../../includes/FirebaseFunctions";
 import GoogleAPI from '../../includes/GoogleAPI';
@@ -55,16 +49,10 @@ let initSelectedMarker = {
     address_components : {
       neighborhood:''
     },
-    coordinateGoogleAddress : {
-      latitude: LATITUDE,
-      longitude: LONGITUDE,
-    },
+
   },
   coordinates:{},
-  coordinate : {
-    latitude: LATITUDE,
-    longitude: LONGITUDE,
-  },
+
 }
 
 export default class MapAndDetails extends React.Component {
@@ -76,12 +64,6 @@ export default class MapAndDetails extends React.Component {
         key:''
       },
       isEditingMyTrip: false,
-      region: {
-        latitude: LATITUDE,
-        longitude: LONGITUDE,
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA,
-      },
       polylines: [],
       locations: [],
 
@@ -125,11 +107,7 @@ export default class MapAndDetails extends React.Component {
     }
 
    _addLocationToFirebase(marker, tripId) {
-     if(marker.key) {
-       this._child.updateLocationToFirebase(marker, tripId)
-     } else {
-       this._child.addLocationToFirebase(marker, tripId)
-     }
+       this._child.addOrUpdateLocation(marker, tripId)
    }
 
 
@@ -177,27 +155,6 @@ export default class MapAndDetails extends React.Component {
         component._addLocationToFirebase(marker, component.props.trip.key);
         component.listenForItems()
       })
-
-
-
-      const { editing } = this.state;
-      if (!editing) {
-        this.setState({
-          editing: {
-            coordinates: [e.nativeEvent.coordinate],
-          },
-        });
-      } else {
-        this.setState({
-          editing: {
-            ...editing,
-            coordinates: [
-              ...editing.coordinates,
-              e.nativeEvent.coordinate,
-            ],
-          },
-        });
-      }
 
     }
 
