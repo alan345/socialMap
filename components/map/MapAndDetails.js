@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 import markerImg from '../../assets/map_marker_default.png';
 
-import MapScreen from "./MapScreen";
+import MapScreen from "./mapScreen/MapScreen";
 
 import MapView, {Marker} from 'react-native-maps';
 import * as firebase from 'firebase';

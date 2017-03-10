@@ -12,10 +12,7 @@ import AutocompleteAddress from "../../includes/AutocompleteAddress";
 import FirebaseFunctions from "../../includes/FirebaseFunctions";
 
 const { width, height } = Dimensions.get('window');
-
 export default class SaveToMyTripsButton extends Component {
-
-
 
   saveToMyTrips(){
     let component = this
