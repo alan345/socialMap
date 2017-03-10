@@ -189,7 +189,7 @@ export default class MapAndDetails extends React.Component {
     }
 
     onPressDeleteMarker(marker){
-      this._child.deleteLocationToFirebase(marker, this.state.trip.key)
+      this._child.deleteLocationToFirebase(marker, this.props.trip.key)
     }
     onMarkerSelected(item) {
       this.listenForItems();

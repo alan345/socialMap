@@ -146,6 +146,7 @@ export default class DetailsViews extends Component {
                     trip={this.props.trip}
                     showDetailsTrip={this.props.showDetailsTrip}
                     selectedMarker={this.props.selectedMarker}
+                    onPressDeleteMarker={this.props.onPressDeleteMarker}
                   />
                 </Animated.View>
             </View>
