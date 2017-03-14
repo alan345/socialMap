@@ -53,8 +53,18 @@ export default class ListTrips extends Component {
 
   componentDidMount() {
     // this.listenForItems();
+
+
+    // @TODO : refactor setState
+    var _this = this;
+    firebaseFunctions.on("trip_changed", function() {
+    	  console.log("on trips changed");
+        _this.setState({
+            dataSource: _this.state.dataSource.cloneWithRows(firebaseFunctions.tripsCache)
+        });
+    });
+
     this.setState({
-        isLoading:false,
         dataSource: this.state.dataSource.cloneWithRows(firebaseFunctions.tripsCache)
     });
   }

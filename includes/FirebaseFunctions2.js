@@ -18,6 +18,8 @@ class FirebaseFunctions2 {
             this.tripsCache = [];
             console.log("initializing FirebaseFunctions");
             this.listenForTrips();
+
+            this.observers = [];
       }
       return instance;
   }
@@ -53,8 +55,28 @@ class FirebaseFunctions2 {
               });
           });
           console.log("listenForTrips", this.tripsCache);
+          this.notify();
       });
   }
+
+
+  // Observer pattern
+  // https://bumbu.github.io/javascript-observer-publish-subscribe-pattern/
+	on(event, observer) {
+    // add event name
+		this.observers.push(observer)
+	}
+
+  off(observer) {
+     // remove listener here
+  }
+
+	notify(message) {
+		  for (var i=0; i<this.observers.length; i++) {
+	         this.observers[i](message)
+     	}
+	}
+
 
   nbLocationsPerTrip(trip) {
     var size = 0, key;
