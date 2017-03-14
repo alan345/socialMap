@@ -132,6 +132,7 @@ class GoogleAPI extends Component {
       })
       .catch((error) => {
         console.error(error);
+        reject(error);
       });
     })
   }

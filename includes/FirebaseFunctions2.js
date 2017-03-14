@@ -7,11 +7,17 @@ import markerImg from '../assets/map_marker_default.png';
 
 let instance = null;
 
+/* Singleton service to hold FireBase functions and listeners */
 class FirebaseFunctions2 {
 
   constructor() {
       if(!instance){
             instance = this;
+
+            // Called once.
+            this.tripsCache = [];
+            console.log("initializing FirebaseFunctions");
+            this.listenForTrips();
       }
       return instance;
   }
@@ -27,6 +33,45 @@ class FirebaseFunctions2 {
   }
   getRefTrips() {
      return this.getRef().child('trips');
+  }
+
+  // Listener for Trips.
+  listenForTrips() {
+      this.getRef().child('trips').on('value', (snap) => {
+          this.tripsCache = [];
+          snap.forEach((child) => {
+              this.tripsCache.push({
+                title: child.val().title,
+                googleData: child.val().googleData,
+                image: child.val().image,
+                city: child.val().city,
+                locations:child.val().locations,
+                userData: child.val().userData,
+                nbLocationsPerTrip: this.nbLocationsPerTrip(child.val()),
+                isMyTrip: false, // @TODO : need fix
+                key: child.key,
+              });
+          });
+          console.log("listenForTrips", this.tripsCache);
+      });
+  }
+
+  nbLocationsPerTrip(trip) {
+    var size = 0, key;
+    for (key in trip.locations) {
+        if (trip.locations.hasOwnProperty(key)) size++;
+    }
+    return size;
+  }
+
+  isMyTrip(trip){
+    let isMyTrip = false;
+    if(trip.userData.id === this.props.userData.profile.id) {
+      isMyTrip = true;
+    } else {
+      isMyTrip = false;
+    }
+    return isMyTrip
   }
 
 

@@ -16,11 +16,11 @@ import Firebase from "../../../includes/firebase";
 import RowTrip from './RowTrip';
 import AddTrip from '../AddTrip';
 import AddTripButton from '../AddTripButton';
-
 import ShowLoading from '../../ShowLoading';
-
-
+import FirebaseFunctions2 from "../../../includes/FirebaseFunctions2";
 import AutocompleteAddress from "../../../includes/AutocompleteAddress";
+
+var firebaseFunctions = new FirebaseFunctions2();
 
 const { width, height } = Dimensions.get('window');
 const heightSearchTopMenuOpen = height / 2.5
@@ -51,6 +51,19 @@ export default class ListTrips extends Component {
   }
 
 
+  componentDidMount() {
+    // this.listenForItems();
+    this.setState({
+        isLoading:false,
+        dataSource: this.state.dataSource.cloneWithRows(firebaseFunctions.tripsCache)
+    });
+  }
+
+  componentWillUnmount() {
+   // unregister a listener at this FB location
+   // this.getRef().child('trips').off();
+  }
+
   getRef() {
      return firebase.database().ref();
   }
@@ -63,27 +76,30 @@ export default class ListTrips extends Component {
     this.setState({showAddTrip:false})
   }
 
-  nbLocationsPerTrip(trip) {
-    var size = 0, key;
-    for (key in trip.locations) {
-        if (trip.locations.hasOwnProperty(key)) size++;
-    }
-    return size;
-  }
 
-  isMyTrip(trip){
-    let isMyTrip = false;
-    if(trip.userData.id === this.props.userData.profile.id) {
-      isMyTrip = true;
-    } else {
-      isMyTrip = false;
-    }
-    return isMyTrip
-  }
+  // nbLocationsPerTrip(trip) {
+  //   var size = 0, key;
+  //   for (key in trip.locations) {
+  //       if (trip.locations.hasOwnProperty(key)) size++;
+  //   }
+  //   return size;
+  // }
+  //
+  // isMyTrip(trip){
+  //   let isMyTrip = false;
+  //   if(trip.userData.id === this.props.userData.profile.id) {
+  //     isMyTrip = true;
+  //   } else {
+  //     isMyTrip = false;
+  //   }
+  //   return isMyTrip
+  // }
 
 
 
   listenForItems() {
+
+    /*
     let querySearch
     if(this.state.search.city) {
       querySearch = this.getRef().child('trips').orderByChild("googleData/address").equalTo(this.state.search.city)
@@ -105,12 +121,17 @@ export default class ListTrips extends Component {
            key: child.key,
          });
        });
+       */
 
-       this.setState({
-         isLoading:false,
-         dataSource: this.state.dataSource.cloneWithRows(items)
-       });
-   });
+       //
+      //  this.setState({
+      //      isLoading:false,
+      //      dataSource: _this.state.dataSource.cloneWithRows(items)
+      //   });
+
+
+
+  // });
   }
 
 
@@ -160,14 +181,6 @@ export default class ListTrips extends Component {
       />
     );
   }
-
-  componentDidMount() {
-    this.listenForItems();
-  }
-
-  componentWillUnmount() {
-   this.getRef().child('trips').off();
- }
 
   _onChangeText(description) {
     this.setState({
