@@ -55,28 +55,51 @@ class FirebaseFunctions2 {
               });
           });
           console.log("listenForTrips", this.tripsCache);
-          this.notify();
+          this.notifyObservers("trip_changed", null);
       });
   }
 
 
-  // Observer pattern
-  // https://bumbu.github.io/javascript-observer-publish-subscribe-pattern/
-	on(event, observer) {
-    // add event name
-		this.observers.push(observer)
-	}
+/*
+* Observer pattern
+* See https://bumbu.github.io/javascript-observer-publish-subscribe-pattern/
+*/
 
-  off(observer) {
-     // remove listener here
+  addObserver(topic, observer) {
+      this.observers[topic] || (this.observers[topic] = [])
+      this.observers[topic].push(observer)
   }
 
-	notify(message) {
-		  for (var i=0; i<this.observers.length; i++) {
-	         this.observers[i](message)
-     	}
-	}
+  removeObserver(topic, observer) {
 
+      if (!this.observers[topic])
+        return;
+
+      /*
+      var index = this.observers[topic].indexOf(observer)
+
+      console.log("removeObserver", this.observers, observer, index)
+
+      if (~index) {
+        this.observers[topic].splice(index, 1)
+      }
+
+      */
+
+      // @todo: Not really correct because it removes all observers from a topic
+      delete this.observers[topic];
+  }
+
+  notifyObservers(topic, message) {
+      if (!this.observers[topic])
+        return;
+
+      for (var i = this.observers[topic].length - 1; i >= 0; i--) {
+        this.observers[topic][i](message)
+      };
+    }
+
+//----------------------------------------------------------------------------
 
   nbLocationsPerTrip(trip) {
     var size = 0, key;

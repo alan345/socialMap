@@ -54,24 +54,21 @@ export default class ListTrips extends Component {
   componentDidMount() {
     // this.listenForItems();
 
+    let _this = this;
+    _this.updateListDataSource(_this);
+    firebaseFunctions.addObserver('trip_changed', _this.updateListDataSource.bind(_this));
 
-    // @TODO : refactor setState
-    var _this = this;
-    firebaseFunctions.on("trip_changed", function() {
-    	  console.log("on trips changed");
-        _this.setState({
-            dataSource: _this.state.dataSource.cloneWithRows(firebaseFunctions.tripsCache)
-        });
-    });
-
-    this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(firebaseFunctions.tripsCache)
-    });
   }
 
   componentWillUnmount() {
-   // unregister a listener at this FB location
-   // this.getRef().child('trips').off();
+      let _this = this;
+      firebaseFunctions.removeObserver('trip_changed')
+  }
+
+  updateListDataSource() {
+      this.setState({
+          dataSource: this.state.dataSource.cloneWithRows(firebaseFunctions.tripsCache)
+      });
   }
 
   getRef() {
