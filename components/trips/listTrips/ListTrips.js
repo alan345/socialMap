@@ -54,21 +54,25 @@ export default class ListTrips extends Component {
   componentDidMount() {
     // this.listenForItems();
 
-    let _this = this;
-    _this.updateListDataSource(_this);
-    firebaseFunctions.addObserver('trip_changed', _this.updateListDataSource.bind(_this));
+    // let _this = this;
+    // _this.updateListDataSource(_this);
+    // firebaseFunctions.addObserver('trip_changed', _this.updateListDataSource.bind(_this));
+    //
+    this.setState({
+        dataSource: this.state.dataSource.cloneWithRows(this.props.trips)
+    });
 
   }
 
   componentWillUnmount() {
-      let _this = this;
-      firebaseFunctions.removeObserver('trip_changed')
+      // let _this = this;
+      // firebaseFunctions.removeObserver('trip_changed')
   }
 
   updateListDataSource() {
-      this.setState({
-          dataSource: this.state.dataSource.cloneWithRows(firebaseFunctions.tripsCache)
-      });
+      // this.setState({
+      //     dataSource: this.state.dataSource.cloneWithRows(firebaseFunctions.tripsCache)
+      // });
   }
 
   getRef() {
@@ -162,10 +166,16 @@ export default class ListTrips extends Component {
 
 
   onSelecetTrip(trip){
-    this.props.onSelecetTrip(trip)
-    this.props.navigator.replace({
-        name: 'mapTrip'
-    });
+    // console.log("trip", trip)
+    this.props.navigation.navigate('MapAndDetailsScreen')
+
+    // this.props.onSelecetTrip(trip)
+    // this.props.navigator.push({
+    //     name: 'mapTrip',
+    //     passProps: {
+    //        tripId: trip.key
+    //     }
+    // });
 
   }
 

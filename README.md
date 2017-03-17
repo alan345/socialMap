@@ -11,3 +11,7 @@
 ### CODING STYLE
 
 Follow  http://standardjs.com/
+
+### DEBUGGING
+
+Use https://github.com/jhen0409/react-native-debugger for better performance when debugging.

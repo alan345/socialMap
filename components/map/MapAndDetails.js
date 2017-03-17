@@ -13,15 +13,9 @@ import {
   TouchableHighlight
 } from 'react-native';
 import markerImg from '../../assets/map_marker_default.png';
-
 import MapScreen from "./mapScreen/MapScreen";
-
 import MapView, {Marker} from 'react-native-maps';
-import * as firebase from 'firebase';
-import Firebase from "../../includes/firebase";
-
 import FirebaseFunctions2 from "../../includes/FirebaseFunctions2";
-
 import GoogleAPI from '../../includes/GoogleAPI';
 
 
@@ -34,7 +28,6 @@ import TakePictureButton from '../locations/TakePictureButton';
 import SearchLocation from '../locations/SearchLocation';
 import SaveToMyTripsButton from '../trips/SaveToMyTripsButton';
 import EditMyTripButton from '../trips/EditMyTripButton';
-
 
 import ShowTripTitle from '../trips/ShowTripTitle';
 
@@ -59,23 +52,26 @@ let initSelectedMarker = {
 
 export default class MapAndDetails extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      trip : {
-        key:''
-      },
-      isEditingMyTrip: false,
-      polylines: [],
-      locations: [],
+    constructor(props) {
+      super(props);
+      this.state = {
+        trip : {
+          key:''
+        },
+        isEditingMyTrip: false,
+        polylines: [],
+        locations: [],
 
-      selectedMarker: initSelectedMarker
+        selectedMarker: initSelectedMarker
 
-    };
+      };
 
-    this.changeRegionAnimate = this.changeRegionAnimate.bind(this);
+      this.changeRegionAnimate = this.changeRegionAnimate.bind(this);
+    }
 
-  }
+    componentDidMount() {
+    }
+
 
     _updateLocationToFirebase(marker, tripId) {
       firebaseFunctions.updateLocationToFirebase(marker, tripId)
@@ -201,9 +197,11 @@ export default class MapAndDetails extends React.Component {
       });
     }
     goToListTrips(){
-      this.props.navigator.replace({
-          name: 'listTrips'
-      });
+      // this.props.navigator.replace({
+      //     name: 'listTrips'
+      // });
+      // this.props.navigator.pop();
+      this.props.navigation.goBack()
     }
 
 
@@ -213,7 +211,7 @@ export default class MapAndDetails extends React.Component {
       <View style={styles.container}>
         <GoogleAPI ref={(child) => { this._childGoogleAPI = child; }} />
             <MapScreen
-              locations={this.props.locationsArr}
+              locations={this.props.trip.locations}
               onPressMap={this.onPressMap.bind(this)}
               provider={this.props.provider}
               onSelecetLocation={this.onSelecetLocation.bind(this)}
