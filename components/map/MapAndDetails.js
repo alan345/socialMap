@@ -69,10 +69,6 @@ export default class MapAndDetails extends React.Component {
       this.changeRegionAnimate = this.changeRegionAnimate.bind(this);
     }
 
-    componentDidMount() {
-    }
-
-
     _updateLocationToFirebase(marker, tripId) {
       firebaseFunctions.updateLocationToFirebase(marker, tripId)
     }
@@ -197,21 +193,19 @@ export default class MapAndDetails extends React.Component {
       });
     }
     goToListTrips(){
-      // this.props.navigator.replace({
-      //     name: 'listTrips'
-      // });
-      // this.props.navigator.pop();
       this.props.navigation.goBack()
     }
 
 
 
   render() {
+    const { params } = this.props.navigation.state;
     return (
+
       <View style={styles.container}>
         <GoogleAPI ref={(child) => { this._childGoogleAPI = child; }} />
             <MapScreen
-              locations={this.props.trip.locations}
+              locations={params.trip.locations}
               onPressMap={this.onPressMap.bind(this)}
               provider={this.props.provider}
               onSelecetLocation={this.onSelecetLocation.bind(this)}

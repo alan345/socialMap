@@ -167,7 +167,7 @@ export default class ListTrips extends Component {
 
   onSelecetTrip(trip){
     // console.log("trip", trip)
-    this.props.navigation.navigate('MapAndDetailsScreen')
+    this.props.navigation.navigate('MapAndDetailsScreen', { trip: trip})
 
     // this.props.onSelecetTrip(trip)
     // this.props.navigator.push({

@@ -21,7 +21,7 @@ export default class App extends React.Component {
 
         this.state = {
             trips: ['sd'],
-            trips: {}
+            trip: {}
         }
     }
 
@@ -41,7 +41,7 @@ export default class App extends React.Component {
                   key: child.key,
                 })
             })
-            // console.log('trips', trips)
+            console.log('trips updated')
             this.setState({trips: trips})
         })
     }
@@ -99,6 +99,7 @@ class MapAndDetailsScreen extends React.Component {
   componentDidMount() {
     //  console.log("LoginPage screenProps", this.props.screenProps);
   }
+
   render() {
     return (
       <MapAndDetails navigation={this.props.navigation} trip={this.props.screenProps.trips[0]}/>
