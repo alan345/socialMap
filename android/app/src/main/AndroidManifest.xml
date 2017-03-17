@@ -35,6 +35,9 @@
         android:name="com.google.android.geo.API_KEY"
         android:value="AIzaSyD5XIg7r0qMQ-ohBDf9YcUbmwYaMPQdMO0"/>
 
+      <meta-data android:name="com.bugsnag.android.API_KEY"
+           android:value="36e287946af73ca39d228e2193c513a3"/>
+
 
       <!--add FacebookActivity-->
        <activity tools:replace="android:theme"

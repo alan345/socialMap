@@ -12,7 +12,9 @@ import ListTrips from './trips/listTrips/ListTrips';
 import FBLoginView from './FBLoginView';
 import FirebaseFunctions2 from "../includes/FirebaseFunctions2";
 const firebaseFunctions = new FirebaseFunctions2();
-
+import { Client, Configuration } from "bugsnag-react-native";
+const configuration = new Configuration(),
+      client = new Client(configuration);
 
 
 export default class App extends React.Component {
@@ -23,6 +25,8 @@ export default class App extends React.Component {
             trips: ['sd'],
             trip: {}
         }
+
+        client.notify(new Error("Test Error"));
     }
 
     componentDidMount() {
