@@ -152,7 +152,7 @@ export default class MapAndDetails extends React.Component {
     }
 
     onPressDeleteMarker(marker){
-      firebaseFunctions.deleteLocationToFirebase(marker, params.trip.key)
+      firebaseFunctions.deleteLocationToFirebase(marker, this.props.trip.key)
     }
     onMarkerSelected(item) {
       this.listenForItems();
@@ -166,7 +166,6 @@ export default class MapAndDetails extends React.Component {
       }
     //  this.map.animateToRegion(newRegion);
     }
-
 
     onSelecetLocation(location) {
       this.setState({
@@ -217,7 +216,7 @@ export default class MapAndDetails extends React.Component {
               isLoading={this.state.isLoading}
             />
             <ShowTripTitle
-              trip={params.trip}
+              trip={this.props.trip}
               isEditingMyTrip={this.state.isEditingMyTrip}
             />
 
@@ -237,7 +236,7 @@ export default class MapAndDetails extends React.Component {
             />
             <DetailsViews
               selectedMarker={this.state.selectedMarker}
-              trip={params.trip}
+              trip={this.props.trip}
               isEditingMyTrip={this.state.isEditingMyTrip}
               showDetailsTrip={this.showDetailsTrip.bind(this)}
               onMarkerSelected={this.onMarkerSelected.bind(this)}

@@ -27,6 +27,16 @@ export default class App extends React.Component {
         }
     }
 
+    isMyTrip(trip){
+      let isMyTrip = false;
+      if(trip.userData.id === this.props.userData.profile.id) {
+        isMyTrip = true;
+      } else {
+        isMyTrip = false;
+      }
+      return isMyTrip
+    }
+
     componentDidMount() {
         firebaseFunctions.getRef().child('trips').on('value', (snap) => {
             let trips = [];
@@ -84,9 +94,10 @@ class ListTripsScreen extends React.Component {
   componentDidMount() {
     //  console.log("LoginPage screenProps", this.props.screenProps);
   }
+  
   render() {
     return (
-      <ListTrips navigation={this.props.navigation} trips={this.props.screenProps.trips}/>
+      <ListTrips navigation={this.props.navigation} trips={this.state.trips}/>
     )
   }
 }
