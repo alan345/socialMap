@@ -29,6 +29,7 @@ export default class DetailsViews extends Component {
     };
 
 
+
     this.panResponder = PanResponder.create({
          onStartShouldSetPanResponder    : () => true,
          onPanResponderMove              : Animated.event([null,{
@@ -74,8 +75,11 @@ export default class DetailsViews extends Component {
           this.onSetPositionDetails(1)
       }
 
+      componentDidMount() {
+        this.onSetPositionDetails(2)
+      }
 
-
+      
       onSetPositionDetails(position) {
         this.setState({position:position})
         let yPosition = 0
@@ -129,6 +133,7 @@ export default class DetailsViews extends Component {
         if(!this.props.trip.key)
           return null
 
+
           return (
             <View style={styles.draggableContainer}>
 
@@ -136,6 +141,7 @@ export default class DetailsViews extends Component {
                   {...this.panResponder.panHandlers}
                   style={[this.state.pan.getLayout(), styles.detailsList]}
                 >
+
                   <DetailsTrip
                     selectedMarker={this.props.selectedMarker}
                     trip={this.props.trip}
