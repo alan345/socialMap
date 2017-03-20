@@ -26,8 +26,6 @@ import BackToTripButton from './BackToTripButton';
 
 import TakePictureButton from '../locations/TakePictureButton';
 import SearchLocation from '../locations/SearchLocation';
-import SaveToMyTripsButton from '../trips/SaveToMyTripsButton';
-import EditMyTripButton from '../trips/EditMyTripButton';
 
 import ShowTripTitle from '../trips/ShowTripTitle';
 
@@ -221,19 +219,7 @@ export default class MapAndDetails extends React.Component {
               trip={this.props.trip}
               isEditingMyTrip={this.state.isEditingMyTrip}
             />
-            <SaveToMyTripsButton
-              trip={this.props.trip}
-              isEditingMyTrip={this.state.isEditingMyTrip}
-              onEditTripMode={this.onEditTripMode.bind(this)}
-              userData={this.props.userData}
-              onSelecetTrip={this.onSelecetTrip.bind(this)}
-            />
-            <EditMyTripButton
-              trip={this.props.trip}
-              isEditingMyTrip={this.state.isEditingMyTrip}
-              onEditTripMode={this.onEditTripMode.bind(this)}
-              userData={this.props.userData}
-            />
+
             <SearchLocation
               trip={this.state.trip}
               isEditingMyTrip={this.state.isEditingMyTrip}
@@ -251,10 +237,15 @@ export default class MapAndDetails extends React.Component {
             <DetailsViews
               selectedMarker={this.state.selectedMarker}
               trip={this.props.trip}
+              isEditingMyTrip={this.state.isEditingMyTrip}
               showDetailsTrip={this.showDetailsTrip.bind(this)}
               onMarkerSelected={this.onMarkerSelected.bind(this)}
               onSelecetLocation={this.onSelecetLocation.bind(this)}
               onPressDeleteMarker={this.onPressDeleteMarker.bind(this)}
+              onEditTripMode={this.onEditTripMode.bind(this)}
+              onSelecetTrip={this.onSelecetTrip.bind(this)}
+
+
               changeRegionAnimate={this.changeRegionAnimate}
               ref={(child) => { this._childDetailsViews = child; }}
             />
