@@ -25,6 +25,9 @@
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		AC922669B351476FA351E5A2 /* libAirMaps.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 33C05A19CAE6489685F382CD /* libAirMaps.a */; };
 		C3BA61B6287D46578E8AC164 /* libRCTCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 377138F69E194F90AD87E6F7 /* libRCTCamera.a */; };
+		98BEEF4786E24D7C84E6DE05 /* libBugsnagReactNative.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D0E24F263F184954B8C954AF /* libBugsnagReactNative.a */; };
+		2682317F460E44D68ECDBDDC /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E35DD3E80634FE692EA7CD9 /* libz.tbd */; };
+		0DA7270E0AC7475FA2FC9122 /* libRCTFBLogin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F554600B72448A4942553DA /* libRCTFBLogin.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -246,6 +249,11 @@
 		87C3CF6DAA424565B3B9514C /* AirMaps.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = AirMaps.xcodeproj; path = "../node_modules/react-native-maps/ios/AirMaps.xcodeproj"; sourceTree = "<group>"; };
 		DD5FBDDE0DF54BB3885AAC14 /* RCTCamera.xcodeproj */ = {isa = PBXFileReference; name = "RCTCamera.xcodeproj"; path = "../node_modules/react-native-camera/ios/RCTCamera.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		377138F69E194F90AD87E6F7 /* libRCTCamera.a */ = {isa = PBXFileReference; name = "libRCTCamera.a"; path = "libRCTCamera.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		D9B824DC1A14452392B1FBB9 /* BugsnagReactNative.xcodeproj */ = {isa = PBXFileReference; name = "BugsnagReactNative.xcodeproj"; path = "../node_modules/bugsnag-react-native/cocoa/BugsnagReactNative.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		D0E24F263F184954B8C954AF /* libBugsnagReactNative.a */ = {isa = PBXFileReference; name = "libBugsnagReactNative.a"; path = "libBugsnagReactNative.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		6E35DD3E80634FE692EA7CD9 /* libz.tbd */ = {isa = PBXFileReference; name = "libz.tbd"; path = "usr/lib/libz.tbd"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = sourcecode.text-based-dylib-definition; explicitFileType = undefined; includeInIndex = 0; };
+		8AE1B1873B3049DCA7D9D314 /* RCTFBLogin.xcodeproj */ = {isa = PBXFileReference; name = "RCTFBLogin.xcodeproj"; path = "../node_modules/react-native-facebook-login/RCTFBLogin.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		5F554600B72448A4942553DA /* libRCTFBLogin.a */ = {isa = PBXFileReference; name = "libRCTFBLogin.a"; path = "libRCTFBLogin.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -274,6 +282,9 @@
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				AC922669B351476FA351E5A2 /* libAirMaps.a in Frameworks */,
 				C3BA61B6287D46578E8AC164 /* libRCTCamera.a in Frameworks */,
+				98BEEF4786E24D7C84E6DE05 /* libBugsnagReactNative.a in Frameworks */,
+				2682317F460E44D68ECDBDDC /* libz.tbd in Frameworks */,
+				0DA7270E0AC7475FA2FC9122 /* libRCTFBLogin.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -420,6 +431,8 @@
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
 				87C3CF6DAA424565B3B9514C /* AirMaps.xcodeproj */,
 				DD5FBDDE0DF54BB3885AAC14 /* RCTCamera.xcodeproj */,
+				D9B824DC1A14452392B1FBB9 /* BugsnagReactNative.xcodeproj */,
+				8AE1B1873B3049DCA7D9D314 /* RCTFBLogin.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -440,6 +453,7 @@
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* socialMapTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
+				60DB53CF5C734B39AFAEC310 /* Frameworks */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -460,6 +474,15 @@
 				E7FDA0F61E3BC9D1003C3C43 /* libAirMaps.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		60DB53CF5C734B39AFAEC310 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6E35DD3E80634FE692EA7CD9 /* libz.tbd */,
+			);
+			name = Frameworks;
+			path = "";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -862,6 +885,8 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/socialMap.app/socialMap";
@@ -878,6 +903,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);

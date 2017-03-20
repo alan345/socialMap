@@ -1,6 +1,8 @@
 package com.socialmap;
-
+import com.bugsnag.BugsnagReactNative;
 import com.facebook.react.ReactActivity;
+import android.os.Bundle;
+
 
 public class MainActivity extends ReactActivity {
 
@@ -11,5 +13,11 @@ public class MainActivity extends ReactActivity {
     @Override
     protected String getMainComponentName() {
         return "socialMap";
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+       super.onCreate(savedInstanceState);
+       BugsnagReactNative.start(this);
     }
 }

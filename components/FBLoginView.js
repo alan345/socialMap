@@ -53,9 +53,11 @@ class FBLoginView extends Component {
 
 
   goToNextScreen(){
-    this.props.navigator.replace({
-        name: 'listTrips'
-    });
+    // this.props.navigator.replace({
+    //     name: 'listTrips'
+    // });
+
+    this.props.navigation.navigate('ListTripsScreen');
   }
 
   onLoginFunction(userData) {
@@ -93,7 +95,7 @@ class FBLoginView extends Component {
           }}
           onPermissionsMissing={function(data){
             console.log("Check permissions!");
-            console.log(data);
+            // console.log(data);
           }}
         />
       </View>

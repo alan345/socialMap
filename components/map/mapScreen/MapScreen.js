@@ -55,15 +55,24 @@ export default class MapScreen extends Component {
         longitudeDelta: LONGITUDE_DELTA,
       },
       polylines: [],
-      locations: [],
+      locationsArr: [],
 
       selectedMarker: initSelectedMarker
 
     };
-
   }
 
-
+  componentDidMount() {
+    let locations = this.props.locations
+    locationsArr = []
+    for(var key in locations){
+        var location = locations[key]
+        location['key'] = key
+        location['title'] = locations[key].googleData.address_components.neighborhood
+        locationsArr.push(location)
+    }
+    this.setState({locationsArr: locationsArr})
+  }
 
 
   render() {
@@ -82,7 +91,7 @@ export default class MapScreen extends Component {
         >
 
 
-          {this.props.locations.map((location,i) =>{
+          {this.state.locationsArr.map((location,i) =>{
             return (
               <MapView.Marker
                 key={location.key}

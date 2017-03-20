@@ -7,11 +7,18 @@ import markerImg from '../assets/map_marker_default.png';
 
 let instance = null;
 
+/* Singleton service to hold FireBase functions and listeners */
 class FirebaseFunctions2 {
 
   constructor() {
       if(!instance){
             instance = this;
+
+            // Called once.
+            this.tripsCache = [];
+            console.log("initializing FirebaseFunctions");
+            this.listenForTrips();
+            this.observers = [];
       }
       return instance;
   }
@@ -27,6 +34,45 @@ class FirebaseFunctions2 {
   }
   getRefTrips() {
      return this.getRef().child('trips');
+  }
+
+  // Listener for Trips.
+  listenForTrips() {
+      this.getRef().child('trips').on('value', (snap) => {
+          this.tripsCache = [];
+          snap.forEach((child) => {
+              this.tripsCache.push({
+                title: child.val().title,
+                googleData: child.val().googleData,
+                image: child.val().image,
+                city: child.val().city,
+                locations:child.val().locations,
+                userData: child.val().userData,
+                nbLocationsPerTrip: this.nbLocationsPerTrip(child.val()),
+                isMyTrip: false, // @TODO : need fix
+                key: child.key,
+              });
+          });
+          this.notifyObservers("trip_changed", null);
+      });
+  }
+
+  nbLocationsPerTrip(trip) {
+    var size = 0, key;
+    for (key in trip.locations) {
+        if (trip.locations.hasOwnProperty(key)) size++;
+    }
+    return size;
+  }
+
+  isMyTrip(trip){
+    let isMyTrip = false;
+    if(trip.userData.id === this.props.userData.profile.id) {
+      isMyTrip = true;
+    } else {
+      isMyTrip = false;
+    }
+    return isMyTrip
   }
 
 
@@ -166,6 +212,49 @@ class FirebaseFunctions2 {
       datePin: Date(),
     });
   }
+
+
+/*
+* Observer pattern
+* See https://bumbu.github.io/javascript-observer-publish-subscribe-pattern/
+*/
+
+  addObserver(topic, observer) {
+      this.observers[topic] || (this.observers[topic] = [])
+      this.observers[topic].push(observer)
+  }
+
+  removeObserver(topic, observer) {
+
+      if (!this.observers[topic])
+        return;
+
+      /*
+      var index = this.observers[topic].indexOf(observer)
+
+      console.log("removeObserver", this.observers, observer, index)
+
+      if (~index) {
+        this.observers[topic].splice(index, 1)
+      }
+
+      */
+
+      // @todo: Not really correct because it removes all observers from a topic
+      delete this.observers[topic];
+  }
+
+  notifyObservers(topic, message) {
+      if (!this.observers[topic])
+        return;
+
+      for (var i = this.observers[topic].length - 1; i >= 0; i--) {
+        this.observers[topic][i](message)
+      };
+  }
+
+//----------------------------------------------------------------------------
+
 }
 
 module.exports = FirebaseFunctions2;
