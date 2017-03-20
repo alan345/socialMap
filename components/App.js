@@ -22,11 +22,9 @@ export default class App extends React.Component {
         super();
 
         this.state = {
-            trips: ['sd'],
+            trips: [],
             trip: {}
         }
-
-        client.notify(new Error("Test Error"));
     }
 
     componentDidMount() {
