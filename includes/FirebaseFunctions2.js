@@ -49,7 +49,7 @@ class FirebaseFunctions2 {
                 locations:child.val().locations,
                 userData: child.val().userData,
                 nbLocationsPerTrip: this.nbLocationsPerTrip(child.val()),
-                isMyTrip: false, // @TODO : need fix
+                isMyTrip: false, // this.isMyTrip(child.val()),
                 key: child.key,
               });
           });

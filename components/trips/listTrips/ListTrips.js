@@ -28,7 +28,11 @@ const heightSearchTopMenuClose = 60
 
 export default class ListTrips extends Component {
   constructor(props) {
-    super(props);
+    super(props)
+
+    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+
+
     this.state = {
       styleHeight :{
         height:heightSearchTopMenuOpen
@@ -39,40 +43,41 @@ export default class ListTrips extends Component {
         city:'',
       },
       trip:{},
-      dataSource: new ListView.DataSource({
-        rowHasChanged: (row1, row2) => row1 !== row2,
-      })
-    };
-    // http://stackoverflow.com/questions/35345338/react-setstate-can-only-update-a-mounted-or-mounting-component#35345455
-    // this.onSelecetTrip = this.onSelecetTrip.bind(this);
-    //this.listenForItems = this.listenForItems.bind(this);
-
-    this.itemsRef = this.getRef().child('trips');
+      dataSource: ds.cloneWithRows([])
+      // dataSource: ds.cloneWithRows(this.props.trips)
+    }
   }
 
 
   componentDidMount() {
-    // this.listenForItems();
+    let _this = this;
+    _this.updateListDataSource(_this);
+    firebaseFunctions.addObserver('trip_changed', _this.updateListDataSource.bind(_this));
 
-    // let _this = this;
-    // _this.updateListDataSource(_this);
-    // firebaseFunctions.addObserver('trip_changed', _this.updateListDataSource.bind(_this));
-    //
-    this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(this.props.trips)
-    });
+    // this.setState({
+    //     dataSource: this.state.dataSource.cloneWithRows(this.props.trips)
+    // })
 
   }
 
   componentWillUnmount() {
-      // let _this = this;
-      // firebaseFunctions.removeObserver('trip_changed')
+
+  }
+
+  componentDidUpdate() {
+      console.log("did updated", this.props.trips)
+      // this.setState({
+      //     dataSource: ds.cloneWithRows(this.props.trips)
+      // });
+      // this.setState(state => ({
+      //     dataSource: this.state.dataSource.cloneWithRows(this.props.trips)
+      // }))
   }
 
   updateListDataSource() {
-      // this.setState({
-      //     dataSource: this.state.dataSource.cloneWithRows(firebaseFunctions.tripsCache)
-      // });
+      this.setState({
+          dataSource: this.state.dataSource.cloneWithRows(firebaseFunctions.tripsCache)
+      });
   }
 
   getRef() {
@@ -168,15 +173,6 @@ export default class ListTrips extends Component {
   onSelecetTrip(trip){
     // console.log("trip", trip)
     this.props.navigation.navigate('MapAndDetailsScreen', { trip: trip})
-
-    // this.props.onSelecetTrip(trip)
-    // this.props.navigator.push({
-    //     name: 'mapTrip',
-    //     passProps: {
-    //        tripId: trip.key
-    //     }
-    // });
-
   }
 
   onEditTrip(item){
@@ -213,6 +209,7 @@ export default class ListTrips extends Component {
   render() {
     return (
       <View style={styles.container}>
+          <Text>{this.props.trips[0].title}</Text>
           <AddTrip
             userData={this.props.userData}
             showAddTrip={this.state.showAddTrip}
