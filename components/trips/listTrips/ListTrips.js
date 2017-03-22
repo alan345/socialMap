@@ -43,41 +43,38 @@ export default class ListTrips extends Component {
         city:'',
       },
       trip:{},
-      dataSource: ds.cloneWithRows([])
+      trips: this.props.trips,
+      dataSource: ds.cloneWithRows(this.props.trips)
       // dataSource: ds.cloneWithRows(this.props.trips)
     }
   }
 
 
   componentDidMount() {
-    let _this = this;
-    _this.updateListDataSource(_this);
-    firebaseFunctions.addObserver('trip_changed', _this.updateListDataSource.bind(_this));
+      let _this = this;
+      _this.updateListDataSource(_this);
+      firebaseFunctions.addObserver('trips_changed', _this.updateListDataSource.bind(_this));
 
-    // this.setState({
-    //     dataSource: this.state.dataSource.cloneWithRows(this.props.trips)
-    // })
-
+      // this.setState({
+      //     dataSource: this.state.dataSource.cloneWithRows(this.props.trips)
+      // })
   }
 
-  componentWillUnmount() {
-
-  }
+  // componentWillReceiveProps() {
+  //     console.log('trips', this.props.trips)
+  //     this.setState({
+  //         dataSource: this.state.dataSource.cloneWithRows(this.props.trips)
+  //     })
+  // }
 
   componentDidUpdate() {
-      console.log("did updated", this.props.trips)
-      // this.setState({
-      //     dataSource: ds.cloneWithRows(this.props.trips)
-      // });
-      // this.setState(state => ({
-      //     dataSource: this.state.dataSource.cloneWithRows(this.props.trips)
-      // }))
+      // console.log("did updated", this.props.trips)
   }
 
   updateListDataSource() {
       this.setState({
           dataSource: this.state.dataSource.cloneWithRows(firebaseFunctions.tripsCache)
-      });
+      })
   }
 
   getRef() {
@@ -171,8 +168,8 @@ export default class ListTrips extends Component {
 
 
   onSelecetTrip(trip){
-    // console.log("trip", trip)
-    this.props.navigation.navigate('MapAndDetailsScreen', { trip: trip})
+    console.log("ListTrip trip", trip)
+    this.props.navigation.navigate('MapAndDetailsScreen', { trip: trip })
   }
 
   onEditTrip(item){
@@ -209,7 +206,6 @@ export default class ListTrips extends Component {
   render() {
     return (
       <View style={styles.container}>
-          <Text>{this.props.trips[0].title}</Text>
           <AddTrip
             userData={this.props.userData}
             showAddTrip={this.state.showAddTrip}

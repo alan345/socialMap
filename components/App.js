@@ -43,7 +43,7 @@ export default class App extends React.Component {
                   key: child.key,
                 })
             })
-            console.log('trips updated')
+            console.log('trips updated', trips)
             this.setState({trips: trips})
         })
     }

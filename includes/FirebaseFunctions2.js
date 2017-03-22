@@ -15,31 +15,36 @@ class FirebaseFunctions2 {
             instance = this;
 
             // Called once.
-            this.tripsCache = [];
-            console.log("initializing FirebaseFunctions");
-            this.listenForTrips();
-            this.observers = [];
+            this.tripsCache = []
+            this.currentTrip = {}
+            console.log("initializing FirebaseFunctions")
+            this.listenForTrips()
+            this.observers = []
       }
-      return instance;
+      return instance
   }
 
   getRef() {
-     return firebase.database().ref();
+     return firebase.database().ref()
   }
   getRefLocations(tripId) {
-     return this.getRef().child('trips').child(tripId).child('locations');
+    if (!tripId) {
+       console.error('getRefLocations no tripId')
+       return
+    }
+    return this.getRef().child('trips').child(tripId).child('locations')
   }
   getRefUsers() {
-     return this.getRef().child('users');
+     return this.getRef().child('users')
   }
   getRefTrips() {
-     return this.getRef().child('trips');
+     return this.getRef().child('trips')
   }
 
   // Listener for Trips.
   listenForTrips() {
       this.getRef().child('trips').on('value', (snap) => {
-          this.tripsCache = [];
+          this.tripsCache = []
           snap.forEach((child) => {
               this.tripsCache.push({
                 title: child.val().title,
@@ -51,18 +56,32 @@ class FirebaseFunctions2 {
                 nbLocationsPerTrip: this.nbLocationsPerTrip(child.val()),
                 isMyTrip: false, // this.isMyTrip(child.val()),
                 key: child.key,
-              });
-          });
-          this.notifyObservers("trip_changed", null);
-      });
+              })
+          })
+          this.notifyObservers("trips_changed", null)
+      })
   }
 
+  // Listener for the current Trip
+  listenTrip(tripKey) {
+      console.log('listenTrip', tripKey)
+      if (!tripKey) {
+        return
+      }
+
+      this.getRef().child('trips').child(tripKey).on('value', (snapshot) => {
+          this.currentTrip = snapshot.val()
+          this.notifyObservers("trip_changed", null);
+      })
+  }
+
+
   nbLocationsPerTrip(trip) {
-    var size = 0, key;
+    var size = 0, key
     for (key in trip.locations) {
-        if (trip.locations.hasOwnProperty(key)) size++;
+        if (trip.locations.hasOwnProperty(key)) size++
     }
-    return size;
+    return size
   }
 
   isMyTrip(trip){
@@ -192,12 +211,18 @@ class FirebaseFunctions2 {
   }
 
   addOrUpdateLocation(marker, tripId){
+
+    if (!tripId) {
+        console.error('addOrUpdateLocation no tripId')
+        return
+    }
+
     if(!marker.key ) {
-      //console.log(marker, tripId)
+      console.log('addOrUpdateLocation', marker, tripId)
       this.addLocationToFirebase(marker, tripId)
     } else {
-    //  console.log(marker, tripId)
-      this.updateLocationToFirebase(marker, tripId)
+      console.log(marker, tripId)
+      this.updateLocationToFirebase('addOrUpdateLocation', marker, tripId)
     }
   }
 

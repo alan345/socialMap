@@ -51,43 +51,54 @@ let initSelectedMarker = {
 export default class MapAndDetails extends React.Component {
 
     constructor(props) {
-      super(props);
-      this.state = {
-        trip : {
-          key:''
-        },
-        isEditingMyTrip: false,
-        polylines: [],
-        locations: [],
-
-        selectedMarker: initSelectedMarker
-
-      };
-
-      this.changeRegionAnimate = this.changeRegionAnimate.bind(this);
+        super(props);
+        this.state = {
+          trip : this.props.navigation.state.params.trip,
+          isEditingMyTrip: false,
+          polylines: [],
+          locations: [],
+          selectedMarker: initSelectedMarker
+        }
+        this.changeRegionAnimate = this.changeRegionAnimate.bind(this)
     }
 
-    _updateLocationToFirebase(marker, tripId) {
-      firebaseFunctions.updateLocationToFirebase(marker, tripId)
+    componentDidMount() {
+        let _this = this
+        firebaseFunctions.listenTrip(this.props.navigation.state.params.trip.key)
+        firebaseFunctions.addObserver('trip_changed', _this._updateTripData.bind(_this))
     }
 
-   _addLocationToFirebase(marker, tripId) {
-       firebaseFunctions.addOrUpdateLocation(marker, tripId)
-   }
+    componentWillUnmount() {
+        firebaseFunctions.removeObserver('trip_changed')
+    }
 
+    _updateTripData() {
+         this.setState({
+             trip: firebaseFunctions.currentTrip
+         })
+     }
+
+    // _updateLocationToFirebase(marker, tripId) {
+    //     firebaseFunctions.updateLocationToFirebase(marker, tripId)
+    // }
+    //
+    // _addLocationToFirebase(marker, tripId) {
+    //     firebaseFunctions.addOrUpdateLocation(marker, tripId)
+    // }
 
     createOrUpdateMarker(e, marker) {
       let key=""
       if(marker)
         key = marker.key
 
-      this.setState({isLoading:true})
+      // this.setState({isLoading:true})
       var component = this;
       let coordinates = {
         latitude: e.nativeEvent.coordinate.latitude,
         longitude: e.nativeEvent.coordinate.longitude,
       }
 
+/*
       this.setState({
         locations: [
           ...this.state.locations,
@@ -108,6 +119,8 @@ export default class MapAndDetails extends React.Component {
           }
         ]
       })
+*/
+
 
       this._childGoogleAPI.getDataFromGoogleAPiByCoordinates(coordinates).then(function(marker){
         marker.key = key
@@ -116,9 +129,10 @@ export default class MapAndDetails extends React.Component {
 
       //  marker.userData = component.props.userData
         //marker.title = marker.googleData.address_components.route
-        firebaseFunctions.addLocationToFirebase(marker, component.props.trip.key);
-        // component.listenForItems()
+        firebaseFunctions.addLocationToFirebase(marker, component.state.trip.key)
+        this.setState({isLoading: false})
       })
+
 
     }
 
@@ -187,9 +201,9 @@ export default class MapAndDetails extends React.Component {
     // }
 
     capture(){
-      this.props.navigator.replace({
-          name: 'capture'
-      });
+      // this.props.navigator.replace({
+      //     name: 'capture'
+      // });
     }
     goToListTrips(){
       this.props.navigation.goBack()
@@ -202,9 +216,10 @@ export default class MapAndDetails extends React.Component {
     return (
 
       <View style={styles.container}>
-        <GoogleAPI ref={(child) => { this._childGoogleAPI = child; }} />
+            <GoogleAPI ref={(child) => { this._childGoogleAPI = child }} />
+
             <MapScreen
-              locations={params.trip.locations}
+              locations={this.state.trip.locations}
               onPressMap={this.onPressMap.bind(this)}
               provider={this.props.provider}
               onSelecetLocation={this.onSelecetLocation.bind(this)}
@@ -217,7 +232,7 @@ export default class MapAndDetails extends React.Component {
               isLoading={this.state.isLoading}
             />
             <ShowTripTitle
-              trip={params.trip}
+              trip={this.state.trip}
               isEditingMyTrip={this.state.isEditingMyTrip}
             />
 
