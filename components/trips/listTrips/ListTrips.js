@@ -17,10 +17,10 @@ import RowTrip from './RowTrip';
 import AddTrip from '../AddTrip';
 import AddTripButton from '../AddTripButton';
 import ShowLoading from '../../ShowLoading';
-import FirebaseFunctions2 from "../../../includes/FirebaseFunctions2";
+import FirebaseFunctions from "../../../includes/FirebaseFunctions";
 import AutocompleteAddress from "../../../includes/AutocompleteAddress";
 
-var firebaseFunctions = new FirebaseFunctions2();
+var firebaseFunctions = new FirebaseFunctions();
 
 const { width, height } = Dimensions.get('window');
 const heightSearchTopMenuOpen = height / 2.5

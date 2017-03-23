@@ -15,11 +15,11 @@ import {
 import * as firebase from 'firebase';
 import Firebase from "../../includes/firebase";
 import ShowLoading from '../ShowLoading';
-import FirebaseFunctions2 from "../../includes/FirebaseFunctions2";
+import FirebaseFunctions from "../../includes/FirebaseFunctions";
 const { width, height } = Dimensions.get('window');
 import GoogleAPI from '../../includes/GoogleAPI';
 
-var firebaseFunctions = new FirebaseFunctions2();
+var firebaseFunctions = new FirebaseFunctions();
 
 
 export default class AddTrip extends React.Component {

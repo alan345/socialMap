@@ -9,8 +9,8 @@
  import ListTrips from './components/trips/listTrips/ListTrips';
  import FBLoginView from './components/FBLoginView';
 
- import FirebaseFunctions2 from "./includes/FirebaseFunctions2";
- var firebaseFunctions = new FirebaseFunctions2();
+ import FirebaseFunctions from "./includes/FirebaseFunctions";
+ var firebaseFunctions = new FirebaseFunctions();
 
  export default class Index extends Component {
 

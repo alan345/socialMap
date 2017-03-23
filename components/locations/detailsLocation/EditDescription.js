@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Modal, Text, Button, TextInput, TouchableHighlight, View } from 'react-native';
 
-import FirebaseFunctions2 from "../../../includes/FirebaseFunctions2";
+import FirebaseFunctions from "../../../includes/FirebaseFunctions";
 import GoogleAPI from '../../../includes/GoogleAPI';
 
-var firebaseFunctions = new FirebaseFunctions2();
+var firebaseFunctions = new FirebaseFunctions();
 
 
 export default class EditDescription extends Component {

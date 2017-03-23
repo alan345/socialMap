@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import {View, Text, Button, StyleSheet, Dimensions} from 'react-native';
 var {FBLogin, FBLoginManager} = require('react-native-facebook-login');
-import FirebaseFunctions2 from "../includes/FirebaseFunctions2";
+import FirebaseFunctions from "../includes/FirebaseFunctions";
 const { width, height } = Dimensions.get('window');
 
-var firebaseFunctions = new FirebaseFunctions2();
+var firebaseFunctions = new FirebaseFunctions();
 
 let initUserData = {
     name : "",

@@ -8,7 +8,7 @@ import markerImg from '../assets/map_marker_default.png';
 let instance = null;
 
 /* Singleton service to hold FireBase functions and listeners */
-class FirebaseFunctions2 {
+class FirebaseFunctions {
 
   constructor() {
       if(!instance){
@@ -282,4 +282,4 @@ class FirebaseFunctions2 {
 
 }
 
-module.exports = FirebaseFunctions2;
+module.exports = FirebaseFunctions;

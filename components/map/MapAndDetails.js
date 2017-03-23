@@ -15,7 +15,7 @@ import {
 import markerImg from '../../assets/map_marker_default.png';
 import MapScreen from "./mapScreen/MapScreen";
 import MapView, {Marker} from 'react-native-maps';
-import FirebaseFunctions2 from "../../includes/FirebaseFunctions2";
+import FirebaseFunctions from "../../includes/FirebaseFunctions";
 import GoogleAPI from '../../includes/GoogleAPI';
 
 import FBLoginView from '../FBLoginView';
@@ -28,7 +28,7 @@ import SearchLocation from '../locations/SearchLocation';
 
 import ShowTripTitle from '../trips/ShowTripTitle';
 
-var firebaseFunctions = new FirebaseFunctions2();
+var firebaseFunctions = new FirebaseFunctions();
 
 
 let keyId = 0
@@ -276,4 +276,4 @@ const styles = StyleSheet.create({
       justifyContent: 'flex-end',
       alignItems: 'center',
     }
-});
+})

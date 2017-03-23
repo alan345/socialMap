@@ -136,4 +136,8 @@ const styles = StyleSheet.create({
     map: {
      ...StyleSheet.absoluteFillObject,
     },
-});
+})
+
+MapScreen.propTypes = {
+  locations: React.PropTypes.object
+}

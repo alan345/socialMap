@@ -14,10 +14,10 @@ import {
 } from 'react-native';
 import ShowLoading from '../ShowLoading';
 import AutocompleteAddress from "../../includes/AutocompleteAddress";
-import FirebaseFunctions2 from "../../includes/FirebaseFunctions2";
+import FirebaseFunctions from "../../includes/FirebaseFunctions";
 import GoogleAPI from '../../includes/GoogleAPI';
 
-var firebaseFunctions = new FirebaseFunctions2();
+var firebaseFunctions = new FirebaseFunctions();
 
 
 const { width, height } = Dimensions.get('window');
