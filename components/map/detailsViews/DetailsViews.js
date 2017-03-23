@@ -11,6 +11,8 @@ import  {
   TouchableOpacity,
   Button,
 } from 'react-native';
+
+import HeaderDetailsViews from './HeaderDetailsViews';
 import DetailsLocation from '../../locations/detailsLocation/DetailsLocation';
 import DetailsTrip from '../../trips/detailsTrip/DetailsTrip';
 
@@ -27,6 +29,7 @@ export default class DetailsViews extends Component {
       pan     : new Animated.ValueXY(),
       position : 0
     };
+
 
 
     this.panResponder = PanResponder.create({
@@ -74,6 +77,9 @@ export default class DetailsViews extends Component {
           this.onSetPositionDetails(1)
       }
 
+      componentDidMount() {
+        this.onSetPositionDetails(2)
+      }
 
 
       onSetPositionDetails(position) {
@@ -129,6 +135,7 @@ export default class DetailsViews extends Component {
         if(!this.props.trip.key)
           return null
 
+
           return (
             <View style={styles.draggableContainer}>
 
@@ -136,6 +143,13 @@ export default class DetailsViews extends Component {
                   {...this.panResponder.panHandlers}
                   style={[this.state.pan.getLayout(), styles.detailsList]}
                 >
+                  <HeaderDetailsViews
+                    trip={this.props.trip}
+                    isEditingMyTrip={this.props.isEditingMyTrip}
+                    onEditTripMode={this.props.onEditTripMode}
+                    userData={this.props.userData}
+                    onSelecetTrip={this.props.onSelecetTrip}
+                  />
                   <DetailsTrip
                     selectedMarker={this.props.selectedMarker}
                     trip={this.props.trip}

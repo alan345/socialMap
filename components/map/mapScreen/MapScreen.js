@@ -44,9 +44,6 @@ export default class MapScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      trip : {
-        key:''
-      },
       isEditingMyTrip: false,
       region: {
         latitude: LATITUDE,
@@ -55,23 +52,32 @@ export default class MapScreen extends Component {
         longitudeDelta: LONGITUDE_DELTA,
       },
       polylines: [],
+      locations: this.props.locations,
       locationsArr: [],
-
       selectedMarker: initSelectedMarker
-
-    };
+    }
   }
 
   componentDidMount() {
-    let locations = this.props.locations
-    locationsArr = []
-    for(var key in locations){
-        var location = locations[key]
-        location['key'] = key
-        location['title'] = locations[key].googleData.address_components.neighborhood
-        locationsArr.push(location)
-    }
-    this.setState({locationsArr: locationsArr})
+      this._updateLocationsArr()
+  }
+
+  componentWillReceiveProps() {
+      console.log('componentDidUpdate', this.props.locations)
+      this._updateLocationsArr()
+  }
+
+  _updateLocationsArr() {
+      console.log('location array update')
+      let locations = this.props.locations
+      let locationsArr = []
+      for(var key in locations){
+          var location = locations[key]
+          location['key'] = key
+          location['title'] = locations[key].googleData.address_components.neighborhood
+          locationsArr.push(location)
+      }
+      this.setState({locationsArr: locationsArr})
   }
 
 
@@ -130,4 +136,8 @@ const styles = StyleSheet.create({
     map: {
      ...StyleSheet.absoluteFillObject,
     },
-});
+})
+
+MapScreen.propTypes = {
+  locations: React.PropTypes.object
+}

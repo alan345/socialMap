@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 import ShowLoading from '../ShowLoading';
 import AutocompleteAddress from "../../includes/AutocompleteAddress";
-import FirebaseFunctions from "../../includes/FirebaseFunctions";
 
 const { width, height } = Dimensions.get('window');
 

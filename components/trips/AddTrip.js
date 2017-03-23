@@ -19,6 +19,9 @@ import FirebaseFunctions from "../../includes/FirebaseFunctions";
 const { width, height } = Dimensions.get('window');
 import GoogleAPI from '../../includes/GoogleAPI';
 
+var firebaseFunctions = new FirebaseFunctions();
+
+
 export default class AddTrip extends React.Component {
   constructor(props) {
     super(props);
@@ -109,7 +112,7 @@ export default class AddTrip extends React.Component {
 
 
   deleteTrip(){
-    this._childFirebaseFunctions.deleteTrip(this.state.trip)
+    firebaseFunctions.deleteTrip(this.state.trip)
     this.props.hideAddTrip()
   }
   closeWindows(){
@@ -122,7 +125,6 @@ export default class AddTrip extends React.Component {
     return (
 
       <View style={{marginTop: 22}}>
-        <FirebaseFunctions ref={(child) => { this._childFirebaseFunctions = child; }} />
         <GoogleAPI ref={(child) => { this._childGoogleAPI = child; }} />
         <Modal
           animationType={"slide"}

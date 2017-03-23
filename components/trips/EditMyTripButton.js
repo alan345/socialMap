@@ -45,11 +45,11 @@ export default class EditMyTripButton extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    position: 'absolute',
-    bottom:0,
-    width: width,
-    padding : 40,
-    paddingBottom:25,
-    zIndex:0,
+    // position: 'absolute',
+    // bottom:0,
+    // width: width,
+    // padding : 40,
+    // paddingBottom:25,
+    // zIndex:0,
   },
 });

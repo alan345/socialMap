@@ -17,6 +17,9 @@ import AutocompleteAddress from "../../includes/AutocompleteAddress";
 import FirebaseFunctions from "../../includes/FirebaseFunctions";
 import GoogleAPI from '../../includes/GoogleAPI';
 
+var firebaseFunctions = new FirebaseFunctions();
+
+
 const { width, height } = Dimensions.get('window');
 
 export default class SearchLocation extends Component {
@@ -55,7 +58,7 @@ export default class SearchLocation extends Component {
       selectedMarker.googleData.address = marker.googleData.address
       selectedMarker.coordinates = marker.coordinates
       selectedMarker.googleData.coordinateGoogleAddress = marker.googleData.coordinateGoogleAddress
-      component._child.addOrUpdateLocation(selectedMarker, component.props.trip.key)
+      firebaseFunctions.addOrUpdateLocation(selectedMarker, component.props.trip.key)
       component.props.onMarkerSelected(selectedMarker)
     })
   }
@@ -65,7 +68,6 @@ export default class SearchLocation extends Component {
       return null
     return (
       <View style={styles.container}>
-        <FirebaseFunctions ref={(child) => { this._child = child; }} />
         <GoogleAPI ref={(child) => { this._childGoogleAPI = child; }} />
         <AutocompleteAddress
           onChangeText={this._onChangeText.bind(this)}

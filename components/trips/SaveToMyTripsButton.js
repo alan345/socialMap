@@ -11,6 +11,9 @@ import ShowLoading from '../ShowLoading';
 import AutocompleteAddress from "../../includes/AutocompleteAddress";
 import FirebaseFunctions from "../../includes/FirebaseFunctions";
 
+var firebaseFunctions = new FirebaseFunctions();
+
+
 const { width, height } = Dimensions.get('window');
 export default class SaveToMyTripsButton extends Component {
 
@@ -23,7 +26,7 @@ export default class SaveToMyTripsButton extends Component {
     trip.title = 'My trip: ' + this.props.trip.title
     trip.userData = this.props.userData
     this.props.onEditTripMode()
-    this._childFirebaseFunctions.addTrip(trip).then(function(trip){
+    firebaseFunctions.addTrip(trip).then(function(trip){
       component.props.onSelecetTrip(trip)
     })
   }
@@ -37,7 +40,6 @@ export default class SaveToMyTripsButton extends Component {
 
     return (
       <View style={styles.container}>
-        <FirebaseFunctions ref={(child) => { this._childFirebaseFunctions = child; }} />
         <Button
           onPress={this.saveToMyTrips.bind(this)}
           title="Save to my Trips"
@@ -48,13 +50,14 @@ export default class SaveToMyTripsButton extends Component {
     );
   }
 }
+
 const styles = StyleSheet.create({
   container: {
-    position: 'absolute',
-    bottom:0,
-    width: width,
-    padding : 40,
-    paddingBottom:25,
-    zIndex:0,
+    // position: 'absolute',
+    // bottom:0,
+    // width: width,
+    // padding : 40,
+    // paddingBottom:25,
+    // zIndex:0,
   },
-});
+})
