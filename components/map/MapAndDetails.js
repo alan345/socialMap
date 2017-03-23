@@ -18,7 +18,6 @@ import MapView, {Marker} from 'react-native-maps';
 import FirebaseFunctions2 from "../../includes/FirebaseFunctions2";
 import GoogleAPI from '../../includes/GoogleAPI';
 
-
 import FBLoginView from '../FBLoginView';
 import DetailsViews from './detailsViews/DetailsViews';
 import ShowLoading from '../ShowLoading';
@@ -35,23 +34,21 @@ var firebaseFunctions = new FirebaseFunctions2();
 let keyId = 0
 
 let initSelectedMarker = {
-  key:'',
-  googleData:{
-    imagePin : 'https://pickaface.net/gallery/avatar/Opi51c74d0125fd4.png',
-    address : '',
-    address_components : {
-      neighborhood:''
+    key: '',
+    googleData: {
+      imagePin: 'https://pickaface.net/gallery/avatar/Opi51c74d0125fd4.png',
+      address: '',
+      address_components: {
+        neighborhood: ''
+      },
     },
-
-  },
-  coordinates:{},
-
+    coordinates:{}
 }
 
 export default class MapAndDetails extends React.Component {
 
     constructor(props) {
-        super(props);
+        super(props)
         this.state = {
           trip : this.props.navigation.state.params.trip,
           isEditingMyTrip: false,

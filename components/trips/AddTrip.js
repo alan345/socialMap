@@ -15,9 +15,12 @@ import {
 import * as firebase from 'firebase';
 import Firebase from "../../includes/firebase";
 import ShowLoading from '../ShowLoading';
-import FirebaseFunctions from "../../includes/FirebaseFunctions";
+import FirebaseFunctions2 from "../../includes/FirebaseFunctions2";
 const { width, height } = Dimensions.get('window');
 import GoogleAPI from '../../includes/GoogleAPI';
+
+var firebaseFunctions = new FirebaseFunctions2();
+
 
 export default class AddTrip extends React.Component {
   constructor(props) {
@@ -109,7 +112,7 @@ export default class AddTrip extends React.Component {
 
 
   deleteTrip(){
-    this._childFirebaseFunctions.deleteTrip(this.state.trip)
+    firebaseFunctions.deleteTrip(this.state.trip)
     this.props.hideAddTrip()
   }
   closeWindows(){
@@ -122,7 +125,6 @@ export default class AddTrip extends React.Component {
     return (
 
       <View style={{marginTop: 22}}>
-        <FirebaseFunctions ref={(child) => { this._childFirebaseFunctions = child; }} />
         <GoogleAPI ref={(child) => { this._childGoogleAPI = child; }} />
         <Modal
           animationType={"slide"}

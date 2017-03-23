@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Modal, Text, TouchableHighlight, View } from 'react-native';
 import AutocompleteAddress from "../../../includes/AutocompleteAddress";
-import FirebaseFunctions from "../../../includes/FirebaseFunctions";
 import GoogleAPI from '../../../includes/GoogleAPI';
 
 
@@ -37,7 +36,6 @@ export default class EditAddress extends Component {
   render() {
     return (
       <View style={{marginTop: 22}}>
-        <FirebaseFunctions ref={(child) => { this._child = child; }} />
         <GoogleAPI ref={(child) => { this._childGoogleAPI = child; }} />
         <Modal
           animationType={"slide"}

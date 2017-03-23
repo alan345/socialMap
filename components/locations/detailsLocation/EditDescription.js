@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import { Modal, Text, Button, TextInput, TouchableHighlight, View } from 'react-native';
 
-import FirebaseFunctions from "../../../includes/FirebaseFunctions";
+import FirebaseFunctions2 from "../../../includes/FirebaseFunctions2";
 import GoogleAPI from '../../../includes/GoogleAPI';
+
+var firebaseFunctions = new FirebaseFunctions2();
+
 
 export default class EditDescription extends Component {
 
@@ -16,7 +19,7 @@ export default class EditDescription extends Component {
   _onChangeText(text) {
     let selectedMarker = this.props.selectedMarker;
     selectedMarker.description = text
-    this._child.updateLocationToFirebase(selectedMarker, this.props.trip.key)
+    firebaseFunctions.updateLocationToFirebase(selectedMarker, this.props.trip.key)
   //  this.setModalVisible(false)
     //this.props.onMarkerSelected(selectedMarker)
 
@@ -25,7 +28,6 @@ export default class EditDescription extends Component {
   render() {
     return (
       <View style={{marginTop: 22}}>
-        <FirebaseFunctions ref={(child) => { this._child = child; }} />
         <GoogleAPI ref={(child) => { this._childGoogleAPI = child; }} />
         <Modal
           animationType={"slide"}
