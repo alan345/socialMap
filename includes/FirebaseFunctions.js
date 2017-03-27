@@ -27,6 +27,7 @@ class FirebaseFunctions {
   getRef() {
      return firebase.database().ref()
   }
+
   getRefLocations(tripId) {
     if (!tripId) {
        console.error('getRefLocations no tripId')
@@ -34,9 +35,11 @@ class FirebaseFunctions {
     }
     return this.getRef().child('trips').child(tripId).child('locations')
   }
+
   getRefUsers() {
      return this.getRef().child('users')
   }
+
   getRefTrips() {
      return this.getRef().child('trips')
   }
@@ -64,13 +67,15 @@ class FirebaseFunctions {
 
   // Listener for the current Trip
   listenTrip(tripKey) {
-      console.log('listenTrip', tripKey)
       if (!tripKey) {
+        console.error('listenTrip no tripKey')
         return
       }
 
       this.getRef().child('trips').child(tripKey).on('value', (snapshot) => {
           this.currentTrip = snapshot.val()
+          this.currentTrip.key = tripKey
+          console.log('currentTrip', this.currentTrip)
           this.notifyObservers("trip_changed", null);
       })
   }
@@ -193,6 +198,11 @@ class FirebaseFunctions {
 
 
   updateLocationToFirebase(marker, tripId) {
+    if (!tripId) {
+      console.error('updateLocationToFirebase no tripId')
+      return
+    }
+
     let itemsRef = this.getRefLocations(tripId);
     itemsRef.child(marker.key).set({
     //    title: marker.title,
@@ -211,7 +221,6 @@ class FirebaseFunctions {
   }
 
   addOrUpdateLocation(marker, tripId){
-
     if (!tripId) {
         console.error('addOrUpdateLocation no tripId')
         return
@@ -227,6 +236,11 @@ class FirebaseFunctions {
   }
 
   addLocationToFirebase(marker, tripId) {
+    if (!tripId) {
+        console.error('addLocationToFirebase no tripId')
+        return
+    }
+
     let itemsRef = this.getRefLocations(tripId);
     itemsRef.push({
     //  title: marker.title,
