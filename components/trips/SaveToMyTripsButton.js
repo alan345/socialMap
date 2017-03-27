@@ -18,13 +18,14 @@ const { width, height } = Dimensions.get('window');
 export default class SaveToMyTripsButton extends Component {
 
   saveToMyTrips(){
+    
     let component = this
     let trip = this.props.trip
     delete trip.key
     if(!trip.locations)
       trip.locations={}
     trip.title = 'My trip: ' + this.props.trip.title
-    trip.userData = this.props.userData
+    //trip.userData = this.props.userData
     this.props.onEditTripMode()
     firebaseFunctions.addTrip(trip).then(function(trip){
       component.props.onSelecetTrip(trip)

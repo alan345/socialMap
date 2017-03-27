@@ -20,14 +20,19 @@ class LoginFunctions {
   constructor() {
 
       if(!instance){
+            this.UserData = {}
             // Called once.
-            super();
-            this.state = {
-                userData: {}
-            }
+
             instance = this;
       }
       return instance
+  }
+  saveUserData(updatedUserData){
+    this.UserData = updatedUserData
+    //console.log(updatedUserData)
+  }
+  getUserData(){
+    return this.UserData
   }
 
 }
