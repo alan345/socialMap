@@ -42,10 +42,7 @@ export default class DetailsLocation extends Component {
               style={styles.text}
             >{this.props.selectedMarker.googleData.address_components.neighborhood}</Text>
 
-            <Image
-              style={styles.iconRight}
-              source={{uri: this.props.trip.userData.picture.data.url}}
-            />
+    
 
 
           </View>

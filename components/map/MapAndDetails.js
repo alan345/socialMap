@@ -15,9 +15,11 @@ import {
 import markerImg from '../../assets/map_marker_default.png';
 import MapScreen from "./mapScreen/MapScreen";
 import MapView, {Marker} from 'react-native-maps';
+
 import FirebaseFunctions from "../../includes/FirebaseFunctions";
-import LoginFunctions from "../../includes/LoginFunctions";
+//import LoginFunctions from "../../includes/LoginFunctions";
 import GoogleAPI from '../../includes/GoogleAPI';
+
 
 import FBLoginView from '../FBLoginView';
 import DetailsViews from './detailsViews/DetailsViews';
@@ -30,7 +32,7 @@ import SearchLocation from '../locations/SearchLocation';
 import ShowTripTitle from '../trips/ShowTripTitle';
 
 var firebaseFunctions = new FirebaseFunctions();
-var loginFunctions = new LoginFunctions();
+//var loginFunctions = new LoginFunctions();
 
 
 let keyId = 0
@@ -53,7 +55,7 @@ export default class MapAndDetails extends React.Component {
         super(props)
         this.state = {
           trip : this.props.navigation.state.params.trip,
-          userData: loginFunctions.getUserData(),
+      //    userData: loginFunctions.getUserData(),
           isEditingMyTrip: false,
           polylines: [],
           locations: [],
@@ -63,7 +65,7 @@ export default class MapAndDetails extends React.Component {
     }
 
     componentDidMount() {
-        console.log(this.state.userData)
+    //    console.log(this.state.userData)
         let _this = this
         firebaseFunctions.listenTrip(this.props.navigation.state.params.trip.key)
         firebaseFunctions.addObserver('trip_changed', _this._updateTripData.bind(_this))
@@ -266,7 +268,7 @@ export default class MapAndDetails extends React.Component {
               onPressDeleteMarker={this.onPressDeleteMarker.bind(this)}
               onEditTripMode={this.onEditTripMode.bind(this)}
               onSelecetTrip={this.onSelecetTrip.bind(this)}
-              userData={this.state.userData}
+        //      userData={this.state.userData}
 
 
               changeRegionAnimate={this.changeRegionAnimate}
