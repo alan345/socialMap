@@ -84,12 +84,16 @@ export default class MapAndDetails extends React.Component {
     // }
 
     createOrUpdateMarker(e, marker) {
-      let key=""
-      if(marker)
-        key = marker.key
+      var _this = this;
+      console.log('createOrUpdateMarker', marker)
 
-      // this.setState({isLoading:true})
-      var component = this;
+      let key=""
+      if(marker) {
+        key = marker.key
+      }
+
+      this.setState({isLoading:true})
+
       let coordinates = {
         latitude: e.nativeEvent.coordinate.latitude,
         longitude: e.nativeEvent.coordinate.longitude,
@@ -126,8 +130,9 @@ export default class MapAndDetails extends React.Component {
 
       //  marker.userData = component.props.userData
         //marker.title = marker.googleData.address_components.route
-        firebaseFunctions.addLocationToFirebase(marker, component.state.trip.key)
-        this.setState({isLoading: false})
+        console.log('zzz', _this.state.trip)
+        firebaseFunctions.addLocationToFirebase(marker, _this.state.trip.key)
+        _this.setState({isLoading: false})
       })
 
 
