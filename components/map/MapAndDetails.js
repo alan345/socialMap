@@ -164,13 +164,16 @@ export default class MapAndDetails extends React.Component {
       this._childDetailsViews.onSetPositionDetails(position)
     }
 
-    onSelecetTrip(item) {
-      this.setState({
-        trip:item,
-      },function(){
-        this.listenForItems();
-      })
-      this.changeRegionAnimate(item)
+    onSelecetTrip(trip) {
+
+      // Help Nico. Ici peut etre remonter la fonction onSelecetTrip
+      this.props.navigation.navigate('MapAndDetailsScreen', { trip: trip })
+      // this.setState({
+      //   trip:item,
+      // },function(){
+      //   this.listenForItems();
+      // })
+      // this.changeRegionAnimate(item)
     }
 
     onPressDeleteMarker(marker){
