@@ -19,39 +19,9 @@ const configuration = new Configuration(),
 
 
 export default class App extends React.Component {
-    constructor() {
-        super();
-
-        this.state = {
-            trips: [],
-            trip: {}
-        }
-    }
-
-    componentDidMount() {
-        firebaseFunctions.getRef().child('trips').on('value', (snap) => {
-            let trips = [];
-            snap.forEach((child) => {
-                trips.push({
-                  title: child.val().title,
-                  googleData: child.val().googleData,
-                  image: child.val().image,
-                  city: child.val().city,
-                  locations:child.val().locations,
-                  userData: child.val().userData,
-                  nbLocationsPerTrip: 0,
-                  isMyTrip: false, // @TODO : need fix
-                  key: child.key,
-                })
-            })
-            console.log('trips updated', trips)
-            this.setState({trips: trips})
-        })
-    }
-
     render() {
       return (
-        <Navigator screenProps={ {trips: this.state.trips }} />
+        <Navigator />
       )
     }
 }
@@ -64,7 +34,7 @@ class LoginPageScreen extends React.Component {
   }
   render() {
     return (
-      <FBLoginView navigation={this.props.navigation} updateUserData={this.updateUserData.bind(this)}/>
+      <FBLoginView navigation={this.props.navigation} updateUserData={this.updateUserData.bind(this)} />
     )
   }
 
@@ -82,12 +52,9 @@ class ListTripsScreen extends React.Component {
         visible: false
       }
   }
-  componentDidMount() {
-    //  console.log("LoginPage screenProps", this.props.screenProps);
-  }
   render() {
     return (
-      <ListTrips navigation={this.props.navigation} trips={this.props.screenProps.trips}/>
+      <ListTrips navigation={this.props.navigation} />
     )
   }
 }
@@ -105,7 +72,7 @@ class MapAndDetailsScreen extends React.Component {
 
   render() {
     return (
-      <MapAndDetails navigation={this.props.navigation} trip={this.props.screenProps.trips[0]}/>
+      <MapAndDetails navigation={this.props.navigation} />
     )
   }
 }
@@ -120,7 +87,7 @@ class CaptureScreen extends React.Component {
 
     render() {
       return (
-        <Capture />
+        <Capture navigation={this.props.navigation} />
       )
     }
 }

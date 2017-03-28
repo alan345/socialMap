@@ -29,46 +29,26 @@ const heightSearchTopMenuClose = 60
 export default class ListTrips extends Component {
   constructor(props) {
     super(props)
-
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-
-
     this.state = {
-      styleHeight :{
-        height:heightSearchTopMenuOpen
-      },
-      isLoading:false,
-      showAddTrip:false,
-      search:{
-        city:'',
-      },
-      trip:{},
-      trips: this.props.trips,
-      dataSource: ds.cloneWithRows(this.props.trips)
-      // dataSource: ds.cloneWithRows(this.props.trips)
+        styleHeight :{
+          height:heightSearchTopMenuOpen
+        },
+        isLoading:false,
+        showAddTrip:false,
+        search:{
+          city:'',
+        },
+        trip:{},
+        trips: firebaseFunctions.tripsCache,
+        dataSource: ds.cloneWithRows(firebaseFunctions.tripsCache)
     }
   }
-
 
   componentDidMount() {
       let _this = this;
       _this.updateListDataSource(_this);
       firebaseFunctions.addObserver('trips_changed', _this.updateListDataSource.bind(_this));
-
-      // this.setState({
-      //     dataSource: this.state.dataSource.cloneWithRows(this.props.trips)
-      // })
-  }
-
-  // componentWillReceiveProps() {
-  //     console.log('trips', this.props.trips)
-  //     this.setState({
-  //         dataSource: this.state.dataSource.cloneWithRows(this.props.trips)
-  //     })
-  // }
-
-  componentDidUpdate() {
-      // console.log("did updated", this.props.trips)
   }
 
   updateListDataSource() {
@@ -88,25 +68,6 @@ export default class ListTrips extends Component {
   hideAddTrip() {
     this.setState({showAddTrip:false})
   }
-
-
-  // nbLocationsPerTrip(trip) {
-  //   var size = 0, key;
-  //   for (key in trip.locations) {
-  //       if (trip.locations.hasOwnProperty(key)) size++;
-  //   }
-  //   return size;
-  // }
-  //
-  // isMyTrip(trip){
-  //   let isMyTrip = false;
-  //   if(trip.userData.id === this.props.userData.profile.id) {
-  //     isMyTrip = true;
-  //   } else {
-  //     isMyTrip = false;
-  //   }
-  //   return isMyTrip
-  // }
 
 
 
@@ -148,8 +109,6 @@ export default class ListTrips extends Component {
   }
 
 
-
-
   onPressButtonTrip(){
   //  this.props.onItemSelected('MyMaps')
     this.setState({
@@ -164,8 +123,6 @@ export default class ListTrips extends Component {
       this._childAddTrip.propsToState()
     })
   }
-
-
 
   onSelecetTrip(trip){
     console.log("ListTrip trip", trip)
@@ -189,7 +146,7 @@ export default class ListTrips extends Component {
         onSelecetTrip={this.onSelecetTrip.bind(this)}
         userData={this.props.userData}
       />
-    );
+    )
   }
 
   _onChangeText(description) {
@@ -233,7 +190,7 @@ export default class ListTrips extends Component {
             onPressButtonTrip={this.onPressButtonTrip.bind(this)}
           />
       </View>
-    );
+    )
   }
 }
 
@@ -260,4 +217,4 @@ const styles = StyleSheet.create({
     paddingBottom:5,
     backgroundColor:'white',
   },
-});
+})
