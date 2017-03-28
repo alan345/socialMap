@@ -64,11 +64,12 @@ export default class ListTrips extends Component {
   }
 
   showAddTrip() {
-    this.setState({showAddTrip:true})
+
+    //this.setState({showAddTrip:true})
   }
 
   hideAddTrip() {
-    this.setState({showAddTrip:false})
+  //  this.setState({showAddTrip:false})
   }
 
 
@@ -112,18 +113,19 @@ export default class ListTrips extends Component {
 
 
   onPressButtonTrip(){
+    this._childAddTrip.showAddTrip()
   //  this.props.onItemSelected('MyMaps')
-    this.setState({
-      showAddTrip:true,
-      trip:{
-        city:'',
-        title:'',
-        image:'https://pickaface.net/gallery/avatar/Opi51c74d0125fd4.png',
-        locations:{},
-      }
-    }, function(){
-      this._childAddTrip.propsToState()
-    })
+    // this.setState({
+    //   showAddTrip:true,
+    //   trip:{
+    //     city:'',
+    //     title:'',
+    //     image:'https://pickaface.net/gallery/avatar/Opi51c74d0125fd4.png',
+    //     locations:{},
+    //   }
+    // }, function(){
+    //   this._childAddTrip.propsToState()
+    // })
   }
 
   onSelecetTrip(trip){

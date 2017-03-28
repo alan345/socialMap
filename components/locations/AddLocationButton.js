@@ -11,12 +11,15 @@ import {
   Dimensions,
 } from 'react-native';
 import ShowLoading from '../ShowLoading';
+import AddTrip from '../trips/AddTrip';
+
 const { width, height } = Dimensions.get('window');
 export default class AddLocationButton extends Component {
 
 
 
   addLocation(){
+    this._childAddTrip.showAddTrip()
     //this.props.onEditTripMode()
   }
 
@@ -35,6 +38,10 @@ export default class AddLocationButton extends Component {
           title="Add Location"
           color="#841584"
           accessibilityLabel="Edit my Trip"
+        />
+        <AddTrip
+          trip={this.props.trip}
+          ref={(child) => { this._childAddTrip = child; }}
         />
       </View>
     );

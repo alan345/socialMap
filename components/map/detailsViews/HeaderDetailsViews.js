@@ -13,15 +13,13 @@ import  {
 } from 'react-native';
 import SaveToMyTripsButton from '../../trips/SaveToMyTripsButton';
 import AddLocationButton from '../../locations/AddLocationButton';
-import AddTrip from '../../trips/AddTrip';
-
 
 
 export default class HeaderDetailsViews extends Component {
     constructor(props){
       super();
       this.state = {
-        showAddTrip:false,
+        //showAddTrip:false,
       }
     }
 
@@ -42,13 +40,7 @@ export default class HeaderDetailsViews extends Component {
                 onEditTripMode={this.props.onEditTripMode}
                 userData={this.props.userData}
               />
-              <AddTrip
 
-
-                trip={this.state.trip}
-
-                ref={(child) => { this._childAddTrip = child; }}
-              />
 
               <View>
                 <Text>{this.props.trip.userData.name}</Text>

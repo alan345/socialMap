@@ -22,12 +22,12 @@ import AutocompleteAddress from "../../includes/AutocompleteAddress";
 
 var firebaseFunctions = new FirebaseFunctions();
 
-
 export default class AddTrip extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       isLoading:false,
+      showAddTrip:false,
       trip: {
         googleData:{},
         city:'',
@@ -128,8 +128,17 @@ export default class AddTrip extends React.Component {
     this.props.hideAddTrip()
   }
   closeWindows(){
-    this.props.hideAddTrip()
+    this.setState({
+      showAddTrip:false
+    })
   }
+
+  showAddTrip(){
+    this.setState({
+      showAddTrip:true
+    })
+  }
+
 
 
   render() {
@@ -141,7 +150,7 @@ export default class AddTrip extends React.Component {
         <Modal
           animationType={"slide"}
           transparent={false}
-          visible={this.props.showAddTrip}
+          visible={this.state.showAddTrip}
           onRequestClose={() => {alert("Modal has been closed.")}}
           >
          <View style={styles.container}>
