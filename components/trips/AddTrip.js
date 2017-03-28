@@ -18,6 +18,7 @@ import ShowLoading from '../ShowLoading';
 import FirebaseFunctions from "../../includes/FirebaseFunctions";
 const { width, height } = Dimensions.get('window');
 import GoogleAPI from '../../includes/GoogleAPI';
+import AutocompleteAddress from "../../includes/AutocompleteAddress";
 
 var firebaseFunctions = new FirebaseFunctions();
 
@@ -67,6 +68,17 @@ export default class AddTrip extends React.Component {
       //component._childFirebaseFunctions.functionToDelete()
     })
     this.props.hideAddTrip()
+  }
+
+  _onChangeText(description) {
+    // this.setState({
+    //   isLoading:true,
+    //   search : {
+    //     city:description
+    //   }
+    // }, function() {
+    //   this.listenForItems()
+    // })
   }
 
   _addTripToFireBase(trip){
@@ -138,44 +150,14 @@ export default class AddTrip extends React.Component {
                 <ShowLoading
                   isLoading={this.state.isLoading}
                 />
-                <Text>Your Trip</Text>
-                <TextInput
-                  value={this.state.trip.title}
-                  placeholder = "Title"
-                  style={styles.inputField}
-                  onChangeText={(text) => this.setState({
-                    trip: {
-                      city:this.state.trip.city,
-                      title:text,
-                    }
-
-                  })}
+                <Text>Chose your departure</Text>
+                <View style={styles.searchView}>
+                <AutocompleteAddress
+                  onChangeText={this._onChangeText.bind(this)}
                 />
-                <TextInput
-                  value={this.state.trip.city}
-                  placeholder = "City"
-                  style={styles.inputField}
-                  onChangeText={(text) => this.setState({
-                    trip: {
-                      city:text,
-                      title:this.state.trip.title,
-                    }
-                  })}
-                />
+                </View>
 
-                  <Button
-                    onPress={this.closeWindows.bind(this)}
-                    title="Cancel"
-                    color="#841584"
-                    accessibilityLabel="cancel"
-                  />
                   <Text> </Text>
-                  <Button
-                    onPress={this.deleteTrip.bind(this)}
-                    title="Delete"
-                    color="#841584"
-                    accessibilityLabel="delete"
-                  />
                   <Text> </Text>
                   <Button
                     onPress={this.saveTrip.bind(this)}
@@ -183,6 +165,14 @@ export default class AddTrip extends React.Component {
                     color="#841584"
                     accessibilityLabel="ok"
                   />
+                  <Text> </Text>
+                  <Button
+                    onPress={this.closeWindows.bind(this)}
+                    title="Cancel"
+                    color="#841584"
+                    accessibilityLabel="cancel"
+                  />
+
 
           </View>
          </View>
@@ -194,12 +184,13 @@ export default class AddTrip extends React.Component {
   }
 }
 const styles = StyleSheet.create({
+  searchView:{
+    flexDirection: 'row',
+  },
   container: {
     padding:40,
-
   },
   row: {
-
   },
   inputField:{
 

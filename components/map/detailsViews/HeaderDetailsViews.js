@@ -20,22 +20,31 @@ export default class HeaderDetailsViews extends Component {
 
 
       render(){
-
           return (
             <View style={styles.container}>
-              <SaveToMyTripsButton
-                trip={this.props.trip}
-                isEditingMyTrip={this.props.isEditingMyTrip}
-                onEditTripMode={this.props.onEditTripMode}
-                userData={this.props.userData}
-                onSelecetTrip={this.props.onSelecetTrip}
-              />
-              <AddLocationButton
-                trip={this.props.trip}
-                isEditingMyTrip={this.props.isEditingMyTrip}
-                onEditTripMode={this.props.onEditTripMode}
-                userData={this.props.userData}
-              />
+              <View style={styles.row}>
+                <SaveToMyTripsButton
+                  trip={this.props.trip}
+                  isEditingMyTrip={this.props.isEditingMyTrip}
+                  onEditTripMode={this.props.onEditTripMode}
+                  userData={this.props.userData}
+                  onSelecetTrip={this.props.onSelecetTrip}
+                />
+                <AddLocationButton
+                  trip={this.props.trip}
+                  isEditingMyTrip={this.props.isEditingMyTrip}
+                  onEditTripMode={this.props.onEditTripMode}
+                  userData={this.props.userData}
+                />
+        
+                <View>
+                  <Text>{this.props.trip.userData.name}</Text>
+                  <Text>{this.props.trip.title}</Text>
+                  <Text>{this.props.trip.googleData.address_components.administrative_area_level_1}</Text>
+                  <Text>{this.props.trip.googleData.address_components.country}</Text>
+                  <Text>{this.props.trip.googleData.address_components.locality}</Text>
+                </View>
+              </View>
             </View>
         );
       }
@@ -43,7 +52,11 @@ export default class HeaderDetailsViews extends Component {
 
 let Window = Dimensions.get('window');
 const styles = StyleSheet.create({
+  row: {
+    flexDirection: 'row',
 
+    justifyContent: 'space-between',
+  },
   container: {
     // position: 'absolute',
     // bottom:0,

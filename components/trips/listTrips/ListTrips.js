@@ -174,6 +174,7 @@ export default class ListTrips extends Component {
             ref={(child) => { this._childAddTrip = child; }}
           />
 
+
           <View style={styles.searchView}>
             <AutocompleteAddress
               onChangeText={this._onChangeText.bind(this)}
