@@ -125,7 +125,9 @@ class FirebaseFunctions {
       var newRef = itemsRef.push();
       var key = newRef.key;
       _trip.key = key
+      console.log(_trip)
       component.updateTrip(_trip).then(function(trip){
+        console.log(trip)
         resolve(trip)
       })
     })

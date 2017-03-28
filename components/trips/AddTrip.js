@@ -16,11 +16,13 @@ import * as firebase from 'firebase';
 import Firebase from "../../includes/firebase";
 import ShowLoading from '../ShowLoading';
 import FirebaseFunctions from "../../includes/FirebaseFunctions";
-const { width, height } = Dimensions.get('window');
 import GoogleAPI from '../../includes/GoogleAPI';
+import LoginFunctions from '../../includes/LoginFunctions';
 import AutocompleteAddress from "../../includes/AutocompleteAddress";
+const { width, height } = Dimensions.get('window');
 
 var firebaseFunctions = new FirebaseFunctions();
+var loginFunctions = new LoginFunctions();
 
 export default class AddTrip extends React.Component {
   constructor(props) {
@@ -28,9 +30,11 @@ export default class AddTrip extends React.Component {
     this.state = {
       isLoading:false,
       showAddTrip:false,
+      inputAutocomplete:'',
       trip: {
         googleData:{},
-        city:'',
+        locations:{},
+      //  city:'',
         title:'',
         image:'http://ozandgo.com/wp-content/uploads/2014/10/covoiturage-australie-van-roadtrip.jpg',
       }
@@ -52,25 +56,34 @@ export default class AddTrip extends React.Component {
   }
 
   saveTrip(){
-    let address = this.state.trip.city
+    let inputAutocomplete = this.state.inputAutocomplete
     let component = this;
 
-//    component._childFirebaseFunctions.functionToDelete()
-    let trip = this.props.trip
-    this._childGoogleAPI.getDataFromGoogleAPiByAddress(address).then(function(marker){
-      trip.googleData = marker.googleData
-      trip.title = component.state.trip.title
-      trip.city = marker.googleData.address_components.locality
-      trip.userData = component.props.userData
-      //component._addTripToFireBase(trip)
-      firebaseFunctions.addTrip(trip)
 
-      //component._childFirebaseFunctions.functionToDelete()
+    let trip = this.state.trip
+    this._childGoogleAPI.getDataFromGoogleAPiByAddress(inputAutocomplete).then(function(marker){
+      trip.googleData = marker.googleData
+      trip.title = 'new title'
+      trip.city = marker.googleData.address_components.locality
+      trip.userData = loginFunctions.getUserData()
+      firebaseFunctions.addTrip(trip).then(function(trip) {
+        component.props.onSelecetTrip(trip)
+        component.closeWindows()
+      }).then(function(e) {
+         console.log('Error');
+      });
+      //component.props.onSelecetTrip(trip)
     })
-    this.props.hideAddTrip()
+
+    //this.props.hideAddTrip()
   }
 
   _onChangeText(description) {
+    this.setState({
+      inputAutocomplete : description
+    })
+
+
     // this.setState({
     //   isLoading:true,
     //   search : {
@@ -151,8 +164,9 @@ export default class AddTrip extends React.Component {
           animationType={"slide"}
           transparent={false}
           visible={this.state.showAddTrip}
-          onRequestClose={() => {alert("Modal has been closed.")}}
+          onRequestClose={() => {this.closeWindows()}}
           >
+
          <View style={styles.container}>
           <View>
 
@@ -181,8 +195,6 @@ export default class AddTrip extends React.Component {
                     color="#841584"
                     accessibilityLabel="cancel"
                   />
-
-
           </View>
          </View>
         </Modal>
