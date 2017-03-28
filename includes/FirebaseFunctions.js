@@ -80,7 +80,7 @@ class FirebaseFunctions {
           this.currentTrip = snapshot.val()
           this.currentTrip.key = tripKey
           console.log('currentTrip', this.currentTrip)
-          this.notifyObservers("trip_changed", null);
+          this.notifyObservers("trip_changed", null)
       })
   }
 

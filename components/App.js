@@ -1,20 +1,21 @@
-import React from 'react';
+import React from 'react'
 import {
   AppRegistry,
   Text,
   View,
   Button
 } from 'react-native';
-import { StackNavigator } from 'react-navigation';
+import { StackNavigator } from 'react-navigation'
 
-import MapAndDetails from './map/MapAndDetails';
-import ListTrips from './trips/listTrips/ListTrips';
-import FBLoginView from './FBLoginView';
-import FirebaseFunctions from "../includes/FirebaseFunctions";
-const firebaseFunctions = new FirebaseFunctions();
-import { Client, Configuration } from "bugsnag-react-native";
+import MapAndDetails from './map/MapAndDetails'
+import ListTrips from './trips/listTrips/ListTrips'
+import FBLoginView from './FBLoginView'
+import Capture from './Capture'
+import FirebaseFunctions from "../includes/FirebaseFunctions"
+const firebaseFunctions = new FirebaseFunctions()
+import { Client, Configuration } from "bugsnag-react-native"
 const configuration = new Configuration(),
-      client = new Client(configuration);
+      client = new Client(configuration)
 
 
 export default class App extends React.Component {
@@ -109,10 +110,28 @@ class MapAndDetailsScreen extends React.Component {
   }
 }
 
+
+class CaptureScreen extends React.Component {
+    static navigationOptions = {
+        header: {
+          visible: false
+        }
+    }
+
+    render() {
+      return (
+        <Capture />
+      )
+    }
+}
+
+
+
 const Navigator = StackNavigator({
-  LoginPageScreen: { screen: LoginPageScreen },
-  ListTripsScreen: { screen: ListTripsScreen },
-  MapAndDetailsScreen: { screen: MapAndDetailsScreen },
+    LoginPageScreen: { screen: LoginPageScreen },
+    ListTripsScreen: { screen: ListTripsScreen },
+    MapAndDetailsScreen: { screen: MapAndDetailsScreen },
+    CaptureScreen: { screen: CaptureScreen }
 })
 
 

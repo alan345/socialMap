@@ -91,7 +91,6 @@ export default class MapAndDetails extends React.Component {
 
     createOrUpdateMarker(e, marker) {
       var _this = this;
-      console.log('createOrUpdateMarker', marker)
 
       let key=""
       if(marker) {
@@ -136,7 +135,6 @@ export default class MapAndDetails extends React.Component {
 
       //  marker.userData = component.props.userData
         //marker.title = marker.googleData.address_components.route
-        console.log('zzz', _this.state.trip)
         firebaseFunctions.addLocationToFirebase(marker, _this.state.trip.key)
         _this.setState({isLoading: false})
       })
@@ -212,10 +210,9 @@ export default class MapAndDetails extends React.Component {
     // }
 
     capture(){
-      // this.props.navigator.replace({
-      //     name: 'capture'
-      // });
+      this.props.navigation.navigate('CaptureScreen')
     }
+
     goToListTrips(){
       this.props.navigation.goBack()
     }
