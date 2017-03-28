@@ -40,9 +40,7 @@ class FirebaseFunctions {
     return this.getRef().child('trips').child(tripId).child('locations')
   }
 
-  getRefUsers() {
-     return this.getRef().child('users')
-  }
+
 
   getRefTrips() {
      return this.getRef().child('trips')
@@ -61,7 +59,7 @@ class FirebaseFunctions {
                 locations:child.val().locations,
                 userData: child.val().userData,
                 nbLocationsPerTrip: this.nbLocationsPerTrip(child.val()),
-                isMyTrip: false, // this.isMyTrip(child.val()),
+                isMyTrip: this.isMyTrip(child.val()),
                 key: child.key,
               })
           })
@@ -94,36 +92,16 @@ class FirebaseFunctions {
   }
 
   isMyTrip(trip){
+    console.log(loginFunctions.getUserData())
     let isMyTrip = false;
-    if(trip.userData.id === this.props.userData.profile.id) {
-      isMyTrip = true;
-    } else {
-      isMyTrip = false;
-    }
+    // if(trip.userData.profile.id === loginFunctions.getUserData().profile.id) {
+    //   isMyTrip = true;
+    // } else {
+    //   isMyTrip = false;
+    // }
     return isMyTrip
   }
 
-
-  updateOrCreateUserToFirebase(userData) {
-    let itemsRef = this.getRefUsers();
-    itemsRef.orderByChild("profile/id").equalTo(userData.profile.id).on("value", function(snapshot) {
-      if (snapshot.val()) {
-        //update
-        //console.log(snapshot.val())
-      } else {
-        itemsRef.push(userData);
-      }
-    });
-  }
-
-  getUser(credentials) {
-    let itemsRef = this.getRefUsers();
-    return new Promise(function(resolve,reject){
-        itemsRef.orderByChild("profile/id").equalTo(credentials.userId).on("child_added", function(snapshot) {
-          resolve( snapshot.val())
-        });
-    })
-  }
 
   addOrUpdateTrip(trip){
     if(trip.key == null  ) {

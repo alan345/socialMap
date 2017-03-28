@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import {View, Text, Button, StyleSheet, Dimensions} from 'react-native';
 var {FBLogin, FBLoginManager} = require('react-native-facebook-login');
-import FirebaseFunctions from "../includes/FirebaseFunctions";
+
 import LoginFunctions from "../includes/LoginFunctions";
 const { width, height } = Dimensions.get('window');
 
-var firebaseFunctions = new FirebaseFunctions();
+
 var loginFunctions = new LoginFunctions();
 
 
@@ -27,7 +27,7 @@ class FBLoginView extends Component {
   }
 
   updateUserData(userData){
-    firebaseFunctions.updateOrCreateUserToFirebase(userData)
+    loginFunctions.updateOrCreateUserToFirebase(userData)
     this.props.updateUserData(userData)
   }
 
@@ -44,7 +44,7 @@ class FBLoginView extends Component {
   }
   onLoginFoundFunction(userData) {
     let component = this
-    firebaseFunctions.getUser(userData.credentials).then(function(data){
+    loginFunctions.getUser(userData.credentials).then(function(data){
       let updatedUserData = {
         credentials:userData.credentials,
         provider:userData.provider,
@@ -67,7 +67,7 @@ class FBLoginView extends Component {
   }
 
   onLoginFunction(userData) {
-    this._child.updateOrCreateUserToFirebase(userData)
+    loginFunctions.updateOrCreateUserToFirebase(userData)
     this.props.updateUserData(userData)
     // this.setState({
     //   userData: userData
