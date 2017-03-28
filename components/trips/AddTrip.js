@@ -53,7 +53,7 @@ export default class AddTrip extends React.Component {
   saveTrip(){
     let address = this.state.trip.city
     let component = this;
-    var toto = 'toto'
+
 //    component._childFirebaseFunctions.functionToDelete()
     let trip = this.props.trip
     this._childGoogleAPI.getDataFromGoogleAPiByAddress(address).then(function(marker){
@@ -62,9 +62,9 @@ export default class AddTrip extends React.Component {
       trip.city = marker.googleData.address_components.locality
       trip.userData = component.props.userData
       //component._addTripToFireBase(trip)
-      alert(toto)
+      firebaseFunctions.addTrip(trip)
 
-      component._childFirebaseFunctions.functionToDelete()
+      //component._childFirebaseFunctions.functionToDelete()
     })
     this.props.hideAddTrip()
   }

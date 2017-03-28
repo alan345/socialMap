@@ -2,9 +2,12 @@ import React, { Component } from 'react';
 import {View, Text, Button, StyleSheet, Dimensions} from 'react-native';
 var {FBLogin, FBLoginManager} = require('react-native-facebook-login');
 import FirebaseFunctions from "../includes/FirebaseFunctions";
+import LoginFunctions from "../includes/LoginFunctions";
 const { width, height } = Dimensions.get('window');
 
 var firebaseFunctions = new FirebaseFunctions();
+var loginFunctions = new LoginFunctions();
+
 
 let initUserData = {
     name : "",
@@ -49,6 +52,7 @@ class FBLoginView extends Component {
         profile:data.profile
       }
       component.updateUserData(updatedUserData)
+      loginFunctions.saveUserData(updatedUserData)
       component.goToNextScreen()
     })
   }

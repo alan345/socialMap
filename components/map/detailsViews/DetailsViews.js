@@ -135,7 +135,7 @@ export default class DetailsViews extends Component {
         if(!this.props.trip.key)
           return null
 
-
+          
           return (
             <View style={styles.draggableContainer}>
 

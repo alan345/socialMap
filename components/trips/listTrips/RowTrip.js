@@ -55,7 +55,7 @@ export default class RowTrip extends Component {
             </View>
 
             <View style={{flex: 1, flexDirection: 'row'}}>
-                <Image source={{ uri: this.props.item.userData.picture.data.url}} style={styles.photo} />
+            
                 <Text>{this.props.item.userData.name}</Text>
             </View>
 

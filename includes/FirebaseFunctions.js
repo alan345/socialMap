@@ -3,7 +3,11 @@ import ReactNative from 'react-native';
 const { View, TouchableHighlight, Text } = ReactNative;
 import * as firebase from 'firebase';
 import Firebase from "./firebase";
+import LoginFunctions from "./LoginFunctions";
+
 import markerImg from '../assets/map_marker_default.png';
+var loginFunctions = new LoginFunctions();
+
 
 let instance = null;
 
@@ -130,6 +134,7 @@ class FirebaseFunctions {
   }
 
   addTrip(trip){
+    console.log(trip)
     var component = this
     return new Promise(function(resolve,reject){
       let _trip = {
@@ -137,7 +142,7 @@ class FirebaseFunctions {
         googleData:trip.googleData,
         image:trip.image,
         locations:trip.locations,
-        userData:trip.userData,
+        userData:loginFunctions.getUserData(),
       }
       let itemsRef = firebase.database().ref().child('trips');
       var newRef = itemsRef.push();
