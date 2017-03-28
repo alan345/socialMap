@@ -13,41 +13,54 @@ import  {
 } from 'react-native';
 import SaveToMyTripsButton from '../../trips/SaveToMyTripsButton';
 import AddLocationButton from '../../locations/AddLocationButton';
+import AddTrip from '../../trips/AddTrip';
 
 
 
 export default class HeaderDetailsViews extends Component {
+    constructor(props){
+      super();
+      this.state = {
+        showAddTrip:false,
+      }
+    }
+
+    render(){
+        return (
+          <View style={styles.container}>
+            <View style={styles.row}>
+              <SaveToMyTripsButton
+                trip={this.props.trip}
+                isEditingMyTrip={this.props.isEditingMyTrip}
+                onEditTripMode={this.props.onEditTripMode}
+                userData={this.props.userData}
+                onSelecetTrip={this.props.onSelecetTrip}
+              />
+              <AddLocationButton
+                trip={this.props.trip}
+                isEditingMyTrip={this.props.isEditingMyTrip}
+                onEditTripMode={this.props.onEditTripMode}
+                userData={this.props.userData}
+              />
+              <AddTrip
 
 
-      render(){
-          return (
-            <View style={styles.container}>
-              <View style={styles.row}>
-                <SaveToMyTripsButton
-                  trip={this.props.trip}
-                  isEditingMyTrip={this.props.isEditingMyTrip}
-                  onEditTripMode={this.props.onEditTripMode}
-                  userData={this.props.userData}
-                  onSelecetTrip={this.props.onSelecetTrip}
-                />
-                <AddLocationButton
-                  trip={this.props.trip}
-                  isEditingMyTrip={this.props.isEditingMyTrip}
-                  onEditTripMode={this.props.onEditTripMode}
-                  userData={this.props.userData}
-                />
-        
-                <View>
-                  <Text>{this.props.trip.userData.name}</Text>
-                  <Text>{this.props.trip.title}</Text>
-                  <Text>{this.props.trip.googleData.address_components.administrative_area_level_1}</Text>
-                  <Text>{this.props.trip.googleData.address_components.country}</Text>
-                  <Text>{this.props.trip.googleData.address_components.locality}</Text>
-                </View>
+                trip={this.state.trip}
+
+                ref={(child) => { this._childAddTrip = child; }}
+              />
+
+              <View>
+                <Text>{this.props.trip.userData.name}</Text>
+                <Text>{this.props.trip.title}</Text>
+                <Text>{this.props.trip.googleData.address_components.administrative_area_level_1}</Text>
+                <Text>{this.props.trip.googleData.address_components.country}</Text>
+                <Text>{this.props.trip.googleData.address_components.locality}</Text>
               </View>
             </View>
-        );
-      }
+          </View>
+      );
+    }
 };
 
 let Window = Dimensions.get('window');
