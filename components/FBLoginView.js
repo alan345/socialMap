@@ -72,6 +72,7 @@ class FBLoginView extends Component {
     // this.setState({
     //   userData: userData
     // })
+
     this.goToNextScreen()
     //this.updateUserData(userData.profile)
   }

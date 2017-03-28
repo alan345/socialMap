@@ -11,21 +11,19 @@ import {
   Dimensions,
 } from 'react-native';
 import ShowLoading from '../ShowLoading';
-
 const { width, height } = Dimensions.get('window');
-
-export default class EditMyTripButton extends Component {
-
+export default class AddLocationButton extends Component {
 
 
-  editMyTrip(){
-    this.props.onEditTripMode()
+
+  addLocation(){
+    //this.props.onEditTripMode()
   }
 
   render() {
 
-    if(this.props.isEditingMyTrip)
-      return null
+    // if(this.props.isEditingMyTrip)
+    //   return null
     if(!this.props.trip.isMyTrip)
       return null
 
@@ -33,8 +31,8 @@ export default class EditMyTripButton extends Component {
 
       <View style={styles.container}>
         <Button
-          onPress={this.editMyTrip.bind(this)}
-          title="Edit my Trip"
+          onPress={this.addLocation.bind(this)}
+          title="Add Location"
           color="#841584"
           accessibilityLabel="Edit my Trip"
         />

@@ -30,7 +30,7 @@ export default class ListTrips extends Component {
   constructor(props) {
     super(props)
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-    console.log(firebaseFunctions.tripsCache)
+    //console.log(firebaseFunctions.tripsCache)
     this.state = {
         styleHeight :{
           height:heightSearchTopMenuOpen
@@ -47,6 +47,7 @@ export default class ListTrips extends Component {
   }
 
   componentDidMount() {
+      firebaseFunctions.listenForTrips();
       let _this = this;
       _this.updateListDataSource(_this);
       firebaseFunctions.addObserver('trips_changed', _this.updateListDataSource.bind(_this));

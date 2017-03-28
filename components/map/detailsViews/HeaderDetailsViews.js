@@ -12,7 +12,7 @@ import  {
   Button,
 } from 'react-native';
 import SaveToMyTripsButton from '../../trips/SaveToMyTripsButton';
-import EditMyTripButton from '../../trips/EditMyTripButton';
+import AddLocationButton from '../../locations/AddLocationButton';
 
 
 
@@ -30,7 +30,7 @@ export default class HeaderDetailsViews extends Component {
                 userData={this.props.userData}
                 onSelecetTrip={this.props.onSelecetTrip}
               />
-              <EditMyTripButton
+              <AddLocationButton
                 trip={this.props.trip}
                 isEditingMyTrip={this.props.isEditingMyTrip}
                 onEditTripMode={this.props.onEditTripMode}

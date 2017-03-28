@@ -163,7 +163,7 @@ export default class MapAndDetails extends React.Component {
     }
 
     onSelecetTrip(trip) {
-
+      console.log(trip)
       // Help Nico. Ici peut etre remonter la fonction onSelecetTrip
       this.props.navigation.navigate('MapAndDetailsScreen', { trip: trip })
       // this.setState({

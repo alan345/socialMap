@@ -22,7 +22,7 @@ class FirebaseFunctions {
             this.tripsCache = []
             this.currentTrip = {}
             console.log("initializing FirebaseFunctions")
-            this.listenForTrips()
+//            this.listenForTrips()
             this.observers = []
       }
       return instance
@@ -73,7 +73,6 @@ class FirebaseFunctions {
         console.error('listenTrip no tripKey')
         return
       }
-
       this.getRef().child('trips').child(tripKey).on('value', (snapshot) => {
           this.currentTrip = snapshot.val()
           this.currentTrip.key = tripKey
@@ -92,13 +91,13 @@ class FirebaseFunctions {
   }
 
   isMyTrip(trip){
-    console.log(loginFunctions.getUserData())
+    //console.log(loginFunctions.getUserData())
     let isMyTrip = false;
-    // if(trip.userData.profile.id === loginFunctions.getUserData().profile.id) {
-    //   isMyTrip = true;
-    // } else {
-    //   isMyTrip = false;
-    // }
+    if(trip.userData.profile.id === loginFunctions.getUserData().profile.id) {
+      isMyTrip = true;
+    } else {
+      isMyTrip = false;
+    }
     return isMyTrip
   }
 
