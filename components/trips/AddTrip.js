@@ -67,11 +67,21 @@ export default class AddTrip extends React.Component {
       trip.city = marker.googleData.address_components.locality
       trip.userData = loginFunctions.getUserData()
       firebaseFunctions.addTrip(trip).then(function(trip) {
-        component.props.onSelecetTrip(trip)
-        component.closeWindows()
-      }).then(function(e) {
-         console.log('Error');
-      });
+
+        let marker = {
+          coordinates: trip.googleData.coordinateGoogleAddress,
+          googleData:trip.googleData,
+          description: 'My new fresh Trip',
+        }
+        firebaseFunctions.addLocationToFirebase(marker, trip.key).then(function(ref){
+          component.props.onSelecetTrip(trip)
+          component.closeWindows()
+        }).catch(function(e) {
+           console.log(e);
+        })
+      }).catch(function(e) {
+         console.log(e);
+      })
       //component.props.onSelecetTrip(trip)
     })
 

@@ -226,14 +226,17 @@ class FirebaseFunctions {
     }
 
     let itemsRef = this.getRefLocations(tripId);
-    itemsRef.push({
-    //  title: marker.title,
-      coordinates: marker.coordinates,
-      googleData:marker.googleData,
-      description: marker.description,
-      image: markerImg,
-      datePin: Date(),
-    });
+    return new Promise(function(resolve,reject){
+      var ref = itemsRef.push({
+      //  title: marker.title,
+        coordinates: marker.coordinates,
+        googleData:marker.googleData,
+        description: marker.description,
+        image: markerImg,
+        datePin: Date(),
+      })
+      resolve(ref)
+    })
   }
 
 
