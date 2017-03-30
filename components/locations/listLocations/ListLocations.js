@@ -13,7 +13,7 @@ import RowLocation from './RowLocation';
 
 export default class ListLocations extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
@@ -29,11 +29,15 @@ export default class ListLocations extends Component {
         onSelecetLocation={this.props.onSelecetLocation}
         userData={this.props.userData}
       />
-    );
+    )
   }
 
   componentDidMount() {
-    this.listenForItems();
+    this.listenForItems()
+  }
+
+  componentWillReceiveProps() {
+    this.listenForItems()
   }
 
 

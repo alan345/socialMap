@@ -19,6 +19,11 @@ const configuration = new Configuration(),
 
 
 export default class App extends React.Component {
+
+    componentDidMount() {
+        // firebaseFunctions.uploadImage()
+    }
+
     render() {
       return (
         <Navigator />
