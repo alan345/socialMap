@@ -16,20 +16,25 @@ import * as firebase from 'firebase';
 import Firebase from "../../includes/firebase";
 import ShowLoading from '../ShowLoading';
 import FirebaseFunctions from "../../includes/FirebaseFunctions";
-const { width, height } = Dimensions.get('window');
 import GoogleAPI from '../../includes/GoogleAPI';
+import LoginFunctions from '../../includes/LoginFunctions';
+import AutocompleteAddress from "../../includes/AutocompleteAddress";
+const { width, height } = Dimensions.get('window');
 
 var firebaseFunctions = new FirebaseFunctions();
-
+var loginFunctions = new LoginFunctions();
 
 export default class AddTrip extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       isLoading:false,
+      showAddTrip:false,
+      inputAutocomplete:'',
       trip: {
         googleData:{},
-        city:'',
+        locations:{},
+      //  city:'',
         title:'',
         image:'http://ozandgo.com/wp-content/uploads/2014/10/covoiturage-australie-van-roadtrip.jpg',
       }
@@ -51,22 +56,52 @@ export default class AddTrip extends React.Component {
   }
 
   saveTrip(){
-    let address = this.state.trip.city
+    let inputAutocomplete = this.state.inputAutocomplete
     let component = this;
 
-//    component._childFirebaseFunctions.functionToDelete()
-    let trip = this.props.trip
-    this._childGoogleAPI.getDataFromGoogleAPiByAddress(address).then(function(marker){
-      trip.googleData = marker.googleData
-      trip.title = component.state.trip.title
-      trip.city = marker.googleData.address_components.locality
-      trip.userData = component.props.userData
-      //component._addTripToFireBase(trip)
-      firebaseFunctions.addTrip(trip)
 
-      //component._childFirebaseFunctions.functionToDelete()
+    let trip = this.state.trip
+    this._childGoogleAPI.getDataFromGoogleAPiByAddress(inputAutocomplete).then(function(marker){
+      trip.googleData = marker.googleData
+      trip.title = 'new title'
+      trip.city = marker.googleData.address_components.locality
+      trip.userData = loginFunctions.getUserData()
+      firebaseFunctions.addTrip(trip).then(function(trip) {
+
+        let marker = {
+          coordinates: trip.googleData.coordinateGoogleAddress,
+          googleData:trip.googleData,
+          description: 'My new fresh Trip',
+        }
+        firebaseFunctions.addLocationToFirebase(marker, trip.key).then(function(ref){
+          component.props.onSelecetTrip(trip)
+          component.closeWindows()
+        }).catch(function(e) {
+           console.log(e);
+        })
+      }).catch(function(e) {
+         console.log(e);
+      })
+      //component.props.onSelecetTrip(trip)
     })
-    this.props.hideAddTrip()
+
+    //this.props.hideAddTrip()
+  }
+
+  _onChangeText(description) {
+    this.setState({
+      inputAutocomplete : description
+    })
+
+
+    // this.setState({
+    //   isLoading:true,
+    //   search : {
+    //     city:description
+    //   }
+    // }, function() {
+    //   this.listenForItems()
+    // })
   }
 
   _addTripToFireBase(trip){
@@ -116,8 +151,17 @@ export default class AddTrip extends React.Component {
     this.props.hideAddTrip()
   }
   closeWindows(){
-    this.props.hideAddTrip()
+    this.setState({
+      showAddTrip:false
+    })
   }
+
+  showAddTrip(){
+    this.setState({
+      showAddTrip:true
+    })
+  }
+
 
 
   render() {
@@ -129,53 +173,24 @@ export default class AddTrip extends React.Component {
         <Modal
           animationType={"slide"}
           transparent={false}
-          visible={this.props.showAddTrip}
-          onRequestClose={() => {alert("Modal has been closed.")}}
+          visible={this.state.showAddTrip}
+          onRequestClose={() => {this.closeWindows()}}
           >
+
          <View style={styles.container}>
           <View>
 
                 <ShowLoading
                   isLoading={this.state.isLoading}
                 />
-                <Text>Your Trip</Text>
-                <TextInput
-                  value={this.state.trip.title}
-                  placeholder = "Title"
-                  style={styles.inputField}
-                  onChangeText={(text) => this.setState({
-                    trip: {
-                      city:this.state.trip.city,
-                      title:text,
-                    }
-
-                  })}
+                <Text>Chose your departure</Text>
+                <View style={styles.searchView}>
+                <AutocompleteAddress
+                  onChangeText={this._onChangeText.bind(this)}
                 />
-                <TextInput
-                  value={this.state.trip.city}
-                  placeholder = "City"
-                  style={styles.inputField}
-                  onChangeText={(text) => this.setState({
-                    trip: {
-                      city:text,
-                      title:this.state.trip.title,
-                    }
-                  })}
-                />
+                </View>
 
-                  <Button
-                    onPress={this.closeWindows.bind(this)}
-                    title="Cancel"
-                    color="#841584"
-                    accessibilityLabel="cancel"
-                  />
                   <Text> </Text>
-                  <Button
-                    onPress={this.deleteTrip.bind(this)}
-                    title="Delete"
-                    color="#841584"
-                    accessibilityLabel="delete"
-                  />
                   <Text> </Text>
                   <Button
                     onPress={this.saveTrip.bind(this)}
@@ -183,7 +198,13 @@ export default class AddTrip extends React.Component {
                     color="#841584"
                     accessibilityLabel="ok"
                   />
-
+                  <Text> </Text>
+                  <Button
+                    onPress={this.closeWindows.bind(this)}
+                    title="Cancel"
+                    color="#841584"
+                    accessibilityLabel="cancel"
+                  />
           </View>
          </View>
         </Modal>
@@ -194,12 +215,13 @@ export default class AddTrip extends React.Component {
   }
 }
 const styles = StyleSheet.create({
+  searchView:{
+    flexDirection: 'row',
+  },
   container: {
     padding:40,
-
   },
   row: {
-
   },
   inputField:{
 

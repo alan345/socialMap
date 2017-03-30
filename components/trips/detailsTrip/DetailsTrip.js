@@ -23,16 +23,7 @@ export default class AddTripButton extends Component {
       <View>
         <View style={{marginTop: 0}}>
           <View style={styles.row}>
-            <View>
-          
-              <Text>{this.props.trip.userData.name}</Text>
-            </View>
-            <View>
-              <Text>{this.props.trip.title}</Text>
-              <Text>{this.props.trip.googleData.address_components.administrative_area_level_1}</Text>
-              <Text>{this.props.trip.googleData.address_components.country}</Text>
-              <Text>{this.props.trip.googleData.address_components.locality}</Text>
-            </View>
+
           </View>
           <ListLocations
             trip={this.props.trip}

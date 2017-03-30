@@ -29,7 +29,6 @@ export default class DetailsLocation extends Component {
 
     return (
       <View style={styles.container}>
-
           <View style={styles.headerDetails}>
             <BackToDetailsTripButton
               showDetailsTrip={this.props.showDetailsTrip}
@@ -41,12 +40,7 @@ export default class DetailsLocation extends Component {
             <Text
               style={styles.text}
             >{this.props.selectedMarker.googleData.address_components.neighborhood}</Text>
-
-    
-
-
           </View>
-
               <View>
                 <View style={styles.row}>
                   <Button

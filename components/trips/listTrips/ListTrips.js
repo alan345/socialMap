@@ -30,6 +30,7 @@ export default class ListTrips extends Component {
   constructor(props) {
     super(props)
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    //console.log(firebaseFunctions.tripsCache)
     this.state = {
         styleHeight :{
           height:heightSearchTopMenuOpen
@@ -46,6 +47,7 @@ export default class ListTrips extends Component {
   }
 
   componentDidMount() {
+      firebaseFunctions.listenForTrips();
       let _this = this;
       _this.updateListDataSource(_this);
       firebaseFunctions.addObserver('trips_changed', _this.updateListDataSource.bind(_this));
@@ -62,11 +64,12 @@ export default class ListTrips extends Component {
   }
 
   showAddTrip() {
-    this.setState({showAddTrip:true})
+
+    //this.setState({showAddTrip:true})
   }
 
   hideAddTrip() {
-    this.setState({showAddTrip:false})
+  //  this.setState({showAddTrip:false})
   }
 
 
@@ -110,18 +113,19 @@ export default class ListTrips extends Component {
 
 
   onPressButtonTrip(){
+    this._childAddTrip.showAddTrip()
   //  this.props.onItemSelected('MyMaps')
-    this.setState({
-      showAddTrip:true,
-      trip:{
-        city:'',
-        title:'',
-        image:'https://pickaface.net/gallery/avatar/Opi51c74d0125fd4.png',
-        locations:{},
-      }
-    }, function(){
-      this._childAddTrip.propsToState()
-    })
+    // this.setState({
+    //   showAddTrip:true,
+    //   trip:{
+    //     city:'',
+    //     title:'',
+    //     image:'https://pickaface.net/gallery/avatar/Opi51c74d0125fd4.png',
+    //     locations:{},
+    //   }
+    // }, function(){
+    //   this._childAddTrip.propsToState()
+    // })
   }
 
   onSelecetTrip(trip){
@@ -171,6 +175,7 @@ export default class ListTrips extends Component {
             onSelecetTrip={this.onSelecetTrip.bind(this)}
             ref={(child) => { this._childAddTrip = child; }}
           />
+
 
           <View style={styles.searchView}>
             <AutocompleteAddress

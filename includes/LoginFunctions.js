@@ -27,6 +27,9 @@ class LoginFunctions {
       }
       return instance
   }
+  getRef() {
+     return firebase.database().ref()
+  }  
   saveUserData(updatedUserData){
     this.UserData = updatedUserData
     //console.log(updatedUserData)
@@ -34,7 +37,31 @@ class LoginFunctions {
   getUserData(){
     return this.UserData
   }
+  getRefUsers() {
+     return this.getRef().child('users')
+  }
 
+
+  updateOrCreateUserToFirebase(userData) {
+    let itemsRef = this.getRefUsers();
+    itemsRef.orderByChild("profile/id").equalTo(userData.profile.id).on("value", function(snapshot) {
+      if (snapshot.val()) {
+        //update
+        //console.log(snapshot.val())
+      } else {
+        itemsRef.push(userData);
+      }
+    });
+  }
+
+  getUser(credentials) {
+    let itemsRef = this.getRefUsers();
+    return new Promise(function(resolve,reject){
+        itemsRef.orderByChild("profile/id").equalTo(credentials.userId).on("child_added", function(snapshot) {
+          resolve( snapshot.val())
+        });
+    })
+  }
 }
 
 module.exports = LoginFunctions;

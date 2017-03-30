@@ -214,7 +214,8 @@ export default class MapAndDetails extends React.Component {
     }
 
     goToListTrips(){
-      this.props.navigation.goBack()
+      this.props.navigation.navigate('ListTripsScreen')
+      //this.props.navigation.goBack()
     }
 
 
@@ -260,7 +261,7 @@ export default class MapAndDetails extends React.Component {
             />
             <DetailsViews
               selectedMarker={this.state.selectedMarker}
-              trip={params.trip}
+              trip={this.state.trip}
               isEditingMyTrip={this.state.isEditingMyTrip}
               showDetailsTrip={this.showDetailsTrip.bind(this)}
               onMarkerSelected={this.onMarkerSelected.bind(this)}
