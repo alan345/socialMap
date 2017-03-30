@@ -11,6 +11,8 @@ import React, { Component } from 'react'; import {
   Image,
   TouchableHighlight,
 } from 'react-native';
+import * as firebase from 'firebase';
+import Firebase from "../../../includes/firebase";
 import RowTrip from './RowTrip';
 import AddTrip from '../AddTrip';
 import AddTripButton from '../AddTripButton';
@@ -55,6 +57,10 @@ export default class ListTrips extends Component {
       this.setState({
           dataSource: this.state.dataSource.cloneWithRows(firebaseFunctions.tripsCache)
       })
+  }
+
+  getRef() {
+     return firebase.database().ref();
   }
 
   showAddTrip() {

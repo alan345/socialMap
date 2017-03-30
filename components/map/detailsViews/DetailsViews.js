@@ -16,17 +16,21 @@ import HeaderDetailsViews from './HeaderDetailsViews';
 import DetailsLocation from '../../locations/detailsLocation/DetailsLocation';
 import DetailsTrip from '../../trips/detailsTrip/DetailsTrip';
 
+
+
 const { width, height } = Dimensions.get('window');
 
 export default class DetailsViews extends Component {
   constructor(props){
-    super(props)
+    super();
     this.state = {
-      isEditMode: false,
-      isEditAddress: false,
-      pan: new Animated.ValueXY(),
-      position: 0
-    }
+      isEditMode:false,
+      isEditAddress:false,
+      pan     : new Animated.ValueXY(),
+      position : 0
+    };
+
+
 
     this.panResponder = PanResponder.create({
          onStartShouldSetPanResponder    : () => true,
@@ -99,9 +103,13 @@ export default class DetailsViews extends Component {
         ).start();
       }
 
+
+
       isDropZone(gesture){
           return gesture.moveY > 0 && gesture.moveY <  400;
       }
+
+
 
       inputFocused (refName) {
         setTimeout(() => {
@@ -122,9 +130,11 @@ export default class DetailsViews extends Component {
         }
       }
 
+
       render(){
         if(!this.props.trip.key)
           return null
+
 
           return (
             <View style={styles.draggableContainer}>
@@ -154,12 +164,13 @@ export default class DetailsViews extends Component {
                   />
                 </Animated.View>
             </View>
-        )
+        );
       }
-}
+};
 
 let Window = Dimensions.get('window');
 const styles = StyleSheet.create({
+
      draggableContainer: {
          position    : 'absolute',
   //       top         : Window.height,
@@ -171,4 +182,4 @@ const styles = StyleSheet.create({
       height              : 400,
       borderRadius        : 5
      }
-})
+});

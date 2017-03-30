@@ -8,13 +8,6 @@ import LoginFunctions from "./LoginFunctions";
 import markerImg from '../assets/map_marker_default.png';
 var loginFunctions = new LoginFunctions();
 
-// Prepare Blob support
-import RNFetchBlob from 'react-native-fetch-blob'
-const Blob = RNFetchBlob.polyfill.Blob
-const fs = RNFetchBlob.fs
-// window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
-// window.Blob = Blob
-
 
 let instance = null;
 
@@ -31,9 +24,6 @@ class FirebaseFunctions {
             console.log("initializing FirebaseFunctions")
 //            this.listenForTrips()
             this.observers = []
-            this.storage = firebase.storage()
-            this.storageRef = this.storage.ref('images')
-
       }
       return instance
   }
@@ -290,48 +280,6 @@ class FirebaseFunctions {
   }
 
 //----------------------------------------------------------------------------
-
-
-  uploadImage() {
-      // warning if path incorrect it will fail silently. @todo : add a path check
-      let path = '/storage/emulated/0/DCIM/Facebook/small.jpg'
-
-      const timestamp = new Date().getTime()
-      const filename = `test_${timestamp}.jpg`
-
-      Blob.build(RNFetchBlob.wrap(path), { type: 'image/jpeg' })
-          .then((blob) => {
-              console.log('blob', blob)
-              var uploadTask = this.storageRef.child(filename).put(blob, { contentType : 'image/jpg' })
-
-              uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
-                function(snapshot) {
-                  // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-                  var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                  console.log('Upload is ' + progress + '% done');
-                  switch (snapshot.state) {
-                    case firebase.storage.TaskState.PAUSED: // or 'paused'
-                      console.log('Upload is paused');
-                      break;
-                    case firebase.storage.TaskState.RUNNING: // or 'running'
-                      console.log('Upload is running');
-                      break;
-                  }
-                }, function(error) {
-                      // A full list of error codes is available at
-                      // https://firebase.google.com/docs/storage/web/handle-errors
-                      console.error('uploadImage', error)
-
-              }, function() {
-                let downloadURL = uploadTask.snapshot.downloadURL;
-                console.log('downloadURL', downloadURL)
-              })
-          })
-          .catch((error) => {
-              console.error(error)
-          })
-  }
-
 
 }
 
