@@ -17,6 +17,7 @@ export default class ShowTripTitle extends Component {
   }
 
   render() {
+
     // if(!this.props.isEditingMyTrip)
     //   return null
     // if(!this.props.trip.key)

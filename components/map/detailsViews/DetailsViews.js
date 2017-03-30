@@ -92,7 +92,7 @@ export default class DetailsViews extends Component {
           yPosition = -70
 
         if(position == 2)
-          yPosition = -400
+          yPosition = -300
 
         if(position == 3)
           yPosition = -600
@@ -135,7 +135,7 @@ export default class DetailsViews extends Component {
         if(!this.props.trip.key)
           return null
 
-          
+
           return (
             <View style={styles.draggableContainer}>
 
