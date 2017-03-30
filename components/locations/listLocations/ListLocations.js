@@ -37,7 +37,6 @@ export default class ListLocations extends Component {
   }
 
   componentWillReceiveProps() {
-    console.log('ListLocations will receive pros', this.props.trip)
     this.listenForItems()
   }
 
