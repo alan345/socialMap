@@ -12,8 +12,8 @@ var loginFunctions = new LoginFunctions();
 import RNFetchBlob from 'react-native-fetch-blob'
 const Blob = RNFetchBlob.polyfill.Blob
 const fs = RNFetchBlob.fs
-window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
-window.Blob = Blob
+// window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
+// window.Blob = Blob
 
 
 let instance = null;
