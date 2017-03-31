@@ -7,6 +7,9 @@ import {
   View,
 } from 'react-native';
 import Camera from 'react-native-camera';
+import FirebaseFunctions from "../includes/FirebaseFunctions";
+var firebaseFunctions = new FirebaseFunctions();
+
 
 const styles = StyleSheet.create({
   container: {
@@ -77,8 +80,8 @@ export default class Capture extends React.Component {
       let _this = this;
       this.camera.capture()
         .then(function(data) {
-            console.log('picture data', data);
-            _this.props.navigator.replace({name: 'mapTrip'});
+            firebaseFunctions.uploadImage(data.path)
+            _this.props.navigation.navigate('MapAndDetailsScreen', {trip: firebaseFunctions.currentTrip})
         })
         .catch(err => console.error(err));
     }

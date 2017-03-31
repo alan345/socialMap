@@ -12,9 +12,9 @@ var loginFunctions = new LoginFunctions();
 import RNFetchBlob from 'react-native-fetch-blob'
 const Blob = RNFetchBlob.polyfill.Blob
 const fs = RNFetchBlob.fs
-// window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
-// window.Blob = Blob
 
+const OriginalBlob = window.Blob
+const OriginalXMLHttpRequest = window.XMLHttpRequest
 
 let instance = null;
 
@@ -291,18 +291,27 @@ class FirebaseFunctions {
 
 //----------------------------------------------------------------------------
 
+  // See : https://github.com/CodeLinkIO/Firebase-Image-Upload-React-Native
+  // https://github.com/wkh237/rn-firebase-storage-upload-sample
+  uploadImage(uri) {
 
-  uploadImage() {
-      // warning if path incorrect it will fail silently. @todo : add a path check
-      let path = '/storage/emulated/0/DCIM/Facebook/small.jpg'
+      if (!uri) {
+         console.error('uploadImage no uri')
+         return
+      }
+
+      // warning if uri incorrect it will fail silently. @todo : add a path check
+      // file:///storage/emulated/0/Pictures/IMG_20170331_113153.jpg
 
       const timestamp = new Date().getTime()
       const filename = `test_${timestamp}.jpg`
+      window.Blob = RNFetchBlob.polyfill.Blob
+      window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
 
-      Blob.build(RNFetchBlob.wrap(path), { type: 'image/jpeg' })
+      Blob.build(RNFetchBlob.wrap(uri), { type: 'image/jpeg' })
           .then((blob) => {
               console.log('blob', blob)
-              var uploadTask = this.storageRef.child(filename).put(blob, { contentType : 'image/jpg' })
+              var uploadTask = this.storageRef.child(filename).put(blob, { contentType : 'image/jpeg' })
 
               uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
                 function(snapshot) {
@@ -323,12 +332,16 @@ class FirebaseFunctions {
                       console.error('uploadImage', error)
 
               }, function() {
-                let downloadURL = uploadTask.snapshot.downloadURL;
+                let downloadURL = uploadTask.snapshot.downloadURL
                 console.log('downloadURL', downloadURL)
+                window.Blob = OriginalBlob
+                window.XMLHttpRequest = OriginalXMLHttpRequest
               })
           })
           .catch((error) => {
               console.error(error)
+              window.Blob = OriginalBlob
+              window.XMLHttpRequest = OriginalXMLHttpRequest
           })
   }
 
