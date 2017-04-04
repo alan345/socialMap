@@ -130,7 +130,7 @@ export default class MapAndDetails extends React.Component {
 
       this._childGoogleAPI.getDataFromGoogleAPiByCoordinates(coordinates).then(function(marker){
         marker.key = key
-        marker.datePin = Date()
+        marker.datePin = Date.now()
         marker.description = ""
 
       //  marker.userData = component.props.userData

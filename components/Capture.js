@@ -7,6 +7,9 @@ import {
   View,
 } from 'react-native';
 import Camera from 'react-native-camera';
+import FirebaseFunctions from "../includes/FirebaseFunctions";
+var firebaseFunctions = new FirebaseFunctions();
+
 
 const styles = StyleSheet.create({
   container: {
@@ -72,13 +75,63 @@ export default class Capture extends React.Component {
     };
   }
 
+  componentDidMount() {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          var initialPosition = initialPosition // JSON.stringify(position);
+          this.setState({initialPosition});
+          console.log('initialPosition', initialPosition)
+        },
+        (error) => alert(JSON.stringify(error)),
+        {enableHighAccuracy: false, timeout: 20000, maximumAge: 1000}
+      );
+      this.watchID = navigator.geolocation.watchPosition((position) => {
+        var lastPosition = position; // JSON.stringify(position);
+        this.setState({lastPosition});
+        console.log('lastPosition', lastPosition)
+        // {"mocked":false,"timestamp":1491281487563,"coords":{"speed":0,"heading":0,"accuracy":19.617000579833984,"longitude":-122.4371248,"altitude":0,"a":37.6399456}}
+      });
+  }
+
+  componentWillUnmount() {
+      navigator.geolocation.clearWatch(this.watchID);
+  }
+
+  createLocation() {
+    if (!this.state.lastPosition && !this.state.lastPosition.coords ) {
+        console.error('unknown lastPosition')
+        return
+    }
+
+    let location = {}
+    location.created_date = Date.now()
+
+    let coordinates = {
+      latitude: this.state.lastPosition.coords.latitude,
+      longitude: this.state.lastPosition.coords.longitude
+    }
+
+    location.coordinates = coordinates
+    // marker.mainImage
+
+    console.log('createLocation',location)
+
+    if (!firebaseFunctions.currentTrip.key) {
+       return
+    }
+
+    firebaseFunctions.addLocationToFirebase(location, firebaseFunctions.currentTrip.key)
+
+  }
+
   takePicture = () => {
     if (this.camera) {
       let _this = this;
       this.camera.capture()
         .then(function(data) {
-            console.log('picture data', data);
-            _this.props.navigator.replace({name: 'mapTrip'});
+            // firebaseFunctions.uploadImage(data.path)
+            _this.createLocation()
+            _this.props.navigation.navigate('MapAndDetailsScreen', {trip: firebaseFunctions.currentTrip})
         })
         .catch(err => console.error(err));
     }
