@@ -240,9 +240,9 @@ class FirebaseFunctions {
       var ref = itemsRef.push({
       //  title: marker.title,
         coordinates: marker.coordinates,
-        googleData:marker.googleData,
-        description: marker.description,
-        image: markerImg,
+        googleData:marker.googleData || null,
+        description: marker.description || null,
+        // image: markerImg,
         datePin: Date(),
       })
       resolve(ref)
