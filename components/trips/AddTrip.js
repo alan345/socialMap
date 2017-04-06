@@ -40,7 +40,6 @@ export default class AddTrip extends React.Component {
       }
     };
     this._addTripToFireBase = this._addTripToFireBase.bind(this);
-//this.saveTrip = this.saveTrip.bind(this);
     this.itemsRef = this.getRef().child('trips');
   }
 
@@ -67,6 +66,7 @@ export default class AddTrip extends React.Component {
 
 
   saveTrip(){
+    this._childShowLoading.showLoading()
     let inputAutocomplete = this.state.inputAutocomplete
     let component = this;
     this._childGoogleAPI.getDataFromGoogleAPiByAddress(inputAutocomplete).then(function(marker){
@@ -177,9 +177,6 @@ export default class AddTrip extends React.Component {
 
 
   render() {
-
-
-
     return (
 
       <View style={{marginTop: 22}}>
@@ -195,7 +192,7 @@ export default class AddTrip extends React.Component {
           <View>
 
                 <ShowLoading
-                  isLoading={this.state.isLoading}
+                  ref={(child) => { this._childShowLoading = child; }}
                 />
                 <Text>Chose your departure</Text>
                 <View style={styles.searchView}>

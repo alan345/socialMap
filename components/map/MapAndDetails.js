@@ -52,7 +52,6 @@ let initSelectedMarker = {
 }
 
 export default class MapAndDetails extends React.Component {
-
     constructor(props) {
         super(props)
         this.state = {
@@ -63,7 +62,7 @@ export default class MapAndDetails extends React.Component {
           locations: [],
           selectedMarker: initSelectedMarker
         }
-        this.changeRegionAnimate = this.changeRegionAnimate.bind(this)
+        //this.changeRegionAnimate = this.changeRegionAnimate.bind(this)
     }
 
     componentDidMount() {
@@ -150,15 +149,15 @@ export default class MapAndDetails extends React.Component {
       this.listenForItems();
       //this.changeRegionAnimate(item)
     }
-    changeRegionAnimate(item) {
-      console.log('aa')
-      // let newRegion = {
-      //   ...this.state.region,
-      //   latitude: item.googleData.coordinateGoogleAddress.latitude,
-      //   longitude: item.googleData.coordinateGoogleAddress.longitude,
-      // }
-    //  this.map.animateToRegion(newRegion);
-    }
+    // changeRegionAnimate(item) {
+    //   console.log('aa')
+    //   // let newRegion = {
+    //   //   ...this.state.region,
+    //   //   latitude: item.googleData.coordinateGoogleAddress.latitude,
+    //   //   longitude: item.googleData.coordinateGoogleAddress.longitude,
+    //   // }
+    // //  this.map.animateToRegion(newRegion);
+    // }
 
 
     onSelecetLocation(location) {
@@ -240,10 +239,7 @@ export default class MapAndDetails extends React.Component {
               onPressDeleteMarker={this.onPressDeleteMarker.bind(this)}
               onEditTripMode={this.onEditTripMode.bind(this)}
               onSelecetTrip={this.onSelecetTrip.bind(this)}
-        //      userData={this.state.userData}
-
-
-              changeRegionAnimate={this.changeRegionAnimate}
+              //changeRegionAnimate={this.changeRegionAnimate}
               ref={(child) => { this._childDetailsViews = child; }}
             />
 
