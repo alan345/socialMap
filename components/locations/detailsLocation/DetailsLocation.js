@@ -15,6 +15,20 @@ import BackToDetailsTripButton from './BackToDetailsTripButton';
 
 
 export default class DetailsLocation extends Component {
+
+
+  constructor(props) {
+      super(props)
+
+      this.state = {
+          image: this.props.selectedMarker.googleData && this.props.selectedMarker.googleData.imagePin || 'https://pickaface.net/gallery/avatar/Opi51c74d0125fd4.png',
+          neighborhood: this.props.selectedMarker.googleData && this.props.selectedMarker.googleData.address_components.neighborhood || 'no neighborhood',
+          address: this.props.selectedMarker.googleData && this.props.selectedMarker.googleData.address || 'no adress'
+      }
+  }
+
+
+
   onPressDeleteMarker(){
     this.props.showDetailsTrip()
     let marker = this.props.selectedMarker;
@@ -35,11 +49,11 @@ export default class DetailsLocation extends Component {
             />
             <Image
               style={styles.icon}
-              source={{uri: this.props.selectedMarker.googleData.imagePin}}
+              source={{uri: this.state.image}}
             />
             <Text
               style={styles.text}
-            >{this.props.selectedMarker.googleData.address_components.neighborhood}</Text>
+            >{this.state.neighborhood}</Text>
           </View>
               <View>
                 <View style={styles.row}>
@@ -51,7 +65,8 @@ export default class DetailsLocation extends Component {
                     color="#841584"
                     accessibilityLabel="✎"
                   />
-                  <Text>{this.props.selectedMarker.googleData.address}</Text>
+                  <Text>{this.state.address}</Text>
+                  
                   <EditAddress
                     onMarkerSelected={this.props.onMarkerSelected}
                     selectedMarker={this.props.selectedMarker}
@@ -78,10 +93,6 @@ export default class DetailsLocation extends Component {
 
               </View>
 
-            <Text>Country: {this.props.selectedMarker.googleData.address_components.country}</Text>
-            <Text>Locality: {this.props.selectedMarker.googleData.address_components.locality}</Text>
-            <Text>State: {this.props.selectedMarker.googleData.address_components.administrative_area_level_1}</Text>
-            <Text>Neighborhood: {this.props.selectedMarker.googleData.address_components.neighborhood}</Text>
 
             <Text>Date: {this.props.selectedMarker.datePin}</Text>
 

@@ -112,7 +112,7 @@ export default class Capture extends React.Component {
     }
 
     location.coordinates = coordinates
-    // marker.mainImage
+    location.image = ""
 
     console.log('createLocation',location)
 

@@ -74,7 +74,7 @@ export default class MapScreen extends Component {
       for(var key in locations){
           var location = locations[key]
           location['key'] = key
-          location['title'] = locations[key].googleData.address_components.neighborhood
+          // location['title'] = locations[key].googleData.address_components.neighborhood
           locationsArr.push(location)
       }
       this.setState({locationsArr: locationsArr})

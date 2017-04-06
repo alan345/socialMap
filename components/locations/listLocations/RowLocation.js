@@ -12,6 +12,15 @@ import  {
 
 export default class RowLocation extends Component {
 
+  constructor(props) {
+      super(props)
+
+      this.state = {
+          address: this.props.item.googleData && this.props.item.googleData.address || 'no adress',
+          neighborhood: this.props.item.googleData && this.props.item.googleData.address_components.neighborhood || 'no neighborhood',
+          uri: this.props.item.googleData && this.props.item.googleData.imagePin || 'https://pickaface.net/gallery/avatar/Opi51c74d0125fd4.png'
+      }
+  }
 
 
   render() {
@@ -27,14 +36,13 @@ export default class RowLocation extends Component {
               <View>
                 <Image
                   style={styles.icon}
-                  source={{uri: this.props.item.googleData.imagePin}}
+                  source={{uri:this.state.uri}}
                 />
               </View>
             </View>
             <View>
-              <Text>{this.props.item.googleData.address}</Text>
-              <Text>{this.props.item.googleData.address_components.neighborhood}</Text>
-
+              <Text>{this.state.address}</Text>
+              <Text>{this.state.neighborhood}</Text>
             </View>
 
 
