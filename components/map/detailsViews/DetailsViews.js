@@ -88,7 +88,7 @@ export default class DetailsViews extends Component {
           yPosition = -70
 
         if(position == 2)
-          yPosition = -300
+          yPosition = -250
 
         if(position == 3)
           yPosition = -600
