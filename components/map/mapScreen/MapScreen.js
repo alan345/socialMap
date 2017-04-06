@@ -60,6 +60,8 @@ export default class MapScreen extends Component {
 
   componentDidMount() {
       this._updateLocationsArr()
+      console.log('componentDidMount')
+      this.changeRegionAnimate(this.props.trip)
   }
 
   componentWillReceiveProps() {
@@ -80,6 +82,19 @@ export default class MapScreen extends Component {
       this.setState({locationsArr: locationsArr})
   }
 
+  changeRegionAnimate(trip) {
+    var _this = this
+    setTimeout(function(){
+      console.log('changeRegionAnimate')
+      let newRegion = {
+        ..._this.state.region,
+        latitude: trip.googleData.coordinateGoogleAddress.latitude,
+        longitude: trip.googleData.coordinateGoogleAddress.longitude,
+      }
+      console.log(newRegion)
+     _this.map.animateToRegion(newRegion);
+   }, 1000);
+  }
 
   render() {
     return (
@@ -89,7 +104,7 @@ export default class MapScreen extends Component {
           ref={ref => { this.map = ref; }}
           provider={this.props.provider}
           style={styles.map}
-          initialRegion={this.state.region}
+
           showsUserLocation = {true}
           onLongPress = {this.props.onLongPressCreateMarker}
           onPress = {this.props.onPressMap}

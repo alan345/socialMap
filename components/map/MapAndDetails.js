@@ -69,6 +69,7 @@ export default class MapAndDetails extends React.Component {
         let _this = this
         firebaseFunctions.listenTrip(this.props.navigation.state.params.trip.key)
         firebaseFunctions.addObserver('trip_changed', _this._updateTripData.bind(_this))
+        //this._childMapScreen.changeRegionAnimate(this.props.navigation.state.params.trip)
     }
 
     componentWillUnmount() {
@@ -179,14 +180,15 @@ export default class MapAndDetails extends React.Component {
     }
     onMarkerSelected(item) {
       this.listenForItems();
-      this.changeRegionAnimate(item)
+      //this.changeRegionAnimate(item)
     }
     changeRegionAnimate(item) {
-      let newRegion = {
-        ...this.state.region,
-        latitude: item.googleData.coordinateGoogleAddress.latitude,
-        longitude: item.googleData.coordinateGoogleAddress.longitude,
-      }
+      console.log('aa')
+      // let newRegion = {
+      //   ...this.state.region,
+      //   latitude: item.googleData.coordinateGoogleAddress.latitude,
+      //   longitude: item.googleData.coordinateGoogleAddress.longitude,
+      // }
     //  this.map.animateToRegion(newRegion);
     }
 
@@ -225,7 +227,6 @@ export default class MapAndDetails extends React.Component {
     return (
 
       <View style={styles.container}>
-            <GoogleAPI ref={(child) => { this._childGoogleAPI = child }} />
 
             <MapScreen
               locations={this.state.trip.locations}
@@ -233,6 +234,8 @@ export default class MapAndDetails extends React.Component {
               provider={this.props.provider}
               onSelecetLocation={this.onSelecetLocation.bind(this)}
               onLongPressCreateMarker={this.onLongPressCreateMarker.bind(this)}
+              trip={this.state.trip}
+
             />
             <BackToTripButton
               goToListTrips={this.goToListTrips.bind(this)}

@@ -57,10 +57,9 @@ export default class AddTrip extends React.Component {
 
 
   addLocationToTrip(marker, trip){
-    let component = this;
+    // let component = this;
     firebaseFunctions.addLocationToFirebase(marker, trip.key).then(function(ref){
-      component.props.onSelecetTrip(trip)
-      component.closeWindows()
+      //component.closeWindows()
     }).catch(function(e) {
        console.log(e);
     })
@@ -87,6 +86,8 @@ export default class AddTrip extends React.Component {
           }
           firebaseFunctions.addTrip(trip).then(function(trip) {
             component.addLocationToTrip(marker, trip)
+            component.closeWindows()
+            component.props.onSelecetTrip(trip)
           }).catch(function(e) {
              console.log(e);
           })
