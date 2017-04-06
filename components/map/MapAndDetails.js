@@ -31,6 +31,8 @@ import SearchLocation from '../locations/SearchLocation';
 
 import ShowTripTitle from '../trips/ShowTripTitle';
 
+
+var googleAPI = new GoogleAPI();
 var firebaseFunctions = new FirebaseFunctions();
 //var loginFunctions = new LoginFunctions();
 
@@ -82,14 +84,6 @@ export default class MapAndDetails extends React.Component {
          })
      }
 
-    // _updateLocationToFirebase(marker, tripId) {
-    //     firebaseFunctions.updateLocationToFirebase(marker, tripId)
-    // }
-    //
-    // _addLocationToFirebase(marker, tripId) {
-    //     firebaseFunctions.addOrUpdateLocation(marker, tripId)
-    // }
-
     createOrUpdateMarker(e, marker) {
       var _this = this;
 
@@ -105,31 +99,7 @@ export default class MapAndDetails extends React.Component {
         longitude: e.nativeEvent.coordinate.longitude,
       }
 
-/*
-      this.setState({
-        locations: [
-          ...this.state.locations,
-          {
-            coordinate: coordinates,
-            coordinates: coordinates,
-            title: "title",
-            key:keyId++,
-            coordinateGoogleAddress: coordinates,
-            // image: markerImg,
-            googleData : {
-              imagePin:'https://pickaface.net/gallery/avatar/Opi51c74d0125fd4.png',
-              address_components:{
-                neighborhood:''
-              }
-            }
-
-          }
-        ]
-      })
-*/
-
-
-      this._childGoogleAPI.getDataFromGoogleAPiByCoordinates(coordinates).then(function(marker){
+        googleAPI.getDataFromGoogleAPiByCoordinates(coordinates).then(function(marker){
         marker.key = key
         marker.datePin = Date.now()
         marker.description = ""
@@ -139,8 +109,6 @@ export default class MapAndDetails extends React.Component {
         firebaseFunctions.addLocationToFirebase(marker, _this.state.trip.key)
         _this.setState({isLoading: false})
       })
-
-
     }
 
     onLongPressCreateMarker(e) {
