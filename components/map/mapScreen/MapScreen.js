@@ -57,24 +57,24 @@ export default class MapScreen extends Component {
     alert('Must be done')
   }
   componentDidMount () {
-      this._updateLocationsArr()
-      this.changeRegionAnimate(this.props.trip)
+    this._updateLocationsArr()
+    this.changeRegionAnimate(this.props.trip)
   }
 
   componentWillReceiveProps () {
-      this._updateLocationsArr()
+    this._updateLocationsArr()
   }
 
   _updateLocationsArr () {
-      let locations = this.props.locations
-      let locationsArr = []
-      for(var key in locations) {
-          var location = locations[key]
-          location['key'] = key
-          // location['title'] = locations[key].googleData.address_components.neighborhood
-          locationsArr.push(location)
-      }
-      this.setState({locationsArr: locationsArr})
+    let locations = this.props.locations
+    let locationsArr = []
+    for (var key in locations) {
+      var location = locations[key]
+      location['key'] = key
+      // location['title'] = locations[key].googleData.address_components.neighborhood
+      locationsArr.push(location)
+    }
+    this.setState({locationsArr: locationsArr})
   }
 
   changeRegionAnimate (trip) {
@@ -85,8 +85,8 @@ export default class MapScreen extends Component {
         latitude: trip.googleData.coordinateGoogleAddress.latitude,
         longitude: trip.googleData.coordinateGoogleAddress.longitude
       }
-     _this.map.animateToRegion(newRegion)
-   }, 1000)
+      _this.map.animateToRegion(newRegion)
+    }, 1000)
   }
 
   render () {
@@ -97,50 +97,49 @@ export default class MapScreen extends Component {
           ref={ref => { this.map = ref }}
           provider={this.props.provider}
           style={styles.map}
-          showsUserLocation = {true}
-          onLongPress = {this.props.onLongPressCreateMarker}
-          onPress = {this.props.onPressMap}
+          showsUserLocation={true}
+          onLongPress={this.props.onLongPressCreateMarker}
+          onPress={this.props.onPressMap}
           customMapStyle={MapStyle}
         >
 
-
-          {this.state.locationsArr.map((location,i) =>{
+          {this.state.locationsArr.map((location, i) => {
             // WARNING: marker image property (pin icon) can conflict with location.image (location image). Don't use  "...location" in the iterator
             return (
               <MapView.Marker
                 key={location.key}
                 coordinate={location.coordinates}
-                onPress={()=>{this.props.onSelecetLocation(location)}}
+                onPress={() => { this.props.onSelecetLocation(location) }}
                 onDragEnd={(e) => {
                   this.createOrUpdateMarker(e, location)
                 }}
                 image={require('../../../assets/map_marker_default.png')}
-                draggable>
-                  <View style={styles.marker}>
-                    <Text style={styles.text}>{location.name}</Text>
-                  </View>
+                draggable
+              >
+                <View style={styles.marker}>
+                  <Text style={styles.text}>{location.name}</Text>
+                </View>
               </MapView.Marker>
             )
           })}
 
-
         </MapView>
       </View>
-    );
+    )
   }
 }
 const styles = StyleSheet.create({
-    container: {
-      ...StyleSheet.absoluteFillObject,
-      justifyContent: 'flex-end',
-      alignItems: 'center',
-    },
-    marker: {
-      marginTop: 0,
-    },
-    map: {
-     ...StyleSheet.absoluteFillObject,
-    },
+  container: {
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: 'flex-end',
+    alignItems: 'center'
+  },
+  marker: {
+    marginTop: 0
+  },
+  map: {
+    ...StyleSheet.absoluteFillObject
+  }
 })
 
 MapScreen.propTypes = {
