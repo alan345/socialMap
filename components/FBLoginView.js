@@ -4,7 +4,7 @@ var {FBLogin, FBLoginManager} = require('react-native-facebook-login');
 
 import LoginFunctions from "../includes/LoginFunctions";
 const { width, height } = Dimensions.get('window');
-
+import ShowLoading from './ShowLoading';
 
 var loginFunctions = new LoginFunctions();
 
@@ -43,7 +43,8 @@ class FBLoginView extends Component {
     // this.updateUserData(this.state.userData)
   }
   onLoginFoundFunction(userData) {
-    let component = this
+    let _this = this
+    this._childShowLoading.showLoading()
     loginFunctions.getUser(userData.credentials).then(function(data){
       let updatedUserData = {
         credentials:userData.credentials,
@@ -51,17 +52,14 @@ class FBLoginView extends Component {
         type:userData.type,
         profile:data.profile
       }
-      component.updateUserData(updatedUserData)
+      _this.updateUserData(updatedUserData)
       loginFunctions.saveUserData(updatedUserData)
-      component.goToNextScreen()
+      _this.goToNextScreen()
     })
   }
 
 
   goToNextScreen(){
-    // this.props.navigator.replace({
-    //     name: 'listTrips'
-    // });
 
     this.props.navigation.navigate('ListTripsScreen');
   }
@@ -103,6 +101,9 @@ class FBLoginView extends Component {
             console.log("Check permissions!");
             // console.log(data);
           }}
+        />
+        <ShowLoading
+          ref={(child) => { this._childShowLoading = child; }}
         />
       </View>
     );
