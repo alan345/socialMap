@@ -13,30 +13,35 @@ import  {
 
 const { width, height } = Dimensions.get('window');
 
-
-
 class ShowLoading extends Component {
   constructor(props){
     super();
     this.state = {
-    };
-
+      isLoading : false
+    }
+  }
+  showLoading() {
+    this.setState({
+      isLoading : true
+    });
+  }
+  hideLoading() {
+    this.setState({
+      isLoading : false
+    });
   }
 
-
   render(){
+    if(!this.state.isLoading)
+      return null
+
     return (
       <View style={styles.showLoading}>
-
-            {this.props.isLoading ? (
-              <Image
-                style={styles.imageLoading}
-                source={require('../assets/loading.png')}
-              />
-            ) : (
-              <Text></Text>
-            )}
-
+        <Text>LOADING...</Text>
+        <Image
+          style={styles.imageLoading}
+          source={require('../assets/loading.png')}
+        />
       </View>
     );
   }
@@ -47,13 +52,14 @@ let Window = Dimensions.get('window');
 const styles = StyleSheet.create({
   showLoading: {
     position: 'absolute',
-    top: 0,
-    right: width/2,
+    top: 300,
+    right: width/2 - 50,
+    zIndex:99
   },
   imageLoading: {
-    width: 30,
-    height: 30,
-  },  
+    width: 50,
+    height: 50,
+  },
 });
 
 

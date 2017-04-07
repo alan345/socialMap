@@ -31,6 +31,8 @@ import SearchLocation from '../locations/SearchLocation';
 
 import ShowTripTitle from '../trips/ShowTripTitle';
 
+
+var googleAPI = new GoogleAPI();
 var firebaseFunctions = new FirebaseFunctions();
 //var loginFunctions = new LoginFunctions();
 
@@ -50,7 +52,6 @@ let initSelectedMarker = {
 }
 
 export default class MapAndDetails extends React.Component {
-
     constructor(props) {
         super(props)
         this.state = {
@@ -61,7 +62,7 @@ export default class MapAndDetails extends React.Component {
           locations: [],
           selectedMarker: initSelectedMarker
         }
-        this.changeRegionAnimate = this.changeRegionAnimate.bind(this)
+        //this.changeRegionAnimate = this.changeRegionAnimate.bind(this)
     }
 
     componentDidMount() {
@@ -69,6 +70,7 @@ export default class MapAndDetails extends React.Component {
         let _this = this
         firebaseFunctions.listenTrip(this.props.navigation.state.params.trip.key)
         firebaseFunctions.addObserver('trip_changed', _this._updateTripData.bind(_this))
+        //this._childMapScreen.changeRegionAnimate(this.props.navigation.state.params.trip)
     }
 
     componentWillUnmount() {
@@ -80,14 +82,6 @@ export default class MapAndDetails extends React.Component {
              trip: firebaseFunctions.currentTrip
          })
      }
-
-    // _updateLocationToFirebase(marker, tripId) {
-    //     firebaseFunctions.updateLocationToFirebase(marker, tripId)
-    // }
-    //
-    // _addLocationToFirebase(marker, tripId) {
-    //     firebaseFunctions.addOrUpdateLocation(marker, tripId)
-    // }
 
     createOrUpdateMarker(e, marker) {
       var _this = this;
@@ -104,31 +98,7 @@ export default class MapAndDetails extends React.Component {
         longitude: e.nativeEvent.coordinate.longitude,
       }
 
-/*
-      this.setState({
-        locations: [
-          ...this.state.locations,
-          {
-            coordinate: coordinates,
-            coordinates: coordinates,
-            title: "title",
-            key:keyId++,
-            coordinateGoogleAddress: coordinates,
-            // image: markerImg,
-            googleData : {
-              imagePin:'https://pickaface.net/gallery/avatar/Opi51c74d0125fd4.png',
-              address_components:{
-                neighborhood:''
-              }
-            }
-
-          }
-        ]
-      })
-*/
-
-
-      this._childGoogleAPI.getDataFromGoogleAPiByCoordinates(coordinates).then(function(marker){
+        googleAPI.getDataFromGoogleAPiByCoordinates(coordinates).then(function(marker){
         marker.key = key
         marker.datePin = Date.now()
         marker.description = ""
@@ -138,8 +108,6 @@ export default class MapAndDetails extends React.Component {
         firebaseFunctions.addLocationToFirebase(marker, _this.state.trip.key)
         _this.setState({isLoading: false})
       })
-
-
     }
 
     onLongPressCreateMarker(e) {
@@ -179,16 +147,17 @@ export default class MapAndDetails extends React.Component {
     }
     onMarkerSelected(item) {
       this.listenForItems();
-      this.changeRegionAnimate(item)
+      //this.changeRegionAnimate(item)
     }
-    changeRegionAnimate(item) {
-      let newRegion = {
-        ...this.state.region,
-        latitude: item.googleData.coordinateGoogleAddress.latitude,
-        longitude: item.googleData.coordinateGoogleAddress.longitude,
-      }
-    //  this.map.animateToRegion(newRegion);
-    }
+    // changeRegionAnimate(item) {
+    //   console.log('aa')
+    //   // let newRegion = {
+    //   //   ...this.state.region,
+    //   //   latitude: item.googleData.coordinateGoogleAddress.latitude,
+    //   //   longitude: item.googleData.coordinateGoogleAddress.longitude,
+    //   // }
+    // //  this.map.animateToRegion(newRegion);
+    // }
 
 
     onSelecetLocation(location) {
@@ -218,6 +187,10 @@ export default class MapAndDetails extends React.Component {
       //this.props.navigation.goBack()
     }
 
+    showLoading(){
+      this._childShowLoading.showLoading()
+    }
+
 
 
   render() {
@@ -225,16 +198,20 @@ export default class MapAndDetails extends React.Component {
     return (
 
       <View style={styles.container}>
-            <GoogleAPI ref={(child) => { this._childGoogleAPI = child }} />
-
+            <ShowLoading
+              ref={(child) => { this._childShowLoading = child; }}
+            />
             <MapScreen
               locations={this.state.trip.locations}
               onPressMap={this.onPressMap.bind(this)}
               provider={this.props.provider}
               onSelecetLocation={this.onSelecetLocation.bind(this)}
               onLongPressCreateMarker={this.onLongPressCreateMarker.bind(this)}
+              trip={this.state.trip}
+
             />
             <BackToTripButton
+              showLoading={this.showLoading.bind(this)}
               goToListTrips={this.goToListTrips.bind(this)}
             />
             <ShowLoading
@@ -269,10 +246,7 @@ export default class MapAndDetails extends React.Component {
               onPressDeleteMarker={this.onPressDeleteMarker.bind(this)}
               onEditTripMode={this.onEditTripMode.bind(this)}
               onSelecetTrip={this.onSelecetTrip.bind(this)}
-        //      userData={this.state.userData}
-
-
-              changeRegionAnimate={this.changeRegionAnimate}
+              //changeRegionAnimate={this.changeRegionAnimate}
               ref={(child) => { this._childDetailsViews = child; }}
             />
 
