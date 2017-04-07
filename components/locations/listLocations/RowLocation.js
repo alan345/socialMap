@@ -18,7 +18,7 @@ export default class RowLocation extends Component {
       this.state = {
           address: this.props.item.googleData && this.props.item.googleData.address || 'no adress',
           neighborhood: this.props.item.googleData && this.props.item.googleData.address_components.neighborhood || 'no neighborhood',
-          uri: this.props.item.googleData && this.props.item.googleData.imagePin || 'https://pickaface.net/gallery/avatar/Opi51c74d0125fd4.png'
+          uri: this.props.item.googleData && this.props.item.googleData.imagePin || this.props.item.image
       }
   }
 

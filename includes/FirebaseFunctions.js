@@ -42,19 +42,26 @@ class FirebaseFunctions {
      return firebase.database().ref()
   }
 
+  getRefTrips() {
+     return this.getRef().child('trips')
+  }
+
   getRefLocations(tripId) {
     if (!tripId) {
        console.error('getRefLocations no tripId')
        return
     }
-    return this.getRef().child('trips').child(tripId).child('locations')
+    return this.getRefTrips().child(tripId).child('locations')
   }
 
-
-
-  getRefTrips() {
-     return this.getRef().child('trips')
+  getRefLocation(tripId, locationId) {
+    if (!tripId || !locationId) {
+       console.error('no tripId or locationId')
+       return
+    }
+    return this.getRefLocations(tripId).child(locationId)
   }
+
 
   // Listener for Trips.
   listenForTrips() {
@@ -230,23 +237,47 @@ class FirebaseFunctions {
   }
 
   addLocationToFirebase(marker, tripId) {
-    if (!tripId) {
-        console.error('addLocationToFirebase no tripId')
-        return
-    }
+      return new Promise((resolve, reject) => {
+          if (!tripId) {
+            reject("no tripId");
+          }
 
-    let itemsRef = this.getRefLocations(tripId);
-    return new Promise(function(resolve,reject){
-      var ref = itemsRef.push({
-      //  title: marker.title,
-        coordinates: marker.coordinates,
-        googleData:marker.googleData || null,
-        description: marker.description || null,
-        // image: markerImg,
-        datePin: Date(),
+          let itemsRef = this.getRefLocations(tripId)
+
+          let newRef = itemsRef.push({
+          //  title: marker.title,
+            coordinates: marker.coordinates,
+            googleData: marker.googleData || null,
+            description: marker.description || null,
+            image: marker.image || null,
+            datePin: Date(), // @deprecated
+          })
+
+          if(newRef) {
+              console.log('newRef to sting', newRef.toString())
+              resolve(newRef.key)
+          }
+          else {
+              reject("The write operation failed")
+          }
       })
-      resolve(ref)
-    })
+  }
+
+  updateLocationImage(tripId, locationId, imageUri) {
+      let _this = this
+      return new Promise(function(resolve, reject) {
+          let locationRef = _this.getRefLocation(tripId, locationId)
+          locationRef.update({
+              image: imageUri
+          })
+
+          if(locationRef) {
+              resolve()
+          }
+          else {
+              reject("The write operation failed")
+          }
+      })
   }
 
 
@@ -295,54 +326,66 @@ class FirebaseFunctions {
   // https://github.com/wkh237/rn-firebase-storage-upload-sample
   uploadImage(uri) {
 
-      if (!uri) {
-         console.error('uploadImage no uri')
-         return
-      }
-
-      // warning if uri incorrect it will fail silently. @todo : add a path check
-      // file:///storage/emulated/0/Pictures/IMG_20170331_113153.jpg
-
       const timestamp = new Date().getTime()
       const filename = `test_${timestamp}.jpg`
-      window.Blob = RNFetchBlob.polyfill.Blob
-      window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
+      const timeout = 20 * 1000
 
-      Blob.build(RNFetchBlob.wrap(uri), { type: 'image/jpeg' })
-          .then((blob) => {
-              console.log('blob', blob)
-              var uploadTask = this.storageRef.child(filename).put(blob, { contentType : 'image/jpeg' })
+      return new Promise((resolve, reject) => {
+          if (!uri) {
+             reject('no uri')
+          }
 
-              uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
-                function(snapshot) {
-                  // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-                  var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                  console.log('Upload is ' + progress + '% done');
-                  switch (snapshot.state) {
-                    case firebase.storage.TaskState.PAUSED: // or 'paused'
-                      console.log('Upload is paused');
-                      break;
-                    case firebase.storage.TaskState.RUNNING: // or 'running'
-                      console.log('Upload is running');
-                      break;
-                  }
-                }, function(error) {
-                      // A full list of error codes is available at
-                      // https://firebase.google.com/docs/storage/web/handle-errors
-                      console.error('uploadImage', error)
+          setTimeout(function(){
+              reject(`timeout of ${timeout} exceeded`)
+          }, timeout)
 
-              }, function() {
-                let downloadURL = uploadTask.snapshot.downloadURL
-                console.log('downloadURL', downloadURL)
-                window.Blob = OriginalBlob
-                window.XMLHttpRequest = OriginalXMLHttpRequest
+
+          window.Blob = RNFetchBlob.polyfill.Blob
+          window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
+
+          Blob.build(RNFetchBlob.wrap(uri), { type: 'image/jpeg' })
+              .then((blob) => {
+                  var uploadTask = this.storageRef.child(filename).put(blob, { contentType : 'image/jpeg' })
+
+                  uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
+                    function(snapshot) {
+                      // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+                      var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                      console.log('Upload is ' + progress + '% done');
+                      switch (snapshot.state) {
+                        case firebase.storage.TaskState.PAUSED: // or 'paused'
+                          console.log('Upload is paused');
+                          break;
+                        case firebase.storage.TaskState.RUNNING: // or 'running'
+                          console.log('Upload is running');
+                          break;
+                      }
+                    }, function(error) {
+                          // A full list of error codes is available at
+                          // https://firebase.google.com/docs/storage/web/handle-errors
+                          // console.error('uploadImage', error)
+                          reject(error)
+
+                  }, function() {
+                    let downloadURL = uploadTask.snapshot.downloadURL
+                    resolve(downloadURL)
+                    // console.log('downloadURL', downloadURL)
+
+                    // Workaround to fix Blob and Fetch conflict
+                    window.Blob = OriginalBlob
+                    window.XMLHttpRequest = OriginalXMLHttpRequest
+                  })
               })
-          })
-          .catch((error) => {
-              console.error(error)
-              window.Blob = OriginalBlob
-              window.XMLHttpRequest = OriginalXMLHttpRequest
-          })
+              .catch((error) => {
+                  // console.error(error)
+                  reject(error)
+
+                  // Workaround to fix Blob and Fetch conflict
+                  window.Blob = OriginalBlob
+                  window.XMLHttpRequest = OriginalXMLHttpRequest
+              })
+      })
+
   }
 
 

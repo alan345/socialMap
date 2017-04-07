@@ -98,6 +98,7 @@ export default class MapScreen extends Component {
 
 
           {this.state.locationsArr.map((location,i) =>{
+            // WARNING: marker image property (pin icon) can conflict with location.image (location image). Don't use  "...location" in the iterator
             return (
               <MapView.Marker
                 key={location.key}
@@ -107,10 +108,7 @@ export default class MapScreen extends Component {
                   this.createOrUpdateMarker(e, location);
                 }}
                 image={require('../../../assets/map_marker_default.png')}
-
-                draggable
-                {... location}
-                >
+                draggable>
                   <View style={styles.marker}>
                     <Text style={styles.text}>{location.name}</Text>
                   </View>

@@ -97,9 +97,9 @@ export default class Capture extends React.Component {
       navigator.geolocation.clearWatch(this.watchID);
   }
 
-  createLocation() {
-    if (!this.state.lastPosition && !this.state.lastPosition.coords ) {
-        console.error('unknown lastPosition')
+  createLocationWithPicture(picturePath) {
+    if (!this.state.lastPosition || !this.state.lastPosition.coords ) {
+        alert('unknown lastPosition')
         return
     }
 
@@ -120,7 +120,24 @@ export default class Capture extends React.Component {
        return
     }
 
+    var locationKey
+
     firebaseFunctions.addLocationToFirebase(location, firebaseFunctions.currentTrip.key)
+      .then(function(key) {
+          locationKey = key
+          console.log('key', key)
+          return firebaseFunctions.uploadImage(picturePath)
+      })
+      .then(function(imageUri) {
+          console.log('imageUri', imageUri)
+          return firebaseFunctions.updateLocationImage(firebaseFunctions.currentTrip.key, locationKey, imageUri)
+      })
+      .then(function() {
+          console.log('successfully linked image to location')
+      })
+      .catch(function(error) {
+          console.debug(error)
+      })
 
   }
 
@@ -129,8 +146,8 @@ export default class Capture extends React.Component {
       let _this = this;
       this.camera.capture()
         .then(function(data) {
-            // firebaseFunctions.uploadImage(data.path)
-            _this.createLocation()
+
+            _this.createLocationWithPicture(data.path)
             _this.props.navigation.navigate('MapAndDetailsScreen', {trip: firebaseFunctions.currentTrip})
         })
         .catch(err => console.error(err));
