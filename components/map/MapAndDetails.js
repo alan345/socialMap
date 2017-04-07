@@ -84,21 +84,19 @@ export default class MapAndDetails extends React.Component {
      }
 
     createOrUpdateMarker(e, marker) {
-      var _this = this;
-
       let key=""
       if(marker) {
         key = marker.key
       }
 
-      this.setState({isLoading:true})
-
+      this._childShowLoading.showLoading()
+      let _this = this;
       let coordinates = {
         latitude: e.nativeEvent.coordinate.latitude,
         longitude: e.nativeEvent.coordinate.longitude,
       }
 
-        googleAPI.getDataFromGoogleAPiByCoordinates(coordinates).then(function(marker){
+      googleAPI.getDataFromGoogleAPiByCoordinates(coordinates).then(function(marker){
         marker.key = key
         marker.datePin = Date.now()
         marker.description = ""
@@ -106,7 +104,7 @@ export default class MapAndDetails extends React.Component {
       //  marker.userData = component.props.userData
         //marker.title = marker.googleData.address_components.route
         firebaseFunctions.addLocationToFirebase(marker, _this.state.trip.key)
-        _this.setState({isLoading: false})
+        _this._childShowLoading.hideLoading()
       })
     }
 
@@ -198,9 +196,7 @@ export default class MapAndDetails extends React.Component {
     return (
 
       <View style={styles.container}>
-            <ShowLoading
-              ref={(child) => { this._childShowLoading = child; }}
-            />
+
             <MapScreen
               locations={this.state.trip.locations}
               onPressMap={this.onPressMap.bind(this)}
@@ -249,7 +245,9 @@ export default class MapAndDetails extends React.Component {
               //changeRegionAnimate={this.changeRegionAnimate}
               ref={(child) => { this._childDetailsViews = child; }}
             />
-
+            <ShowLoading
+              ref={(child) => { this._childShowLoading = child; }}
+            />
 
       </View>
     );

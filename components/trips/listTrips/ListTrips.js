@@ -60,7 +60,7 @@ export default class ListTrips extends Component {
           dataSource: this.state.dataSource.cloneWithRows(firebaseFunctions.tripsCache)
       }, function() {
         //Ne marche pas
-        //_this._childShowLoading.hideLoading()
+        _this._childShowLoading.hideLoading()
       })
   }
 
@@ -141,9 +141,7 @@ export default class ListTrips extends Component {
               onChangeText={this._onChangeText.bind(this)}
             />
           </View>
-          <ShowLoading
-            ref={(child) => { this._childShowLoading = child; }}
-          />
+
           <ListView
             dataSource={this.state.dataSource}
             renderRow={this._renderRow.bind(this)}
@@ -154,6 +152,9 @@ export default class ListTrips extends Component {
           />
           <AddTripButton
             onPressButtonTrip={this.onPressButtonTrip.bind(this)}
+          />
+          <ShowLoading
+            ref={(child) => { this._childShowLoading = child; }}
           />
       </View>
     )
