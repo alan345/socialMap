@@ -1,48 +1,43 @@
 import React, { Component } from 'react'
 import {
-  AppRegistry,
   StyleSheet,
   Text,
   View,
-  Button,
-  Dimensions,
-  TouchableWithoutFeedback,
-} from 'react-native';
-import MapView, {Marker} from 'react-native-maps';
-import MapStyle from "./MapStyle";
+  Dimensions
+} from 'react-native'
+import MapView from 'react-native-maps'
+import MapStyle from './MapStyle'
 
+const { width, height } = Dimensions.get('window')
+const ASPECT_RATIO = width / height
+const LATITUDE = 37.78825
+const LONGITUDE = -122.4324
+const LATITUDE_DELTA = 0.0922
+const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
 
 let initSelectedMarker = {
-  key:'',
-  googleData:{
-    imagePin : 'https://pickaface.net/gallery/avatar/Opi51c74d0125fd4.png',
-    address : '',
-    address_components : {
-      neighborhood:''
+  key: '',
+  googleData: {
+    imagePin: 'https://pickaface.net/gallery/avatar/Opi51c74d0125fd4.png',
+    address: '',
+    address_components: {
+      neighborhood: ''
     },
-    coordinateGoogleAddress : {
+    coordinateGoogleAddress: {
       latitude: LATITUDE,
-      longitude: LONGITUDE,
-    },
+      longitude: LONGITUDE
+    }
   },
-  coordinates:{},
-  coordinate : {
+  coordinates: {},
+  coordinate: {
     latitude: LATITUDE,
-    longitude: LONGITUDE,
-  },
+    longitude: LONGITUDE
+  }
 }
 
-const { width, height } = Dimensions.get('window');
-const ASPECT_RATIO = width / height;
-const LATITUDE = 37.78825;
-const LONGITUDE = -122.4324;
-const LATITUDE_DELTA = 0.0922;
-const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
-
 export default class MapScreen extends Component {
-
   constructor (props) {
-    super(props);
+    super(props)
     this.state = {
       isEditingMyTrip: false,
       region: {
@@ -57,20 +52,20 @@ export default class MapScreen extends Component {
       selectedMarker: initSelectedMarker
     }
   }
-  createOrUpdateMarker(e, marker) {
+  createOrUpdateMarker (e, marker) {
     // https://github.com/alan345/socialMap/blob/54cf847ee70ae6ca5903154b2f5ff33b5b468f02/components/map/JustMap.js#L140
     alert('Must be done')
   }
-  componentDidMount() {
+  componentDidMount () {
       this._updateLocationsArr()
       this.changeRegionAnimate(this.props.trip)
   }
 
-  componentWillReceiveProps() {
+  componentWillReceiveProps () {
       this._updateLocationsArr()
   }
 
-  _updateLocationsArr() {
+  _updateLocationsArr () {
       let locations = this.props.locations
       let locationsArr = []
       for(var key in locations) {
@@ -82,24 +77,24 @@ export default class MapScreen extends Component {
       this.setState({locationsArr: locationsArr})
   }
 
-  changeRegionAnimate(trip) {
+  changeRegionAnimate (trip) {
     var _this = this
-    setTimeout(function(){
+    setTimeout(function () {
       let newRegion = {
         ..._this.state.region,
         latitude: trip.googleData.coordinateGoogleAddress.latitude,
-        longitude: trip.googleData.coordinateGoogleAddress.longitude,
+        longitude: trip.googleData.coordinateGoogleAddress.longitude
       }
-     _this.map.animateToRegion(newRegion);
-   }, 1000);
+     _this.map.animateToRegion(newRegion)
+   }, 1000)
   }
 
-  render() {
+  render () {
     return (
       <View style={styles.container}>
 
         <MapView
-          ref={ref => { this.map = ref; }}
+          ref={ref => { this.map = ref }}
           provider={this.props.provider}
           style={styles.map}
 
