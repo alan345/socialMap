@@ -28,7 +28,6 @@ export default class ListTrips extends Component {
   constructor(props) {
     super(props)
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-    //console.log(firebaseFunctions.tripsCache)
     this.state = {
         styleHeight :{
           height:heightSearchTopMenuOpen
@@ -64,67 +63,20 @@ export default class ListTrips extends Component {
 
   showAddTrip() {
 
-    //this.setState({showAddTrip:true})
   }
 
   hideAddTrip() {
-  //  this.setState({showAddTrip:false})
+
   }
 
 
 
   listenForItems() {
-
-    /*
-    let querySearch
-    if(this.state.search.city) {
-      querySearch = this.getRef().child('trips').orderByChild("googleData/address").equalTo(this.state.search.city)
-    } else {
-      querySearch = this.getRef().child('trips')
-    }
-     querySearch.on('value', (snap) => {
-       var items = [];
-       snap.forEach((child) => {
-         items.push({
-           title: child.val().title,
-           googleData: child.val().googleData,
-           image: child.val().image,
-           city: child.val().city,
-           locations:child.val().locations,
-           userData: child.val().userData,
-           nbLocationsPerTrip:this.nbLocationsPerTrip(child.val()),
-           isMyTrip:this.isMyTrip(child.val()),
-           key: child.key,
-         });
-       });
-       */
-
-       //
-      //  this.setState({
-      //      isLoading:false,
-      //      dataSource: _this.state.dataSource.cloneWithRows(items)
-      //   });
-
-
-
-  // });
   }
 
 
   onPressButtonTrip(){
     this._childAddTrip.showAddTrip()
-  //  this.props.onItemSelected('MyMaps')
-    // this.setState({
-    //   showAddTrip:true,
-    //   trip:{
-    //     city:'',
-    //     title:'',
-    //     image:'https://pickaface.net/gallery/avatar/Opi51c74d0125fd4.png',
-    //     locations:{},
-    //   }
-    // }, function(){
-    //   this._childAddTrip.propsToState()
-    // })
   }
 
   onSelecetTrip(trip){
