@@ -45,19 +45,22 @@ export default class ListTrips extends Component {
   }
 
   componentDidMount() {
-      //this._childShowLoading.showLoading()
+      this._childShowLoading.showLoading()
       firebaseFunctions.listenForTrips();
       let _this = this;
       _this.updateListDataSource(_this);
       firebaseFunctions.addObserver('trips_changed', _this.updateListDataSource.bind(_this))
 
-      // Il est ou le callback??
-      //this._childShowLoading.hideLoading()
+
   }
 
   updateListDataSource() {
+      let _this = this;
       this.setState({
           dataSource: this.state.dataSource.cloneWithRows(firebaseFunctions.tripsCache)
+      }, function() {
+        //Ne marche pas
+        //_this._childShowLoading.hideLoading()
       })
   }
 

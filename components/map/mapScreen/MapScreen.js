@@ -60,17 +60,14 @@ export default class MapScreen extends Component {
 
   componentDidMount() {
       this._updateLocationsArr()
-      console.log('componentDidMount')
       this.changeRegionAnimate(this.props.trip)
   }
 
   componentWillReceiveProps() {
-      console.log('componentDidUpdate', this.props.locations)
       this._updateLocationsArr()
   }
 
   _updateLocationsArr() {
-      console.log('location array update')
       let locations = this.props.locations
       let locationsArr = []
       for(var key in locations){
