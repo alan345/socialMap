@@ -97,7 +97,6 @@ export default class MapScreen extends Component {
           ref={ref => { this.map = ref }}
           provider={this.props.provider}
           style={styles.map}
-
           showsUserLocation = {true}
           onLongPress = {this.props.onLongPressCreateMarker}
           onPress = {this.props.onPressMap}
