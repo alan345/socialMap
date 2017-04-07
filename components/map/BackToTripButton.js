@@ -11,9 +11,11 @@ import {
 
 export default class BackToTripButton extends Component {
   onPressBackToTripButton(){
-  //  this._childShowLoading.showLoading()
     this.props.showLoading()
-    this.props.goToListTrips()
+    let _this = this;
+    setTimeout(function(){
+        _this.props.goToListTrips()
+    }, 20);
   }
 
   render() {

@@ -129,7 +129,12 @@ export default class ListTrips extends Component {
 
   onSelecetTrip(trip){
     this._childShowLoading.showLoading()
-    this.props.navigation.navigate('MapAndDetailsScreen', { trip: trip })
+
+    let _this = this;
+    setTimeout(function(){
+        _this.props.navigation.navigate('MapAndDetailsScreen', { trip: trip })
+    }, 20);
+
   }
 
   onEditTrip(item){
