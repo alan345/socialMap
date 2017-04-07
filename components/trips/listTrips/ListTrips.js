@@ -42,13 +42,18 @@ export default class ListTrips extends Component {
         trips: firebaseFunctions.tripsCache,
         dataSource: ds.cloneWithRows(firebaseFunctions.tripsCache)
     }
+
   }
 
   componentDidMount() {
+      //this._childShowLoading.showLoading()
       firebaseFunctions.listenForTrips();
       let _this = this;
       _this.updateListDataSource(_this);
-      firebaseFunctions.addObserver('trips_changed', _this.updateListDataSource.bind(_this));
+      firebaseFunctions.addObserver('trips_changed', _this.updateListDataSource.bind(_this))
+
+      // Il est ou le callback??
+      //this._childShowLoading.hideLoading()
   }
 
   updateListDataSource() {
@@ -123,7 +128,7 @@ export default class ListTrips extends Component {
   }
 
   onSelecetTrip(trip){
-    console.log("ListTrip trip", trip)
+    this._childShowLoading.showLoading()
     this.props.navigation.navigate('MapAndDetailsScreen', { trip: trip })
   }
 
@@ -176,7 +181,9 @@ export default class ListTrips extends Component {
               onChangeText={this._onChangeText.bind(this)}
             />
           </View>
-          <ShowLoading isLoading={this.state.isLoading} />
+          <ShowLoading
+            ref={(child) => { this._childShowLoading = child; }}
+          />
           <ListView
             dataSource={this.state.dataSource}
             renderRow={this._renderRow.bind(this)}

@@ -13,8 +13,6 @@ import  {
 
 const { width, height } = Dimensions.get('window');
 
-
-
 class ShowLoading extends Component {
   constructor(props){
     super();
@@ -27,14 +25,19 @@ class ShowLoading extends Component {
       isLoading : true
     });
   }
+  hideLoading() {
+    this.setState({
+      isLoading : false
+    });
+  }
 
   render(){
-
     if(!this.state.isLoading)
       return null
 
     return (
       <View style={styles.showLoading}>
+        <Text>LOADING...</Text>
         <Image
           style={styles.imageLoading}
           source={require('../assets/loading.png')}

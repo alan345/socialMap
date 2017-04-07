@@ -187,6 +187,10 @@ export default class MapAndDetails extends React.Component {
       //this.props.navigation.goBack()
     }
 
+    showLoading(){
+      this._childShowLoading.showLoading()
+    }
+
 
 
   render() {
@@ -194,7 +198,9 @@ export default class MapAndDetails extends React.Component {
     return (
 
       <View style={styles.container}>
-
+            <ShowLoading
+              ref={(child) => { this._childShowLoading = child; }}
+            />
             <MapScreen
               locations={this.state.trip.locations}
               onPressMap={this.onPressMap.bind(this)}
@@ -205,6 +211,7 @@ export default class MapAndDetails extends React.Component {
 
             />
             <BackToTripButton
+              showLoading={this.showLoading.bind(this)}
               goToListTrips={this.goToListTrips.bind(this)}
             />
             <ShowLoading
