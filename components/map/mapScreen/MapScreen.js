@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
   AppRegistry,
   StyleSheet,
@@ -41,7 +41,7 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 export default class MapScreen extends Component {
 
-  constructor(props) {
+  constructor (props) {
     super(props);
     this.state = {
       isEditingMyTrip: false,
@@ -49,7 +49,7 @@ export default class MapScreen extends Component {
         latitude: LATITUDE,
         longitude: LONGITUDE,
         latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA,
+        longitudeDelta: LONGITUDE_DELTA
       },
       polylines: [],
       locations: this.props.locations,
@@ -70,10 +70,10 @@ export default class MapScreen extends Component {
   _updateLocationsArr() {
       let locations = this.props.locations
       let locationsArr = []
-      for(var key in locations){
+      for(var key in locations) {
           var location = locations[key]
           location['key'] = key
-          location['title'] = locations[key].googleData.address_components.neighborhood
+          // location['title'] = locations[key].googleData.address_components.neighborhood
           locationsArr.push(location)
       }
       this.setState({locationsArr: locationsArr})
@@ -108,6 +108,7 @@ export default class MapScreen extends Component {
 
 
           {this.state.locationsArr.map((location,i) =>{
+            // WARNING: marker image property (pin icon) can conflict with location.image (location image). Don't use  "...location" in the iterator
             return (
               <MapView.Marker
                 key={location.key}
@@ -117,10 +118,7 @@ export default class MapScreen extends Component {
                   this.createOrUpdateMarker(e, location);
                 }}
                 image={require('../../../assets/map_marker_default.png')}
-
-                draggable
-                {... location}
-                >
+                draggable>
                   <View style={styles.marker}>
                     <Text style={styles.text}>{location.name}</Text>
                   </View>

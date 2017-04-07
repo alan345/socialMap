@@ -57,7 +57,7 @@ export default class AddTrip extends React.Component {
 
   addLocationToTrip(marker, trip){
     // let component = this;
-    firebaseFunctions.addLocationToFirebase(marker, trip.key).then(function(ref){
+    firebaseFunctions.addLocationToFirebase(marker, trip.key).then(function(key){
       //component.closeWindows()
     }).catch(function(e) {
        console.log(e);
