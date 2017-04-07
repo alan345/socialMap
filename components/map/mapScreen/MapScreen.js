@@ -57,7 +57,10 @@ export default class MapScreen extends Component {
       selectedMarker: initSelectedMarker
     }
   }
-
+  createOrUpdateMarker(e, marker) {
+    // https://github.com/alan345/socialMap/blob/54cf847ee70ae6ca5903154b2f5ff33b5b468f02/components/map/JustMap.js#L140
+    alert('Must be done')
+  }
   componentDidMount() {
       this._updateLocationsArr()
       this.changeRegionAnimate(this.props.trip)
@@ -115,7 +118,7 @@ export default class MapScreen extends Component {
                 coordinate={location.coordinates}
                 onPress={()=>{this.props.onSelecetLocation(location)}}
                 onDragEnd={(e) => {
-                  this.createOrUpdateMarker(e, location);
+                  this.createOrUpdateMarker(e, location)
                 }}
                 image={require('../../../assets/map_marker_default.png')}
                 draggable>
