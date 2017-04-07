@@ -40,7 +40,6 @@ export default class AddTrip extends React.Component {
       }
     };
     this._addTripToFireBase = this._addTripToFireBase.bind(this);
-//this.saveTrip = this.saveTrip.bind(this);
     this.itemsRef = this.getRef().child('trips');
   }
 
@@ -55,35 +54,48 @@ export default class AddTrip extends React.Component {
     })
   }
 
+
+  addLocationToTrip(marker, trip){
+    // let component = this;
+    firebaseFunctions.addLocationToFirebase(marker, trip.key).then(function(key){
+      //component.closeWindows()
+    }).catch(function(e) {
+       console.log(e);
+    })
+  }
+
+
   saveTrip(){
+    this._childShowLoading.showLoading()
     let inputAutocomplete = this.state.inputAutocomplete
     let component = this;
-
-
-    let trip = this.state.trip
     this._childGoogleAPI.getDataFromGoogleAPiByAddress(inputAutocomplete).then(function(marker){
-      trip.googleData = marker.googleData
-      trip.title = 'new title'
-      trip.city = marker.googleData.address_components.locality
-      trip.userData = loginFunctions.getUserData()
-      firebaseFunctions.addTrip(trip).then(function(trip) {
+      if(component.props.trip.key) {
+        component.addLocationToTrip(marker, component.props.trip)
+      } else {
 
-        let marker = {
-          coordinates: trip.googleData.coordinateGoogleAddress,
-          googleData:trip.googleData,
-          description: 'My new fresh Trip',
+          let trip = component.state.trip
+          trip.googleData = marker.googleData
+          trip.title = 'new title'
+          trip.city = marker.googleData.address_components.locality
+          trip.userData = loginFunctions.getUserData()
+          var marker = {
+            coordinates: trip.googleData.coordinateGoogleAddress,
+            googleData:trip.googleData,
+            description: 'My new fresh Trip',
+          }
+          firebaseFunctions.addTrip(trip).then(function(trip) {
+            component.addLocationToTrip(marker, trip)
+            component.closeWindows()
+            component.props.onSelecetTrip(trip)
+          }).catch(function(e) {
+             console.log(e);
+          })
+          //component.props.onSelecetTrip(trip)
+
         }
-        firebaseFunctions.addLocationToFirebase(marker, trip.key).then(function(key){
-          component.props.onSelecetTrip(trip)
-          component.closeWindows()
-        }).catch(function(e) {
-           console.log(e);
-        })
-      }).catch(function(e) {
-         console.log(e);
       })
-      //component.props.onSelecetTrip(trip)
-    })
+
 
     //this.props.hideAddTrip()
   }
@@ -165,7 +177,6 @@ export default class AddTrip extends React.Component {
 
 
   render() {
-
     return (
 
       <View style={{marginTop: 22}}>
@@ -181,7 +192,7 @@ export default class AddTrip extends React.Component {
           <View>
 
                 <ShowLoading
-                  isLoading={this.state.isLoading}
+                  ref={(child) => { this._childShowLoading = child; }}
                 />
                 <Text>Chose your departure</Text>
                 <View style={styles.searchView}>

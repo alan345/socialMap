@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
   AppRegistry,
   StyleSheet,
@@ -41,7 +41,7 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 export default class MapScreen extends Component {
 
-  constructor(props) {
+  constructor (props) {
     super(props);
     this.state = {
       isEditingMyTrip: false,
@@ -49,7 +49,7 @@ export default class MapScreen extends Component {
         latitude: LATITUDE,
         longitude: LONGITUDE,
         latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA,
+        longitudeDelta: LONGITUDE_DELTA
       },
       polylines: [],
       locations: this.props.locations,
@@ -71,7 +71,7 @@ export default class MapScreen extends Component {
       console.log('location array update')
       let locations = this.props.locations
       let locationsArr = []
-      for(var key in locations){
+      for(var key in locations) {
           var location = locations[key]
           location['key'] = key
           // location['title'] = locations[key].googleData.address_components.neighborhood
