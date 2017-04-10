@@ -52,29 +52,29 @@ export default class MapScreen extends Component {
       selectedMarker: initSelectedMarker
     }
   }
-  createOrUpdateMarker (e, marker) {
-    // https://github.com/alan345/socialMap/blob/54cf847ee70ae6ca5903154b2f5ff33b5b468f02/components/map/JustMap.js#L140
-    alert('Must be done')
-  }
+
   componentDidMount () {
-    this._updateLocationsArr()
     this.changeRegionAnimate(this.props.trip)
+    this.setState({locationsArr: this._getLocationsArr(this.props.locations)})
   }
 
-  componentWillReceiveProps () {
-    this._updateLocationsArr()
+  componentWillReceiveProps (nextProps) {
+    this.setState({locationsArr: this._getLocationsArr(nextProps.locations)})
   }
 
-  _updateLocationsArr () {
-    let locations = this.props.locations
+  _getLocationsArr (locations) {
     let locationsArr = []
     for (var key in locations) {
       var location = locations[key]
       location['key'] = key
-      // location['title'] = locations[key].googleData.address_components.neighborhood
       locationsArr.push(location)
     }
-    this.setState({locationsArr: locationsArr})
+    return locationsArr
+  }
+
+  createOrUpdateMarker (e, marker) {
+    // https://github.com/alan345/socialMap/blob/54cf847ee70ae6ca5903154b2f5ff33b5b468f02/components/map/JustMap.js#L140
+    alert('Must be done')
   }
 
   changeRegionAnimate (trip) {
@@ -104,7 +104,7 @@ export default class MapScreen extends Component {
         >
 
           {this.state.locationsArr.map((location, i) => {
-            // WARNING: marker image property (pin icon) can conflict with location.image (location image). Don't use  "...location" in the iterator
+          // WARNING: marker image property (pin icon) can conflict with location.image (location image). Don't use  "...location" in the iterator
             return (
               <MapView.Marker
                 key={location.key}
@@ -128,6 +128,7 @@ export default class MapScreen extends Component {
     )
   }
 }
+
 const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
