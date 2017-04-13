@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
   AppRegistry,
   StyleSheet,
@@ -8,11 +8,11 @@ import {
   Dimensions,
   TouchableWithoutFeedback,
   ListView,
-} from 'react-native';
-import RowLocation from './RowLocation';
+} from 'react-native'
+import RowLocation from './RowLocation'
 
 export default class ListLocations extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
       dataSource: new ListView.DataSource({
@@ -56,7 +56,7 @@ export default class ListLocations extends Component {
   }
 
 
-  render() {
+  render () {
     return (
       <View>
         <ListView
@@ -68,7 +68,7 @@ export default class ListLocations extends Component {
           renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.separator} />}
         />
       </View>
-    );
+    )
   }
 }
 const styles = StyleSheet.create({
@@ -80,4 +80,4 @@ const styles = StyleSheet.create({
     height: StyleSheet.hairlineWidth,
     backgroundColor: '#8E8E8E',
   },
-});
+})
