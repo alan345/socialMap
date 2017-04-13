@@ -48,7 +48,7 @@ let initSelectedMarker = {
         neighborhood: ''
       },
     },
-    coordinates:{}
+    coordinates: {}
 }
 
 export default class MapAndDetails extends React.Component {
@@ -129,15 +129,7 @@ export default class MapAndDetails extends React.Component {
     }
 
     onSelecetTrip(trip) {
-
-      // Help Nico. Ici peut etre remonter la fonction onSelecetTrip
       this.props.navigation.navigate('MapAndDetailsScreen', { trip: trip })
-      // this.setState({
-      //   trip:item,
-      // },function(){
-      //   this.listenForItems();
-      // })
-      // this.changeRegionAnimate(item)
     }
 
     onPressDeleteMarker(marker){

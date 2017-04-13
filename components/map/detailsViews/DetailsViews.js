@@ -77,6 +77,8 @@ export default class DetailsViews extends Component {
         this.onSetPositionDetails(2)
       }
 
+      //
+      //Nico :  ici je mettrai bien un componentWillReceiveProps (nextProps) comme tu as fait sur mapScreen.
 
       onSetPositionDetails(position) {
         this.setState({position:position})

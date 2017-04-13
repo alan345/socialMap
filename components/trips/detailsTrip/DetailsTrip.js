@@ -12,10 +12,10 @@ import {
 import ListLocations from '../../locations/listLocations/ListLocations';
 
 
-export default class AddTripButton extends Component {
+export default class DetailsTrip extends Component {
 
 
-  render() {
+  render () {
     if(this.props.selectedMarker.key)
       return null
 
@@ -23,7 +23,6 @@ export default class AddTripButton extends Component {
       <View>
         <View style={{marginTop: 0}}>
           <View style={styles.row}>
-
           </View>
           <ListLocations
             trip={this.props.trip}
@@ -31,7 +30,7 @@ export default class AddTripButton extends Component {
           />
         </View>
       </View>
-    );
+    )
   }
 }
 

@@ -199,8 +199,8 @@ export default class AddTrip extends React.Component {
             <Text> </Text>
             <Button
               onPress={this.closeWindows.bind(this)}
-              title="Cancel"
-              color="#841584"
+              title='Cancel'
+              color='#841584'
               accessibilityLabel="cancel"
             />
           </View>
