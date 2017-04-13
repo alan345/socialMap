@@ -29,7 +29,7 @@ export default class SaveToMyTripsButton extends Component {
     this.props.onEditTripMode()
     firebaseFunctions.addTrip(trip).then(function(trip){
       trip.isMyTrip =  true;
-      component.props.onSelecetTrip(trip)
+      component.props.onSelectTrip(trip)
     })
   }
 

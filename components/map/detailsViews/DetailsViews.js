@@ -140,7 +140,7 @@ export default class DetailsViews extends Component {
                     isEditingMyTrip={this.props.isEditingMyTrip}
                     onEditTripMode={this.props.onEditTripMode}
                     userData={this.props.userData}
-                    onSelecetTrip={this.props.onSelecetTrip}
+                    onSelectTrip={this.props.onSelectTrip}
                   />
                   <DetailsTrip
                     selectedMarker={this.props.selectedMarker}

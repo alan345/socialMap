@@ -2,9 +2,6 @@
   "name": "socialMap",
   "version": "0.0.1",
   "private": true,
-  "scripts": {
-    "postinstall": "rndebugger-open"
-  },
   "dependencies": {
     "bugsnag-react-native": "^2.2.0",
     "firebase": "3.7.4",
@@ -23,9 +20,7 @@
     "babel-jest": "18.0.0",
     "babel-preset-react-native": "1.9.1",
     "jest": "18.1.0",
-    "react-native-debugger-open": "^0.3.2",
-    "react-test-renderer": "15.4.2",
-    "standard": "^9.0.1"
+    "react-test-renderer": "15.4.2"
   },
   "jest": {
     "preset": "react-native"

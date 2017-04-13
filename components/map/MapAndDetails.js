@@ -52,10 +52,10 @@ let initSelectedMarker = {
 }
 
 export default class MapAndDetails extends React.Component {
-    constructor(props) {
+    constructor (props) {
         super(props)
         this.state = {
-          trip : this.props.navigation.state.params.trip,
+          trip : firebaseFunctions.currentTrip,
       //    userData: loginFunctions.getUserData(),
           isEditingMyTrip: false,
           polylines: [],
@@ -65,19 +65,20 @@ export default class MapAndDetails extends React.Component {
         //this.changeRegionAnimate = this.changeRegionAnimate.bind(this)
     }
 
-    componentDidMount() {
-    //    console.log(this.state.userData)
+    componentWillMount () {
+        console.log('componentWillMount')
         let _this = this
-        firebaseFunctions.listenTrip(this.props.navigation.state.params.trip.key)
+        firebaseFunctions.listenTrip(firebaseFunctions.currentTrip.key)
         firebaseFunctions.addObserver('trip_changed', _this._updateTripData.bind(_this))
         //this._childMapScreen.changeRegionAnimate(this.props.navigation.state.params.trip)
     }
 
-    componentWillUnmount() {
+    componentWillUnmount () {
         firebaseFunctions.removeObserver('trip_changed')
     }
 
-    _updateTripData() {
+    _updateTripData () {
+         console.log('_updateTripData', firebaseFunctions.currentTrip)
          this.setState({
              trip: firebaseFunctions.currentTrip
          })
@@ -128,7 +129,7 @@ export default class MapAndDetails extends React.Component {
       this._childDetailsViews.onSetPositionDetails(position)
     }
 
-    onSelecetTrip(trip) {
+    onSelectTrip(trip) {
       this.props.navigation.navigate('MapAndDetailsScreen', { trip: trip })
     }
 
@@ -233,7 +234,7 @@ export default class MapAndDetails extends React.Component {
               onSelecetLocation={this.onSelecetLocation.bind(this)}
               onPressDeleteMarker={this.onPressDeleteMarker.bind(this)}
               onEditTripMode={this.onEditTripMode.bind(this)}
-              onSelecetTrip={this.onSelecetTrip.bind(this)}
+              onSelectTrip={this.onSelectTrip.bind(this)}
               //changeRegionAnimate={this.changeRegionAnimate}
               ref={(child) => { this._childDetailsViews = child; }}
             />

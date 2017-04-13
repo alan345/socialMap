@@ -22,7 +22,7 @@ export default class RowTrip extends Component {
     return (
       <TouchableWithoutFeedback
         onPress={() => {
-          this.props.onSelecetTrip(this.props.item)
+          this.props.onSelectTrip(this.props.item)
         }}
       >
         <View style={{flex: 1, flexDirection: 'column', borderRadius: 5, marginRight:10, padding: 10, backgroundColor: '#ffffff'}} >

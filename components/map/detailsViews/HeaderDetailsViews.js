@@ -32,7 +32,7 @@ export default class HeaderDetailsViews extends Component {
                 isEditingMyTrip={this.props.isEditingMyTrip}
                 onEditTripMode={this.props.onEditTripMode}
                 userData={this.props.userData}
-                onSelecetTrip={this.props.onSelecetTrip}
+                onSelectTrip={this.props.onSelectTrip}
               />
               <AddLocationButton
                 trip={this.props.trip}
