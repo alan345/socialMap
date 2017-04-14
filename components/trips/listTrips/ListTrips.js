@@ -41,7 +41,6 @@ export default class ListTrips extends Component {
         trips: firebaseFunctions.tripsCache,
         dataSource: ds.cloneWithRows(firebaseFunctions.tripsCache)
     }
-
   }
 
   componentDidMount() {
@@ -59,7 +58,6 @@ export default class ListTrips extends Component {
       this.setState({
           dataSource: this.state.dataSource.cloneWithRows(firebaseFunctions.tripsCache)
       }, function() {
-        //Ne marche pas
         _this._childShowLoading.hideLoading()
       })
   }
@@ -82,14 +80,14 @@ export default class ListTrips extends Component {
     this._childAddTrip.showAddTrip()
   }
 
-  onSelecetTrip(trip){
+  onSelectTrip (trip) {
+    let _this = this
     this._childShowLoading.showLoading()
+    firebaseFunctions.listenTrip(trip.key)
 
-    let _this = this;
-    setTimeout(function(){
-        _this.props.navigation.navigate('MapAndDetailsScreen', { trip: trip })
-    }, 20);
-
+    setTimeout(function () {
+      _this.props.navigation.navigate('MapAndDetailsScreen')
+    }, 20)
   }
 
   onEditTrip(item){
@@ -106,7 +104,7 @@ export default class ListTrips extends Component {
       <RowTrip
         item={item}
         onEditTrip={this.onEditTrip.bind(this)}
-        onSelecetTrip={this.onSelecetTrip.bind(this)}
+        onSelectTrip={this.onSelectTrip.bind(this)}
         userData={this.props.userData}
       />
     )
@@ -131,7 +129,7 @@ export default class ListTrips extends Component {
             showAddTrip={this.state.showAddTrip}
             hideAddTrip={this.hideAddTrip.bind(this)}
             trip={this.state.trip}
-            onSelecetTrip={this.onSelecetTrip.bind(this)}
+            onSelectTrip={this.onSelectTrip.bind(this)}
             ref={(child) => { this._childAddTrip = child; }}
           />
 

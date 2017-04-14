@@ -1,25 +1,16 @@
-import React, { Component } from 'react'
+import React from 'react'
 import {
-  AppRegistry,
   StyleSheet,
   Text,
   View,
-  ListView,
   Button,
-  Dimensions,
-  TextInput,
-  TouchableOpacity,
-  Image,
-  Modal,
+  Modal
 } from 'react-native'
-import * as firebase from 'firebase'
-import Firebase from "../../includes/firebase"
 import ShowLoading from '../ShowLoading'
-import FirebaseFunctions from "../../includes/FirebaseFunctions"
+import FirebaseFunctions from '../../includes/FirebaseFunctions'
 import GoogleAPI from '../../includes/GoogleAPI'
 import LoginFunctions from '../../includes/LoginFunctions'
-import AutocompleteAddress from "../../includes/AutocompleteAddress"
-//const { width, height } = Dimensions.get('window')
+import AutocompleteAddress from '../../includes/AutocompleteAddress'
 
 var firebaseFunctions = new FirebaseFunctions()
 var loginFunctions = new LoginFunctions()
@@ -29,41 +20,17 @@ export default class AddTrip extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      isLoading:false,
-      showAddTrip:false,
-      inputAutocomplete:'',
+      isLoading: false,
+      showAddTrip: false,
+      inputAutocomplete: '',
       trip: {
-        googleData:{},
-        locations:{},
-      //  city:'',
-        title:'',
-        image:'http://ozandgo.com/wp-content/uploads/2014/10/covoiturage-australie-van-roadtrip.jpg',
+        googleData: {},
+        locations: {},
+        title: '',
+        image: 'http://ozandgo.com/wp-content/uploads/2014/10/covoiturage-australie-van-roadtrip.jpg'
       }
     }
-    //this._addTripToFireBase = this._addTripToFireBase.bind(this)
-    //this.itemsRef = this.getRef().child('trips')
   }
-
-  //
-  // getRef () {
-  //    return firebase.database().ref()
-  // }
-
-  // propsToState () {
-  //   this.setState({
-  //     trip: this.props.trip
-  //   })
-  // }
-
-
-  addLocationToTrip (marker, trip) {
-    firebaseFunctions.addLocationToFirebase(marker, trip.key).then(function (key) {
-      //component.closeWindows()
-    }).catch(function (e) {
-       console.log(e)
-    })
-  }
-
 
   saveTrip () {
     this._childShowLoading.showLoading()
@@ -71,7 +38,7 @@ export default class AddTrip extends React.Component {
     let component = this
     googleAPI.getDataFromGoogleAPiByAddress(inputAutocomplete).then(function (marker) {
       if(component.props.trip.key) {
-        component.addLocationToTrip(marker, component.props.trip)
+        firebaseFunctions.addLocationToFirebase(marker, component.props.trip)
       } else {
           let trip = component.state.trip
           trip.googleData = marker.googleData
@@ -84,19 +51,15 @@ export default class AddTrip extends React.Component {
             description: 'My new fresh Trip'
           }
           firebaseFunctions.addTrip(trip).then(function (trip) {
-            component.addLocationToTrip(firstMarker, trip)
+            component.props.onSelectTrip(trip)
+            firebaseFunctions.addLocationToFirebase(firstMarker, trip.key)
             component.closeWindows()
-            component.props.onSelecetTrip(trip)
           }).catch(function (e) {
              console.log(e)
           })
-          //component.props.onSelecetTrip(trip)
 
         }
       })
-
-
-    //this.props.hideAddTrip()
   }
 
   _onChangeText (description) {
@@ -104,53 +67,6 @@ export default class AddTrip extends React.Component {
       inputAutocomplete: description
     })
   }
-
-  // _addTripToFireBase(trip){
-  //   if(!trip.locations)
-  //     trip.locations={}
-  //
-  //   //help nico need help // should be in firebase Function mais jai un bug a cause de la promise.
-  //   //Je ne comprends pas je fais la meme chose L60 dans seacrhLocations. Promesses, puis save..
-  //   //this._childFirebaseFunctions.addOrUpdateTrip(trip)
-  //   this.addOrUpdateTrip(trip)
-  // }
-  // should be in firebase Function mais jai un bug
-    // addOrUpdateTrip (_trip) {
-    //   console.log(_trip)
-    //   if(_trip.key == null  ) {
-    //     this.addTrip(_trip)
-    //   } else {
-    //     console.log(_trip)
-    //     this.updateTrip(_trip)
-    //   }
-    // }
-    // should be in firebase Function mais jai un bug
-    // addTrip(trip){
-    //   let itemsRef = firebase.database().ref().child('trips')
-    //   var newRef = itemsRef.push()
-    //   var key = newRef.key
-    //   trip.key = key
-    //   this.updateTrip(trip)
-    // }
-    // should be in firebase Function mais jai un bug
-    // updateTrip(trip){
-    //   let itemsRef = firebase.database().ref().child('trips')
-    //   itemsRef.child(trip.key).set({
-    //     title: trip.title,
-    //     image: trip.image,
-    //     city: trip.city,
-    //     googleData: trip.googleData,
-    //     userData: trip.userData,
-    //     locations: trip.locations,
-    //   })
-    // }
-
-
-  // deleteTrip(){
-  //   firebaseFunctions.deleteTrip(this.state.trip)
-  //   this.props.hideAddTrip()
-  // }
-
 
   closeWindows(){
     this.setState({
@@ -164,22 +80,20 @@ export default class AddTrip extends React.Component {
     })
   }
 
-
-
   render () {
     return (
       <View style={{marginTop: 22}}>
         <Modal
-          animationType={"slide"}
+          animationType={'slide'}
           transparent={false}
           visible={this.state.showAddTrip}
-          onRequestClose={() => {this.closeWindows()}}
+          onRequestClose={() => { this.closeWindows() }}
           >
 
          <View style={styles.container}>
           <View>
             <ShowLoading
-              ref={(child) => { this._childShowLoading = child; }}
+              ref={(child) => { this._childShowLoading = child }}
             />
             <Text>Chose your departure</Text>
             <View style={styles.searchView}>
@@ -187,41 +101,34 @@ export default class AddTrip extends React.Component {
               onChangeText={this._onChangeText.bind(this)}
             />
             </View>
-
-            <Text> </Text>
-            <Text> </Text>
+            <Text></Text>
+            <Text></Text>
             <Button
               onPress={this.saveTrip.bind(this)}
-              title="Ok"
-              color="#841584"
-              accessibilityLabel="ok"
+              title='Ok'
+              color='#841584'
+              accessibilityLabel='ok'
             />
-            <Text> </Text>
+            <Text></Text>
             <Button
               onPress={this.closeWindows.bind(this)}
               title='Cancel'
               color='#841584'
-              accessibilityLabel="cancel"
+              accessibilityLabel='cancel'
             />
           </View>
          </View>
         </Modal>
       </View>
-
-
-    );
+    )
   }
 }
+
 const styles = StyleSheet.create({
-  searchView:{
-    flexDirection: 'row',
+  searchView: {
+    flexDirection: 'row'
   },
   container: {
-    padding:40,
-  },
-  row: {
-  },
-  inputField:{
-
+    padding: 40
   }
-});
+})

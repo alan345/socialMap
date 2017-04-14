@@ -54,52 +54,50 @@ class FirebaseFunctions {
     return this.getRefTrips().child(tripId).child('locations')
   }
 
-  getRefLocation(tripId, locationId) {
+  getRefLocation (tripId, locationId) {
     if (!tripId || !locationId) {
-       console.error('no tripId or locationId')
-       return
+      console.error('no tripId or locationId')
+      return
     }
     return this.getRefLocations(tripId).child(locationId)
   }
 
-
   // Listener for Trips.
-  listenForTrips() {
-      this.getRef().child('trips').on('value', (snap) => {
-          this.tripsCache = []
-          snap.forEach((child) => {
-              this.tripsCache.push({
-                title: child.val().title,
-                googleData: child.val().googleData,
-                image: child.val().image,
-                city: child.val().city,
-                locations:child.val().locations,
-                userData: child.val().userData,
-                nbLocationsPerTrip: this.nbLocationsPerTrip(child.val()),
-                isMyTrip: this.isMyTrip(child.val()),
-                key: child.key,
-              })
-          })
-          this.notifyObservers("trips_changed", null)
+  listenForTrips () {
+    this.getRef().child('trips').on('value', (snap) => {
+      this.tripsCache = []
+      snap.forEach((child) => {
+        this.tripsCache.push({
+          title: child.val().title,
+          googleData: child.val().googleData,
+          image: child.val().image,
+          city: child.val().city,
+          locations: child.val().locations,
+          userData: child.val().userData,
+          nbLocationsPerTrip: this.nbLocationsPerTrip(child.val()),
+          isMyTrip: this.isMyTrip(child.val()),
+          key: child.key
+        })
       })
+      this.notifyObservers('trips_changed', null)
+    })
   }
 
   // Listener for the current Trip
-  listenTrip(tripKey) {
-      if (!tripKey) {
-        console.error('listenTrip no tripKey')
-        return
-      }
-      this.getRef().child('trips').child(tripKey).on('value', (snapshot) => {
-          this.currentTrip = snapshot.val()
-          this.currentTrip.key = tripKey
-          console.log('currentTrip', this.currentTrip)
-          this.notifyObservers("trip_changed", null)
-      })
+  listenTrip (tripKey) {
+    if (!tripKey) {
+      console.error('listenTrip no tripKey')
+      return
+    }
+    this.getRef().child('trips').child(tripKey).on('value', (snapshot) => {
+      this.currentTrip = snapshot.val()
+      this.currentTrip.key = tripKey
+      console.log('listenTrip', this.currentTrip)
+      this.notifyObservers('trip_changed', null)
+    })
   }
 
-
-  nbLocationsPerTrip(trip) {
+  nbLocationsPerTrip (trip) {
     var size = 0, key
     for (key in trip.locations) {
         if (trip.locations.hasOwnProperty(key)) size++
@@ -127,39 +125,36 @@ class FirebaseFunctions {
     }
   }
 
-  addTrip(trip){
-    console.log(trip)
-    var component = this
-    return new Promise(function(resolve,reject){
+  addTrip (trip) {
+    var _this = this
+    return new Promise(function (resolve, reject) {
       let _trip = {
-        title:trip.title,
-        googleData:trip.googleData,
-        image:trip.image,
-        locations:trip.locations,
-        userData:loginFunctions.getUserData(),
+        title: trip.title,
+        googleData: trip.googleData,
+        image: trip.image,
+        locations: trip.locations,
+        userData: loginFunctions.getUserData()
       }
-      let itemsRef = firebase.database().ref().child('trips');
-      var newRef = itemsRef.push();
-      var key = newRef.key;
+      let itemsRef = firebase.database().ref().child('trips')
+      var newRef = itemsRef.push()
+      var key = newRef.key
       _trip.key = key
-      console.log(_trip)
-      component.updateTrip(_trip).then(function(trip){
-        console.log(trip)
+      _this.updateTrip(_trip).then(function (trip) {
         resolve(trip)
       })
     })
   }
 
-  updateTrip(trip){
-    return new Promise(function(resolve,reject){
-      let itemsRef = firebase.database().ref().child('trips');
+  updateTrip (trip) {
+    return new Promise(function (resolve, reject) {
+      let itemsRef = firebase.database().ref().child('trips')
       itemsRef.child(trip.key).set({
         title: trip.title,
         image: trip.image,
         googleData: trip.googleData,
         userData: trip.userData,
-        locations: trip.locations,
-      });
+        locations: trip.locations
+      })
       resolve(trip)
     })
   }
