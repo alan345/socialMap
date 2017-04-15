@@ -84,14 +84,22 @@ export default class MapAndDetails extends React.Component {
          })
      }
 
-    createOrUpdateMarker(e, marker) {
-      let key=""
+    createOrUpdateMarker (e, marker) {
+
+      if(!this.state.trip.isMyTrip) {
+        alert('Not your trip!')
+        return
+      }
+
+
+
+      let key = ''
       if(marker) {
         key = marker.key
       }
 
       this._childShowLoading.showLoading()
-      let _this = this;
+      let _this = this
       let coordinates = {
         latitude: e.nativeEvent.coordinate.latitude,
         longitude: e.nativeEvent.coordinate.longitude,
@@ -100,7 +108,7 @@ export default class MapAndDetails extends React.Component {
       googleAPI.getDataFromGoogleAPiByCoordinates(coordinates).then(function(marker){
         marker.key = key
         marker.datePin = Date.now()
-        marker.description = ""
+        marker.description = ''
 
       //  marker.userData = component.props.userData
         //marker.title = marker.googleData.address_components.route
@@ -136,7 +144,7 @@ export default class MapAndDetails extends React.Component {
 
       setTimeout(function () {
         _this.props.navigation.navigate('MapAndDetailsScreen')
-      }, 20)      
+      }, 20)
       //this.props.navigation.navigate('MapAndDetailsScreen', { trip: trip })
     }
 
