@@ -130,7 +130,14 @@ export default class MapAndDetails extends React.Component {
     }
 
     onSelectTrip(trip) {
-      this.props.navigation.navigate('MapAndDetailsScreen', { trip: trip })
+      let _this = this
+      this._childShowLoading.showLoading()
+      firebaseFunctions.listenTrip(trip.key)
+
+      setTimeout(function () {
+        _this.props.navigation.navigate('MapAndDetailsScreen')
+      }, 20)      
+      //this.props.navigation.navigate('MapAndDetailsScreen', { trip: trip })
     }
 
     onPressDeleteMarker(marker){

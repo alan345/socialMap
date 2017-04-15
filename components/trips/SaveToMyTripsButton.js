@@ -26,8 +26,11 @@ export default class SaveToMyTripsButton extends Component {
       trip.locations={}
     trip.title = 'My trip: ' + this.props.trip.title
     //trip.userData = this.props.userData
-    this.props.onEditTripMode()
+    //this.props.onEditTripMode()
+
+
     firebaseFunctions.addTrip(trip).then(function(trip){
+      console.log(trip)
       trip.isMyTrip =  true;
       component.props.onSelectTrip(trip)
     })
