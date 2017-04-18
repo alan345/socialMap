@@ -80,6 +80,7 @@ class FirebaseFunctions {
         })
       })
       this.notifyObservers('trips_changed', null)
+      //console.log(this.tripsCache)
     })
   }
 
@@ -92,6 +93,7 @@ class FirebaseFunctions {
     this.getRef().child('trips').child(tripKey).on('value', (snapshot) => {
       this.currentTrip = snapshot.val()
       this.currentTrip.key = tripKey
+      this.currentTrip.isMyTrip = this.isMyTrip(snapshot.val())
       console.log('listenTrip', this.currentTrip)
       this.notifyObservers('trip_changed', null)
     })
